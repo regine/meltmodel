@@ -5,8 +5,8 @@
 % --------------------------------------------------------
 
 winnumber = 1;   %windownumber
-xlowlimit   = 1950;     %first year to be plotted
-xupperlimit = 2010;     %last year not to be plotted
+xlowlimit   = 1955;     %first year to be plotted
+xupperlimit = 1960;     %last year not to be plotted
 
 
    % ----- CLIMATE / DISCHARGE DATA INPUT FILE

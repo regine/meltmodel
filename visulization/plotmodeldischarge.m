@@ -13,50 +13,39 @@ inputreadtimeseries;    %read filenames etc (separate file)
 %=============================================================
 % ---- OPEN CLIMATE / DISCHARGE FILE (MEASURED DATA)--------
 
-DELIMITER = ' ';
-  HEADERLINES = 2;
-
-% Import the file
-newData1 = importdata(filenameclim, DELIMITER, HEADERLINES);
-
-% Create new variables in the base workspace from those fields.
-vars = fieldnames(newData1);
-for i = 1:length(vars)
-    assignin('base', vars{i}, newData1.(vars{i}));
-end
+%Import the file
+%import params: DELIMITER = ' ', HEADERLINES = 2;
+newData1 = importdata(filenameclim, ' ', 2);
 
 % ---- ALLOCATE VARIABLES --------
-year = data(:,1);
-days = data(:,2); 
-temp = data(:,4);
-precip = data(:,5);
-%Q_Mend = data(:,6);
-%Q_Herbert = data(:,7);
+year = newData1.data(:,1);
+days = newData1.data(:,2); 
+temp = newData1.data(:,4);
+precip = newData1.data(:,5);
+%Q_Mend = newData1.data(:,6);
+%Q_Herbert = newData1.data(:,7);
+clear newData1; %this may be unneccesary but it might free up some mem
 
 %=============================================================
 % ---- OPEN DISCHARGE MODEL OUTPUT FILE --------
-% Import the file
+%Import the file
 %[year2, days2, time24, qmeas, qcalc, qfirn, qsnow, qice, qground,
 %cumvolmeas, cumvolcalc, cumdiffc-m] = textread(filenamemodeldischarge, '%f %f %f %f %f %f %f %f %f %f %f %f', 'headerlines', 1);
 
-DELIMITER = ' '; 
-  HEADERLINES = 1;
-newData1= importdata(filenamemodeldischarge, DELIMITER, HEADERLINES);
-% Create new variables in the base workspace from those fields.
-vars = fieldnames(newData1);
-for i = 1:length(vars)
-    assignin('base', vars{i}, newData1.(vars{i}));
-end
+%import params: DELIMITER = ' ', HEADERLINES = 1;
+newData2 = importdata(filenamemodeldischarge, ' ', 1);
 
 % ---- ALLOCATE VARIABLES --------
-year2 = data(:,1);
-days2 = data(:,2);
-qmeas = data(:,4);    %measured discharge
-qcalc = data(:,5);
-qfirn = data(:,6);
-qsnow = data(:,7);
-qice = data(:,8);
-qrock = data(:,9);
+year2 = newData2.data(:,1);
+days2 = newData2.data(:,2);
+qmeas = newData2.data(:,4);    %measured discharge
+qcalc = newData2.data(:,5);
+qfirn = newData2.data(:,6);
+qsnow = newData2.data(:,7);
+qice = newData2.data(:,8);
+qrock = newData2.data(:,9);
+
+clear newData2; %this may be unneccesary but it might free up some mem
 
 qmeas(qmeas == -9999 ) = nan;
 
@@ -70,23 +59,24 @@ qmeas(qmeas == -9999 ) = nan;
 % Data from climate input file
 % cut out only whole years, otherwise annual discharge calculcation below
 % is wrong
-
-x      = year((year >= xlowlimit) & (year <= xupperlimit));  %has to be '&' because it is array
-days   = days((year >= xlowlimit) & (year <= xupperlimit));
-temp   = temp((year >= xlowlimit) & (year <= xupperlimit));
-precip = precip((year >= xlowlimit) & (year <= xupperlimit));
+mask = ((year >= xlowlimit) & (year <= xupperlimit));%has to be '&' because it is array
+x      = year(mask);  
+days   = days(mask);
+temp   = temp(mask);
+precip = precip(mask);
 
 %Date from discharge model file
-x2     = year2((year2 >= xlowlimit) & (year2 <= xupperlimit));
-days2  = days2((year2 >= xlowlimit) & (year2 <= xupperlimit));
-  x2 = x2 + days2/365;
+mask2 = ((year2 >= xlowlimit) & (year2 <= xupperlimit));
+x2     = year2(mask2);
+days2  = days2(mask2);
+x2 = x2 + days2/365;
 
-qmeas  = qmeas((year2 >= xlowlimit) & (year2 <= xupperlimit));  %from model output file
-qcalc  = qcalc((year2 >= xlowlimit) & (year2 <= xupperlimit));
-qfirn = qfirn((year2 >= xlowlimit) & (year2  <= xupperlimit));
-qsnow = qsnow((year2 >= xlowlimit) & (year2  <= xupperlimit));
-qice  = qice((year2 >= xlowlimit) & (year2   <= xupperlimit));
-qrock  = qrock((year2 >= xlowlimit) & (year2 <= xupperlimit));
+qmeas  = qmeas(mask2);  %from model output file
+qcalc  = qcalc(mask2);
+qfirn = qfirn(mask2);
+qsnow = qsnow(mask2);
+qice  = qice(mask2);
+qrock  = qrock(mask2);
 
 qmeas ( qmeas == -9999 ) = nan;
 
@@ -127,8 +117,8 @@ plot(x2,qmeas,'blue');
 set(gca,'XGrid','on')
 set(gca,'YGrid','on')
 xlim([xlowlimit,xupperlimit]);
-title('{Discharge}','FontSize',12)
-title('{measured: blue, calculated=red}','FontSize',12)
+%title('{Discharge}','FontSize',12)
+title('Discharge: measured: blue, calculated=red','FontSize',12)
 
 hold on;
 plot(x2,qcalc,'red');    %modeled discharge
@@ -142,8 +132,8 @@ plot(x2,qfirn,'black');
 set(gca,'XGrid','on')
 set(gca,'YGrid','on')
 xlim([xlowlimit,xupperlimit]);
-title('{Discharge}','FontSize',12)
-title('{firn: black, snow: blue, ice: red,  rock=green}','FontSize',12)
+%title('{Discharge}','FontSize',12)
+title('Discharge: firn: black, snow: blue, ice: red,  rock=green','FontSize',12)
 
 hold on;
 plot(x2,qsnow,'blue');    %modeled discharge
@@ -192,6 +182,6 @@ plot(xannual,annualQ,'blue');
 set(gca,'XGrid','on')
 set(gca,'YGrid','on')
 xlim([xlowlimit,xupperlimit]);
-title('{Annual mean discharge}','FontSize',12)
+title('{Annual mean discharge (calculated)}','FontSize',12)
 
 end
