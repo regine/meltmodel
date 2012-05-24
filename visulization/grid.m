@@ -16,7 +16,7 @@ gsize = fliplr(gsize);        %flip left right, i.e. last element becomes first 
 
 
 LL = fread(fid,2,'float')          %read xllcorner and yllcorner
-cellsize = fread(fid,1,'float')
+cellsize = fread(fid,1,'float');
 blankvalue = fread(fid,1,'float')
 numvalue = fread(fid,1,'float')
 minvalue = fread(fid,1,'float')

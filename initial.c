@@ -928,13 +928,13 @@ void startoutascii()
      fprintf(outarea,"%s\n",outareaname);
   
   if(energymethod == 1)     /*is set in meltmod.c, not in input.dat*/
-   { fprintf(outarea," Year JD    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
+   { fprintf(outarea," year jd    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
      fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ");   
      fprintf(outarea," rain    enbal     melt  abla  massbal surftemp\n");
    }
 
   if(degreedaymethod == 1)   /*is set in degree.c*/
-   { fprintf(outarea," Year JD     time  shade exkorr  solhor dirclearsky");
+   { fprintf(outarea," year jd     time  shade exkorr  solhor dirclearsky");
      fprintf(outarea,"  melt  meantemp tempstation DDFcalc\n");
    }
 
@@ -986,9 +986,13 @@ void startoutascii()
       }  /*ENDIF*/
 
     if(dat_or_txt == 2)    /*for .txt GMT-file, Carleen*/
-    { fprintf(outgrid[i],"%s   elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",outgridname[i],
-	(griddgm[stnrow[i]][stncol[i]]),(SLOPE[stnrow[i]][stncol[i]]),(ASP[stnrow[i]][stncol[i]]));  
-         fprintf(outgrid[i],"   row = %5d  col = %5d\n",stnrow[i],stncol[i]);
+    { 
+        fprintf(outgrid[i],"%s   elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",
+                outgridname[i],
+            	(griddgm[stnrow[i]][stncol[i]]),
+                (SLOPE[stnrow[i]][stncol[i]]),
+                (ASP[stnrow[i]][stncol[i]]));  
+        fprintf(outgrid[i],"   row = %5d  col = %5d\n",stnrow[i],stncol[i]);
     } /*endif*/ 
 
     if(energymethod == 1)

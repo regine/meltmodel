@@ -28,10 +28,20 @@ winnumber = 1;   %windownumber
 
 
    % ---- MODEL INPUT DEMS -----
-%filename ='/reginefolder/MODEL/studies/JuneauIcefield/indata/Mendenhall_watershed.bin';
+   
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_watershed.bin';
+filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_glacier.bin';
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_dem.bin';
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_firn.bin';
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_aspect.bin';
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_slope.bin';
+%filename = '/Users/cminor/Documents/work/hock_mass_balance/code/melt_mod/lemon_example/input/lem_snow0.bin';
+
+
+%filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/Mendenhall_watershed.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/Mendenhall_glacier.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/outputMendenhall/out6/DEMglac2006.bin';
-%filename ='/reginefolder/MODEL/studies/JuneauIcefield/indata/Mendenhall_firn.bin';
+%filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/Mendenhall_firn.bin';
 
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/herb_dem.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/herb_watershed.bin';
@@ -50,7 +60,7 @@ winnumber = 1;   %windownumber
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/lem_firn.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/lem_snow0.bin';
 
-%filename ='/reginefolder/MODEL/studies/JuneauIcefield/indata/dav_dem.bin';
+%filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/dav_dem.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/dav_watershed.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/dav_glacier.bin';
 %filename = '/reginefolder/MODEL/studies/JuneauIcefield/indata/dav_aspect.bin';
