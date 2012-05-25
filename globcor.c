@@ -62,6 +62,7 @@ void jd2monat()
 /************** DEKLINATION **********************************************/
 /*=======================================================================*/
 
+/*  Maybe could be made inline? Does it get clled a lot?*/
 double deklination(long tag, long monat)
 {
   return -23.4 * cos( (jd+10)/58.09155423); /* 58.09 = 2*pi/365  */
@@ -236,6 +237,11 @@ void schatten()
 	 mittleren Sonnenzeit in min an (Elliptische Bahn) das Array steht
 	 an jeder Seite um eis ueber, d.h., es kann auch mit monat-1
 	 bzw. monat+1 gerechnet werden*/
+
+  /* LG: timeequation gets re-initialized everytime schatten() or getzenith is called
+   * could we just fix in in place as a global const somewhere? It already lives in the global
+   * namespace, and we could  save some cycles by not re-initilizing the values every time
+   */
 
   timeequation[0]  =  11.3;
   timeequation[1]  =  -3.2;     /*Januar*/
@@ -867,6 +873,12 @@ void getzenith()
 	 mittleren Sonnenzeit in min an (Elliptische Bahn) das Array steht
 	 an jeder Seite um eins ueber, d.h., es kann auch mit monat-1
 	 bzw. monat+1 gerechnet werden*/
+
+  /* LG: timeequation gets re-initialized everytime schatten() or getzenith is called
+     * could we just fix in in place as a global const somewhere? It already lives in the global
+     * namespace, and we could  save some cycles by not re-initilizing the values every time.
+     * Both of these get called all of the time, so it makes sense to do this
+     */
 
   timeequation[0]  =  11.3;
   timeequation[1]  =  -3.2;     /*Januar*/

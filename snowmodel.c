@@ -401,7 +401,7 @@ void albedosnowdepth()
   else
   { snowrest = snowlayer[i][j];
     if (snowlayer[i][j] <= 0.0) snowrest= (snowlayersum[i][j]/denssnow);
-    snowrest = snowrest /*- superice[i][j]/densice*/;
+    snowrest = snowrest /*- superice[i][j]/densice*/; //LG: what's going on here?
     if (snowrest < 0.) snowrest = 0.;
     /*if ((FIRN[i][j] > 0.) && (snowrest == 0.)) snowrest = 0.001;*/
     if ((layerid[i][j][1] == 2) && (snowrest == 0.)) snowrest = 0.001;
