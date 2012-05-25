@@ -167,9 +167,7 @@ void vappressicesnow()
 void sensescher()
 
  {
-    float   transcoeff;
-
-    transcoeff = 5.7*sqrt(wind);
+    float transcoeff = 5.7*sqrt(wind);
     SENSIBLE[i][j] = transcoeff * tempint[i][j];      /* in W/m2 */
 
     return;
@@ -189,11 +187,9 @@ void sensescher()
 void latescher()
 
  {
-    float   transcoeff;     /* transfer coefficient */
+    float   transcoeff = 5.7*sqrt(wind);    /* transfer coefficient */
     float   Lv = 2514000.0;   /* latent heat of evaporation  [J/kg] */
     float   cp = 1010.0;      /* specific heat capacity  [J/kg/K]   */
-
-    transcoeff = 5.7*sqrt(wind);
 
  /*------------------------------------------------------------*/
      LATENT[i][j] = transcoeff *0.623 * Lv/ (p*cp) * (e-e0);
@@ -243,13 +239,11 @@ void roughnesslength()
 /***************************************************************************/
 
 void roughnesslengthAndreas()
-{  
-   float  Re;     /*Reynoldnumber*/
-   float  viscos;
-/*   float  b0T,b1T,b2T, b0e,b1e,b2e;*/
-   
-   /* viscos = 0.000015;   kinematic viscosity of air m2/s  for 0 degrees */
-   viscos = 0.0000139;     /*kinematic viscosity of air m2/s for 5 degrees*/
+{
+   /*   float  b0T,b1T,b2T, b0e,b1e,b2e;*/
+
+   /* float viscos = 0.000015;   kinematic viscosity of air m2/s  for 0 degrees */
+   float viscos = 0.0000139;     /*kinematic viscosity of air m2/s for 5 degrees*/
 
 /*change z0 as fixed ratio in case of snow surface*/
     if(surface[i][j] == 1)           /*snow surface*/   
@@ -257,7 +251,7 @@ void roughnesslengthAndreas()
     else                             /*ice*/
        z0w=z0wice;
 
-   Re = frictionveloc*z0w/viscos;
+   float Re = frictionveloc*z0w/viscos; /*Reynoldnumber*/
     
 /*formulated as in Munro; is the same as below for rough case*/
 /*   z0T = exp(log(z0w)+0.317-0.565*log(Re)-0.183* pow((log(Re)),2) );
@@ -278,7 +272,7 @@ void roughnesslengthAndreas()
          b0e = 0.396;  b1e = -0.512;  b2e = -0.180;     
       }
    }
-	
+
    z0T = z0w*exp( b0T+b1T*log(Re) +  b2T*pow(log(Re),2) );
    z0e = z0w*exp( b0e+b1e*log(Re) +  b2e*pow(log(Re),2) );*/
    
@@ -336,7 +330,7 @@ void moninobukhovlength()
   /*avoid crashing of program in case of too high stability*/
      if ((MoninL < MoninL_lowerlimit) && (MoninL > 0))  
      {  MoninL = MoninL_lowerlimit;
-	/*printf(" after MoninL = %f\n",MoninL);  */
+     /*printf(" after MoninL = %f\n",MoninL);  */
      }
      
 /*    printf("  u* =%.3f L=%f ",frictionveloc,MoninL);  */
@@ -353,7 +347,7 @@ void moninobukhovlength()
 /***************************************************************************/
 
 void stabilityBeljaar()
-{  
+{
    float  aa,b,c,d;
 
     aa=1; b=0.667; c=5; d=0.35;
@@ -547,18 +541,18 @@ void sensible()
 
 void latent()
 
- {
+{
    float  dens0 = 1.29;     /*air densitiy at standard pressure  in kg/m3*/
    float  k     = 0.40;     /*Karmans constant*/
    float  Lv    = 2514000;  /*latent heat of evaporation  in J/kg*/
    float  Ls    = 2849000;  /*latent hate of sublimation  in J/kg*/
-   float  L;      /* Lv or Ls depending on surface temperature */                 
+   float  L;      /* Lv or Ls depending on surface temperature */
    float  dragcoeff;   /*stability function*/
    
    
 /***LATENT HEAT OF EVAPORATION OR SUBLIMATION see Greuel and Konzelmann 1994***/
    L = Ls;                           /*sublimation*/
-   if (((e-e0) > 0.) && (surftemp[i][j] == 0.))  
+   if (((e-e0) > 0.) && (surftemp[i][j] == 0.))
       L = Lv;                /*condensation as liquid water if melting surface*/
    
  /*------------------------------------------------------------*/
@@ -583,7 +577,7 @@ void latent()
 /*    called from main once before the time step loop if methodprecipinterpol=2 */
 /***************************************************************************/
 
-void readprecipindexmap()   
+void readprecipindexmap()
    {  
   /*** OPEN INDEX  FILE ****/
     strcpy(dummy,inpath);
@@ -618,7 +612,7 @@ precipindexmap=matrixreserv(1,(long)nrows,1,(long)ncols);     /*SPEICHERRESERVIE
 /*    called from main for each time step loop if methodprecipinterpol=3   */
 /***************************************************************************/
 
-void readprecipfromfile()   
+void readprecipfromfile()
    {   char   nameprecipgrid[80];
       
       strcpy(dummy,pathdirectfile);
@@ -765,7 +759,7 @@ void precipinterpol()
 /*    function used by Ch. Noetzli for his MSc thesis*/
 /***************************************************************************/
 
-void precipnoetzlidip() 
+void precipnoetzlidip()
 {  
  if(prec > T0)      /*precipitation falls in timestep considered*/
  {

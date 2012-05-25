@@ -1191,7 +1191,7 @@ void writesurface()
 /*  called from main                                             */ 
 /*****************************************************************/
  
-void writesnowcover ()
+void writesnowcover()
 
 { 
    sprintf(namewritesnow,"sno%03d%02d%04d.bin",(int)jd,(int)zeit,(int)year);
