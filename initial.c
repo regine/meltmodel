@@ -41,7 +41,7 @@ void readrestofline(FILE **infile)
 /*******************************************************/
 
 void initializeglacier2zero_nodata(float **glaciergrid)
-{	
+{
    for (i=1;i<=nrows;i++)          
     for (j=1;j<=ncols;j++)
      {   if(griddgmglac[i][j] == nodata)   /*outside area to be calculated*/
