@@ -466,7 +466,7 @@ float   nodis;            /*nodata value of discharge file*/
  float  se;         /*=zeit*/
  double *sr,*ss;
  float  faktor;
- int    ii,jj,dx,dy,fx,fy,vx,vy; /* fuer die Geradengleichungen */
+ int    dx,dy,fx,fy,vx,vy; /* fuer die Geradengleichungen */
  float  dz;
 
  double sunr,suns;     /* Sonnenauf- und Sonnenuntergangszeiten in hh.hh (dezimal) */

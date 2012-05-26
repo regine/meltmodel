@@ -543,8 +543,8 @@ if (shadefromfile != 1)          /*shading calculated here*/
 	    for (j=1;j<=ncols;j++)
 	    {
 		fx=dx/2;
-		ii=i;
-		jj=j;
+		int ii=i;
+		int jj=j;
 		z=griddgm[i][j];
 		k=1;
 		indexy[k]=ii;
@@ -580,8 +580,8 @@ if (shadefromfile != 1)          /*shading calculated here*/
 	    for (j=ncols;j>=1;j--)
 	    {             
 		fx=dx/2;
-		ii=i;
-		jj=j;
+		int ii=i;
+		int jj=j;
 		z=griddgm[i][j];
 		k=1;
 		indexy[k]=ii;
@@ -629,8 +629,8 @@ if (shadefromfile != 1)          /*shading calculated here*/
 	    for (j=1;j<=ncols;j++)
 	    {
 		fy=dy/2;
-		ii=i;
-		jj=j;
+		int ii=i;
+		int jj=j;
 		z=griddgm[i][j];
 		k=1;
 		indexy[k]=ii;
@@ -666,8 +666,8 @@ if (shadefromfile != 1)          /*shading calculated here*/
 	    for (j=1;j<=ncols;j++)
 	    {
 			      fy=dy/2;
-		ii=i;
-		jj=j;
+		int ii=i;
+		int jj=j;
 		z=griddgm[i][j];
 		k=1;
 		indexy[k]=ii;
