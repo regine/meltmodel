@@ -8,7 +8,7 @@
 #ifndef MELT_MOD_SCALING_H_
 #define MELT_MOD_SCALING_H_
 
-void scaling()
+void scaling();
 
 
 #endif /* SCALING_H_ */
