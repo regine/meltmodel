@@ -474,7 +474,14 @@ float   nodis;            /*nodata value of discharge file*/
  int    nostrl;
  int    cn,count;      /* nach je count Intervallen werden neue Werte berechnet */
  int    split;         /* number of intervals per time step for shade calculations */
+ /*  L.G. !!!!! Using these to loop may be dangerous !!!
+  *  gcc is an optimizing compiler, if anything is multi-threaded gcc has the
+  *  ability to change one of these while its being used in a different loop.
+  *  These guys get used all over the place, but need to go if the code is multi-threaded
+  * */
  int    i,j,k,m;
+
+ /* end LG */
 
  float  exkorstationhoriz;  /*radiation correction factor if station was horizontal*/
  float  radius2sun;         /*for calculation top of atmosphere and direct radiation*/

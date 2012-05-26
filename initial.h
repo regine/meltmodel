@@ -28,8 +28,8 @@ void opensnowfree();
 void startarrayreserve();
 void glacierrowcol();
 void readclim();
-void  exitclimread();
-void  readdatesmassbal();
+void exitclimread();
+void readdatesmassbal();
 void areaelevationbelts();
 
 #endif /* MELT_MOD_INITIAL_H_ */

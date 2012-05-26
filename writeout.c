@@ -1960,7 +1960,9 @@ void stationoutput()
  
 void writemeltstakes()
 
-{   int rowout,colout;    /*row and col to be written to file*/
+{
+    /* indexing is being handled be global variables, i'm assuming these were there before*/
+    //int rowout,colout;    /*row and col to be written to file*/  /
 
   /*MASSBALANCE (SNOW PRECIP - ABLATION) OUTPUT IN CM*/
  /*midnight, must be next day for continous real numbers for grapher plot*/
