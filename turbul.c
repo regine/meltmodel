@@ -58,8 +58,9 @@ void tempgradient()
 /**********************************************************/
 
 void tempinterpol()
-{  
-  float lapserate;    /*either constant or monthly variable*/
+{
+    /* L.G.: lapserate is unused, can we delete it? */
+  // float lapserate;    /*either constant or monthly variable*/
 
 /*T from files has already been adjusted for bias between ERA and glacier and 
   for climate scenario; this is done in initial.c, readclim()*/
@@ -302,8 +303,8 @@ void roughnesslengthAndreas()
 /***************************************************************************/
 
 void moninobukhovlength()
-{  
-   float  Tgeo;         /*geometric mean of air temperature*/
+{  /* L.G.: Tgeo is unused, can we delete it? */
+   //float  Tgeo;         /*geometric mean of air temperature*/
    float  dens0 = 1.29;     /*air densitiy at standard pressure  in kg/m3*/
    float  k     = 0.40;     /*Karmans constant*/
    float  cp    = 1010;     /*heat capacity      in J/kg/K*/
@@ -914,7 +915,8 @@ void waterequivalentabla()
 
  {
     float   Ls = 2849000;      /*latent rate of sublimation  in J/kg*/
-    float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
+    /* L.G.: Lf is unused, can we delete it? *
+    //float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     float   meltsublimation;   /*ablation or mass gain by sublimation*/
 
   if(surface[i][j] != 4)     /*only melt if no rock surface*/

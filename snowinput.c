@@ -742,7 +742,8 @@ void stor_outputlines()
 
 void outputsubsurf()
 { 
-  int     kk,ki,kj;
+  int kk=1;
+  //int ki,kj; /* L.G.: ki and kj are unused, can we delete? */
   
   jd2=jd;
   if ((zeit == 24) && (inter == factinter))
@@ -812,7 +813,7 @@ void outputsubsurflines()
 
   float   a[11],b[11]; /*y = a x + b*/
   float   calc[11],diff[11];
-  float   i1[11],j1[11],i2[11],j2[11];
+  //float   i1[11],j1[11],i2[11],j2[11];  /* L.G.: i1, i2, j1, j2 are unused, can we delete? */
   int     kk,ki,kj;
   int     printyes;
   int     of,cf;

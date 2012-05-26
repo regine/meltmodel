@@ -902,7 +902,8 @@ if((methodglobal == 2) || (methodlongin == 2))
 
 void startoutascii()
 
-{  int kk; /*CHR in aid of more than 1 subsurfline file */  
+{  /*LG: kk is unused, can we delete it?*/
+    //int kk; /*CHR in aid of more than 1 subsurfline file */
    char dummysubsurf[20];
 
 /*-----------------------------------------------------------------------------*/

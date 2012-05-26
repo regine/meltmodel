@@ -365,7 +365,8 @@ void albedosnowdepth()
   float  albmax/*=0.90*/;      /*maximum snow albedo value*/
   float  albwat=0.15;    /*albedo of water*/ 
   float  albsup=0.70;
-  float  icestar=0.011; /*0.011;  */  /*characteristic ice depth in m ice*/
+  /* L.G.: icestar is unused, can we delete? */
+  //float  icestar=0.011; /*0.011;  */  /*characteristic ice depth in m ice*/
   float  wetstar=300;   /*characteristic depth scale surficial water in mm water*/
   float  firndens=400;
   float  constant;	/*=7;*/
@@ -536,7 +537,8 @@ void initgrid()
   float   depthdist;
   double  sum,diff;
   double  airvolumeice,minwatercont;
-  float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
+  /* L.G.: Lf is unused, can we delete? */
+  //float   Lf = 334000.0;     /*latent heat of fusion  [J/kg].*/
   
   for (kk = 1; kk <= numbersnowdaysout; kk++)
   { if (jdbeg <= jdsurface[kk])
@@ -848,14 +850,15 @@ void changegrid()
   double sum,sumwater,diff;
   double energywater;      /*energy released or necessary to convert layerwater to ice or vv*/
   double energytemperature;/*energy necessary to raise layertemperature to melting level */
-  double energydensity;    /*energy necessary to convert water into ice enough to raise layerdensity to density ice*/
+  /* L.G.: energydensity is unused, can we delete? */
+  //double energydensity;    /*energy necessary to convert water into ice enough to raise layerdensity to density ice*/
   double energy;           /*actual energy used (smallest from the above three)*/
   double masschangelayer;
   double energytemperatureold;
   float  Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
-  double airvolumeice;     /*volume in ice available to store water in*/
-  double minwatercont;     /*if water present this is the minimum amount allways present*/
-
+  /* L.G.: airvolumeice and  minwatercont are unused, can we delete? */
+  // double airvolumeice;     /*volume in ice available to store water in*/
+  //double minwatercont;     /*if water present this is the minimum amount always present*/
   idnew=arrayreserv(1,(long)ndepths);
   thicknessnew=arrayreservdouble(1,(long)ndepths);
   massnew=arrayreservdouble(1,(long)ndepths);
@@ -1953,8 +1956,9 @@ return;
 void percolation()
  { double  waterchangelayer;
    double  airvolumeice;     /*volume in ice available to store water in*/
-   double  minwatercont;     /*if water present this is the minimum amount allways present*/
-   double  maxwatercont;     /*maximum possible water content before runoff occurs*/
+   double  minwatercont;     /*if water present this is the minimum amount always present*/
+   /* L.G.: maxwatercont is unused, can we delete? */
+   // double  maxwatercont;     /*maximum possible water content before runoff occurs*/
    /*sumpercolation is melted snow that percolates into firn layer */
    /*summelt is melted ice, does contribute to melt but is not allowed to impact SNOW*/
 
@@ -2100,7 +2104,8 @@ return;
 
 void irreducible_schneider()
  { double porosity;
-   double gravwatercont;  /*gravimetric water content*/
+   /* L.G.: gravwatercont is unused, can we delete it? */
+   //double gravwatercont;  /*gravimetric water content*/
    double dencap;		/* density of capillary water (kg/m3)*/
    double denpor;		/* density of water when all pores are filled completely (kg/m3)*/
    double dencol;		/* density of water when maximum amount according to Coleou is filled (kg/m3)*/
@@ -2172,7 +2177,8 @@ void subsurf()
   float   deltat;
   float   stcrit;
   double  conducdtdzskin;
-  float   density;
+  /* L.G.: density is unused, can we delete it? */
+  //float   density;
   int     factsource=1;   /*fraction of enbal heating/cooling the first layer was 0.65 */
   float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
 
@@ -2515,12 +2521,15 @@ void turbfluxes()
   float Tkel = 273.16;
   float karman = 0.40;			/*Karmans constant*/  
   float g      = 9.81;			/*gravitational constant*/
-  float cp = 1005.;				/*specific heat air at constant pressure J K-1 kg-1 */
+  /* L.G.: cp is unused, can we delete it? */
+  //float cp = 1005.;				/*specific heat air at constant pressure J K-1 kg-1 */
   float ustarn,thstarn,qstarn;
   float dustar,dthstar,dqstar;
   float Ribulk,Lcrit,fact;
   int   nostabil; /*logical yes (1) or no (0) stability correction */
   int   nosurfstabil; /*logical yes (1) or no (0) stability correction at surface level*/
+  /* L.G.: Ribulk is unused, can we delete it? */
+  // float Ribulk;
                       /*only has effect when nostabil = 1*/
   int   notrick;  /*logical yes (1) or no (0) trick to increase flux under very stable conditions*/
   
@@ -2768,11 +2777,13 @@ void spechum()
   float  tk,tklvl;
   float  fact1,fact2a,fact2b,fact3,fact4;
   float  Tkel = 273.16;
-  float  Ls = 2849000.0;   /*latent hate of sublimation  in J/kg*/
+  float  Ls = 2849000.0;   /*latent heat of sublimation  in J/kg*/
   float  Lv = 2514000.0;   /* latent heat of evaporation  [J/kg] */
   float  LL;
   float  beta=2317;			/*constant for calculation es J K-1 kg-1*/
   float  es0 = 610.78;		/*water vapour pressure at melting point hPa*/
+  /* L.G.: LL is unused, can we delete it? */
+  // float  LL;
   float  esat;
 
   eps = rd/rv;

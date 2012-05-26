@@ -844,7 +844,7 @@ void albedosnowpoly()
     double afirn,anewsnow=0.90,aice;
     double alb1,alb2,snow;   
     double albmax=0.90;      /*maximum snow albedo value*/
-    double tempfactor=1;
+    //double tempfactor=1; /* L.G.: tempfactor is unused, can we delete? */
 
   afirn=albfirn;   /* from input.dat */
   aice=albice;     /* from input.dat */
