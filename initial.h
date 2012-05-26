@@ -9,8 +9,7 @@
 #define MELT_MOD_INITIAL_H_
 
 void readrestofline(FILE **infile);
-/*FUNCTION MORE SOPHISTICATED SNOWMODEL by Carleen Tijm-Reijmer, 2/2005*/
-void initializeglacier2zero_nodata_tens(float ***glaciergrid);
+void initializeglacier2zero_nodata(float **glaciergrid);
 
 void initializeglacier2zero_nodatadouble(double **glaciergrid);
 void toobig_resout();
