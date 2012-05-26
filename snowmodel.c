@@ -2525,17 +2525,14 @@ void turbfluxes()
   //float cp = 1005.;				/*specific heat air at constant pressure J K-1 kg-1 */
   float ustarn,thstarn,qstarn;
   float dustar,dthstar,dqstar;
-  float Ribulk,Lcrit,fact;
-  int   nostabil; /*logical yes (1) or no (0) stability correction */
-  int   nosurfstabil; /*logical yes (1) or no (0) stability correction at surface level*/
   /* L.G.: Ribulk is unused, can we delete it? */
   // float Ribulk;
+  float Lcrit;
+  float fact;
+  int nostabil = 1; /*logical yes (1) or no (0) stability correction */
+  int nosurfstabil = 1; /*logical yes (1) or no (0) stability correction at surface level*/
                       /*only has effect when nostabil = 1*/
-  int   notrick;  /*logical yes (1) or no (0) trick to increase flux under very stable conditions*/
-  
-  nostabil=1;
-  nosurfstabil=1;
-  notrick=0;
+  int notrick = 0;  /*logical yes (1) or no (0) trick to increase flux under very stable conditions*/
   
   jd2=jd;
   if ((zeit == 24) && (inter == factinter))
@@ -2770,26 +2767,22 @@ void roughnesslengthAndreasmodified()
 /****************************************************************************/
 
 void spechum()
-{ int    kk;
-  float  eps;
-  float  rd=287.05;			/*gas constant of dry air*/
-  float  rv=461.51;			/*gas constant of moist air*/
-  float  tk,tklvl;
-  float  fact1,fact2a,fact2b,fact3,fact4;
+{ int kk = kspechum;
   float  Tkel = 273.16;
+  float  rd=287.05;         /*gas constant of dry air*/
+  float  rv=461.51;         /*gas constant of moist air*/
+  float eps = rd/rv;
+  float  tk;
+  float tklvl = Tkel + 2.;
+  float  fact1,fact2a,fact2b,fact3,fact4;
   float  Ls = 2849000.0;   /*latent heat of sublimation  in J/kg*/
   float  Lv = 2514000.0;   /* latent heat of evaporation  [J/kg] */
-  float  LL;
-  float  beta=2317;			/*constant for calculation es J K-1 kg-1*/
-  float  es0 = 610.78;		/*water vapour pressure at melting point hPa*/
   /* L.G.: LL is unused, can we delete it? */
   // float  LL;
+  float  beta=2317;         /*constant for calculation es J K-1 kg-1*/
+  float  es0 = 610.78;      /*water vapour pressure at melting point hPa*/
   float  esat;
 
-  eps = rd/rv;
-  tklvl = Tkel + 2.;
-  
-  kk = kspechum;
 
 /* saturation vapor pressure */
 /* above 2deg with respect to water, below with respect to ice*/
