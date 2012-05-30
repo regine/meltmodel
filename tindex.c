@@ -73,7 +73,7 @@ void temppos()
 /*      calculated melt and positive temperature                  */
 /******************************************************************/
 
-void ddfcalculation()
+void ddfcalculation(int i, int j)
 
 {
   if(tempint[i][j] > 0)
@@ -91,7 +91,7 @@ void ddfcalculation()
      calculating melt using a simple degree day method            */
 /******************************************************************/
 
-void degreedaymelt()
+void degreedaymelt(int i, int j)
 
 { int inti;
   inti=(int)surface[i][j];
@@ -133,7 +133,7 @@ void degreedaymelt()
 /*     including direct radiation in melt calculation             */
 /******************************************************************/
 
-void  dd_directmelt()
+void  dd_directmelt(int i, int j)
 
 {
 
@@ -179,7 +179,7 @@ void  dd_directmelt()
 /*     direct radiation term reduced under cloudier conditions    */
 /******************************************************************/
 
-void dd_directglobal()
+void dd_directglobal(int i, int j)
 
 {  
     /*ratio is the ratio of global and direct radiation at the climate station
@@ -340,8 +340,8 @@ void dischargeddfopt()
   SNOW GRIDS FUER JEDE PARAMETER CONSTELATION */
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
-	      negativemelt(); 
-	      meltrainvol();
+	      negativemelt(i, j);
+	      meltrainvol(i, j);
 	      whichreservoir();                                 
 		       
 	     }   /* END IF  GLACIERIZED GRID */
@@ -407,7 +407,7 @@ void dischargeddfopt()
 /*     to be used for forcing in subsurf()                        */
 /*================================================================*/
 
-void melt2energy()
+void melt2energy(int i, int j)
 
 {  double source;
    float Lf=1;
