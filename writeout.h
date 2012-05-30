@@ -1,9 +1,9 @@
 /****************************************************************************/
-/* FILE   writeout.h                                                      */
-/*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*        Part of the Hock Melt Model
+/* FILE   writeout.h                                                        */
+/*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES         */
+/*        Part of the Hock Melt Model                                       */
 /*  Author: Lyman Gillispie                                                 */
-/*  Created on: May 25, 2012                                                     */
+/*  Created on: May 25, 2012                                                */
 /****************************************************************************/
 
 #ifndef MELT_MOD_WRITEOUT_H_

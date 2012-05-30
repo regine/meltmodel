@@ -934,7 +934,7 @@ void waterequivalentabla()
 
  {
     float   Ls = 2849000;      /*latent rate of sublimation  in J/kg*/
-    /* L.G.: Lf is unused, can we delete it? *
+    /* L.G.: Lf is unused, can we delete it? */
     //float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     float   meltsublimation;   /*ablation or mass gain by sublimation*/
 

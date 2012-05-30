@@ -2027,10 +2027,10 @@ void slushformation()
   double  watercontold,layerwet;
   double  depth;
 
-/*  timec1 = 0.05;	time scale for runoff of surficial water on a steep surface (days)*/
-/*  timec2 = 20.;		/*time scale for runoff of surficial water on a horizontal surface (days)*/
-/*  timec3 = 2.;		/*time scale for runoff of surficial water on a surface with slope of 1 degree (days)*/
-/*  factc4 = 10.;  		/*factor with which surface water runsoff faster compared to internal runoff*/
+//  timec1 = 0.05;	time scale for runoff of surficial water on a steep surface (days)*/
+//  timec2 = 20.;		/*time scale for runoff of surficial water on a horizontal surface (days)*/
+//  timec3 = 2.;		/*time scale for runoff of surficial water on a surface with slope of 1 degree (days)*/
+//  factc4 = 10.;  		/*factor with which surface water runsoff faster compared to internal runoff*/
   tanslope = tan(pi*SLOPE[i][j]/180.);
   c1wat = timec1;	
   c2wat = timec2 - timec1;
