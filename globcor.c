@@ -1,6 +1,3 @@
-#include "function.h"
-#include "variabex.h"      /* all global VARIABLES */
-
 /********************************************************************************/
 /*   FILE :  globcor.c                                                        ***/
 /*           CALCULATE MEAN OVER ONE TIME STEP FOR ALL GRIDS OF DTM             */
@@ -13,19 +10,42 @@
 /* Functions of soloar geometry and shading-algorithm taken from
    WASim model by Joerg Schulla, Stand  1.9.1995, Version 1.0
    Verfahren  : nach T.R. Oke: Boudary Layer Climates, Appendix A: 
-		Radiation/Solar Geometry,
-		Abschattung mit Algorithmus von Joerg:
-		Strahlverfolgung mit optimiertem Rastersuchverfahren
+        Radiation/Solar Geometry,
+        Abschattung mit Algorithmus von Joerg:
+        Strahlverfolgung mit optimiertem Rastersuchverfahren
 
  !!!!! MODIFIZIERUNG 9/1995   Regine Hock:   !!!!!!!!!!!!!!!
-	 -Umschreiben von C++ in C
-	 -Files teilmod.cc expokorr.cc und teilmod.h integriert in ein File  
-	 -andere clear sky solar radiation calculation: hoehenabhaengig
-	 -Berechnung einer mittleren Beschattung fuer das Zeitintervall
-	    als Mittel aus den Subintervallen
-	 -Moeglichkeit der Ausgabe der Schattengrids der Subintervalle
-	 -different treatment of cosZ                                       */
+     -Umschreiben von C++ in C
+     -Files teilmod.cc expokorr.cc und teilmod.h integriert in ein File
+     -andere clear sky solar radiation calculation: hoehenabhaengig
+     -Berechnung einer mittleren Beschattung fuer das Zeitintervall
+        als Mittel aus den Subintervallen
+     -Moeglichkeit der Ausgabe der Schattengrids der Subintervalle
+     -different treatment of cosZ                                       */
 /****************************************************************************/
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+
+#include "closeall.h"
+#include "discharg.h"
+#include "disopt.h"
+#include "globcor.h"
+#include "initial.h"
+#include "input.h"
+#include "radiat.h"
+#include "scaling.h"
+#include "snowinput.h"
+#include "snowmodel.h"
+#include "tindex.h"
+#include "turbul.h"
+#include "userfile.h"
+#include "writeout.h"
+
+#include "variabex.h"      /* all global VARIABLES */
 
 
 
