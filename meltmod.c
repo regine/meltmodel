@@ -193,7 +193,7 @@ do {
    RADIATION FOR CLIMATE STATION IN CASE OF SPATIALLY DISTRIBUTED, BEFORE INTERPOLATING*/
 /*ONLY POSSIBLE IF STATION IS LOCATED ON GLACIER, OTHERWISE NO ITERATION FOR STATION GRID
    - USE LONGIN AS DETERMINED FROM MEASUREMENTS FOR EXTRAPOLATION*/
-   if((methodsurftempglac == 2) || (methodsurftempglac == 4) && (griddgmglac[rowclim][colclim] != nodata))
+   if((methodsurftempglac == 2) || ((methodsurftempglac == 4) && (griddgmglac[rowclim][colclim] != nodata)))
      iterationstation();    /*CALCULATE ENERGY BALANCE AT CLIMATE STATION*/
 
 /*IF NO SURFACE TEMP ITERATION THERE IS NO COMPUTATION OF STABILITY FUNCTIONS FOR

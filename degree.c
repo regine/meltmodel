@@ -255,7 +255,7 @@ if (disyes >= 1)     /*DISCHARGE TO BE CALCULATED, measured file available (1) o
        
 /********** V-A scaling **********************************/
     if((jd == summerjdend) && (scalingyes == 1))
-      if( (datesfromfileyes == 0) || (datesfromfileyes == 1) && (year == nextyear)) 
+      if( (datesfromfileyes == 0) || ( (datesfromfileyes == 1) && (year == nextyear))) 
      scaling();
 
 /**********/

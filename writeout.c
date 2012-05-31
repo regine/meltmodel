@@ -1291,7 +1291,7 @@ void writemassbalgrid()
 
    if(summerbalyes == 1)
      if((jd == summerjdend) || (bs_eachday_yes == 1))
-      if( (datesfromfileyes == 0) || (datesfromfileyes == 1) && (year == nextyear)) 
+      if( (datesfromfileyes == 0) || ((datesfromfileyes == 1) && (year == nextyear))) 
          /*second condition needed not to write to file twice a year if varying dates of summerend*/
      {  if(bs_eachday_yes == 1)  /*to write to file summer balance for each day - for Dyurgerov method*/
             summerbaljd = jd;    /*to put jd for each day into file name*/
@@ -1349,7 +1349,7 @@ void writemassbalgrid()
 
   if((winterbalyes == 1) && (summerbalyes == 1))
     if(jd == summerjdend) 
-      if( (datesfromfileyes == 0) || (datesfromfileyes == 1) && (year == nextyear)) 
+      if( (datesfromfileyes == 0) || ((datesfromfileyes == 1) && (year == nextyear)))
          /*second condition needed not to write to file twice a year if varying dates of summerend*/
       { for(i=1;i<=numberbelt;i++)
           massbalprofile[i] = 0;
