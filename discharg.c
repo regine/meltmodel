@@ -252,7 +252,7 @@ void rainoutsideglac()
  {    
   for (i=firstrow;i<=lastrow;i++)          /* for each row */
     for (j=firstcol[i];j<=lastcol[i];j++)  /* for each col with drain grids*/         
-     {  if (griddgmglac[i][j] != nodata)       /*only calculated area*
+     {  if (griddgmglac[i][j] != nodata)       /*only calculated area*/
    /*-----------------------------------------------------------------------*/
    RAIN[i][j] = RAIN[i][j] + RAIN[i][j]/glacierpart*(100.0-glacierpart);         
  /*-----------------------------------------------------------------------*/      

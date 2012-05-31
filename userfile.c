@@ -345,7 +345,7 @@ void readphotovernagt()
 /* FUNCTION  albedosnownewzgo         (adapted to Zongo glacier)  */
 /*           new function using days since snow fall and air temp */ 
 /*    called from function albedocalczgo for each grid cell       */
-/*    no sqrt(nd) BUT in the exponentiel
+/*    no sqrt(nd) BUT in the exponentiel*/
 /******************************************************************/
 
 void albedosnownewzgo()

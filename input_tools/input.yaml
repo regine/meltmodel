@@ -1,0 +1,375 @@
+# INPUTFILE FOR MELT MODEL input.yaml
+# from input.dat 1/2010 (behind # = comments) Juneau Icefield application
+
+ execution_params: 
+    daysscreenoutput: 100   # output to screen every X day
+    inpath: "lemon_example/input/"            # Path for Inputfiles
+    outpath: "lemon_example/output/"          # Path for Outputfiles.
+    jdbeg: 244  # first julian day to be calculated.
+    yearbeg: 1990
+    jdend: 365  #last julian day to be calculated.
+    yearend: 2010
+    disyes: 2   #discharge to be calculated: 1=yes0=no,2=yes, but no discharge data.
+    calcgridyes: 1   #1=whole grid computed  2=only grid cell of weather station.
+    
+
+#********* 1.) MODEL OUTPUT PARAMETERS ****************************
+ output_params:
+    maxmeltstakes: 0      #number of stakes for melt output.
+    plusminus: 1          #cumulative massbal multiplied by this factor in melting.dat
+    do_out: 3             #0=no output 1=every step, 2=daily, 3=whole period 4=2and3.
+#
+    shayes: 0
+    exkyes: 0
+    solyes: 0
+    diryes: 0
+    dir2yes: 0
+    difyes: 0
+    gloyes: 0
+    albyes: 0
+    swbyes: 0
+    linyes: 0
+    loutyes: 0
+    netyes: 0
+    senyes: 0
+    latyes: 0
+    raiyes: 0
+    enbyes: 0
+    melyes: 1
+    ablyes: 0
+    surftempyes: 0
+    posyes: 1
+    ddfyes: 1
+
+    surfyes: 2       #surface conditions to grid file (2=for specified JDs)
+    snowyes: 0       #snow cover to grid file at midnight.
+    daysnow: 1       #snow or surface written to file if jd dividable by this value
+    numbersnowdaysout: 2       #number of jd for output of surface type/snow cover
+    jd_surf_type: 190 #jd to be written to output for surface type and snow cover
+    jd_snow_cover: 210
+    
+
+#----------- 2.) MASS BALANCE -------------------
+ mass_balance_params:
+    winterbalyes: 1 #gridout winter mass balance yes=1, no=0
+    winterjdbeg: 244 #julian day winter starts and ends
+    winterjdend: 135
+    summerbalyes: 1           #gridout summer mass balance yes=1, no=0
+    summerjdbeg: 136     #julian day summer starts and ends
+    summerjdend: 243
+    datesfromfileyes: 0 #1=dates for MB meas read from file, 0=fixed dates
+    namedatesmassbal: "dummydates.dat"   #file containing the dates of massbal meas
+    beltwidth: 20          # vertical extent of elevation bands (m) for mass balance profiles
+    snow2zeroeachyearyes: 1           #set snow cover to 0 at start of each massbal year
+    snowfreeyes: 1           #times series file with number of pixels snowfree written to file
+
+    cumulmeltyes: 0           #gridoutput of melt cumulated=1 or mean=0
+    cm_or_m: 1000        #if cumulated, output in cm=10 or m=1000
+    do_out_area: 1           #time series of spatial mean to output (yes=1 no=0)
+    outgridnumber: 1          #number of individual grid points for which model result output
+#***====read if number > 0============================***
+#***Outputfilename ** row/x-coord ***column/y-coord *** glob and net data included from input data
+    output_filename: "pointoutput.txt"
+    outgridpoints: [
+        [528686,    6464504,  0]
+        ]
+    
+
+#******** 3.) METHODS ENERGY BALANCE COMPONENTS ********************************
+ energy_balance_params:
+    methodinisnow: 2    #1=surface maps 2=start with initial snow cover
+    methodsnowalbedo: 1    #1=constant for surface types, >2=alb generated, 6=zongo
+    methodglobal: 1    #1=direct and diffuse not separated, 2=separated
+    methodlonginstation: 1    #1=longin from net,glob,ref (Tsurf=0),2=meas,3-6=from paramet
+    methodlongin: 1    #1=longin constant, 2=spatially variable
+    methodsurftempglac: 1    #1=surftemp=0 2=iteration 3=measurement+(decrease height), 4=snowmodel
+    
+
+
+#********************* TURBULENCE OPTION
+ turbulence_params:
+    methodturbul: 1    #1=turbulence accord. to Escher-Vetter, 2=Ambach 3=stabil
+    method_z0Te: 1    #1=z0T/z0w fixed ratio 2=according to Andreas (1987)
+    methodiceheat: 1    #1=no ice heat flux 2=ice heat flux
+    methodnegbal: 1    #1=neglected 2=neg energy balance stored to retard melt
+    
+
+#********* SCALING ********************************
+ scaling_params:
+    scalingyes: 0    # V-A scaling yes=1, no=0,
+    gamma: 1.375  # gamma in V-A scaling			
+    c_coefficient: 0.6    # coefficient in V-A scaling
+    
+
+#********* 4.) NAMES OF INPUT FILES ********************************
+ input_files:
+    namedgm: "lem_dem.bin"             #name of Digital Terrain Model
+    namedgmdrain: "lem_watershed.bin"          #name of DTM with drainage basin
+    namedgmglac: "lem_glacier.bin"         #name of DTM glacier
+    namedgmslope: "lem_slope.bin"            #name of DTM slope
+    namedgmaspect: "lem_aspect.bin"                 #name of DTM aspect
+    namedgmskyview: "dummy.bin"                     #name of DTM sky view factor
+    namedgmfirn: "lem_firn.bin"                     #name of DTM firnarea
+    nameinitialsnow: "lem_snow0.bin"                #name of DTM initial snow cover
+    nameklima: "climatedischargeinput1949-2011.txt"  #name of climate data file
+                
+
+
+#********* 5.) GRID INFORMATION***************************************
+ grid_info:
+    laenge: -134.5048              #geographical longitude [degree]
+    breite: 58.5117                #latitude
+    reflongitude: -120                   #longitude time refers to
+    rowclim: 100                   #row in DTM where climate station is located
+    colclim: 100                    #column of climate station
+    climoutsideyes: 1                  #take this elevation for AWS yes/no
+    heightclim: 7
+    
+    gridsize: 100        #gridsize in m
+    timestep: 24                      #time step in hours
+              
+
+#********* 6.) CLIMATE DATA ******************************************
+ climate_data:
+    formatclimdata: 3     #1=midnight time is 0, 2=time is 24, 3=24 but previous day
+    maxcol: 9     #number of columns in climate file
+    coltemp: 4     #columns in climate input file: temperature
+    colhum: 20     #column containing relative humidity
+    colwind: 20    #column wind speed [m/s]
+    colglob: 20     #global radiation
+    colref: 20     #reflected shortwave radiation
+    colnet: 20    #net radiation
+    collongin: 20     #longwave incoming radiation
+    collongout: 20    #longwave outgoing radiation
+    colprec: 5     #precipitation
+    colcloud: 30    #cloud cover (number of eigths)
+    coltempgradvarying: 30    #time variant lapse rate (neg=decrease)
+    coldis: 8     #column of discharge data	
+     
+
+#********** CORRECTIONS TO INPUT ********************************
+ corrections_to_input:
+    ERAtempshift: 0        #add this to ERA temp to get to elevationstation
+    ERAwindshift: 0          #add this to ERA wind to get to elevationstation
+                         
+
+#********** 7.) LAPSE RATE / SCENARIOS ********************************
+ lapse_rate:
+    methodtempinterpol: 1          #1=const lapse rate 2=variable 2AWS 3=grid
+    tempgrad: -0.6     #temperature change with elevation [degree/100m]
+    tempscenario: 0          #climate perturbation: temp + this amount
+    precscenario: 0          #climate perturbation: precip + this amount in percent
+    monthtempgrad:
+        on: 0  #on/off(yes)
+                    #Jan  Feb  Mar  Apr  May        Jun       Jul      Aug       Sep       Oct       Nov  Dec
+        tempgrads: [0,   0,   0,   0,   -0.432,   -0.308,   -0.388,   -0.322,   -0.362,   -0.362,   0,   0]  #monthtempgrad(yes)
+    
+    monthtempscen:
+        on: 0
+                  #Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct    Nov    Dec
+        tempscen: [0.5,   1,     1,     1,     1,     1,     1,     1,     1,     1,     1,     1]  #monthtempscen(yes)
+    
+    monthprecioscen:
+        on: 0
+                     #Jan   Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct    Nov    Dec
+        precipscen: [10,   10,    10,    10,    10,    10,    10,    10,    10,    10,    10,    10]  #monthprecipscen(yes)
+    
+   
+
+#******** 8.) SURFACE TYPE / ALBEDO ***********************************
+ surface_type_albedo:
+    numtranssurf: 0         #number of transient surface type files
+    albsnow: 0.875     #albedo for snow and firn (fixed value)
+    albslush: 0.55      #albedo for slush
+    albice: 0.30      #albedo for ice
+    albfirn: 0.60      #albedo for firn (method 2)
+    albrock: 0.1       #albedo for rock outside glacier
+    albmin: 0.50      #minimum albedo for snow if generated
+    snowalbincrease: 8.        #increase snowalb/100m elevation for 1. time,
+    albiceproz: 0.0       #decrease of ice albedo with elevation #
+    ndstart: 0         #number of days since snow fall at start
+                        
+
+#******** 9.) RADIATION *******************************************
+ radiation:
+    split: 6          #number of shade calculation per time step
+    prozdiffuse: 15         #percent diffuse radiation of global radiation
+    trans: 0.75       #transmissivity
+    ratio: 1.0        #first ratio of global radiation and direct rad
+    ratiodir2dir: 0.95       #first ratio of direct and clear-sky direct rad
+    surftemplapserate: -0.5       #decrease in surftemp with height if longout meas
+    directfromfile: 1          #direct radiation read from file = 1
+    pathdirectfile: "/reginefolder/model/studies/JuneauIcefield/indata/directLemmon/"    #Path for direct files
+    daysdirect: 1          #files only exist every number of days defined here
+    slopestation: 1          #0=slope at climate station is set to 0
+              
+
+#******** 10.) TURBULENCE ***********************************************
+ turbulence:
+    iterstep: 0.25        #step for surface temp lowering for iteration
+    z0wice: 0.001       #roughness length for wind for ice in m   .0027
+    dividerz0T: 100         #z0Temp is zow divided by this value
+    dividerz0snow: 1           #z0snow is z0wice divided by this value
+    z0proz: 0           #increase of z0 with decreasing elevation
+    icez0min: 0.00000001  #min z0w ice
+    icez0max: 0.02        #max z0w ice
+               
+
+#********** 11.) PRECIPITATION *******************************************
+ precipitation:
+    methodprecipinterpol: 1         #1=lapse rate 2=scale AWS precip with index map 3=read grids
+    precgrad: 10         #precipitation change with elevation [#/100m]
+    precgradhigh: 0    #precipitation change with elevation beyond certain elevation
+    precgradelev: 1900    #
+    preccorr: 50         #35 precipitation correction, caused by losses
+    snowmultiplierglacier: 1.0       #snow precip is multiplied by this factor
+    snowmultiplierrock: 1.0       #snow precip is multiplied by this factor
+    threshtemp: 1.5      #threshold temperature rain/snow precipitation
+    onlyglacieryes: 0         #0=if massbal calculations for whole drainage basin, 1=only glacier
+    glacierpart: 50        #percentage of glacierization
+                  
+
+#*********** 12.) DISCHARGE ************************************************
+ discharge:
+    nameqcalc: "discharge.txt"     #name of discharge output file
+    nodis: -9999      #nodata value of discharge file		
+    firnkons: 350        # storage constant k for firn
+    snowkons: 50         # storage constant k for snow
+    icekons: 5       # storage constant k for ice
+    icekons: 30         # storage constant k for rock(outside glacier non-snowcovered)
+              
+
+#************* 13.) DISCHARGE STARTING VALUES**********************
+ discharge_initial:
+    qfirnstart: 5.0       #start value for firn discharge (previous time step)
+    qsnowstart: 0.0       #start value for snow discharge (m3/s)
+    qicestart: 5.0       #start value for ice discharge
+    qicestart: 5.0       #start value for rock discharge (outside glacier non-snowcovered)
+    qground: 0.0       #groundwater discharge[m3]
+    jdstartr2diff: 0         #difference between start of calculation and start r2
+                      
+
+############ 15.) OPTIMIZATION #####################
+ optimization:
+    disyesopt: 0                 #optimization run for k-values = 1; simulation=0
+    optkA: "radfactorsnow"     #1. parameter to optimize
+    startopt1: 0.4               #startvalue of 1. parameter to optimize
+    stepopt1: 0.2               #step length
+    anzahlopt1: 7                 #number of steps no.1
+    optkB: "radfactorice"          #2. parameter to optimize
+    startopt2: 0.4                   #startvalue of 2. parameter
+    stepopt2: 0.2                   #steplength no.2 of optimal r2
+    anzahlopt2: 8                     #number of steps no.2
+    namematrix: "matriz.dat"         #name of r2-outputfile
+               
+
+#============ 16.) SNOW MODEL by C. Tijm-Reijmer 2/2005 ========================
+ snow_model:
+    percolationyes: 1    #0=no percolation, 1=percolation+refreezing in snowlayer
+    slushformationyes: 1    #0=no slush, 1=meltwater accumulation in snowlayer
+    densificationyes: 1    #0=no densification, 1=densific. of dry snow due to aging
+    wetstartyes: 0    #0=dry start, 1=wet start
+    ndepths: 30   #maximum number of vertical layers
+    factinter: 8    #number of subtimesteps for interpolation per main timestep 8
+#---------------------------
+    thicknessfirst: 0.04    #layer thickness of first layer (m snow)
+    thicknessdeep: 5.0     #layer thickness at deepest layer (m snow)
+    depthdeep: 30      #maximum depth model (m)
+    denssnow: 200     #density of fresh snowfall kg/m3
+    irrwatercontyes: 1       #0=constant irreducible water content, 1=density dep. Schneider, 2= density dep. Coleou
+    irrwatercont: 0.02    #fraction of space irreducible filled with water
+#---- Output ----------
+    factsubsurfout: 1    #factor for subsurf output, 1=every hour, 24=once per day at midnight,
+    offsetsubsurfout: 12   #offfsetfactor for subsurf output to make print at noon possible,
+    runoffyes: 1
+    superyes: 1
+    wateryes: 1
+    surfwateryes: 1
+    slushyes: 1
+    coldsnowyes: 1
+    coldtotyes: 1
+               
+
+#========================================================
+#   17.) TEMPERATURE INDEX METHOD
+#========================================================
+ temperature_index:
+    ddmethod: 1     #which temp index method (1,2 or 3)
+    DDFice: 8.0   #degree day factor for ice (only simple DDF method 1)
+    DDFsnow: 5.5   #degree day factor for snow (only simple DDF method 1)
+#---------------------------------------------------
+    meltfactor: 2.7     #meltfactor (only for modified temp index method 2 or 3)
+    radfactorice: 0.9   #radiation melt factor for ice
+    radfactorsnow: 0.6     #radiation melt factor for snow
+    debrisfactor: 1     #factor to reduce melt over debris
+                      
+
+#******* 18.) OUTPUT STAKES **************************************
+ output_stakes:
+    coordinatesyes: 1     #1=stake locations given in local coordinates (x,y), 2=as 1 but center, 3=row/col
+    stake_coords:  [[ 526413, 6477414],   #Easting  Northing
+                    [ 526421, 6477906],
+                    [ 526916, 6480622],
+                    [ 526703, 6483888],
+                    [ 529730, 6485882],
+                    [ 528450, 6489725],
+                    [ 531931, 6489677],
+                    [ 535638, 6487437],
+                    [ 534402, 6491654],
+                    [ 526403, 6477418],
+                    [ 526438, 6477892],
+                    [ 526924, 6480618],
+                    [ 528425, 6489725],
+                    [ 532065, 6489663],
+                    [ 535671, 6487469],
+                    [ 526916, 6480622],
+                    [ 526703, 6483888],
+                    [ 526703, 6483888],
+                    [ 529730, 6485882],
+                    [ 528450, 6489725],
+                    [ 526413, 6477414],
+                    [ 526421, 6477906],
+                    [ 526848, 6487631],
+                    [ 526916, 6480622],
+                    [ 526703, 6483888],
+                    [ 529730, 6485882],
+                    [ 535638, 6487437],
+                    [ 531931, 6489677],
+                    [ 534402, 6491654],
+                    [ 526413, 6477414],
+                    [ 526421, 6477906],
+                    [ 526848, 6487631],
+                    [ 526916, 6480622],
+                    [ 526703, 6483888],
+                    [ 529730, 6485882],
+                    [ 535638, 6487437],
+                    [ 531931, 6489677],
+                    [ 534402, 6491654],
+                    [ 526413, 6477414],
+                    [ 526421, 6477906],
+                    [ 526848, 6487631],
+                    [ 526916, 6480622],
+                    [ 526703, 6483888],
+                    [ 529730, 6485882],
+                    [ 535638, 6487437],
+                    [ 531931, 6489677],
+                    [ 534402, 6491654],
+                    [ 534402, 6491654],
+                    [ 529730, 6485882],
+                    [ 526703, 6483888],
+                    [ 526848, 6487631],
+                    [ 526421, 6477906],
+                    [ 534402, 6491654],
+                    [ 534402, 6491654],
+                    [ 532065, 6489663],
+                    [ 528425, 6489725],
+                    [ 535671, 6487469],
+                    [ 529730, 6485882],
+                    [ 526703, 6483888],
+                    [ 526916, 6480622],
+                    [ 526848, 6487631],
+                    [ 526421, 6477906],
+                    [ 526413, 6477414],
+                    [ 529949.92, 6486082.43],     #23 May 2007 Snow Depth = 2.8 m,
+                    [ 527859.71, 6489882.56],    # Snow Depth = 5.0 m,
+                    [ 526889.69, 6480789.89]]   #Snow Depth = 0.55 m,
