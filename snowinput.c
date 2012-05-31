@@ -841,11 +841,11 @@ void outputsubsurflines()
   of = 0;
   cf = 0;
   if ((i == rowclim) && (j == colclim))
-  {if ((methodsurftempglac == 2) || (methodsurftempglac == 4) && (griddgmglac[i][j] != nodata))
+  {if ((methodsurftempglac == 2) || ( (methodsurftempglac == 4) && (griddgmglac[i][j] != nodata)) )
     of = 1;
   }
   if ((i == firstrow) && (j == firstcol[firstrow]) && (of == 0))
-  {if ((methodsurftempglac == 2) || (methodsurftempglac == 4) && (griddgmglac[i][j] != nodata))
+  {if ((methodsurftempglac == 2) || ( (methodsurftempglac == 4) && (griddgmglac[i][j] != nodata)) )
     of = 0;
   else
     of = 1;

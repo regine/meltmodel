@@ -2,7 +2,7 @@
 /* FILE   userfile.h                                                      */
 /*    Function, which are specific to a certain application                 */
 /*    not generally applicable                                              */
-/*        Part of the Hock Melt Model
+/*        Part of the Hock Melt Model */
 /*  Author: Lyman Gillispie                                                 */
 /*  Created on: May 25, 2012                                                     */
 /****************************************************************************/
