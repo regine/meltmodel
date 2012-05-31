@@ -1791,7 +1791,6 @@ void stationoutput()
                             /*all variables that are not computed in specific run*/
    float  dirhor,dirslope;
    float  lwincoming,lwoutgoing,snowcover;
-   float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
 
  for (ii=1;ii<=outgridnumber;ii++)    /*for each station or location*/
  {

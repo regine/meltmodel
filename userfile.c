@@ -470,9 +470,7 @@ void longinstationbruntsvernagt()
 /**********************************************************/
 
 void measuredlapserate()
-
-{   int row2 = 291;     /*row of 2 climate station*/
-    int col2 = 104;
+{
     float  elevationdiff = 170;
     float  tempgradmin   = -1.4;   /*minimum lapse to avoid strange values due to meas errors*/
     float  tempgradmax   = 1.0;

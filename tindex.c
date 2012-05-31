@@ -300,7 +300,7 @@ void startdisddfopt()
 
   fprintf(r2file,"if not optimised :\n");
   if(ddmethod == 1)
-    fprintf(r2file,"  DDFice = %6.2f  DDFsnow = 6.2f\n",DDFice,DDFsnow);
+    fprintf(r2file,"  DDFice = %6.2f  DDFsnow = %6.2f\n",DDFice,DDFsnow);
   if(ddmethod >= 2)
     fprintf(r2file,"  meltfactor = %6.2f radfactorice = %6.2f radsnow = %6.2f\n\n",
           meltfactor,radfactorice,radfactorsnow);
