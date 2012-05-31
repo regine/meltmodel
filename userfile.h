@@ -12,9 +12,11 @@
 
 
 void readalbedo29();
+void iceheatStorglac();
+
+/* LG: are any of the below called by anyone? */
 void readalbedo16();
 void tempsurfacerock();
-void iceheatStorglac();
 void openphotovernagt();
 void readphotovernagt();
 void albedosnownewzgo();

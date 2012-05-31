@@ -29,6 +29,7 @@ void latent();
 void readprecipindexmap();
 void readprecipfromfile();
 void precipinterpol();
+/* LG: does anyone call precipnoetzlidip ?*/
 void precipnoetzlidip();
 void precipenergy();
 void energybalance();

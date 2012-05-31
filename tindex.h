@@ -12,7 +12,7 @@ void degreestart();
 void temppos();
 void ddfcalculation();
 void degreedaymelt();
-void  dd_directmelt();
+void dd_directmelt();
 void dd_directglobal();
 void snowcoverdegree();
 void startdisddfopt();

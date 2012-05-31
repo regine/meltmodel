@@ -19,12 +19,10 @@
 #include "input.h"
 #include "radiat.h"
 #include "scaling.h"
-#include "snowinput.h"
-#include "snowmodel.h"
 #include "tindex.h"
 #include "turbul.h"
-#include "userfile.h"
-#include "writeout.h"    /* all function heads, first line */
+/* all function heads, first line */
+#include "writeout.h"
 
 #include "variab.h"      /* all global VARIABLES */
 

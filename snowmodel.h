@@ -16,6 +16,7 @@ void freearray(float *v, long ndl, long ndh);
 void freearraydouble(double *v, long ndl, long ndh);
 void freetensor(float ***t,long nrl, long nrh, long ncl, long nch, long ndl, long ndh);
 void freetensordouble(double ***t,long nrl, long nrh, long ncl, long nch, long ndl, long ndh);
+/* LG: does anyone call  initializeglacier2zero_nodata_tens? */
 void initializeglacier2zero_nodata_tens(float ***glaciergrid);
 void initializeglacier2zero_nodata_tensdouble(double ***glaciergrid);
 void statistdouble(double **matrix,float *x);
