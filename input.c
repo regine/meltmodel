@@ -601,7 +601,7 @@
 
     fscanf(in,"%d",&methodtempinterpol);    readrestofline(&in);
     if ((methodtempinterpol == 3) && (timestep >1))   /*temp data read from grid files*/  
-     {  printf("\n\n temp data can not be read from file if time step is not hourly \n\n",methodtempinterpol);
+     {  printf("\n\n temp data can not be read from file if time step is not hourly \n\n");
 	    exit(2);          
      } 
    

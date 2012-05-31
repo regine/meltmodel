@@ -116,7 +116,7 @@ void checkgridinputdata_ok()
   for (j=1;j<=ncols;j++)
    { if((griddgmglac[i][j] != nodata) && (griddgmdrain[i][j] == nodata))
      { printf("\nERROR in drainage basin / glacier input grid data\n");
-       printf(" Not all glacier grid cells are part of the drainage basin\n",resoutlinesmax);
+       printf(" Not all glacier grid cells are part of the drainage basin\n");
        printf(" adjust your glacier grid so that the entire glacier is part of the drainage basin grid\n\n");
        fclose(outcontrol);
        exit(3); 
@@ -124,7 +124,7 @@ void checkgridinputdata_ok()
  /*CURRENTLY SNOW MODEL CAN ONLY BE RUN FOR THE GLACIER AND NOT FOR AREA OUTSIDE*/
      if((methodsurftempglac == 4) && ((griddgmglac[i][j] == nodata) && (griddgmdrain[i][j] != nodata)))
      { printf("\nERROR in drainage basin / glacier input grid data\n");
-       printf(" snow model is run: in this case glacier and drainage basin grids must be same\n",resoutlinesmax);
+       printf(" snow model is run: in this case glacier and drainage basin grids must be same\n");
        printf(" copy glacier grid under a new name into drainage grid\n\n");
        fclose(outcontrol);
        exit(3);  
