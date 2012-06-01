@@ -13,7 +13,7 @@ double deklination(long tag, long monat);
 double gettimeequation(long tag,long monat);
 double sonnenhoehe(long tag,long monat,double breite,double laenge,double stunde);
 void getsuncoordinates(long tag,long monat,double breite,double laenge,double stunde,
-		       double *sunazimuth,double *sunaltitude);
+                       double *sunazimuth,double *sunaltitude);
 
 double getcosincidence(double aspect,double slope,double azimuth,double zenith);
 void sunrise(long tag,long monat,double breite,double laenge,double *sr,double *ss);
