@@ -145,7 +145,7 @@ void longinstationnetradmeas();
 void longinstationkonzel();
 void cloudsfromratioglobTOASedlar();
 void longinstationbrunts();
-void longinstationbrutsaert();  /* by Brutsaert for clear sky, zongo for clouds, sicart PhD. p.260 */ 
+void longinstationbrutsaert();  /* by Brutsaert for clear sky, zongo for clouds, sicart PhD. p.260 */
 void tempsurfacerock();
 void iceheatStorglac();
 void iterationstation();
@@ -160,7 +160,7 @@ void degreedaymelt();
 void dd_directmelt();
 void dd_directglobal();
 void startdisddfopt();
-void dischargeddfopt();   
+void dischargeddfopt();
 void snowcoverdegree();
 void melt2energy();      /*convert melt to energy for snow model*/
 

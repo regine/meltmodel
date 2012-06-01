@@ -16,8 +16,8 @@ extern  int    setmelt2zero;  /*melt is set to 0 if surftemp < 0*/
 extern  int    surftempminmelt;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 extern  float z2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 extern  float  emissivitysurf;   /*surface emissivity for calc of longwave out from surf temp and vice versa*/
-extern  int  snetfromobsyes;  /*0=Snet from albedo model*/ 
-   /* 1=Snet from obs Sin Srefl only possible if calcgridyes = 0 and obs available*/
+extern  int  snetfromobsyes;  /*0=Snet from albedo model*/
+/* 1=Snet from obs Sin Srefl only possible if calcgridyes = 0 and obs available*/
 extern  int    allradiationfromfile;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if only climate station cell computed*/
 extern  float snowscenario;  /*this amount is added to each grid cell of the initial snow cover*/
 
@@ -55,7 +55,7 @@ extern  float  depthdensbottom;		/* depth where dens = dens at densturnpoint2  *
 extern  float  densfirn;   /*maximum density allowed, density at depthbottom*/
 
 /*============= INITIALIZATION OF FIRN DENSITY PROFEILS - in case init_firnlayerdensity = 2   =============*/
-/* calculate firnlayer density by a linear gradient*/   
+/* calculate firnlayer density by a linear gradient*/
 extern  float firndensitytop;     /*firn density at firn-snow interface,  kg/m3*/
 extern  float firndensitybottom;  /*firn density at firndepthbottom*/
 extern  float firndepthbottom;     /*depth at which firndensitybottom is reached, in m*/
@@ -71,7 +71,7 @@ extern  int  resoutlinesmax;   /*exit program, if more lines written to res.out*
 extern  int   bs_eachday_yes;   /*summer balance written to file every day - for
  Dyurgerov method*/
 
- /*for function albedosnowdepth, snow albedo according to oerlemans and knap 98*/
+/*for function albedosnowdepth, snow albedo according to oerlemans and knap 98*/
 extern float  snowstar;      /*Carleen=0.040 * 0.011;  */  /*characteristic snowdepth in m snow*/
 extern float  timestarwet;   /*Carleen=9*21.9;*/	/*characteristic timescale wet surface in days*/
 extern float  timestardry0;  /*Carleen=40 * 30;*/   /*characteristic timescale dry surface at 0C in days*/
@@ -82,8 +82,8 @@ extern double  timec2;		/*time scale for runoff of surficial water on a horizont
 extern double  timec3;		/*time scale for runoff of surficial water on a surface with slope of 1 degree (days)*/
 extern double  factc4;  		/*factor with which surface water runsoff faster compared to internal runoff*/
 
- /*for function albedosnowpoly for zongo glacier, function by J.E. Sicart, see PhD thesis p.243 */
-extern double Czgo ;   /* h per mm we, parametre albk3 de hock */ 
+/*for function albedosnowpoly for zongo glacier, function by J.E. Sicart, see PhD thesis p.243 */
+extern double Czgo ;   /* h per mm we, parametre albk3 de hock */
 extern double nzgo ;       /* in days */
 extern double ezgo ;        /* in mm we */
 
@@ -93,7 +93,7 @@ extern float eocKonzel;   /* emissivity overcast in Konzelmann et al. eoc=0.952 
 extern  float pKonzel;    /* value in Konzelmann et al.  p=4 */
 
 extern int    readsnowalbedo;         /*1=snow albedo read from climate station file*/
-/*========== END OF HIDDEN OPTIONS ==================================================*/ 
+/*========== END OF HIDDEN OPTIONS ==================================================*/
 
 extern  float  daysscreenoutput;   /*output to screen every X day*/
 extern int  resoutlines; /*number of times unrealistic values are generated*/
@@ -131,7 +131,7 @@ extern char   namemassbalprofile[61];
 extern char   dummy[101];
 extern char   nametempgrid[61];
 
-/********* FILES **********/ 
+/********* FILES **********/
 extern  FILE  *indgm,*indgmdrain,*indgmglac;       /* input files */
 extern  FILE   *indgmslope,*indgmaspect,*inklima;
 extern  FILE   *inalbedo;
@@ -152,7 +152,7 @@ extern  FILE   *outmassbalprofile;
 extern  FILE   *intempgrid;   /*temperature grid read from file*/
 extern  FILE   *inprecipindexgrid;   /*precipitation index map read from file*/
 extern  FILE   *inprecipreadgrid;   /*precipitation grid read from file*/
-  
+
 
 /* ********* ARRAYS **************************** */
 extern  float  **griddgm, **griddgmdrain, **griddgmglac;  /* 2 dim. Arrays grid data */
@@ -168,7 +168,8 @@ extern  float  **SENSIBLE,**LATENT;        /* 2-D-Array for turbulent fluxes */
 /* extern  float  **ENBAL,**MELT,**ABLA;  made to doubles for snow model 2/2005*/
 
 extern float  **precipreadgrid;    /*NEW 4/2010 to read precip grids from file for each time step*/
-extern float  **precipindexmap;    /*NEW 4/2010 to read precip index map from file once*/extern  float  **rainenergy;
+extern float  **precipindexmap;    /*NEW 4/2010 to read precip index map from file once*/
+extern  float  **rainenergy;
 extern  float  **ICEHEAT;
 extern  float  **tempint;        /*INTERPOLATED AIR TEMPERATURE*/
 extern  float  **surftemp;       /*SURFACE TEMPERATURE*/
@@ -182,10 +183,10 @@ extern  float  **WINTERBAL,**SUMMERBAL,**MASSBALcum;   /*mass balance*/
 extern  float  plusminus;
 
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
- /*SNOW etc converted to double instead of float as before*/
+/*SNOW etc converted to double instead of float as before*/
 extern  float  **wrtSNOW,**wrtENBAL,**wrtMELT,**wrtABLA,**RUNOFF; /*CHR added */
 extern  double **SNOW,**ENBAL,**MELT,**ABLA;      /*ENERGY BALANCE, MELT mm*/
- /*============================================================*/ 
+/*============================================================*/
 
 extern  double **meanSHADEday,**meanSHADEall;    /*ARRAYS FOR DAILY AND PERIOD MEANS*/
 extern  double **meanASPday,**meanASPall;
@@ -244,7 +245,7 @@ extern  float  cumnetbal;
 
 extern  float  yearbeg, yearend;
 extern  int    maxcol;                /*number of columns in climate file */
-extern  int    formatclimdata;  /*format of climate data, meaning of midnight time*/ 
+extern  int    formatclimdata;  /*format of climate data, meaning of midnight time*/
 
 extern  int    coltemp, colhum, colwind;          /* column of parameter    */
 extern  int    colglob, colref, colnet, colprec;  /* in climate input file  */
@@ -331,7 +332,7 @@ extern char   pathdirectfile[100];     /*path of shading/direct input files*/
 extern float  daysdirect;             /*files only exist every number of days defined here*/
 extern float  jddirect;               /*julian day of direct file prior to start day*/
 
-extern float  albpercentagechange;    /*albedo modification according to clouds (Jonsell et al)*/    
+extern float  albpercentagechange;    /*albedo modification according to clouds (Jonsell et al)*/
 extern int    cumumeltyes;            /*1=cumulated melt written to file*/
 extern float  cm_or_m;                /*unit of cumulated melt cm or m*/
 extern float  iterstep;               /*iteration step for surface temp*/
@@ -354,14 +355,14 @@ extern int  newday;   /*counter of jd to be written to output: surface or snow c
 extern int  numbersnowdaysout;  /*number of days to be written to output*/
 extern float jdsurface[31];   /*jd to be written to output*/
 
-extern float winterjdbegmeas[2050]; 
+extern float winterjdbegmeas[2050];
 extern float summerjdbegmeas[2050];
 extern float nextyear;  /*needed if multi-year mass bal is computed and dates differ*/
 extern float elevbeltmin,beltwidth;   /*for mass balance profiles*/
 extern int   numberbelt;    /*number of elevation belts for bn profiles*/
 extern float areabelt[101];   /*area of each elevation belt*/
 extern float winterbalprofile[101],summerbalprofile[101],massbalprofile[101];
-            /*max 100 elevation belts for profiles*/
+/*max 100 elevation belts for profiles*/
 
 extern float ratioglobToA,ratioglobToAold;   /*for cloud dependence albedo*/
 
@@ -373,7 +374,7 @@ extern float  rainprec,snowprec;
 extern float  **RAIN;        /*grid of liquid precipitation*/
 
 /* **** for discharge calculation ************* */
- 
+
 extern FILE   *firnfile;
 extern FILE   *qcalcfile;       /*Output file of calculated discharge*/
 extern FILE   *qmeasfile;       /*Input file of measured discharge*/
@@ -440,10 +441,10 @@ extern double  cosincidence;
 extern double  pi;
 
 extern double  timeequation[14];
-      /* gibt die Verschiebung der realen Sonnenzeit gegenueber der
-	 mittleren Sonnenzeit in min an (Elliptische Bahn) das Array steht
-	 an jeder Seite um eis ueber, d.h., es kann auch mit monat-1
-	 bzw. monat+1 gerechnet werden*/
+/* gibt die Verschiebung der realen Sonnenzeit gegenueber der
+mittleren Sonnenzeit in min an (Elliptische Bahn) das Array steht
+ an jeder Seite um eis ueber, d.h., es kann auch mit monat-1
+ bzw. monat+1 gerechnet werden*/
 
 extern float  timekorr; /*Zeitverschiebung der Zeitzone gegebueber den Zeitangaben der gemessenen Daten,
 		    wenn die Daten in UTC angegeben werden, die Zeitzone aber MEZ ist, dann ist
@@ -471,8 +472,8 @@ extern int    i,j,k,m;
 
 extern float  exkorstationhoriz;  /*radiation correction factor if station was horizontal*/
 extern float  radius2sun;         /*for calculation top of atmosphere and direct radiation*/
-extern float dark_a,dark_e,inta,inte,split_temp,Anteil_dunkel,Anteil_hell;    
-     /*neu 22.7.1997*/
+extern float dark_a,dark_e,inta,inte,split_temp,Anteil_dunkel,Anteil_hell;
+/*neu 22.7.1997*/
 
 
 /*=========================================================*/
@@ -608,8 +609,8 @@ extern char   namecoldsnow[31],namecoldtot[31],namesnprecip[31],nameraprecip[31]
 extern char   namecapwat[31],nameslwat[31],namesummerbalst[61];
 extern char   outmassbalstakename2[80];
 extern FILE   *outrunoff,*outsuper,*outwater,*outsurfwater;    /*outgridfiles*/
-extern FILE   *outslush,*outcoldsnow,*outcoldtot,*outsnprecip,*outraprecip;  
-extern FILE   *outmass,*outcapwat,*outslwat,*outsummerbalst;  
+extern FILE   *outslush,*outcoldsnow,*outcoldtot,*outsnprecip,*outraprecip;
+extern FILE   *outmass,*outcapwat,*outslwat,*outsummerbalst;
 extern FILE   *outmassbalstakes2;
 extern double **meanrunoffday,**meanrunoffall;
 extern double **meansupericeday,**meansupericeall;     /*superimposed ice*/
