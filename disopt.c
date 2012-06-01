@@ -14,6 +14,7 @@
 
 #include "discharg.h"
 #include "disopt.h"
+#include "turbul.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 
