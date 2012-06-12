@@ -26,6 +26,7 @@ void input_read()
 //RH    char  outcontrolname[61];
     char  outcontrolname[81];
     int   c;    /*to read file character by character and write to res.txt*/
+    int methodsurftemglac_change = 0;
 
     namedgm       = (char*)calloc(80,sizeof(char));     /*RESERVE STORAGE*/
     namedgmdrain  = (char*)calloc(80,sizeof(char));
@@ -344,6 +345,12 @@ void input_read()
     if((methodglobal > 2) || (methodlongin > 2)) {
         printf("\n\n ERROR in input.dat: methodglobal (=%d) and methodlongin (=%d) must be 1 or 2 !!! \n\n",methodglobal,methodlongin);
         exit(2);
+    }
+    
+    if ((degreedaymethod == 1) && (methodsurftempglac == 4)) { /*snow model requested but degree day model run*/
+        printf("snowmodel can not be run when degree day method-> therefore methodsurftempglac set to 1: \n");
+        methodsurftempglac = 1;
+        methodsurftemglac_change = 1;
     }
 
     fscanf(in,"%d",&methodturbul);
@@ -1406,9 +1413,8 @@ void input_read()
         exit(2);
     }
 
-    if ((degreedaymethod == 1) && (methodsurftempglac == 4)) { /*snow model requested but degree day model run*/
+    if (methodsurftemglac_change ){  /*snow model requested but degree day model run*/
         fprintf(outcontrol,"snowmodel can not be run when degree day method-> therefore methodsurftempglac set to 1: \n");
-        methodsurftempglac = 1;
     }
 
     fprintf(outcontrol,"---- END OF LIST OF SUCH CHANGES ---- \n");
