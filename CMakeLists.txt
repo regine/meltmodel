@@ -3,10 +3,10 @@ cmake_minimum_required (VERSION 2.8)
 project (MeltModel)
 
 if(APPLE)
-    set(CMAKE_C_FLAGS -m32)
-    set(CMAKE_C_FLAGS_DEBUG -m32 -Wall -O0 -g)
+    set(CMAKE_C_FLAGS "-m32")
+    set(CMAKE_C_FLAGS_DEBUG "-m32 -Wall -O0 -g")
 else(APPLE)
-    set(CMAKE_C_FLAGS_DEBIG -Wall -O0 -g)
+    set(CMAKE_C_FLAGS_DEBUG "-Wall -O0 -g")
 endif(APPLE)
 
 add_library(closeall closeall.c)
