@@ -2,12 +2,40 @@ cmake_minimum_required (VERSION 2.8)
 
 project (MeltModel)
 
+#search for tag programs
+find_program(CTAGS ctags)
+find_program(ETAGS etags)
+find_program(CSCOPE cscope)
+
+file(GLOB_RECURSE MELTMOD_SOURCE_FILES ${CMAKE_SOURCE_DIR} *.[ch])
+
+add_custom_target(ctags
+    COMMAND ${CTAGS} ${MELTMOD_SOURCE_FILES}
+    COMMAND cp tags ${CMAKE_SOURCE_DIR}
+    )
+
+add_custom_target(etags
+    COMMAND ${ETAGS}  ${MELTMOD_SOURCE_FILES} -f TAGS
+    COMMAND cp TAGS ${CMAKE_SOURCE_DIR}
+    )
+
+add_custom_target(cscope 
+    COMMAND ${CSCOPE} -b ${MELTMOD_SOURCE_FILES} 
+    COMMAND cp cscope.out ${CMAKE_SOURCE_DIR}/
+    )
+
+add_custom_target(tags
+    COMMAND make ctags
+    COMMAND make cscope)
+
+# workaround for OSX Lion 64-bit seg-fault issue
 if(APPLE)
     set(CMAKE_C_FLAGS "-m32")
     set(CMAKE_C_FLAGS_DEBUG "-m32 -Wall -O0 -g")
 else(APPLE)
     set(CMAKE_C_FLAGS_DEBUG "-Wall -O0 -g")
 endif(APPLE)
+
 
 add_library(closeall closeall.c)
 add_library(discharg discharg.c)
