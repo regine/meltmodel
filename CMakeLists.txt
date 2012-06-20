@@ -36,6 +36,9 @@ else(APPLE)
     set(CMAKE_C_FLAGS_DEBUG "-Wall -O0 -g")
 endif(APPLE)
 
+if(UNIX)
+    link_libraries(m)
+endif(UNIX)
 
 add_library(closeall closeall.c)
 add_library(discharg discharg.c)
