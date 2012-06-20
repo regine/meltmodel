@@ -31,7 +31,7 @@ add_custom_target(tags
 # workaround for OSX Lion 64-bit seg-fault issue
 if(APPLE)
     set(CMAKE_C_FLAGS "-m32")
-    set(CMAKE_C_FLAGS_DEBUG "-m32 -Wall -O0 -g")
+    set(CMAKE_C_FLAGS_DEBUG "-Wall -O0 -g")
 else(APPLE)
     set(CMAKE_C_FLAGS_DEBUG "-Wall -O0 -g")
 endif(APPLE)
