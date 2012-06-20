@@ -25,12 +25,13 @@
 /****************************************************************************/
 
 
+#include "globcor.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
-#include "globcor.h"
 #include "initial.h"
 
 #include "variabex.h"      /* all global VARIABLES */

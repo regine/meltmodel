@@ -5,6 +5,9 @@
 /* update 10 May 2005*/
 /****************************************************************************/
 
+
+#include "snowmodel.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -13,7 +16,6 @@
 #include "initial.h"
 #include "radiat.h"
 #include "snowinput.h"
-#include "snowmodel.h"
 #include "turbul.h"
 
 #include "variabex.h"      /* all global VARIABLES */

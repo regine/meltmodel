@@ -8,6 +8,8 @@
 #ifndef MELT_MOD_INITIAL_H_
 #define MELT_MOD_INITIAL_H_
 
+#include<stdio.h>
+
 void readrestofline(FILE **infile);
 void initializeglacier2zero_nodata(float **glaciergrid);
 

@@ -5,7 +5,8 @@
 /*  update 5 Jan 2011 */
 /**************************************************************************/
 
-#include<stdio.h>
+#include "writeout.h"
+
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
@@ -14,7 +15,6 @@
 #include "snowinput.h"
 #include "snowmodel.h"
 #include "turbul.h"
-#include "writeout.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 

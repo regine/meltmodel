@@ -5,12 +5,13 @@
 /*  1.4.1997,  update 18 Nov 2011 */
 /*******************************************************************/
 
+#include "closeall.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
-#include "closeall.h"
 #include "initial.h"
 #include "snowmodel.h"
 

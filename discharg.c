@@ -8,12 +8,13 @@
 /*  31.3.1997,  update 18 Nov 2011 */
 /*==========================================================================*/
 
+#include "discharg.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
-#include "discharg.h"
 #include "initial.h"
 
 #include "variabex.h"      /* all global VARIABLES */

@@ -5,13 +5,14 @@
 /* Nov 2011 */
 /*******************************************************************/
 
+#include "scaling.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "initial.h"
-#include "scaling.h"
 #include "writeout.h"
 
 #include "variabex.h"      /* all global VARIABLES */

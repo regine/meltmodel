@@ -9,14 +9,14 @@
 /*  1.12.1997, update 18 Nov 2011 */
 /*******************************************************************/
 
-#include<stdio.h>
+#include "initial.h"
+
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "closeall.h"
 #include "globcor.h"
-#include "initial.h"
 #include "writeout.h"
 
 #include "variabex.h"      /* all global VARIABLES */

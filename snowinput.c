@@ -16,12 +16,13 @@
 /*                             density profile, same as used in glacier_snowlayerdensity */
 /**/
 
+#include "snowinput.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
-#include "snowinput.h"
 #include "snowmodel.h"
 
 #include "variabex.h"      /* all global VARIABLES */

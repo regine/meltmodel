@@ -7,13 +7,14 @@
 /*  14.2.1997,  update 7 July 2010 */
 /* =========================================================================== */
 
+#include "disopt.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "discharg.h"
-#include "disopt.h"
 #include "turbul.h"
 
 #include "variabex.h"      /* all global VARIABLES */

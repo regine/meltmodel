@@ -6,13 +6,15 @@
 /***  31.3.1997, update 22 July 2010,  18 November 2011  */
 /*********************************************************/
 
+
+#include "input.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "initial.h"
-#include "input.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 

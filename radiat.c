@@ -5,13 +5,14 @@
 /*    Mar  1998,  last update: 5 Jan 2011                                   */
 /****************************************************************************/
 
+#include "radiat.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "globcor.h"
-#include "radiat.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 

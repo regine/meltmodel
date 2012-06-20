@@ -6,13 +6,14 @@
 /*  14.2.1996;  update 7 July 2010 */
 /*================================================================*/
 
+#include "tindex.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
 
 #include "discharg.h"
-#include "tindex.h"
 
 #include "variabex.h"   /* all global VARIABLES, externally declared */
 

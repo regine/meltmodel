@@ -9,6 +9,8 @@
 #ifndef MELT_MOD_WRITEOUT_H_
 #define MELT_MOD_WRITEOUT_H_
 
+#include<stdio.h>
+
 void openoutfile(FILE **datei,char *outpath,char *name);
 void openoutfileascii(FILE **datei,char *outpath,char *name);
 void startwritehour();
