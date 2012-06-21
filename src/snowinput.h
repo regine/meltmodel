@@ -30,8 +30,6 @@ void stor_snowlayermsnow();
 void choice_outputlines();
 void default_outputlines();
 void stor_outputlines();
-void outputsubsurf();
-void outputsubsurflines();
 
 
 
