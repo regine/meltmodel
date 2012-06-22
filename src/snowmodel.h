@@ -48,5 +48,7 @@ void unstable();
 void sensiblenew();
 void latentnew();
 void tsurfenergybalance(double tskin);
+void outputsubsurf();
+void outputsubsurflines();
 
 #endif /* SNOWMODEL_H_ */

@@ -7,8 +7,7 @@ add_library(initial initial.c)
 add_library(input input.c)
 add_library(radiat radiat.c)
 add_library(scaling scaling.c)
-add_library(snowinput snowinput.c)
-add_library(snowmodel snowmodel.c)
+add_library(snowmodel snowinput.c snowmodel.c)
 add_library(tindex tindex.c)
 add_library(turbul turbul.c)
 add_library(userfile userfile.c)
@@ -22,7 +21,6 @@ target_link_libraries(degree closeall
                              initial
                              input
                              radiat
-                             snowinput
                              snowmodel
                              tindex
                              turbul
@@ -38,7 +36,6 @@ target_link_libraries(meltmod closeall
                               initial
                               input
                               radiat
-                              snowinput
                               snowmodel
                               turbul
                               userfile
