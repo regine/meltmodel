@@ -655,9 +655,9 @@ void opengridoutput()
 {
     if (writeshade == 1) {          /*SHADE FILE*/
         if(dailyoutput < 2)   /*every time step or daily output*/
-            sprintf(nameshade,"sha%03d%02d.bin\0",(int)(jd2),(int)zeit2);
+            sprintf(nameshade,"sha%03d%02d.bin",(int)(jd2),(int)zeit2);
         else
-            sprintf(nameshade,"sha%03d_%03d.bin\0",(int)jdbeg,(int)jdend);
+            sprintf(nameshade,"sha%03d_%03d.bin",(int)jdbeg,(int)jdend);
 
         strcpy(dummy,outpath);
         strcat(dummy,nameshade);
@@ -671,9 +671,9 @@ void opengridoutput()
 
     if (writeexkorr == 1) {         /* CORRECTION FACTOR DIRECT RADIATION */
         if(dailyoutput < 2)   /*every time step or daily output*/
-            sprintf(nameexkorr,"exk%03d%02d.bin\0",(int)(jd2),(int)zeit2);
+            sprintf(nameexkorr,"exk%03d%02d.bin",(int)(jd2),(int)zeit2);
         else
-            sprintf(nameexkorr,"exk%03d_%03d.bin\0",(int)jdbeg,(int)jdend);
+            sprintf(nameexkorr,"exk%03d_%03d.bin",(int)jdbeg,(int)jdend);
 
         strcpy(dummy,outpath);
         strcat(dummy,nameexkorr);
@@ -687,9 +687,9 @@ void opengridoutput()
 
     if (writedirect == 1) {        /* DIRECT RADIATION FILE */
         if(dailyoutput < 2)   /*every time step or daily output*/
-            sprintf(namedirect,"dir%03d%02d.bin\0",(int)(jd2),(int)zeit2);
+            sprintf(namedirect,"dir%03d%02d.bin",(int)(jd2),(int)zeit2);
         else
-            sprintf(namedirect,"dir%03d_%03d.bin\0",(int)jdbeg,(int)jdend);
+            sprintf(namedirect,"dir%03d_%03d.bin",(int)jdbeg,(int)jdend);
 
         strcpy(dummy,outpath);
         strcat(dummy,namedirect);
