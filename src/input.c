@@ -314,6 +314,7 @@ void input_read()
     }
 
 
+
     /****** METHODS RADIATION ************************************************/
     readrestofline(&in);    /*read comment line methods*/
     fscanf(in,"%d",&methodinisnow);
@@ -1325,6 +1326,15 @@ void input_read()
     printf("coordinatesyes = %d\n",coordinatesyes);
     readrestofline(&in);
 
+    /*if station output locations are given in row/col variable need to be made integer*/
+    if ((outgridnumber > 0) && (coordinatesyes == 3)) {
+        for (i=1; i<=outgridnumber; i++) {
+            stnrow[i] = (int)stn_xcoordinate[i];
+            stncol[i] = (int)stn_ycoordinate[i];
+        }	 /*endfor*/
+    }  /*endif*/
+
+
     if(maxmeltstakes > 0) {
         if((melyes == 0) || (ablyes == 0)) {
             melyes = 1;   /*because otherwise the cumulative arrays do not exist (meanMELTall)*/
@@ -1343,14 +1353,6 @@ void input_read()
                 readrestofline(&in);
             }
         }  /*endfor*/
-
-        /*if station output locations are given in row/col variable need to be made integer*/
-        if ((outgridnumber > 0) && (coordinatesyes == 3)) {
-            for (i=1; i<=outgridnumber; i++) {
-                stnrow[i] = (int)stn_xcoordinate[i];
-                stncol[i] = (int)stn_ycoordinate[i];
-            }	 /*endfor*/
-        }  /*endif*/
 
         /**** RESET VARIABLES IN CASE SELECTED COMBINATIONS ARE NOT POSSIBLE - WRITE TO res.out*/
 
