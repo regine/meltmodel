@@ -33,17 +33,17 @@ file(GLOB_RECURSE MELTMOD_SOURCE_FILES ${CMAKE_SOURCE_DIR} *.[ch])
 
 add_custom_target(ctags
     COMMAND ${CTAGS} ${MELTMOD_SOURCE_FILES}
-    COMMAND cp tags ${CMAKE_SOURCE_DIR}
+    WORKING_DIRECTORY ${MeltModel_SOURCE_DIR}
     )
 
 add_custom_target(etags
     COMMAND ${ETAGS}  ${MELTMOD_SOURCE_FILES} -f TAGS
-    COMMAND cp TAGS ${CMAKE_SOURCE_DIR}
+    WORKING_DIRECTORY ${MeltModel_SOURCE_DIR}
     )
 
 add_custom_target(cscope 
     COMMAND ${CSCOPE} -b ${MELTMOD_SOURCE_FILES} 
-    COMMAND cp cscope.out ${CMAKE_SOURCE_DIR}/
+    WORKING_DIRECTORY ${MeltModel_SOURCE_DIR}
     )
 
 add_custom_target(tags
