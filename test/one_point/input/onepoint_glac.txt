@@ -1,0 +1,7 @@
+ncols                1
+nrows                1
+xllcorner         0.000
+yllcorner         0.000
+cellsize        1.0000
+nodata_value -9999.0000
+0

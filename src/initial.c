@@ -795,8 +795,12 @@ void startinputdata()
         if (formatclimdata == 3)
             /*midnight value of preceeding day is given JD of the day before the one to be calculated, e.g. 203, 24; day to be calculated is 204 hr 1*/
         {
+            if (jdbeg == 1)
+            {
+                jdbeg = 365;
+            } else {
             jdbeg = jdbeg - 1;
-
+            }
         }
         if((formatclimdata == 1) || (formatclimdata == 2))
             /*day is day to be calculated, e.g. 204, 0 or  204, 24, day to be calculated is 204 hr 1*/
