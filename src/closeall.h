@@ -9,8 +9,7 @@
 #ifndef MELT_MOD_CLOSEALL_H_
 #define MELT_MOD_CLOSEALL_H_
 
-void freematrix(float **m,long nrl, long nrh, long ncl, long nch);
-void freematrixdouble(double **m,long nrl, long nrh, long ncl, long nch);
+
 void closeall();
 
 #endif /* MELT_MOD_CLOSEALL_H_ */

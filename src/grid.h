@@ -30,6 +30,8 @@ double **matrixreservdouble(long nrl, long nrh, long ncl, long nch);
 /*******************************************************/
 /* SET MARTIX-ARRAY TO ZERO                            */
 /*******************************************************/
+void freematrix(float **m,long nrl, long nrh, long ncl, long nch);
+void freematrixdouble(double **m,long nrl, long nrh, long ncl, long nch);
 
 void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid);
 

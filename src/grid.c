@@ -102,6 +102,44 @@ double **matrixreservdouble(long nrl, long nrh, long ncl, long nch)
 }
 /***************END SPEICHER RESERVIEREN  FUER MATRIX ********************/
 
+/*******************************************************************/
+/* FUNCTION freematrix.c*/
+/*   gibt reservierten Speicherplatz der Gridfiles frei ******/
+/*******************************************************************/
+
+void freematrix(float **m,long nrl, long nrh, long ncl, long nch)
+
+{
+    /*Freigeben des Speichers auf die Array-Zeilen*/
+    free((char *)(m[nrl]+ncl-1));
+
+    /*Freigeben des Speichers auf das Pointer-Array*/
+    free((char *)(m+nrl-1));
+
+    return;
+}
+
+
+/*****************************************************************/
+/* FUNCTION freematrixdouble.c*/
+/*   gibt reservierten Speicherplatz der Gridfiles frei ******/
+/*****************************************************************/
+
+void freematrixdouble(double **m,long nrl, long nrh, long ncl, long nch)
+
+{
+    /*Freigeben des Speichers auf die Array-Zeilen*/
+    free((char *)(m[nrl]+ncl-1));
+
+    /*Freigeben des Speichers auf das Pointer-Array*/
+    free((char *)(m+nrl-1));
+
+    return;
+}
+
+/*****************************************************************/
+
+
 /*******************************************************/
 /* SET MARTIX-ARRAY TO ZERO                            */
 /*******************************************************/
