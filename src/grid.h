@@ -25,7 +25,7 @@ float **matrixreserv(int nrl, int nrh, int ncl, int nch);
 /*   fuer DOUBLE :  aus Numerical Receipes in C               */
 /**************************************************************/
 
-double **matrixreservdouble(long nrl, long nrh, long ncl, long nch);
+double **matrixreservdouble(int nrl, int nrh, int ncl, int nch);
 
 /*******************************************************/
 /* SET MARTIX-ARRAY TO ZERO                            */

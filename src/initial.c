@@ -130,46 +130,46 @@ void meandayreserve()
       therefore an if-loop (if energymethod==1) is not necessary*/
 
     if(shayes == 1)
-        meanSHADEday  = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSHADEday  = matrixreservdouble(1,nrows,1,ncols);
     /*meanEXK not needed, because it't ratio of DIRECT and SOLHOR*/
     if(solyes == 1)                                /*DIR ON UNOBSTRUCTED HORIZ*/
-        meanSOLHORday = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSOLHORday = matrixreservdouble(1,nrows,1,ncols);
     if(diryes == 1)
-        meanDIRECTday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIRECTday   = matrixreservdouble(1,nrows,1,ncols);
     if(dir2yes == 1)               /*ACTUAL DIRECT RADIATION : Global - diffus*/
-        meanDIRECT2day = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIRECT2day = matrixreservdouble(1,nrows,1,ncols);
     if(difyes == 1)                /*DIFFUSE RADIATION*/
-        meanDIFFUSday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIFFUSday   = matrixreservdouble(1,nrows,1,ncols);
     if(albyes == 1)                /*DIFFUSE RADIATION*/
-        meanALBEDOday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanALBEDOday   = matrixreservdouble(1,nrows,1,ncols);
     if(gloyes == 1)
-        meanGLOBALday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);   /*GLOBAL RADIATION  */
+        meanGLOBALday   = matrixreservdouble(1,nrows,1,ncols);   /*GLOBAL RADIATION  */
     if(swbyes == 1)
-        meanSWBALday    = matrixreservdouble(1,(long)nrows,1,(long)ncols);   /*SHORT-WAVE BALANCE*/
+        meanSWBALday    = matrixreservdouble(1,nrows,1,ncols);   /*SHORT-WAVE BALANCE*/
     if(linyes == 1)                /*LONWAVE INCOMING RADIATION*/
-        meanLONGINday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLONGINday   = matrixreservdouble(1,nrows,1,ncols);
     if(loutyes == 1)                /*LONWAVE INCOMING RADIATION*/
-        meanLONGOUTday  = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLONGOUTday  = matrixreservdouble(1,nrows,1,ncols);
     if(netyes == 1)
-        meanNETRADday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);   /*NET RADIATION     */
+        meanNETRADday   = matrixreservdouble(1,nrows,1,ncols);   /*NET RADIATION     */
     if(senyes == 1)
-        meanSENSIBLEday = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSENSIBLEday = matrixreservdouble(1,nrows,1,ncols);
     if(latyes == 1)
-        meanLATENTday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLATENTday   = matrixreservdouble(1,nrows,1,ncols);
     if(rainyes == 1)
-        meanRAINENday   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanRAINENday   = matrixreservdouble(1,nrows,1,ncols);
     if(balyes == 1)
-        meanENBALday    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanENBALday    = matrixreservdouble(1,nrows,1,ncols);
     if(melyes == 1)                               /*MELT WATER EQUIVALENT*/
-        meanMELTday     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanMELTday     = matrixreservdouble(1,nrows,1,ncols);
     if(ablyes == 1)                               /*ABLATION WATER EQUIVALENT*/
-        meanABLAday     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanABLAday     = matrixreservdouble(1,nrows,1,ncols);
 
     if(surftempyes == 1)                               /*SURFACE TEMPERATURES*/
-        meanSURFTEMPday     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSURFTEMPday     = matrixreservdouble(1,nrows,1,ncols);
 
     if((degreedaymethod == 1) && (posyes == 1))
-        meanTEMPOSday     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanTEMPOSday     = matrixreservdouble(1,nrows,1,ncols);
 
     return;
 }
@@ -244,48 +244,48 @@ void meanallnull()
 
 {
     if(shayes == 1)
-        meanSHADEall    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSHADEall    = matrixreservdouble(1,nrows,1,ncols);
     if(solyes == 1)
-        meanSOLHORall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSOLHORall   = matrixreservdouble(1,nrows,1,ncols);
     if(diryes == 1)
-        meanDIRECTall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIRECTall   = matrixreservdouble(1,nrows,1,ncols);
     if(dir2yes == 1)
-        meanDIRECT2all   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIRECT2all   = matrixreservdouble(1,nrows,1,ncols);
     if(difyes == 1)
-        meanDIFFUSall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanDIFFUSall   = matrixreservdouble(1,nrows,1,ncols);
     if(albyes == 1)
-        meanALBEDOall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanALBEDOall   = matrixreservdouble(1,nrows,1,ncols);
     if(gloyes == 1)
-        meanGLOBALall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanGLOBALall   = matrixreservdouble(1,nrows,1,ncols);
     if(swbyes == 1)
-        meanSWBALall    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSWBALall    = matrixreservdouble(1,nrows,1,ncols);
     if(linyes == 1)
-        meanLONGINall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLONGINall   = matrixreservdouble(1,nrows,1,ncols);
     if(loutyes == 1)
-        meanLONGOUTall  = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLONGOUTall  = matrixreservdouble(1,nrows,1,ncols);
     if(netyes == 1)
-        meanNETRADall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanNETRADall   = matrixreservdouble(1,nrows,1,ncols);
     if(senyes == 1)
-        meanSENSIBLEall = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSENSIBLEall = matrixreservdouble(1,nrows,1,ncols);
     if(latyes == 1)
-        meanLATENTall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanLATENTall   = matrixreservdouble(1,nrows,1,ncols);
     if(rainyes == 1)
-        meanRAINENall   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanRAINENall   = matrixreservdouble(1,nrows,1,ncols);
     if(balyes == 1)
-        meanENBALall    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanENBALall    = matrixreservdouble(1,nrows,1,ncols);
     if(melyes == 1)
-        meanMELTall     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanMELTall     = matrixreservdouble(1,nrows,1,ncols);
     if(ablyes == 1)
-        meanABLAall     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanABLAall     = matrixreservdouble(1,nrows,1,ncols);
 
     if(surftempyes == 1)
-        meanSURFTEMPall     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSURFTEMPall     = matrixreservdouble(1,nrows,1,ncols);
 
     if((degreedaymethod == 1) && (posyes == 1))
-        meanTEMPOSall = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanTEMPOSall = matrixreservdouble(1,nrows,1,ncols);
 
     if(surftempyes == 1)
-        meanSURFTEMPall     = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanSURFTEMPall     = matrixreservdouble(1,nrows,1,ncols);
 
     /*INITIALISIEREN TO ZERO, not to nodata, because values are summed up*/
 
@@ -607,7 +607,7 @@ void startinputdata()
     if(methodinisnow == 2)
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
         /*CHR  { SNOW=matrixreserv(1,nrows,1,ncols); */ { /*RESERVE STORAGE FOR ARRAY*/
-        SNOW=matrixreservdouble(1,(long)nrows,1,(long)ncols);    /*RESERVE STORAGE FOR ARRAY*/
+        SNOW=matrixreservdouble(1,nrows,1,ncols);    /*RESERVE STORAGE FOR ARRAY*/
         wrtSNOW=matrixreserv(1,nrows,1,ncols);
         TMP=matrixreserv(1,nrows,1,ncols);    /*CHR added RESERVE STORAGE FOR ARRAY*/
         /*============================================================*/
@@ -1109,18 +1109,18 @@ void startarrayreserve()
 
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
     /*CHR   MELT   = matrixreserv(1,nrows,1,ncols);*/
-    MELT   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+    MELT   = matrixreservdouble(1,nrows,1,ncols);
     wrtMELT = matrixreserv(1,nrows,1,ncols);
-    snowlayer=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    meltlayer=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+    snowlayer=matrixreservdouble(1,nrows,1,ncols);
+    meltlayer=matrixreservdouble(1,nrows,1,ncols);
 
     /*CHR     ENBAL    = matrixreserv(1,nrows,1,ncols);*/
     if((energymethod == 1)  || (methodsurftempglac == 4)) { /*also degree-day method*/
         wrtENBAL = matrixreserv(1,nrows,1,ncols);
-        ENBAL    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        ENBAL    = matrixreservdouble(1,nrows,1,ncols);
         /*CHR     ABLA       = matrixreserv(1,nrows,1,ncols);*/
         wrtABLA    = matrixreserv(1,nrows,1,ncols);
-        ABLA       = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        ABLA       = matrixreservdouble(1,nrows,1,ncols);
         RUNOFF     = matrixreserv(1,nrows,1,ncols);/*melt + rain*/
     }
     /*============================================================*/

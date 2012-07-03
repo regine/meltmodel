@@ -576,8 +576,8 @@ void initgrid() {
     layeramount=matrixreserv(1,nrows,1,ncols);
     layeramountcold=matrixreserv(1,nrows,1,ncols);
 
-    MELTsum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    ABLAsum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+    MELTsum=matrixreservdouble(1,nrows,1,ncols);
+    ABLAsum=matrixreservdouble(1,nrows,1,ncols);
     RUNOFFsum=matrixreserv(1,nrows,1,ncols);
     SNOWsum=matrixreserv(1,nrows,1,ncols);
     SNOWinit=matrixreserv(1,nrows,1,ncols);
@@ -593,13 +593,13 @@ void initgrid() {
     capwatercontent=matrixreserv(1,nrows,1,ncols);
     slwatercontent=matrixreserv(1,nrows,1,ncols);
 
-    snowlayersum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+    snowlayersum=matrixreservdouble(1,nrows,1,ncols);
     superice=matrixreserv(1,nrows,1,ncols);
     tmpsuperice=matrixreserv(1,nrows,1,ncols);
     watercontent=matrixreserv(1,nrows,1,ncols);
     slushdepth=matrixreserv(1,nrows,1,ncols);
     slushthickness=matrixreserv(1,nrows,1,ncols);
-    surfacewater=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+    surfacewater=matrixreservdouble(1,nrows,1,ncols);
     coldcontentsnow=matrixreserv(1,nrows,1,ncols);
     coldcontentice=matrixreserv(1,nrows,1,ncols);
 
@@ -607,33 +607,33 @@ void initgrid() {
 
     /*new daily / period mean grid output*/
     if(runoffyes == 1) {
-        meanrunoffday = matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meanrunoffall = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanrunoffday = matrixreservdouble(1,nrows,1,ncols);
+        meanrunoffall = matrixreservdouble(1,nrows,1,ncols);
     }
     if(superyes == 1) {
-        meansupericeday = matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meansupericeall = matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meansupericeday = matrixreservdouble(1,nrows,1,ncols);
+        meansupericeall = matrixreservdouble(1,nrows,1,ncols);
     }
     if(wateryes == 1) {
-        meanwatercontentday=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meanwatercontentall=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanwatercontentday=matrixreservdouble(1,nrows,1,ncols);
+        meanwatercontentall=matrixreservdouble(1,nrows,1,ncols);
     }
     if(surfwateryes == 1) {
         wrtsurfacewater=matrixreserv(1,nrows,1,ncols);
-        meansurfacewaterday=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meansurfacewaterall=matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meansurfacewaterday=matrixreservdouble(1,nrows,1,ncols);
+        meansurfacewaterall=matrixreservdouble(1,nrows,1,ncols);
     }
     if(slushyes == 1) {
-        meanslushthicknessday  =matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meanslushthicknessall  =matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meanslushthicknessday  =matrixreservdouble(1,nrows,1,ncols);
+        meanslushthicknessall  =matrixreservdouble(1,nrows,1,ncols);
     }
     if(coldsnowyes == 1) {
-        meancoldcontentsnowday=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meancoldcontenticeday =matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meancoldcontentsnowday=matrixreservdouble(1,nrows,1,ncols);
+        meancoldcontenticeday =matrixreservdouble(1,nrows,1,ncols);
     }
     if(coldtotyes == 1) {
-        meancoldcontentsnowall=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        meancoldcontenticeall =matrixreservdouble(1,(long)nrows,1,(long)ncols);
+        meancoldcontentsnowall=matrixreservdouble(1,nrows,1,ncols);
+        meancoldcontenticeall =matrixreservdouble(1,nrows,1,ncols);
     }
     /*****************/
 

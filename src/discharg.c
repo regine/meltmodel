@@ -66,18 +66,18 @@ void startarraysdis()
       here used for simplicity to avoid new variables (arrays needed for optimization) */
 
     /*** plus one probably not needed */
-    f2      = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    sumf0x  = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    sumf0x2 = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    r2      = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    f02     = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
+    f2      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    sumf0x  = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    sumf0x2 = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    r2      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    f02     = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
 
     /*** plus one probably not needed */
-    f2ln      = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    sumf0xln  = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    sumf0x2ln = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    r2ln      = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    f02ln     = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
+    f2ln      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    sumf0xln  = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    sumf0x2ln = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    r2ln      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    f02ln     = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
 
     /*in case of simulation only one parameter constellation*/
     if((disyesopt==0) && (ddfoptyes==0)) {
@@ -123,11 +123,11 @@ void startarraysopt()
 {
     /*for every parameter constellation the previous day discharge */
     /* of the 3 reservoirs must be known for the next time step */
-    qfirnopt= matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    qsnowopt= matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    qiceopt = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    qrockopt = matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
-    volumeopt= matrixreservdouble(1,(long)anzahlopt1,1,(long)anzahlopt2);
+    qfirnopt= matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    qsnowopt= matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    qiceopt = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    qrockopt = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
+    volumeopt= matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
 
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
