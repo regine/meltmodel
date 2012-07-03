@@ -15,7 +15,6 @@
 #include<string.h>
 #include<math.h>
 
-#include "initial.h"
 #include "grid.h"
 
 #include "variabex.h"      /* all global VARIABLES */
