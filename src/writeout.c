@@ -12,6 +12,7 @@
 #include<math.h>
 
 #include "initial.h"
+#include "grid.h"
 #include "snowinput.h"
 #include "snowmodel.h"
 #include "turbul.h"
@@ -1378,7 +1379,7 @@ void writemassbalgrid()
             computemassbalprofile(WINTERBAL,winterbalprofile);
             winterprofile_yes = 1;     /*if 1 then it will be written to file below*/
 
-            initializeglacier2zero_nodata(WINTERBAL);
+            initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);
 
             /*********** WRITE AREA-AVERAGED WINTER MASS BALANCE TO FILE only if winter and summer is computed ********/
             if(summerbalyes == 1) {      /*x[11] is output from statist(), = mean value*/
@@ -1414,7 +1415,7 @@ void writemassbalgrid()
                     outsummerbalst = NULL;
 
                     if(bs_eachday_yes != 1)    /*do not set to 0 in case every day is written to file*/
-                        initializeglacier2zero_nodata(SUMMERBALST);
+                        initializeglacier2zero_nodata(nrows, ncols, SUMMERBALST);
 
                     printf("\n Summer mass balance (stake method) %5.0f = %8.3f cm\n",year,x[11]);
                     fprintf(outcontrol,"\n Summer mass balance (stake method) %5.0f = %8.3f cm\n",year,x[11]);
@@ -1435,7 +1436,7 @@ void writemassbalgrid()
                 summerprofile_yes = 1;     /*if 1 then it will be written to file below*/
 
                 if(bs_eachday_yes != 1)    /*do not set to 0 in case every day is written to file*/
-                    initializeglacier2zero_nodata(SUMMERBAL);
+                    initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);
 
                 /*********** WRITE AREA-AVERAGED SUMMER MASS BALANCE TO FILE ****************/
                 if(winterbalyes == 1) {
@@ -1469,7 +1470,7 @@ void writemassbalgrid()
                 computemassbalprofile(MASSBALcum,massbalprofile);
                 massbalprofile_yes = 1;
 
-                initializeglacier2zero_nodata(MASSBALcum);
+                initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
 
                 /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
                 printf(" Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);

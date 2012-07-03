@@ -15,6 +15,7 @@
 #include "discharg.h"
 #include "disopt.h"
 #include "globcor.h"
+#include "grid.h"
 #include "initial.h"
 #include "input.h"
 #include "radiat.h"
@@ -265,7 +266,7 @@ int main()
         /*to avoid that snow constantly accumulates in accumulation area and therefore*/
         /*firn is never exposed; done each year at start of winter*/
         if( (methodinisnow == 2) && (snow2zeroeachyearyes == 1) && (jd == (winterjdbeg)) && (zeit == 24) )
-            initializeglacier2zero_nodatadouble(SNOW);
+            initializeglacier2zero_nodatadouble(nrows, ncols, SNOW);
 
         readclim();       /*** READ CLIMATE INPUT NEXT TIME STEP ****/
 

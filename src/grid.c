@@ -8,6 +8,12 @@
 
 #include "grid.h"
 
+#include "stdlib.h"
+#include "stdio.h"
+
+extern float nodata;
+extern float **griddgmglac;
+
 
 /*============================================================*/
 /**************************************************************/
@@ -99,7 +105,8 @@ double **matrixreservdouble(long nrl, long nrh, long ncl, long nch)
 /* SET MARTIX-ARRAY TO ZERO                            */
 /*******************************************************/
 
-void initializeglacier2zero_nodata(float **glaciergrid) {
+void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid) {
+    int i, j;
     for (i=1; i<=nrows; i++)
         for (j=1; j<=ncols; j++) {
             if(griddgmglac[i][j] == nodata)   /*outside area to be calculated*/
@@ -116,7 +123,8 @@ void initializeglacier2zero_nodata(float **glaciergrid) {
 /* SET DOUBLE MARTIX-ARRAY TO ZERO                            */
 /*******************************************************/
 
-void initializeglacier2zero_nodatadouble(double **glaciergrid) {
+void initializeglacier2zero_nodatadouble(int nrows, int ncols, double **glaciergrid) {
+    int i, j;
     for (i=1; i<=nrows; i++)
         for (j=1; j<=ncols; j++) {
             if(griddgmglac[i][j] == nodata)   /*outside area to be calculated*/
@@ -128,26 +136,6 @@ void initializeglacier2zero_nodatadouble(double **glaciergrid) {
     return;
 }
 
-void checkgridinputdata_ok() {
-    for (i=1; i<=nrows; i++)
-        for (j=1; j<=ncols; j++) {
-            if((griddgmglac[i][j] != nodata) && (griddgmdrain[i][j] == nodata)) {
-                printf("\nERROR in drainage basin / glacier input grid data\n");
-                printf(" Not all glacier grid cells are part of the drainage basin\n");
-                printf(" adjust your glacier grid so that the entire glacier is part of the drainage basin grid\n\n");
-                fclose(outcontrol);
-                exit(3);
-            }
-            /*CURRENTLY SNOW MODEL CAN ONLY BE RUN FOR THE GLACIER AND NOT FOR AREA OUTSIDE*/
-            if((methodsurftempglac == 4) && ((griddgmglac[i][j] == nodata) && (griddgmdrain[i][j] != nodata))) {
-                printf("\nERROR in drainage basin / glacier input grid data\n");
-                printf(" snow model is run: in this case glacier and drainage basin grids must be same\n");
-                printf(" copy glacier grid under a new name into drainage grid\n\n");
-                fclose(outcontrol);
-                exit(3);
-            }
-        }  /*endfor*/
-    return;
-}
+
 
 

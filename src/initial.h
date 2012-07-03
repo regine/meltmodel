@@ -11,7 +11,7 @@
 #include<stdio.h>
 
 void readrestofline(FILE **infile);
-
+void checkgridinputdata_ok();
 void toobig_resout();
 
 void closefile(FILE **datei, char *name);

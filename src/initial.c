@@ -44,6 +44,28 @@ void readrestofline(FILE **infile) {
     return;
 }
 
+void checkgridinputdata_ok() {
+    for (i=1; i<=nrows; i++)
+        for (j=1; j<=ncols; j++) {
+            if((griddgmglac[i][j] != nodata) && (griddgmdrain[i][j] == nodata)) {
+                printf("\nERROR in drainage basin / glacier input grid data\n");
+                printf(" Not all glacier grid cells are part of the drainage basin\n");
+                printf(" adjust your glacier grid so that the entire glacier is part of the drainage basin grid\n\n");
+                fclose(outcontrol);
+                exit(3);
+            }
+            /*CURRENTLY SNOW MODEL CAN ONLY BE RUN FOR THE GLACIER AND NOT FOR AREA OUTSIDE*/
+            if((methodsurftempglac == 4) && ((griddgmglac[i][j] == nodata) && (griddgmdrain[i][j] != nodata))) {
+                printf("\nERROR in drainage basin / glacier input grid data\n");
+                printf(" snow model is run: in this case glacier and drainage basin grids must be same\n");
+                printf(" copy glacier grid under a new name into drainage grid\n\n");
+                fclose(outcontrol);
+                exit(3);
+            }
+        }  /*endfor*/
+    return;
+}
+
 
 
 
@@ -1144,15 +1166,15 @@ void startarrayreserve()
 
     if(winterbalyes == 1) {
         WINTERBAL  = matrixreserv(1,(long)nrows,1,(long)ncols);
-        initializeglacier2zero_nodata(WINTERBAL);
+        initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);
     }
     if(summerbalyes == 1) {
         SUMMERBAL  = matrixreserv(1,(long)nrows,1,(long)ncols);
-        initializeglacier2zero_nodata(SUMMERBAL);
+        initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);
     }
     if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) ) {
         MASSBALcum = matrixreserv(1,(long)nrows,1,(long)ncols);
-        initializeglacier2zero_nodata(MASSBALcum);
+        initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
     }
 
 

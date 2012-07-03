@@ -31,11 +31,11 @@ double **matrixreservdouble(long nrl, long nrh, long ncl, long nch);
 /* SET MARTIX-ARRAY TO ZERO                            */
 /*******************************************************/
 
-void initializeglacier2zero_nodata(float **glaciergrid);
+void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid);
 
-void initializeglacier2zero_nodatadouble(double **glaciergrid);
+void initializeglacier2zero_nodatadouble(int nrows, int ncols, double **glaciergrid);
 
-void checkgridinputdata_ok();
+
 
 
 

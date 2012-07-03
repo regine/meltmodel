@@ -583,7 +583,7 @@ void initgrid() {
     SNOWinit=matrixreserv(1,(long)nrows,1,(long)ncols);
     MASSBALcumstake=matrixreserv(1,(long)nrows,1,(long)ncols);
     SUMMERBALST=matrixreserv(1,(long)nrows,1,(long)ncols);
-    initializeglacier2zero_nodata(SUMMERBALST);
+    initializeglacier2zero_nodata(nrows, ncols, SUMMERBALST);
     SNOWswitch=matrixreserv(1,(long)nrows,1,(long)ncols);
 
     sumSNOWprec=matrixreserv(1,(long)nrows,1,(long)ncols);
@@ -1468,21 +1468,21 @@ void resetgridwinter() {
     int     k,ir,jc;
     int     krows,kcols;
 
-    initializeglacier2zero_nodatadouble(SNOW);
+    initializeglacier2zero_nodatadouble(nrows, ncols, SNOW);
     initializeglacier2zero_nodata_tensdouble(layerrefreeze);
     if (runoffyes == 1)
-        initializeglacier2zero_nodatadouble(meanrunoffall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meanrunoffall);
     if (superyes == 1)
-        initializeglacier2zero_nodatadouble(meansupericeall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meansupericeall);
     if (wateryes == 1)
-        initializeglacier2zero_nodatadouble(meanwatercontentall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meanwatercontentall);
     if (surfwateryes == 1)
-        initializeglacier2zero_nodatadouble(meansurfacewaterall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meansurfacewaterall);
     if (slushyes == 1)
-        initializeglacier2zero_nodatadouble(meanslushthicknessall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meanslushthicknessall);
     if (coldtotyes == 1) {
-        initializeglacier2zero_nodatadouble(meancoldcontentsnowall);
-        initializeglacier2zero_nodatadouble(meancoldcontenticeall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meancoldcontentsnowall);
+        initializeglacier2zero_nodatadouble(nrows, ncols, meancoldcontenticeall);
     }
 
     krows = nrows;
