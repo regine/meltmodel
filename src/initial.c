@@ -632,7 +632,7 @@ void startinputdata()
                 SNOW[i][j] = TMP[i][j];
             }
         }
-        freematrix(TMP,nrl,nrh,ncl,nch);
+        freematrix(TMP,1,nrows,1,ncols);
         /*============================================================*/
 
 

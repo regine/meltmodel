@@ -107,9 +107,10 @@ double **matrixreservdouble(int nrl, int nrh, int ncl, int nch)
 /*   gibt reservierten Speicherplatz der Gridfiles frei ******/
 /*******************************************************************/
 
-void freematrix(float **m,long nrl, long nrh, long ncl, long nch)
+void freematrix(float **m,int nrl, int nrh, int ncl, int nch)
 
 {
+    assert(m!=NULL);
     /*Freigeben des Speichers auf die Array-Zeilen*/
     free((char *)(m[nrl]+ncl-1));
 
@@ -125,9 +126,10 @@ void freematrix(float **m,long nrl, long nrh, long ncl, long nch)
 /*   gibt reservierten Speicherplatz der Gridfiles frei ******/
 /*****************************************************************/
 
-void freematrixdouble(double **m,long nrl, long nrh, long ncl, long nch)
+void freematrixdouble(double **m,int nrl, int nrh, int ncl, int nch)
 
 {
+    assert(m!=NULL);
     /*Freigeben des Speichers auf die Array-Zeilen*/
     free((char *)(m[nrl]+ncl-1));
 

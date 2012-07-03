@@ -68,104 +68,104 @@ void closeall()
 
     /*INPUT-ARRAYS*/
 
-    freematrix(griddgm,nrl,nrh,ncl,nch);
-    freematrix(griddgmdrain,nrl,nrh,ncl,nch);     /*DRAINAGE BASIN*/
-    freematrix(griddgmglac,nrl,nrh,ncl,nch);      /*GLACIATED AREA*/
-    freematrix(SLOPE,nrl,nrh,ncl,nch);
-    freematrix(ASP,nrl,nrh,ncl,nch);              /*ASPECT OF GRID*/
+    freematrix(griddgm,1,nrows,1,ncols);
+    freematrix(griddgmdrain,1,nrows,1,ncols);     /*DRAINAGE BASIN*/
+    freematrix(griddgmglac,1,nrows,1,ncols);      /*GLACIATED AREA*/
+    freematrix(SLOPE,1,nrows,1,ncols);
+    freematrix(ASP,1,nrows,1,ncols);              /*ASPECT OF GRID*/
 
-    freematrix(ALBEDO,nrl,nrh,ncl,nch);
-    freematrix(surface,nrl,nrh,ncl,nch);
-    freematrix(tempint,nrl,nrh,ncl,nch);          /*AIR TEMPERATURE*/
+    freematrix(ALBEDO,1,nrows,1,ncols);
+    freematrix(surface,1,nrows,1,ncols);
+    freematrix(tempint,1,nrows,1,ncols);          /*AIR TEMPERATURE*/
 
     if(methodprecipinterpol == 2)  /*precipitation index map*/
-        freematrix(precipindexmap,nrl,nrh,ncl,nch);
+        freematrix(precipindexmap,1,nrows,1,ncols);
     if(methodprecipinterpol == 3)  /*precipitation read from files for each time step*/
-        freematrix(precipreadgrid,nrl,nrh,ncl,nch);
+        freematrix(precipreadgrid,1,nrows,1,ncols);
 
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
     if(methodinisnow == 2)                         /*INITIAL SNOW COVER*/
-        /*changed:      freematrix(SNOW,nrl,nrh,ncl,nch);   */
+        /*changed:      freematrix(SNOW,1,nrows,1,ncols);   */
     {
-        freematrix(wrtSNOW,nrl,nrh,ncl,nch);           /*INITIAL SNOW COVER, Also for temp index*/
-        freematrixdouble(SNOW,nrl,nrh,ncl,nch);
+        freematrix(wrtSNOW,1,nrows,1,ncols);           /*INITIAL SNOW COVER, Also for temp index*/
+        freematrixdouble(SNOW,1,nrows,1,ncols);
     }
     /*============================================================*/
 
     if(methodglobal == 2)    /*direct and diffuse radiation split*/
-        freematrix(SKYVIEW,nrl,nrh,ncl,nch);
+        freematrix(SKYVIEW,1,nrows,1,ncols);
 
     /*OUTPUT-ARRAYS*/
     if(directfromfile != 1) {
-        freematrix(SHAPE,nrl,nrh,ncl,nch);           /*SHADE - SUN*/
-        freematrix(SHADE,nrl,nrh,ncl,nch);           /*SHADE - SUN*/
-        freematrix(Isenk,nrl,nrh,ncl,nch);
-        freematrix(strlsumme,nrl,nrh,ncl,nch);
-        freematrix(EXKORR,nrl,nrh,ncl,nch);          /*CORRECTION FACTOR FOR SHORT-WAVE RAD*/
+        freematrix(SHAPE,1,nrows,1,ncols);           /*SHADE - SUN*/
+        freematrix(SHADE,1,nrows,1,ncols);           /*SHADE - SUN*/
+        freematrix(Isenk,1,nrows,1,ncols);
+        freematrix(strlsumme,1,nrows,1,ncols);
+        freematrix(EXKORR,1,nrows,1,ncols);          /*CORRECTION FACTOR FOR SHORT-WAVE RAD*/
     }
-    freematrix(DIRECT,nrl,nrh,ncl,nch);
+    freematrix(DIRECT,1,nrows,1,ncols);
     if (methodsurftempglac == 4)
-        freematrix(DIRECTold,nrl,nrh,ncl,nch);
+        freematrix(DIRECTold,1,nrows,1,ncols);
 
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-    /*CHR   freematrix(MELT,nrl,nrh,ncl,nch);  */
-    freematrix(wrtMELT,nrl,nrh,ncl,nch);
-    freematrixdouble(MELT,nrl,nrh,ncl,nch);
+    /*CHR   freematrix(MELT,1,nrows,1,ncols);  */
+    freematrix(wrtMELT,1,nrows,1,ncols);
+    freematrixdouble(MELT,1,nrows,1,ncols);
     if (methodsurftempglac == 4) {
-        freematrix(RUNOFF,nrl,nrh,ncl,nch);
+        freematrix(RUNOFF,1,nrows,1,ncols);
     }
     /*============================================================*/
 
-    freematrix(RAIN,nrl,nrh,ncl,nch);            /*RAIN mm/timestep*/
+    freematrix(RAIN,1,nrows,1,ncols);            /*RAIN mm/timestep*/
 
     if(energymethod == 1) {
-        freematrix(GLOBAL,nrl,nrh,ncl,nch);
-        freematrix(SWBAL,nrl,nrh,ncl,nch);           /*SHORTWAVE RADIATION BALANCE*/
-        freematrix(NETRAD,nrl,nrh,ncl,nch);          /*NET RADIATION*/
-        freematrix(SENSIBLE,nrl,nrh,ncl,nch);
-        freematrix(LATENT,nrl,nrh,ncl,nch);
+        freematrix(GLOBAL,1,nrows,1,ncols);
+        freematrix(SWBAL,1,nrows,1,ncols);           /*SHORTWAVE RADIATION BALANCE*/
+        freematrix(NETRAD,1,nrows,1,ncols);          /*NET RADIATION*/
+        freematrix(SENSIBLE,1,nrows,1,ncols);
+        freematrix(LATENT,1,nrows,1,ncols);
 
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-        /*REMOVE     freematrix(ENBAL,nrl,nrh,ncl,nch);    */
-        freematrix(wrtENBAL,nrl,nrh,ncl,nch);           /*ENERGY BALANCE*/
-        freematrixdouble(ENBAL,nrl,nrh,ncl,nch);           /*ENERGY BALANCE*/
+        /*REMOVE     freematrix(ENBAL,1,nrows,1,ncols);    */
+        freematrix(wrtENBAL,1,nrows,1,ncols);           /*ENERGY BALANCE*/
+        freematrixdouble(ENBAL,1,nrows,1,ncols);           /*ENERGY BALANCE*/
         /*============================================================*/
 
-        freematrix(rainenergy,nrl,nrh,ncl,nch);
-        freematrix(ICEHEAT,nrl,nrh,ncl,nch);
+        freematrix(rainenergy,1,nrows,1,ncols);
+        freematrix(ICEHEAT,1,nrows,1,ncols);
 
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-        /*CHR     freematrix(ABLA,nrl,nrh,ncl,nch);     */       /*MELT PLUS SUBLIMATION mm*/
+        /*CHR     freematrix(ABLA,1,nrows,1,ncols);     */       /*MELT PLUS SUBLIMATION mm*/
         {
-            freematrix(wrtABLA,nrl,nrh,ncl,nch);               /*MELT PLUS SUBLIMATION mm*/
-            freematrixdouble(ABLA,nrl,nrh,ncl,nch);            /*MELT PLUS SUBLIMATION mm*/
+            freematrix(wrtABLA,1,nrows,1,ncols);               /*MELT PLUS SUBLIMATION mm*/
+            freematrixdouble(ABLA,1,nrows,1,ncols);            /*MELT PLUS SUBLIMATION mm*/
         }
         /*============================================================*/
 
-        freematrix(surftemp,nrl,nrh,ncl,nch);
+        freematrix(surftemp,1,nrows,1,ncols);
 
 
         if(methodglobal == 2) {  /*direct and diffuse radiation separated*/
-            freematrix(DIRECT2,nrl,nrh,ncl,nch);
-            freematrix(DIFFUS,nrl,nrh,ncl,nch);
+            freematrix(DIRECT2,1,nrows,1,ncols);
+            freematrix(DIFFUS,1,nrows,1,ncols);
         }
         if(methodsnowalbedo >= 2)
             /*snow albedo function of days since snow fall*/
         {
-            freematrix(numbdays,nrl,nrh,ncl,nch);
-            freematrix(ALBALT,nrl,nrh,ncl,nch);
-            freematrix(snowtofirn,nrl,nrh,ncl,nch);
-            freematrix(ndbefsnow,nrl,nrh,ncl,nch);
-            freematrix(ALBBEFSNOW,nrl,nrh,ncl,nch);
+            freematrix(numbdays,1,nrows,1,ncols);
+            freematrix(ALBALT,1,nrows,1,ncols);
+            freematrix(snowtofirn,1,nrows,1,ncols);
+            freematrix(ndbefsnow,1,nrows,1,ncols);
+            freematrix(ALBBEFSNOW,1,nrows,1,ncols);
         }
 
         if(methodlongin == 2)    /*longwave incoming spatially variable*/
-            freematrix(LONGIN,nrl,nrh,ncl,nch);
+            freematrix(LONGIN,1,nrows,1,ncols);
         if(methodsurftempglac >= 2)     /*surface temperature iterated*/
-            freematrix(LONGOUT,nrl,nrh,ncl,nch);  /*longwave outcoming spatially variable*/
+            freematrix(LONGOUT,1,nrows,1,ncols);  /*longwave outcoming spatially variable*/
 
         if(methodnegbal == 2)    /*negative energy balances*/
-            freematrix(NEGBAL,nrl,nrh,ncl,nch);
+            freematrix(NEGBAL,1,nrows,1,ncols);
     }  /*endif energymethod*/
 
     /*================ new for snow model C. Tijm-Reijmer, 2/2005 ======*/
@@ -180,129 +180,129 @@ void closeall()
         freetensordouble(layerrefreeze,nrl,nrh,ncl,nch,ndl,ndh);
 
         freetensor(layerid,nrl,nrh,ncl,nch,ndl,ndh);
-        freematrix(layeramount,nrl,nrh,ncl,nch);
-        freematrix(layeramountcold,nrl,nrh,ncl,nch);
-        freematrix(superice,nrl,nrh,ncl,nch);
-        freematrix(tmpsuperice,nrl,nrh,ncl,nch);
-        freematrix(watercontent,nrl,nrh,ncl,nch);
-        freematrix(slushdepth,nrl,nrh,ncl,nch);
-        freematrix(slushthickness,nrl,nrh,ncl,nch);
-        freematrix(coldcontentsnow,nrl,nrh,ncl,nch);
-        freematrix(coldcontentice,nrl,nrh,ncl,nch);
-        freematrixdouble(surfacewater,nrl,nrh,ncl,nch);
+        freematrix(layeramount,1,nrows,1,ncols);
+        freematrix(layeramountcold,1,nrows,1,ncols);
+        freematrix(superice,1,nrows,1,ncols);
+        freematrix(tmpsuperice,1,nrows,1,ncols);
+        freematrix(watercontent,1,nrows,1,ncols);
+        freematrix(slushdepth,1,nrows,1,ncols);
+        freematrix(slushthickness,1,nrows,1,ncols);
+        freematrix(coldcontentsnow,1,nrows,1,ncols);
+        freematrix(coldcontentice,1,nrows,1,ncols);
+        freematrixdouble(surfacewater,1,nrows,1,ncols);
 
         freearraydouble(conduc,ndl,ndh);
         freearraydouble(conducdtdz,ndl,ndh);
 
-        freematrixdouble(snowlayersum,nrl,nrh,ncl,nch);
-        freematrixdouble(MELTsum,nrl,nrh,ncl,nch);
-        freematrixdouble(ABLAsum,nrl,nrh,ncl,nch);
-        freematrix(SNOWsum,nrl,nrh,ncl,nch);
-        freematrix(SNOWinit,nrl,nrh,ncl,nch);
-        freematrix(MASSBALcumstake,nrl,nrh,ncl,nch);
-        freematrix(SUMMERBALST,nrl,nrh,ncl,nch);
-        freematrix(sumSNOWprec,nrl,nrh,ncl,nch);
-        freematrix(sumRAINprec,nrl,nrh,ncl,nch);
-        freematrix(SNOWswitch,nrl,nrh,ncl,nch);
+        freematrixdouble(snowlayersum,1,nrows,1,ncols);
+        freematrixdouble(MELTsum,1,nrows,1,ncols);
+        freematrixdouble(ABLAsum,1,nrows,1,ncols);
+        freematrix(SNOWsum,1,nrows,1,ncols);
+        freematrix(SNOWinit,1,nrows,1,ncols);
+        freematrix(MASSBALcumstake,1,nrows,1,ncols);
+        freematrix(SUMMERBALST,1,nrows,1,ncols);
+        freematrix(sumSNOWprec,1,nrows,1,ncols);
+        freematrix(sumRAINprec,1,nrows,1,ncols);
+        freematrix(SNOWswitch,1,nrows,1,ncols);
 
-        freematrix(sumMASS,nrl,nrh,ncl,nch);
-        freematrix(capwatercontent,nrl,nrh,ncl,nch);
-        freematrix(slwatercontent,nrl,nrh,ncl,nch);
+        freematrix(sumMASS,1,nrows,1,ncols);
+        freematrix(capwatercontent,1,nrows,1,ncols);
+        freematrix(slwatercontent,1,nrows,1,ncols);
 
-        freematrix(accyear,nrl,nrh,ncl,nch);
+        freematrix(accyear,1,nrows,1,ncols);
 
         if(runoffyes == 1) {
-            freematrixdouble(meanrunoffday,nrl,nrh,ncl,nch);
-            freematrixdouble(meanrunoffall,nrl,nrh,ncl,nch);
+            freematrixdouble(meanrunoffday,1,nrows,1,ncols);
+            freematrixdouble(meanrunoffall,1,nrows,1,ncols);
         }
         if(superyes == 1) {
-            freematrixdouble(meansupericeday,nrl,nrh,ncl,nch);
-            freematrixdouble(meansupericeall,nrl,nrh,ncl,nch);
+            freematrixdouble(meansupericeday,1,nrows,1,ncols);
+            freematrixdouble(meansupericeall,1,nrows,1,ncols);
         }
         if(wateryes == 1) {
-            freematrixdouble(meanwatercontentday,nrl,nrh,ncl,nch);
-            freematrixdouble(meanwatercontentall,nrl,nrh,ncl,nch);
+            freematrixdouble(meanwatercontentday,1,nrows,1,ncols);
+            freematrixdouble(meanwatercontentall,1,nrows,1,ncols);
         }
         if(surfwateryes == 1) {
-            freematrix(wrtsurfacewater,nrl,nrh,ncl,nch);
-            freematrixdouble(meansurfacewaterday,nrl,nrh,ncl,nch);
-            freematrixdouble(meansurfacewaterall,nrl,nrh,ncl,nch);
+            freematrix(wrtsurfacewater,1,nrows,1,ncols);
+            freematrixdouble(meansurfacewaterday,1,nrows,1,ncols);
+            freematrixdouble(meansurfacewaterall,1,nrows,1,ncols);
         }
         if(slushyes == 1) {
-            freematrixdouble(meanslushthicknessday,nrl,nrh,ncl,nch);
-            freematrixdouble(meanslushthicknessall,nrl,nrh,ncl,nch);
+            freematrixdouble(meanslushthicknessday,1,nrows,1,ncols);
+            freematrixdouble(meanslushthicknessall,1,nrows,1,ncols);
         }
         if(coldsnowyes == 1) {
-            freematrixdouble(meancoldcontentsnowday,nrl,nrh,ncl,nch);
-            freematrixdouble(meancoldcontenticeday,nrl,nrh,ncl,nch);
+            freematrixdouble(meancoldcontentsnowday,1,nrows,1,ncols);
+            freematrixdouble(meancoldcontenticeday,1,nrows,1,ncols);
         }
         if(coldtotyes == 1) {
-            freematrixdouble(meancoldcontentsnowall,nrl,nrh,ncl,nch);
-            freematrixdouble(meancoldcontenticeall,nrl,nrh,ncl,nch);
+            freematrixdouble(meancoldcontentsnowall,1,nrows,1,ncols);
+            freematrixdouble(meancoldcontenticeall,1,nrows,1,ncols);
         }
 
     }  /*endif snow model run*/
-    freematrixdouble(snowlayer,nrl,nrh,ncl,nch);
-    freematrixdouble(meltlayer,nrl,nrh,ncl,nch);
+    freematrixdouble(snowlayer,1,nrows,1,ncols);
+    freematrixdouble(meltlayer,1,nrows,1,ncols);
     /*===================================================================*/
 
 
     if(degreedaymethod == 1) {
-        if(posyes == 1)    freematrix(TEMPOS,nrl,nrh,ncl,nch);
-        if(ddfyes == 1)    freematrix(DDFCALC,nrl,nrh,ncl,nch);
+        if(posyes == 1)    freematrix(TEMPOS,1,nrows,1,ncols);
+        if(ddfyes == 1)    freematrix(DDFCALC,1,nrows,1,ncols);
     }
 
 
     if ((do_out == 2) || (do_out == 4)) {         /*Arrays for mean Output*/
-        if(shayes == 1)   freematrixdouble(meanSHADEday,nrl,nrh,ncl,nch);
-        if(solyes == 1)   freematrixdouble(meanSOLHORday,nrl,nrh,ncl,nch);
-        if(diryes == 1)   freematrixdouble(meanDIRECTday,nrl,nrh,ncl,nch);
-        if(dir2yes == 1)  freematrixdouble(meanDIRECT2day,nrl,nrh,ncl,nch);
-        if(difyes == 1)   freematrixdouble(meanDIFFUSday,nrl,nrh,ncl,nch);
-        if(albyes == 1)   freematrixdouble(meanALBEDOday,nrl,nrh,ncl,nch);
-        if(gloyes == 1)   freematrixdouble(meanGLOBALday,nrl,nrh,ncl,nch);
-        if(swbyes == 1)   freematrixdouble(meanSWBALday,nrl,nrh,ncl,nch);
-        if(linyes == 1)   freematrixdouble(meanLONGINday,nrl,nrh,ncl,nch);
-        if(loutyes == 1)  freematrixdouble(meanLONGOUTday,nrl,nrh,ncl,nch);
-        if(netyes == 1)   freematrixdouble(meanNETRADday,nrl,nrh,ncl,nch);
-        if(senyes == 1)   freematrixdouble(meanSENSIBLEday,nrl,nrh,ncl,nch);
-        if(latyes == 1)   freematrixdouble(meanLATENTday,nrl,nrh,ncl,nch);
-        if(rainyes == 1)   freematrixdouble(meanRAINENday,nrl,nrh,ncl,nch);
-        if(balyes == 1)   freematrixdouble(meanENBALday,nrl,nrh,ncl,nch);
-        if(melyes == 1)   freematrixdouble(meanMELTday,nrl,nrh,ncl,nch);
-        if(ablyes == 1)   freematrixdouble(meanABLAday,nrl,nrh,ncl,nch);
+        if(shayes == 1)   freematrixdouble(meanSHADEday,1,nrows,1,ncols);
+        if(solyes == 1)   freematrixdouble(meanSOLHORday,1,nrows,1,ncols);
+        if(diryes == 1)   freematrixdouble(meanDIRECTday,1,nrows,1,ncols);
+        if(dir2yes == 1)  freematrixdouble(meanDIRECT2day,1,nrows,1,ncols);
+        if(difyes == 1)   freematrixdouble(meanDIFFUSday,1,nrows,1,ncols);
+        if(albyes == 1)   freematrixdouble(meanALBEDOday,1,nrows,1,ncols);
+        if(gloyes == 1)   freematrixdouble(meanGLOBALday,1,nrows,1,ncols);
+        if(swbyes == 1)   freematrixdouble(meanSWBALday,1,nrows,1,ncols);
+        if(linyes == 1)   freematrixdouble(meanLONGINday,1,nrows,1,ncols);
+        if(loutyes == 1)  freematrixdouble(meanLONGOUTday,1,nrows,1,ncols);
+        if(netyes == 1)   freematrixdouble(meanNETRADday,1,nrows,1,ncols);
+        if(senyes == 1)   freematrixdouble(meanSENSIBLEday,1,nrows,1,ncols);
+        if(latyes == 1)   freematrixdouble(meanLATENTday,1,nrows,1,ncols);
+        if(rainyes == 1)   freematrixdouble(meanRAINENday,1,nrows,1,ncols);
+        if(balyes == 1)   freematrixdouble(meanENBALday,1,nrows,1,ncols);
+        if(melyes == 1)   freematrixdouble(meanMELTday,1,nrows,1,ncols);
+        if(ablyes == 1)   freematrixdouble(meanABLAday,1,nrows,1,ncols);
 
         if((degreedaymethod == 1) && (posyes == 1))
-            freematrixdouble(meanTEMPOSday,nrl,nrh,ncl,nch);
+            freematrixdouble(meanTEMPOSday,1,nrows,1,ncols);
 
     }  /*if*/
 
     if ((do_out == 3) || (do_out == 4)) {
-        if(shayes == 1)   freematrixdouble(meanSHADEall,nrl,nrh,ncl,nch);
-        if(solyes == 1)   freematrixdouble(meanSOLHORall,nrl,nrh,ncl,nch);
-        if(diryes == 1)   freematrixdouble(meanDIRECTall,nrl,nrh,ncl,nch);
-        if(dir2yes == 1)  freematrixdouble(meanDIRECT2all,nrl,nrh,ncl,nch);
-        if(difyes == 1)   freematrixdouble(meanDIFFUSall,nrl,nrh,ncl,nch);
-        if(albyes == 1)   freematrixdouble(meanALBEDOall,nrl,nrh,ncl,nch);
-        if(gloyes == 1)   freematrixdouble(meanGLOBALall,nrl,nrh,ncl,nch);
-        if(swbyes == 1)   freematrixdouble(meanSWBALall,nrl,nrh,ncl,nch);
-        if(linyes == 1)   freematrixdouble(meanLONGINall,nrl,nrh,ncl,nch);
-        if(loutyes == 1)  freematrixdouble(meanLONGOUTall,nrl,nrh,ncl,nch);
-        if(netyes == 1)   freematrixdouble(meanNETRADall,nrl,nrh,ncl,nch);
-        if(senyes == 1)   freematrixdouble(meanSENSIBLEall,nrl,nrh,ncl,nch);
-        if(latyes == 1)   freematrixdouble(meanLATENTall,nrl,nrh,ncl,nch);
-        if(rainyes == 1)  freematrixdouble(meanRAINENall,nrl,nrh,ncl,nch);
-        if(balyes == 1)   freematrixdouble(meanENBALall,nrl,nrh,ncl,nch);
-        if(melyes == 1)   freematrixdouble(meanMELTall,nrl,nrh,ncl,nch);
-        if(ablyes == 1)   freematrixdouble(meanABLAall,nrl,nrh,ncl,nch);
+        if(shayes == 1)   freematrixdouble(meanSHADEall,1,nrows,1,ncols);
+        if(solyes == 1)   freematrixdouble(meanSOLHORall,1,nrows,1,ncols);
+        if(diryes == 1)   freematrixdouble(meanDIRECTall,1,nrows,1,ncols);
+        if(dir2yes == 1)  freematrixdouble(meanDIRECT2all,1,nrows,1,ncols);
+        if(difyes == 1)   freematrixdouble(meanDIFFUSall,1,nrows,1,ncols);
+        if(albyes == 1)   freematrixdouble(meanALBEDOall,1,nrows,1,ncols);
+        if(gloyes == 1)   freematrixdouble(meanGLOBALall,1,nrows,1,ncols);
+        if(swbyes == 1)   freematrixdouble(meanSWBALall,1,nrows,1,ncols);
+        if(linyes == 1)   freematrixdouble(meanLONGINall,1,nrows,1,ncols);
+        if(loutyes == 1)  freematrixdouble(meanLONGOUTall,1,nrows,1,ncols);
+        if(netyes == 1)   freematrixdouble(meanNETRADall,1,nrows,1,ncols);
+        if(senyes == 1)   freematrixdouble(meanSENSIBLEall,1,nrows,1,ncols);
+        if(latyes == 1)   freematrixdouble(meanLATENTall,1,nrows,1,ncols);
+        if(rainyes == 1)  freematrixdouble(meanRAINENall,1,nrows,1,ncols);
+        if(balyes == 1)   freematrixdouble(meanENBALall,1,nrows,1,ncols);
+        if(melyes == 1)   freematrixdouble(meanMELTall,1,nrows,1,ncols);
+        if(ablyes == 1)   freematrixdouble(meanABLAall,1,nrows,1,ncols);
 
         if((degreedaymethod == 1) && (posyes == 1))
-            freematrixdouble(meanTEMPOSall,nrl,nrh,ncl,nch);
+            freematrixdouble(meanTEMPOSall,1,nrows,1,ncols);
 
-        if(winterbalyes == 1)   freematrix(WINTERBAL,nrl,nrh,ncl,nch);
-        if(summerbalyes == 1)   freematrix(SUMMERBAL,nrl,nrh,ncl,nch);
+        if(winterbalyes == 1)   freematrix(WINTERBAL,1,nrows,1,ncols);
+        if(summerbalyes == 1)   freematrix(SUMMERBAL,1,nrows,1,ncols);
         if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) )
-            freematrix(MASSBALcum,nrl,nrh,ncl,nch);
+            freematrix(MASSBALcum,1,nrows,1,ncols);
 
     }  /*if*/
 
@@ -322,7 +322,7 @@ void closeall()
     free(x);   /*first 12 rows in grid files*/
 
     if((methodinisnow == 2) || (disyes >= 1) || (methodsurftempglac == 4))
-        freematrix(FIRN,nrl,nrh,ncl,nch);
+        freematrix(FIRN,1,nrows,1,ncols);
 
     if (disyes >= 1) {   /*discharge calculations*/
         if (disyes == 1) {  /*discharge data available*/
