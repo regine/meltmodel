@@ -455,7 +455,7 @@ void startinputdata()
     printf(" \n ncols,nrows,xll,yll,cellsize,nodata %d %d %5.1f %5.1f %5.1f %5.1f\n",
            ncols,nrows,xll,yll,cs,nodata);
 
-    griddgm=matrixreserv(1,(long)nrows,1,(long)ncols);      /*SPEICHERRESERVIERUNG*/
+    griddgm=matrixreserv(1,nrows,1,ncols);      /*SPEICHERRESERVIERUNG*/
 
     /*** READ GRID FILE : ELEVATIONS ***/
     if ((fread(&(griddgm[1][1]),sizeof(float),ncols*nrows,indgm)) != ncols*nrows)  {
@@ -476,7 +476,7 @@ void startinputdata()
     }
 
     /******** READ DTM DRAINAGE BASIN ***********************************/
-    griddgmdrain=matrixreserv(1,(long)nrows,1,(long)ncols);     /*SPEICHERRESERVIERUNG*/
+    griddgmdrain=matrixreserv(1,nrows,1,ncols);     /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,indgmdrain)) !=12 )  {   /*READ FIRST 12 ROWS*/
         printf("\n ERROR in file %s \n (File initial.c)\n",namedgmdrain);
@@ -494,7 +494,7 @@ void startinputdata()
 
 
     /******** READ DTM GLACIER *******************************************/
-    griddgmglac=matrixreserv(1,(long)nrows,1,(long)ncols);      /*SPEICHERRESERVIERUNG*/
+    griddgmglac=matrixreserv(1,nrows,1,ncols);      /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,indgmglac)) !=12 )  {            /*FIRST 12 ROWS*/
         printf("\n ERROR in file %s \n (File initial.c)\n",namedgmglac);
@@ -510,7 +510,7 @@ void startinputdata()
 
 
     /******** READ DTM SLOPE *********************************************/
-    SLOPE=matrixreserv(1,(long)nrows,1,(long)ncols);      /*SPEICHERRESERVIERUNG*/
+    SLOPE=matrixreserv(1,nrows,1,ncols);      /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,indgmslope)) !=12 )  {
         printf("\n ERROR in file %s \n (File initial.c)\n",namedgmslope);
@@ -536,7 +536,7 @@ void startinputdata()
        SLOPE[50][58] = 0.0;       */
 
     /******** READ DTM ASPECT *********************************************/
-    ASP=matrixreserv(1,(long)nrows,1,(long)ncols);      /*SPEICHERRESERVIERUNG*/
+    ASP=matrixreserv(1,nrows,1,ncols);      /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,indgmaspect)) !=12 )  {
         printf("\n ERROR in file %s \n (File initial.c)\n",namedgmaspect);
@@ -553,7 +553,7 @@ void startinputdata()
 
     /******** READ DTM SKYVIEW FACTOR **************************************/
     if((methodglobal == 2) || (methodlongin == 2)) {
-        SKYVIEW=matrixreserv(1,(long)nrows,1,(long)ncols);      /*SPEICHERRESERVIERUNG*/
+        SKYVIEW=matrixreserv(1,nrows,1,ncols);      /*SPEICHERRESERVIERUNG*/
 
         if ( (fread(&(x[1]),sizeof(float),12,indgmskyview)) !=12 )  {
             printf("\n ERROR in file %s \n (File initial.c)\n",namedgmskyview);
@@ -592,7 +592,7 @@ void startinputdata()
             exit(8);
         }  /*END IF*/
 
-        FIRN = matrixreserv(1,(long)nrows,1,(long)ncols); /*STORAGE RESERVATION*/
+        FIRN = matrixreserv(1,nrows,1,ncols); /*STORAGE RESERVATION*/
 
         if ((fread(&(FIRN[1][1]),sizeof(float),ncols*nrows,firnfile)) != ncols*nrows) {
             printf("\n ERROR in reading the firnfile: %s\n\n",dummy);
@@ -606,10 +606,10 @@ void startinputdata()
     /******** READ DTM INITIAL SNOW COVER **************************************/
     if(methodinisnow == 2)
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-        /*CHR  { SNOW=matrixreserv(1,(long)nrows,1,(long)ncols); */ { /*RESERVE STORAGE FOR ARRAY*/
+        /*CHR  { SNOW=matrixreserv(1,nrows,1,ncols); */ { /*RESERVE STORAGE FOR ARRAY*/
         SNOW=matrixreservdouble(1,(long)nrows,1,(long)ncols);    /*RESERVE STORAGE FOR ARRAY*/
-        wrtSNOW=matrixreserv(1,(long)nrows,1,(long)ncols);
-        TMP=matrixreserv(1,(long)nrows,1,(long)ncols);    /*CHR added RESERVE STORAGE FOR ARRAY*/
+        wrtSNOW=matrixreserv(1,nrows,1,ncols);
+        TMP=matrixreserv(1,nrows,1,ncols);    /*CHR added RESERVE STORAGE FOR ARRAY*/
         /*============================================================*/
 
         if ( (fread(&(x[1]),sizeof(float),12,ininitialsnow)) !=12 )  {
@@ -1079,108 +1079,108 @@ void opensnowfree() {
 void startarrayreserve()
 
 {
-    tempint = matrixreserv(1,(long)nrows,1,(long)ncols);   /*AIR TEMPERATURE*/
-    surface = matrixreserv(1,(long)nrows,1,(long)ncols);   /*classification: snow,ice...*/
-    ALBEDO  = matrixreserv(1,(long)nrows,1,(long)ncols);
+    tempint = matrixreserv(1,nrows,1,ncols);   /*AIR TEMPERATURE*/
+    surface = matrixreserv(1,nrows,1,ncols);   /*classification: snow,ice...*/
+    ALBEDO  = matrixreserv(1,nrows,1,ncols);
     /*needed also for temperature index methods, if discharge calculated
       to determine which recession constant to be used (k-values)*/
-    RAIN = matrixreserv(1,(long)nrows,1,(long)ncols);
+    RAIN = matrixreserv(1,nrows,1,ncols);
 
     if(methodprecipinterpol == 2)   /*read precipitation grids from file*/
-        precipindexmap = matrixreserv(1,(long)nrows,1,(long)ncols);   /*AIR TEMPERATURE*/
+        precipindexmap = matrixreserv(1,nrows,1,ncols);   /*AIR TEMPERATURE*/
     if(methodprecipinterpol == 3)   /*read precipitation grids from file*/
-        precipreadgrid = matrixreserv(1,(long)nrows,1,(long)ncols);   /*AIR TEMPERATURE*/
+        precipreadgrid = matrixreserv(1,nrows,1,ncols);   /*AIR TEMPERATURE*/
 
     /*SHAPE = Beschattung von einem bestimmten split Teilinterval, Original von Joerg
       SHADE =  mittlere Beschattung des ganzen Zeitintervals (time step)
       wird gespeichert und kann als Output ausgegeben werden */
 
     if(directfromfile != 1) { /*not needed if direct read from file*/
-        SHAPE  = matrixreserv(1,(long)nrows,1,(long)ncols);      /*SCHATTEN-GRID     */
-        SHADE  = matrixreserv(1,(long)nrows,1,(long)ncols);      /*SCHATTEN-GRID     */
-        Isenk  = matrixreserv(1,(long)nrows,1,(long)ncols);
-        EXKORR = matrixreserv(1,(long)nrows,1,(long)ncols);      /*CORRECTION FACTOR */
-        strlsumme = matrixreserv(1,(long)nrows,1,(long)ncols);
+        SHAPE  = matrixreserv(1,nrows,1,ncols);      /*SCHATTEN-GRID     */
+        SHADE  = matrixreserv(1,nrows,1,ncols);      /*SCHATTEN-GRID     */
+        Isenk  = matrixreserv(1,nrows,1,ncols);
+        EXKORR = matrixreserv(1,nrows,1,ncols);      /*CORRECTION FACTOR */
+        strlsumme = matrixreserv(1,nrows,1,ncols);
     }
 
-    DIRECT = matrixreserv(1,(long)nrows,1,(long)ncols);        /*DIRECT SOLAR RAD  */
+    DIRECT = matrixreserv(1,nrows,1,ncols);        /*DIRECT SOLAR RAD  */
     if (methodsurftempglac == 4)
-        DIRECTold = matrixreserv(1,(long)nrows,1,(long)ncols);   /*CHR for time interpolation*/
+        DIRECTold = matrixreserv(1,nrows,1,ncols);   /*CHR for time interpolation*/
 
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-    /*CHR   MELT   = matrixreserv(1,(long)nrows,1,(long)ncols);*/
+    /*CHR   MELT   = matrixreserv(1,nrows,1,ncols);*/
     MELT   = matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    wrtMELT = matrixreserv(1,(long)nrows,1,(long)ncols);
+    wrtMELT = matrixreserv(1,nrows,1,ncols);
     snowlayer=matrixreservdouble(1,(long)nrows,1,(long)ncols);
     meltlayer=matrixreservdouble(1,(long)nrows,1,(long)ncols);
 
-    /*CHR     ENBAL    = matrixreserv(1,(long)nrows,1,(long)ncols);*/
+    /*CHR     ENBAL    = matrixreserv(1,nrows,1,ncols);*/
     if((energymethod == 1)  || (methodsurftempglac == 4)) { /*also degree-day method*/
-        wrtENBAL = matrixreserv(1,(long)nrows,1,(long)ncols);
+        wrtENBAL = matrixreserv(1,nrows,1,ncols);
         ENBAL    = matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        /*CHR     ABLA       = matrixreserv(1,(long)nrows,1,(long)ncols);*/
-        wrtABLA    = matrixreserv(1,(long)nrows,1,(long)ncols);
+        /*CHR     ABLA       = matrixreserv(1,nrows,1,ncols);*/
+        wrtABLA    = matrixreserv(1,nrows,1,ncols);
         ABLA       = matrixreservdouble(1,(long)nrows,1,(long)ncols);
-        RUNOFF     = matrixreserv(1,(long)nrows,1,(long)ncols);/*melt + rain*/
+        RUNOFF     = matrixreserv(1,nrows,1,ncols);/*melt + rain*/
     }
     /*============================================================*/
 
 
     if(energymethod == 1) {  /*not needed if degree day method used*/
-        GLOBAL   = matrixreserv(1,(long)nrows,1,(long)ncols);    /*GLOBAL RADIATION  */
-        SWBAL    = matrixreserv(1,(long)nrows,1,(long)ncols);    /*SHORT-WAVE BALANCE*/
-        NETRAD   = matrixreserv(1,(long)nrows,1,(long)ncols);    /*NET RADIATION     */
-        SENSIBLE = matrixreserv(1,(long)nrows,1,(long)ncols);
-        LATENT   = matrixreserv(1,(long)nrows,1,(long)ncols);
+        GLOBAL   = matrixreserv(1,nrows,1,ncols);    /*GLOBAL RADIATION  */
+        SWBAL    = matrixreserv(1,nrows,1,ncols);    /*SHORT-WAVE BALANCE*/
+        NETRAD   = matrixreserv(1,nrows,1,ncols);    /*NET RADIATION     */
+        SENSIBLE = matrixreserv(1,nrows,1,ncols);
+        LATENT   = matrixreserv(1,nrows,1,ncols);
 
-        rainenergy = matrixreserv(1,(long)nrows,1,(long)ncols);
-        surftemp = matrixreserv(1,(long)nrows,1,(long)ncols);
+        rainenergy = matrixreserv(1,nrows,1,ncols);
+        surftemp = matrixreserv(1,nrows,1,ncols);
         /*needed if longwave out variable or surface temperature iterated*/
         /*in any case needed in function sensible and latent*/
-        ICEHEAT  = matrixreserv(1,(long)nrows,1,(long)ncols);
+        ICEHEAT  = matrixreserv(1,nrows,1,ncols);
 
         if(methodglobal==2) {    /*direct and diffuse radiation separated*/
-            DIRECT2 = matrixreserv(1,(long)nrows,1,(long)ncols);   /*DIRECT SOLAR RAD */
-            DIFFUS  = matrixreserv(1,(long)nrows,1,(long)ncols);   /*DIFFUSE SOLAR RAD*/
+            DIRECT2 = matrixreserv(1,nrows,1,ncols);   /*DIRECT SOLAR RAD */
+            DIFFUS  = matrixreserv(1,nrows,1,ncols);   /*DIFFUSE SOLAR RAD*/
         }
 
         if((methodsnowalbedo == 2) || (methodsnowalbedo >= 3)) {
-            ALBALT     = matrixreserv(1,(long)nrows,1,(long)ncols);
-            snowtofirn = matrixreserv(1,(long)nrows,1,(long)ncols);
-            numbdays   = matrixreserv(1,(long)nrows,1,(long)ncols);
-            ndbefsnow  = matrixreserv(1,(long)nrows,1,(long)ncols);
-            ALBBEFSNOW = matrixreserv(1,(long)nrows,1,(long)ncols);
+            ALBALT     = matrixreserv(1,nrows,1,ncols);
+            snowtofirn = matrixreserv(1,nrows,1,ncols);
+            numbdays   = matrixreserv(1,nrows,1,ncols);
+            ndbefsnow  = matrixreserv(1,nrows,1,ncols);
+            ALBBEFSNOW = matrixreserv(1,nrows,1,ncols);
         }
 
         if(methodlongin==2)      /*longwave incoming radiation variable in space*/
-            LONGIN   = matrixreserv(1,(long)nrows,1,(long)ncols);
+            LONGIN   = matrixreserv(1,nrows,1,ncols);
 
         /*Surface temperature is iterated, surface not assumed melting, affects
          longwave outgoing radiation, is variable in space*/
         if(methodsurftempglac >= 2)     /*longout spatially variable*/
-            LONGOUT  = matrixreserv(1,(long)nrows,1,(long)ncols);
+            LONGOUT  = matrixreserv(1,nrows,1,ncols);
         if(methodnegbal==2)      /*negative energy balances stored*/
-            NEGBAL   = matrixreserv(1,(long)nrows,1,(long)ncols);
+            NEGBAL   = matrixreserv(1,nrows,1,ncols);
 
     } /*endif energy*/
 
     if(winterbalyes == 1) {
-        WINTERBAL  = matrixreserv(1,(long)nrows,1,(long)ncols);
+        WINTERBAL  = matrixreserv(1,nrows,1,ncols);
         initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);
     }
     if(summerbalyes == 1) {
-        SUMMERBAL  = matrixreserv(1,(long)nrows,1,(long)ncols);
+        SUMMERBAL  = matrixreserv(1,nrows,1,ncols);
         initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);
     }
     if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) ) {
-        MASSBALcum = matrixreserv(1,(long)nrows,1,(long)ncols);
+        MASSBALcum = matrixreserv(1,nrows,1,ncols);
         initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
     }
 
 
     if(degreedaymethod == 1) {
-        TEMPOS  = matrixreserv(1,(long)nrows,1,(long)ncols);
-        DDFCALC = matrixreserv(1,(long)nrows,1,(long)ncols);
+        TEMPOS  = matrixreserv(1,nrows,1,ncols);
+        DDFCALC = matrixreserv(1,nrows,1,ncols);
     }
 
 

@@ -16,7 +16,7 @@
 /*   aus Numerical Receipes in C, page 944                    */
 /**************************************************************/
 
-float **matrixreserv(long nrl, long nrh, long ncl, long nch);
+float **matrixreserv(int nrl, int nrh, int ncl, int nch);
 
 /*============================================================*/
 /**************************************************************/

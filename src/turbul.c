@@ -603,7 +603,7 @@ void readprecipindexmap() {
         fclose(inprecipindexgrid);
     }
 
-    precipindexmap=matrixreserv(1,(long)nrows,1,(long)ncols);     /*SPEICHERRESERVIERUNG*/
+    precipindexmap=matrixreserv(1,nrows,1,ncols);     /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,inprecipindexgrid)) !=12 )  {   /*READ FIRST 12 ROWS*/
         printf("\n ERROR in file %s \n (File initial.c)\n",dummy);

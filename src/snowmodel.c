@@ -573,37 +573,37 @@ void initgrid() {
     layerrefreeze=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
 
     layerid=tensorreserv(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layeramount=matrixreserv(1,(long)nrows,1,(long)ncols);
-    layeramountcold=matrixreserv(1,(long)nrows,1,(long)ncols);
+    layeramount=matrixreserv(1,nrows,1,ncols);
+    layeramountcold=matrixreserv(1,nrows,1,ncols);
 
     MELTsum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
     ABLAsum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    RUNOFFsum=matrixreserv(1,(long)nrows,1,(long)ncols);
-    SNOWsum=matrixreserv(1,(long)nrows,1,(long)ncols);
-    SNOWinit=matrixreserv(1,(long)nrows,1,(long)ncols);
-    MASSBALcumstake=matrixreserv(1,(long)nrows,1,(long)ncols);
-    SUMMERBALST=matrixreserv(1,(long)nrows,1,(long)ncols);
+    RUNOFFsum=matrixreserv(1,nrows,1,ncols);
+    SNOWsum=matrixreserv(1,nrows,1,ncols);
+    SNOWinit=matrixreserv(1,nrows,1,ncols);
+    MASSBALcumstake=matrixreserv(1,nrows,1,ncols);
+    SUMMERBALST=matrixreserv(1,nrows,1,ncols);
     initializeglacier2zero_nodata(nrows, ncols, SUMMERBALST);
-    SNOWswitch=matrixreserv(1,(long)nrows,1,(long)ncols);
+    SNOWswitch=matrixreserv(1,nrows,1,ncols);
 
-    sumSNOWprec=matrixreserv(1,(long)nrows,1,(long)ncols);
-    sumRAINprec=matrixreserv(1,(long)nrows,1,(long)ncols);
+    sumSNOWprec=matrixreserv(1,nrows,1,ncols);
+    sumRAINprec=matrixreserv(1,nrows,1,ncols);
 
-    sumMASS=matrixreserv(1,(long)nrows,1,(long)ncols);
-    capwatercontent=matrixreserv(1,(long)nrows,1,(long)ncols);
-    slwatercontent=matrixreserv(1,(long)nrows,1,(long)ncols);
+    sumMASS=matrixreserv(1,nrows,1,ncols);
+    capwatercontent=matrixreserv(1,nrows,1,ncols);
+    slwatercontent=matrixreserv(1,nrows,1,ncols);
 
     snowlayersum=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    superice=matrixreserv(1,(long)nrows,1,(long)ncols);
-    tmpsuperice=matrixreserv(1,(long)nrows,1,(long)ncols);
-    watercontent=matrixreserv(1,(long)nrows,1,(long)ncols);
-    slushdepth=matrixreserv(1,(long)nrows,1,(long)ncols);
-    slushthickness=matrixreserv(1,(long)nrows,1,(long)ncols);
+    superice=matrixreserv(1,nrows,1,ncols);
+    tmpsuperice=matrixreserv(1,nrows,1,ncols);
+    watercontent=matrixreserv(1,nrows,1,ncols);
+    slushdepth=matrixreserv(1,nrows,1,ncols);
+    slushthickness=matrixreserv(1,nrows,1,ncols);
     surfacewater=matrixreservdouble(1,(long)nrows,1,(long)ncols);
-    coldcontentsnow=matrixreserv(1,(long)nrows,1,(long)ncols);
-    coldcontentice=matrixreserv(1,(long)nrows,1,(long)ncols);
+    coldcontentsnow=matrixreserv(1,nrows,1,ncols);
+    coldcontentice=matrixreserv(1,nrows,1,ncols);
 
-    accyear=matrixreserv(1,(long)nrows,1,(long)ncols);
+    accyear=matrixreserv(1,nrows,1,ncols);
 
     /*new daily / period mean grid output*/
     if(runoffyes == 1) {
@@ -619,7 +619,7 @@ void initgrid() {
         meanwatercontentall=matrixreservdouble(1,(long)nrows,1,(long)ncols);
     }
     if(surfwateryes == 1) {
-        wrtsurfacewater=matrixreserv(1,(long)nrows,1,(long)ncols);
+        wrtsurfacewater=matrixreserv(1,nrows,1,ncols);
         meansurfacewaterday=matrixreservdouble(1,(long)nrows,1,(long)ncols);
         meansurfacewaterall=matrixreservdouble(1,(long)nrows,1,(long)ncols);
     }

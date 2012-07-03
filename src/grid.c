@@ -23,7 +23,7 @@ extern float **griddgmglac;
 /*   aus Numerical Receipes in C, page 944                    */
 /**************************************************************/
 
-float **matrixreserv(long nrl, long nrh, long ncl, long nch)
+float **matrixreserv(int nrl, int nrh, int ncl, int nch)
 
 {
     /*nrl = number of rows lower limit, nrh = high limit, c = columns*/
