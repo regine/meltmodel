@@ -11,13 +11,9 @@
 #include<stdio.h>
 
 void readrestofline(FILE **infile);
-void initializeglacier2zero_nodata(float **glaciergrid);
 
-void initializeglacier2zero_nodatadouble(double **glaciergrid);
 void toobig_resout();
-void checkgridinputdata_ok();
-float **matrixreserv(long nrl, long nrh, long ncl, long nch);
-double **matrixreservdouble(long nrl, long nrh, long ncl, long nch);
+
 void closefile(FILE **datei, char *name);
 void meandayreserve();
 void meandaynull();

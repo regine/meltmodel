@@ -15,6 +15,7 @@
 #include<math.h>
 
 #include "initial.h"
+#include "grid.h"
 #include "radiat.h"
 #include "snowinput.h"
 #include "snowmodel.h"

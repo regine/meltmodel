@@ -12,12 +12,14 @@ add_library(tindex tindex.c)
 add_library(turbul turbul.c)
 add_library(userfile userfile.c)
 add_library(writeout writeout.c)
+add_library(grid grid.c)
 
 add_executable(degree degree.c)
 target_link_libraries(degree closeall
                              discharg
                              disopt
                              globcor
+                             grid
                              initial
                              input
                              radiat
@@ -33,6 +35,7 @@ target_link_libraries(meltmod closeall
                               discharg
                               disopt
                               globcor
+                              grid
                               initial
                               input
                               radiat
