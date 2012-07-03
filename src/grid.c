@@ -10,6 +10,7 @@
 
 #include "stdlib.h"
 #include "stdio.h"
+#include "assert.h"
 
 extern float nodata;
 extern float **griddgmglac;
@@ -106,6 +107,8 @@ double **matrixreservdouble(long nrl, long nrh, long ncl, long nch)
 /*******************************************************/
 
 void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid) {
+    assert(glaciergrid != NULL);
+    assert(griddgmglac != NULL);
     int i, j;
     for (i=1; i<=nrows; i++)
         for (j=1; j<=ncols; j++) {
@@ -124,6 +127,8 @@ void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid) {
 /*******************************************************/
 
 void initializeglacier2zero_nodatadouble(int nrows, int ncols, double **glaciergrid) {
+    assert(glaciergrid != NULL);
+    assert(griddgmglac != NULL);
     int i, j;
     for (i=1; i<=nrows; i++)
         for (j=1; j<=ncols; j++) {
