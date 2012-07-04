@@ -301,8 +301,7 @@ float  *x;                      /* first 12 rows in grid files */
 float  iceflux = 0;
 int    ncols, nrows;           /*number of columns, rows*/
 float  xll,yll,cs,nodata;      /*left lower corner,cellsize,missing value*/
-/*==== ADD ndl, ndh for snow model, 2/2005*/
-long   nrl,nrh,ncl,nch,ndl,ndh;        /* for Speicherreservierung Grid */
+
 int    firstrow,lastrow;       /*first row which contains a cell to be calculated*/
 int    *firstcol,*lastcol;     /*first,last columns which is glacierized in DTM*/
 

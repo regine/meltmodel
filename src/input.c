@@ -1201,8 +1201,6 @@ void input_read()
     fscanf(in,"%d",&factinter);
     readrestofline(&in);
     printf(" \n ndepths=%d   factinter=%d\n",ndepths,factinter);
-    ndl = 1;
-    ndh = (long)ndepths;      /*limit depths  "                    */
 
     readrestofline(&in);
     /*-----------------------*/

@@ -447,10 +447,6 @@ void startinputdata()
     cs     = x[5];
     nodata = x[6];      /*cellsize, missing data*/
 
-    nrl = 1;
-    nrh = (long)nrows;      /*limit rows von 1 bis max number rows*/
-    ncl = 1;
-    nch = (long)ncols;      /*limit columns  "                    */
 
     printf(" \n ncols,nrows,xll,yll,cellsize,nodata %d %d %5.1f %5.1f %5.1f %5.1f\n",
            ncols,nrows,xll,yll,cs,nodata);

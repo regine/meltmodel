@@ -287,8 +287,7 @@ extern float  *x;                      /* first 12 rows in grid files */
 
 extern int    ncols, nrows;           /*number of columns, rows*/
 extern float  xll,yll,cs,nodata;      /*left lower corner,cellsize,missing value*/
-/*==== ADD ndl, ndh for snow model, 2/2005*/
-extern long   nrl,nrh,ncl,nch,ndl,ndh;        /* for Speicherreservierung Grid */
+
 extern int    firstrow,lastrow;       /*first row which contains a glacier grids*/
 extern int    *firstcol,*lastcol;     /*first,last columns which is glacierized in DTM*/
 
