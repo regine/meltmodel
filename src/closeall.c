@@ -14,7 +14,7 @@
 
 #include "initial.h"
 #include "grid.h"
-#include "snowmodel.h"
+//#include "snowmodel.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 
