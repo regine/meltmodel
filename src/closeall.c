@@ -170,16 +170,16 @@ void closeall()
 
     /*================ new for snow model C. Tijm-Reijmer, 2/2005 ======*/
     if (methodsurftempglac == 4) { /*CHR added*/
-        freetensordouble(layerdepth,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layerthickness,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layerdensity,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layermass,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layertemperature,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layerrhocp,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layerwatercont,nrl,nrh,ncl,nch,ndl,ndh);
-        freetensordouble(layerrefreeze,nrl,nrh,ncl,nch,ndl,ndh);
+        freetensordouble(layerdepth,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerthickness,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerdensity,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layermass,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layertemperature,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerrhocp,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerwatercont,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerrefreeze,1,nrows,1,ncols,1,ndepths);
 
-        freetensor(layerid,nrl,nrh,ncl,nch,ndl,ndh);
+        freetensor(layerid,1,nrows,1,ncols,1,ndepths);
         freematrix(layeramount,1,nrows,1,ncols);
         freematrix(layeramountcold,1,nrows,1,ncols);
         freematrix(superice,1,nrows,1,ncols);

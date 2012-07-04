@@ -261,7 +261,7 @@ float ***tensorreserv(int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 
 {
     /*nrl = number of rows lower limit, nrh = high limit, c = columns, d = depth*/
-    long  i,j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ndh-ndl+1;
+    int  i,j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ndh-ndl+1;
     float ***t;         /*GRID FILE*/
 
     /* allocate pointers to pointers to rows*/
@@ -309,11 +309,11 @@ float ***tensorreserv(int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 /* from Numerical Receipes in C: f3tensor()                                 */
 /****************************************************************************/
 
-double ***tensorreservdouble(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
+double ***tensorreservdouble(int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 
 {
     /*nrl = number of rows lower limit, nrh = high limit, c = columns, d = depth*/
-    long  i,j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ndh-ndl+1;
+    int  i,j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ndh-ndl+1;
     double ***t;         /*GRID FILE*/
 
     /* allocate pointers to pointers to rows*/
@@ -362,7 +362,7 @@ double ***tensorreservdouble(long nrl, long nrh, long ncl, long nch, long ndl, l
 /*   from Numerical Receipes in C: free_f3tensor()                          */
 /****************************************************************************/
 
-void freetensor(float ***t,long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
+void freetensor(float ***t,int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 
 {
     /*free a float f3tensor allocated by f3tensor()*/
@@ -379,7 +379,7 @@ void freetensor(float ***t,long nrl, long nrh, long ncl, long nch, long ndl, lon
 /*   from Numerical Receipes in C: free_f3tensor()                          */
 /****************************************************************************/
 
-void freetensordouble(double ***t,long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
+void freetensordouble(double ***t,int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 
 {
     /*free a double f3tensor allocated by f3tensor()*/

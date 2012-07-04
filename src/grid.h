@@ -44,17 +44,17 @@ void freearraydouble(double *v, int ndl, int ndh);
 float ***tensorreserv(int nrl, int nrh,
         int ncl, int nch,
         int ndl, int ndh);
-double ***tensorreservdouble(long nrl, long nrh,
-        long ncl, long nch,
-        long ndl, long ndh);
+double ***tensorreservdouble(int nrl, int nrh,
+        int ncl, int nch,
+        int ndl, int ndh);
 void freetensor(float ***t,
-        long nrl, long nrh,
-        long ncl, long nch,
-        long ndl, long ndh);
+        int nrl, int nrh,
+        int ncl, int nch,
+        int ndl, int ndh);
 void freetensordouble(double ***t,
-        long nrl, long nrh,
-        long ncl, long nch,
-        long ndl, long ndh);
+        int nrl, int nrh,
+        int ncl, int nch,
+        int ndl, int ndh);
 /* LG: does anyone call  initializeglacier2zero_nodata_tens? */
 void initializeglacier2zero_nodata_tens(int nrows, int ncols, int ndepths,
         float ***glaciergrid);

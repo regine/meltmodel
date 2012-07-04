@@ -325,14 +325,14 @@ void initgrid() {
     printf(" INITIALISE SUBSURFACE GRID %d \n",newday);
 
     /*allocate space*/
-    layerdepth=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layerthickness=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layerdensity=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layermass=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layertemperature=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layerrhocp=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layerwatercont=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
-    layerrefreeze=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
+    layerdepth=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerthickness=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerdensity=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layermass=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layertemperature=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerrhocp=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerwatercont=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerrefreeze=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
 
     layerid=tensorreserv(1,nrows,1,ncols,1,ndepths);
     layeramount=matrixreserv(1,nrows,1,ncols);
