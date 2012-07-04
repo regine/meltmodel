@@ -326,29 +326,27 @@ void closeall()
 
     if (disyes >= 1) {   /*discharge calculations*/
         if (disyes == 1) {  /*discharge data available*/
-            freematrixdouble(f2,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(sumf0x,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(sumf0x2,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(r2,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(f02,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
+            freematrixdouble(f2,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(sumf0x,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(sumf0x2,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(r2,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(f02,1,(long)anzahlopt1,1,(long)anzahlopt2);
 
-            freematrixdouble(f2ln,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(sumf0xln,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(sumf0x2ln,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(r2ln,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(f02ln,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
+            freematrixdouble(f2ln,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(sumf0xln,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(sumf0x2ln,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(r2ln,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(f02ln,1,(long)anzahlopt1,1,(long)anzahlopt2);
 
             fclose(qmeasfile);
         }
 
         if ((disyesopt == 1) || (ddfoptyes == 1)) { /*only optimization run*/
-            nrl = 1;
-            ncl = 1;     /*number of rows/columns lower limit*/
-            freematrixdouble(qfirnopt,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(qsnowopt,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(qiceopt,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(qrockopt,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
-            freematrixdouble(volumeopt,nrl,(long)anzahlopt1,ncl,(long)anzahlopt2);
+            freematrixdouble(qfirnopt,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(qsnowopt,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(qiceopt,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(qrockopt,1,(long)anzahlopt1,1,(long)anzahlopt2);
+            freematrixdouble(volumeopt,1,(long)anzahlopt1,1,(long)anzahlopt2);
 
         } else                /*only simulation run*/
             if(qcalcfile)  fclose(qcalcfile);     /*Outputfile discharge*/
