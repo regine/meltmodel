@@ -36,14 +36,14 @@ void freematrixdouble(double **m,int nrl, int nrh, int ncl, int nch);
 void initializeglacier2zero_nodata(int nrows, int ncols, float **glaciergrid);
 void initializeglacier2zero_nodatadouble(int nrows, int ncols, double **glaciergrid);
 
-float *arrayreserv(long ndl, long ndh);
-double *arrayreservdouble(long ndl, long ndh);
-void freearray(float *v, long ndl, long ndh);
-void freearraydouble(double *v, long ndl, long ndh);
+float *arrayreserv(int ndl, int ndh);
+double *arrayreservdouble(int ndl, int ndh);
+void freearray(float *v, int ndl, int ndh);
+void freearraydouble(double *v, int ndl, int ndh);
 
-float ***tensorreserv(long nrl, long nrh,
-        long ncl, long nch,
-        long ndl, long ndh);
+float ***tensorreserv(int nrl, int nrh,
+        int ncl, int nch,
+        int ndl, int ndh);
 double ***tensorreservdouble(long nrl, long nrh,
         long ncl, long nch,
         long ndl, long ndh);

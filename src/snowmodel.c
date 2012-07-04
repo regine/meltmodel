@@ -334,7 +334,7 @@ void initgrid() {
     layerwatercont=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
     layerrefreeze=tensorreservdouble(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
 
-    layerid=tensorreserv(1,(long)nrows,1,(long)ncols,1,(long)ndepths);
+    layerid=tensorreserv(1,nrows,1,ncols,1,ndepths);
     layeramount=matrixreserv(1,nrows,1,ncols);
     layeramountcold=matrixreserv(1,nrows,1,ncols);
 
@@ -399,8 +399,8 @@ void initgrid() {
     }
     /*****************/
 
-    conduc=arrayreservdouble(1,(long)ndepths);
-    conducdtdz=arrayreservdouble(1,(long)ndepths);
+    conduc=arrayreservdouble(1,ndepths);
+    conducdtdz=arrayreservdouble(1,ndepths);
 
     coeff = (factorthickness - thicknessfirst)/factorthickness;
     coeffupper = coeff;
@@ -639,14 +639,14 @@ void changegrid() {
     /* L.G.: airvolumeice and  minwatercont are unused, can we delete? */
     // double airvolumeice;     /*volume in ice available to store water in*/
     //double minwatercont;     /*if water present this is the minimum amount always present*/
-    idnew=arrayreserv(1,(long)ndepths);
-    thicknessnew=arrayreservdouble(1,(long)ndepths);
-    massnew=arrayreservdouble(1,(long)ndepths);
-    refreezenew=arrayreservdouble(1,(long)ndepths);
-    depthnew=arrayreservdouble(1,(long)ndepths);
-    temperaturenew=arrayreservdouble(1,(long)ndepths);
-    densitynew=arrayreservdouble(1,(long)ndepths);
-    watercontnew=arrayreservdouble(1,(long)ndepths);
+    idnew=arrayreserv(1,ndepths);
+    thicknessnew=arrayreservdouble(1,ndepths);
+    massnew=arrayreservdouble(1,ndepths);
+    refreezenew=arrayreservdouble(1,ndepths);
+    depthnew=arrayreservdouble(1,ndepths);
+    temperaturenew=arrayreservdouble(1,ndepths);
+    densitynew=arrayreservdouble(1,ndepths);
+    watercontnew=arrayreservdouble(1,ndepths);
 
     jd2=jd;
     if ((zeit == 24) && (inter == factinter))
@@ -1207,14 +1207,14 @@ void changegrid() {
         exit(3);
     }
 
-    freearray(idnew,ndl,ndh);
-    freearraydouble(thicknessnew,ndl,ndh);
-    freearraydouble(massnew,ndl,ndh);
-    freearraydouble(refreezenew,ndl,ndh);
-    freearraydouble(depthnew,ndl,ndh);
-    freearraydouble(temperaturenew,ndl,ndh);
-    freearraydouble(densitynew,ndl,ndh);
-    freearraydouble(watercontnew,ndl,ndh);
+    freearray(idnew,1,ndepths);
+    freearraydouble(thicknessnew,1,ndepths);
+    freearraydouble(massnew,1,ndepths);
+    freearraydouble(refreezenew,1,ndepths);
+    freearraydouble(depthnew,1,ndepths);
+    freearraydouble(temperaturenew,1,ndepths);
+    freearraydouble(densitynew,1,ndepths);
+    freearraydouble(watercontnew,1,ndepths);
 
     return;
 }

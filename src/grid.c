@@ -188,11 +188,11 @@ void initializeglacier2zero_nodatadouble(int nrows, int ncols, double **glacierg
 /* from Numerical Receipes in C: vector()                                   */
 /****************************************************************************/
 
-float *arrayreserv(long ndl, long ndh)
+float *arrayreserv(int ndl, int ndh)
 /* allocate a float array with subscript range v[ndl..ndh] */
 {
     float *v;
-    long ndep=ndh-ndl+1;
+    int ndep=ndh-ndl+1;
 
     v=(float *)malloc((size_t) ((ndep+1)*sizeof(float)));
     if (!v) {
@@ -209,11 +209,11 @@ float *arrayreserv(long ndl, long ndh)
 /* from Numerical Receipes in C: dvector()                                  */
 /****************************************************************************/
 
-double *arrayreservdouble(long ndl, long ndh)
+double *arrayreservdouble(int ndl, int ndh)
 /* allocate a double vector with subscript range v[ndl..ndh] */
 {
     double *v;
-    long ndep=ndh-ndl+1;
+    int ndep=ndh-ndl+1;
 
     v=(double *)malloc((size_t) ((ndep+1)*sizeof(double)));
     if (!v) {
@@ -230,7 +230,7 @@ double *arrayreservdouble(long ndl, long ndh)
 /*   from Numerical Receipes in C: free_vetor()                             */
 /****************************************************************************/
 
-void freearray(float *v, long ndl, long ndh)
+void freearray(float *v, int ndl, int ndh)
 /* free a float vector allocated with arrayreserv() */
 {
     free((char *) (v+ndl-1));
@@ -243,7 +243,7 @@ void freearray(float *v, long ndl, long ndh)
 /*   from Numerical Receipes in C: free_vetor()                             */
 /****************************************************************************/
 
-void freearraydouble(double *v, long ndl, long ndh)
+void freearraydouble(double *v, int ndl, int ndh)
 /* free a double vector allocated with arrayreservdouble() */
 {
     free((char *) (v+ndl-1));
@@ -257,7 +257,7 @@ void freearraydouble(double *v, long ndl, long ndh)
 /* from Numerical Receipes in C: f3tensor()                                 */
 /****************************************************************************/
 
-float ***tensorreserv(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
+float ***tensorreserv(int nrl, int nrh, int ncl, int nch, int ndl, int ndh)
 
 {
     /*nrl = number of rows lower limit, nrh = high limit, c = columns, d = depth*/

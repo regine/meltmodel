@@ -191,8 +191,8 @@ void closeall()
         freematrix(coldcontentice,1,nrows,1,ncols);
         freematrixdouble(surfacewater,1,nrows,1,ncols);
 
-        freearraydouble(conduc,ndl,ndh);
-        freearraydouble(conducdtdz,ndl,ndh);
+        freearraydouble(conduc,1,ndepths);
+        freearraydouble(conducdtdz,1,ndepths);
 
         freematrixdouble(snowlayersum,1,nrows,1,ncols);
         freematrixdouble(MELTsum,1,nrows,1,ncols);
