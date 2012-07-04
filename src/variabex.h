@@ -427,7 +427,7 @@ extern int    nstepsdis;
 /* **** for Joergs global radiation routines*** */
 extern int hmaxcalculated;   /*fuer groesste Hoehe des DGM, damit nur 1x berechnet*/
 
-extern long   tag,monat,tagnr;
+extern int   tag,monat,tagnr;
 extern int    mon[13];   /*number of days in month*/
 extern double stunde;
 extern double dekli,timeeq,stuwi,cosz,sonnenstand;         /*Function sonnenhoehe*/

@@ -433,7 +433,7 @@ int    nstepsdis=0;
 /***** for Joergs global radiation routines****/
 int hmaxcalculated = 0;   /*fuer groesste Hoehe des DGM, damit nur 1x berechnet*/
 
-long   tag,monat,tagnr;
+int   tag,monat,tagnr;
 int    mon[13]= {31,31,28,31,30,31,30,31,31,30,31,30,31};  /*number of days in month*/
 double stunde;
 double dekli,timeeq,stuwi,cosz,sonnenstand;         /*Function sonnenhoehe*/

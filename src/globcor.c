@@ -115,7 +115,7 @@ void jd2monat()
 /*=======================================================================*/
 
 /*  Maybe could be made inline? Does it get clled a lot?*/
-double deklination(long tag, long monat) {
+double deklination(int tag, int monat) {
     return -23.4 * cos( (jd+10)/58.09155423); /* 58.09 = 2*pi/365  */
     /*add 10 days, because the minimum is Dec. 21*/
 }
@@ -125,12 +125,12 @@ double deklination(long tag, long monat) {
 /************** REALE SONNENZEIT *****************************************/
 /*=======================================================================*/
 
-double gettimeequation(long tag,long monat)
+double gettimeequation(int tag,int monat)
 /* gibt die Anzahl Stunden an, die zur aktuellen mittleren Sonnenzeit
    hinzuaddiert werden muessen, um auf die reale Sonnenzeit zu kommen */
 {
-    return (double)(mon[(int)monat]-tag+1)/(double)mon[(int)monat]*(timeequation[(int)monat]/60.0) +
-           (double)(tag-1)/(double)mon[(int)monat]*(timeequation[(int)monat+1]/60.0);
+    return (double)(mon[monat]-tag+1)/(double)mon[monat]*(timeequation[monat]/60.0) +
+           (double)(tag-1)/(double)mon[monat]*(timeequation[monat+1]/60.0);
     /* einfache lineare Interpolation */
 }
 
@@ -139,7 +139,7 @@ double gettimeequation(long tag,long monat)
 /************** SONNENHOEHE     ******************************************/
 /*=======================================================================*/
 
-double sonnenhoehe(long tag,long monat,double breite,double laenge,double stunde) {
+double sonnenhoehe(int tag,int monat,double breite,double laenge,double stunde) {
     timeeq = gettimeequation(tag,monat);    /*!!!!!!!!!!!!!!*/
     /*Deklination d. Sonne gegen d. Aequatorialebene haengt nur vom Tag ab (1.Naeherung)*/
     dekli  = deklination(tag,monat);        /*!!!!!!!!!!!!!!*/
@@ -158,7 +158,7 @@ double sonnenhoehe(long tag,long monat,double breite,double laenge,double stunde
 /************** SUN COORDINATES          *********************************/
 /*=======================================================================*/
 
-void getsuncoordinates(long tag,long monat,double breite,double laenge,double stunde,
+void getsuncoordinates(int tag,int monat,double breite,double laenge,double stunde,
                        double *sunazimuth,double *sunaltitude)
 
 /* liefert bei Eingabe der geographischen Koordinaten in Grad und des Tages, Monats und
@@ -200,7 +200,7 @@ double getcosincidence(double aspect,double slope,double azimuth,double zenith)
 /******      SUNRISE      ************************************************/
 /*=======================================================================*/
 
-void sunrise(long tag,long monat,double breite,double laenge,double *sr,double *ss)
+void sunrise(int tag,int monat,double breite,double laenge,double *sr,double *ss)
 
 {
     double z,dekli,timeeq;
