@@ -599,21 +599,21 @@ void readprecipindexmap() {
     strcat(dummy,"precipindexmap.bin");
     if ((inprecipindexgrid = fopen (dummy,"rt")) == NULL)  {
         printf("\n ERROR : Climate data file not found !!!\n %s \n\n",dummy);
-        exit(4);
         fclose(inprecipindexgrid);
+        exit(4);
     }
 
     precipindexmap=matrixreserv(1,nrows,1,ncols);     /*SPEICHERRESERVIERUNG*/
 
     if ( (fread(&(x[1]),sizeof(float),12,inprecipindexgrid)) !=12 )  {   /*READ FIRST 12 ROWS*/
         printf("\n ERROR in file %s \n (File initial.c)\n",dummy);
-        exit(7);
         fclose(outcontrol);
+        exit(7);
     }
-    if ((fread(&(precipindexmap[1][1]),sizeof(float),ncols*nrows,indgmdrain)) != ncols*nrows) {
+    if ((fread(&(precipindexmap[1][1]),sizeof(float),ncols*nrows,inprecipindexgrid)) != ncols*nrows) {
         printf("\n ERROR in reading grid data %s \n",dummy);
-        exit(8);
         fclose(inprecipindexgrid);
+        exit(8);
     }
     closefile(&inprecipindexgrid,dummy);
 
