@@ -421,7 +421,6 @@ extern float   nodis;            /*nodata value of discharge file)*/
 
 extern char   namematrix[21];      /*name of r2-file, optimization run*/
 extern  FILE   *r2file;
-extern int    iiopt,jjopt;
 extern int    nstepsdis;
 
 /* **** for Joergs global radiation routines*** */

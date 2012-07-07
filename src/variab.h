@@ -427,7 +427,7 @@ float   nodis;            /*nodata value of discharge file*/
 
 char   namematrix[21];      /*name of r2-file, optimization run*/
 FILE   *r2file;
-int    iiopt=1,jjopt=1;
+
 int    nstepsdis=0;
 
 /***** for Joergs global radiation routines****/
