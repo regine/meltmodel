@@ -202,6 +202,7 @@ void dischargeopt()
 void write2matriz()
 
 {
+    int iiopt, jjopt;
     /*WRITE r2-MATRIX*/
 
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++) { /*FOR EACH ROW = 1.PARAMETER*/
