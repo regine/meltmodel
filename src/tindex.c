@@ -265,6 +265,7 @@ void snowcoverdegree()
 void startdisddfopt()
 
 {
+    int jjopt;
     /*function are in discharg.c*/
     startarraysdis();     /*RESERVE STORAGE FOR ARRAYS FOR r2-SUMS*/
     startarraysopt();     /*ADDITIONAL ARRAYS ONLY FOR OPTIMIZATION*/
