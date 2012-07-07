@@ -357,7 +357,7 @@ void whichreservoir()
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
 
-void sumr2()
+void sumr2(int iiopt, int jjopt)
 
 {
     /*SUMATION FOR r2 ONLY IF DISCHARGE DATA AVAILABLE,
@@ -522,7 +522,7 @@ void discharge()                  /*called each time step from main */
     volumesim = volumesim + qdischber*timestep*3600/100000;
     /*-------------------------------------------------------------------------------*/
     if(disyes == 1) {    /*only if discharge data available, i.e. if not 2*/
-        sumr2();
+        sumr2(iiopt, jjopt);
         sumr2ln(iiopt, jjopt);
     }
     writedisoutput();   /*write data of one time step to output file*/

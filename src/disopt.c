@@ -154,7 +154,7 @@ void dischargeopt()
             /*              summation for r2-CRITERIUM                                      */
             /*------------------------------------------------------------------------------*/
 
-            sumr2();     /* SUM UP SUMS FOR r2-CALCULATION*/
+            sumr2(iiopt, jjopt);     /* SUM UP SUMS FOR r2-CALCULATION*/
             sumr2ln(iiopt, jjopt);   /* SUMS FOR ln r2*/
             /*-------------------------------------------------------------------------------*/
 
