@@ -122,6 +122,7 @@ void startarraysdis()
 void startarraysopt()
 
 {
+    int iiopt, jjopt;
     /*for every parameter constellation the previous day discharge */
     /* of the 3 reservoirs must be known for the next time step */
     qfirnopt= matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
