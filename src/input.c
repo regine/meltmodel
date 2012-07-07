@@ -1092,7 +1092,7 @@ void input_read()
                         if (strcmp(optkB, "T0") != 0)
                             if (strcmp(optkB, "preccorr") != 0)
                                 if (strcmp(optkB, "precgrad") != 0) {
-                                    printf("\n\n First parameter to be optimized is wrong\n");
+                                    printf("\n\n Second parameter to be optimized is wrong\n");
                                     printf(" not possible to optimize :  %s \n\n",optkB);
                                     exit(4);
                                 }
