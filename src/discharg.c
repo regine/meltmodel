@@ -547,6 +547,7 @@ void discharge()                  /*called each time step from main */
 void r2calc()
 
 {
+    int iiopt, jjopt;
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
             f02[iiopt][jjopt] = (sumf0x2[iiopt][jjopt]-pow(sumf0x[iiopt][jjopt],2)/nstepsdis);
