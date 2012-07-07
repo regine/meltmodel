@@ -62,6 +62,7 @@ void opendiscalc()
 void startarraysdis()
 
 {
+    int iiopt, jjopt;
     /*for simulation runs variable as arrays not needed (only one sum each), but
       here used for simplicity to avoid new variables (arrays needed for optimization) */
 
