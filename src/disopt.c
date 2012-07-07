@@ -29,7 +29,7 @@
 void dischargeopt()
 
 {
-
+    int iiopt, jjopt;
     /*------------------------------------------------------------------------------*/
     /*                        OPTIMIZATION HEAD-LOOP  for each timestep             */
 
@@ -59,7 +59,6 @@ void dischargeopt()
             precgrad = (iiopt-1)*stepopt1+startopt1;
 
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++)   /* second parameter to optimize */
-
         {
             if (strcmp(optkB ,"firnk3") == 0)       /* 2. parameter increased */
                 firnkons = (jjopt-1)*stepopt2+startopt2;
