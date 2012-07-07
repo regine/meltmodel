@@ -103,10 +103,6 @@ void startarraysdis()
             r2ln[iiopt][jjopt] = 0.0;
         }
 
-    /*must be set to 1, because in case of simulation run it is 2, after the
-      loop and 1 is needed in r2calc*/
-    iiopt=1;
-    jjopt=1;
 
     return;
 }
