@@ -155,7 +155,7 @@ void dischargeopt()
             /*------------------------------------------------------------------------------*/
 
             sumr2();     /* SUM UP SUMS FOR r2-CALCULATION*/
-            sumr2ln();   /* SUMS FOR ln r2*/
+            sumr2ln(iiopt, jjopt);   /* SUMS FOR ln r2*/
             /*-------------------------------------------------------------------------------*/
 
             /* meltwater integrated over ice, snow, firn area for one parameter constellation*/

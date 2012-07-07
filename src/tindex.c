@@ -335,7 +335,7 @@ void startdisddfopt()
 /*   called from main for every time step and every parameter constellation */
 /****************************************************************************/
 
-void dischargeddfopt()
+void dischargeddfopt(int iiopt, int jjopt)
 
 {
     for (i=firstrow; i<=lastrow; i++)          /* for each row */
@@ -391,7 +391,7 @@ void dischargeddfopt()
     /*              r2-CRITERIUM FOR STATISTICS                                     */
     /*------------------------------------------------------------------------------*/
     sumr2();
-    sumr2ln();      /*logarithmic r2*/
+    sumr2ln(iiopt, jjopt);      /*logarithmic r2*/
 
     /*-------------------------------------------------------------------------------*/
 

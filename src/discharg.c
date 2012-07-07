@@ -397,7 +397,7 @@ void sumr2()
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
 
-void sumr2ln()
+void sumr2ln(int iiopt, int jjopt)
 
 {
     if(qdischgem != nodis)		  /* March 2006*/
@@ -523,7 +523,7 @@ void discharge()                  /*called each time step from main */
     /*-------------------------------------------------------------------------------*/
     if(disyes == 1) {    /*only if discharge data available, i.e. if not 2*/
         sumr2();
-        sumr2ln();
+        sumr2ln(iiopt, jjopt);
     }
     writedisoutput();   /*write data of one time step to output file*/
 
