@@ -521,8 +521,8 @@ void discharge()                  /*called each time step from main */
     volumesim = volumesim + qdischber*timestep*3600/100000;
     /*-------------------------------------------------------------------------------*/
     if(disyes == 1) {    /*only if discharge data available, i.e. if not 2*/
-        sumr2(iiopt, jjopt);
-        sumr2ln(iiopt, jjopt);
+        sumr2(1, 1);
+        sumr2ln(1, 1);
     }
     writedisoutput();   /*write data of one time step to output file*/
 
