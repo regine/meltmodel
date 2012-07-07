@@ -574,6 +574,7 @@ void r2calc()
 void r2calcln()
 
 {
+    int iiopt, jjopt;
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
             f02ln[iiopt][jjopt] = (sumf0x2ln[iiopt][jjopt]-pow(sumf0xln[iiopt][jjopt],2)/nstepsdis);
