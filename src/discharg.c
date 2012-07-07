@@ -152,6 +152,7 @@ void startarraysopt()
 void openr2matrizkopt()
 
 {
+    int jjopt;
     strcpy(dummy,outpath);         /* definition of outpath */
     strcat(dummy,namematrix);    /* copies name of outputfile to path */
 
