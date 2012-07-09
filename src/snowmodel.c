@@ -1883,6 +1883,7 @@ void slushformation() {
     double  airvolumeice,maxwatercont;
     double  watercontold,layerwet;
     double  depth;
+    int k;
 
 //  timec1 = 0.05;	time scale for runoff of surficial water on a steep surface (days)*/
 //  timec2 = 20.;		/*time scale for runoff of surficial water on a horizontal surface (days)*/
