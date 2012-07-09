@@ -1420,14 +1420,14 @@ void outputsubsurflines() {
             }
 
             if (printyes != 0) {
-                for (k = 1; k <= (int)layeramount[i][j]; k++) {   /*for each layer*/
-                    if (k == 1) {
-                        surftempfrommodel();
-                        fprintf(outsubsurfline[kk]," %3d %3d %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f \n",
-                                ki,kj,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
-                                layerwatercont[i][j][1],layerrefreeze[i][j][1],snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][1]);
-                    }
+                int k = 1;
+                surftempfrommodel();
+                //First Layer
+                fprintf(outsubsurfline[kk]," %3d %3d %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f \n",
+                        ki,kj,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
+                        layerwatercont[i][j][1],layerrefreeze[i][j][1],snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][1]);
 
+                for (k = 2; k <= (int)layeramount[i][j]; k++) {   /*for each layer*/
                     fprintf(outsubsurfline[kk]," %3d %3d %2d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f \n",
                             ki,kj,k,layerdepth[i][j][k],layerthickness[i][j][k],layertemperature[i][j][k],
                             layerdensity[i][j][k],layermass[i][j][k],layerwatercont[i][j][k],layerrefreeze[i][j][k],
