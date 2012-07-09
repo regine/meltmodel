@@ -2029,7 +2029,7 @@ void stationoutput()
             i = r;
             j = c;
             if (methodsurftempglac != 4) {
-                snowlayermsnow();
+                snowlayermsnow(i, j, k);
                 meltlayermice();
             }
             fprintf(outgrid[ii],"%10.5f",snowlayer[r][c]);

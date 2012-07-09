@@ -504,13 +504,13 @@ void initgrid() {
                     /*Initialise temperature and density profiles */
                     if (layerdepth[i][j][k] <= snowlayer[i][j]) {
                         /*density and id*/
-                        choice_snowlayerdensity();
+                        choice_snowlayerdensity(i, j, k);
                         layerid[i][j][k] = 1;
                         if (layerdensity[i][j][k] > densice-diffdensice)
                             layerdensity[i][j][k] = densice;
                     } else {
                         if (FIRN[i][j] > 0.) { /*firn area*/
-                            choice_firnlayerdensity();
+                            choice_firnlayerdensity(i, j, k);
                             layerid[i][j][k] = 2;
                             /*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */
                             if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
@@ -535,8 +535,8 @@ void initgrid() {
                     /*redefine mass density and watercontent in case start is wet*/
                     /*Note that after the density is recalculated more moisture can be added to the layer*/
                     if (wetstartyes == 1) { /*snow is wet at start*/
-                        if (irrwatercontyes == 1) irreducible_schneider();
-                        if (irrwatercontyes == 2) irreducible_coleou();
+                        if (irrwatercontyes == 1) irreducible_schneider(i, j, k);
+                        if (irrwatercontyes == 2) irreducible_coleou(i, j, k);
                         airvolumeice = ((densice - layerdensity[i][j][k])/densice)*layerthickness[i][j][k];
                         minwatercont = airvolumeice*irrwatercont*denswater;
                         layerwatercont[i][j][k] = minwatercont;
@@ -563,7 +563,7 @@ void initgrid() {
                         layerdensity[i][j][k-1] = layermass[i][j][k-1]/layerthickness[i][j][k-1];
                     }
                     /*temperature*/
-                    choice_layertemperature();
+                    choice_layertemperature(i, j, k);
                     /*heat capacity*/
                     layerrhocp[i][j][k] = rhocpice * layerdensity[i][j][k] / densice;
 
@@ -1139,7 +1139,7 @@ void changegrid() {
             }
             layermass[i][j][k-1] = layermass[i][j][k-1] + diff;
             layerdensity[i][j][k-1] = layermass[i][j][k-1]/layerthickness[i][j][k-1];
-            snowlayermsnow();
+            snowlayermsnow(i, j, k);
         }
     }
     k=1;
@@ -1554,7 +1554,7 @@ void bisection() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void iceconductivity() {
+void iceconductivity(int i, int j, int k) {
     float density;
     /*** which function used defined by variable typeconduc set in variab.h*/
     /* type of equation used to calculate the conductivity */
@@ -1592,7 +1592,7 @@ void iceconductivity() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void densification() {
+void densification(int i, int j, int k) {
     /*  int  typedens=3;		*/
     float tauday=86400.;     /*amount of seconds in one day*/
     float tauyear=31536000.; /*amount of seconds in one year*/
@@ -1700,7 +1700,7 @@ void densification() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void snowmelt() {
+void snowmelt(int i, int j, int k) {
     double  meltedlayer;
     float  Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     float  depth;
@@ -1768,7 +1768,7 @@ void snowmelt() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void refreezing() {
+void refreezing(int i, int j, int k) {
     float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     double  masschangelayer;
     double  energywater;      /*energy released or necessary to convert layerwater to ice or vv*/
@@ -1830,7 +1830,7 @@ void refreezing() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void percolation() {
+void percolation(int i, int j, int k) {
     double  waterchangelayer;
     double  airvolumeice;     /*volume in ice available to store water in*/
     double  minwatercont;     /*if water present this is the minimum amount always present*/
@@ -1924,7 +1924,7 @@ void slushformation() {
             }
 
             if ((layertemperature[i][j][k] < 0.) && (maxwatercont > 0.)) { /*maxwatercont = 0.0;*/
-                refreezing();
+                refreezing(i, j, k);
                 /* fprintf(outcontrol,"\n extra refreezing %f %d %d %d %f",jd2,i,j,k,layerid[i][j][k]);*/
             }
             kk = k;
@@ -1978,7 +1978,7 @@ void slushformation() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void irreducible_schneider() {
+void irreducible_schneider(int i, int j, int k) {
     double porosity;
     /* L.G.: gravwatercont is unused, can we delete it? */
     //double gravwatercont;  /*gravimetric water content*/
@@ -2015,7 +2015,7 @@ void irreducible_schneider() {
 /*   called for each layer from subsurf() which is called for each grid cell*/
 /****************************************************************************/
 
-void irreducible_coleou() {
+void irreducible_coleou(int i, int j, int k) {
     double porosity;
     double irrwater;	/*irreducible water content in % of mass according to coleou
                           (mass of water devided by sum of masses of water and snow) */
@@ -2064,7 +2064,7 @@ void subsurf() {
 
     /*printf(" recalculate subsurface temperatures. row  %d  col  %d  \n\n",i,j);*/
     for (k=1; k <= (int)layeramount[i][j]; k++) {   /*for each layer*/
-        iceconductivity();
+        iceconductivity(i, j, k);
         if (k > 1) {
             conducdtdz[k-1] = -0.5 * (conduc[k-1] + conduc[k]) *
                               (layertemperature[i][j][k]-layertemperature[i][j][k-1]) /
@@ -2111,7 +2111,7 @@ void subsurf() {
                 layerwatercont[i][j][k] = layerwatercont[i][j][k] + sumrain;
             }
             if (layertemperature[i][j][k] > 0.0)
-                snowmelt();
+                snowmelt(i, j, k);
             if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                     (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                     (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2133,7 +2133,7 @@ void subsurf() {
                 surfacewater[i][j] = 0.;
             }
             if ((layerwatercont[i][j][k] > 0.0) && (layertemperature[i][j][k] < 0.)) {
-                refreezing();
+                refreezing(i, j, k);
                 if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                         (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                         (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2157,9 +2157,9 @@ void subsurf() {
                 summelt = 0.0;
             }
             if (layerwatercont[i][j][k] > 0.0) {
-                if (irrwatercontyes == 1) irreducible_schneider();
-                if (irrwatercontyes == 2) irreducible_coleou();
-                percolation();
+                if (irrwatercontyes == 1) irreducible_schneider(i, j, k);
+                if (irrwatercontyes == 2) irreducible_coleou(i, j, k);
+                percolation(i, j, k);
                 if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                         (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                         (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2204,7 +2204,7 @@ void subsurf() {
 
         /* finally densification of the dry snowpack*/
         if (densificationyes == 1) {
-            densification();
+            densification(i, j, k);
             if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                     (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                     (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2864,8 +2864,8 @@ void outputsubsurf() {
 
         if ((i == stnrow[kk]) && (j == stncol[kk])) {  /*for grid cell to be outputted, read from input.dat*/
             for (k = 1; k <= (int)layeramount[i][j]; k++) {   /*for each layer*/
-                if (irrwatercontyes == 1) irreducible_schneider();
-                if (irrwatercontyes == 2) irreducible_coleou();
+                if (irrwatercontyes == 1) irreducible_schneider(i, j, k);
+                if (irrwatercontyes == 2) irreducible_coleou(i, j, k);
 
                 if ((k == 1) && (nsteps == 0)) {
                     surftempfrommodel();
