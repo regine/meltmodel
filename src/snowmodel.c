@@ -2056,6 +2056,7 @@ void subsurf() {
     //float   density;
     int     factsource=1;   /*fraction of enbal heating/cooling the first layer was 0.65 */
     float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
+    int k;
 
     jd2=jd;
     if ((zeit == 24) && (inter == factinter))
