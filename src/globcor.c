@@ -573,7 +573,7 @@ void schatten()
                                 int ii=i;
                                 int jj=j;
                                 z=griddgm[i][j];
-                                k=1;
+                                int k=1;
                                 indexy[k]=ii;
                                 indexx[k]=jj;
                                 while ((ii<nrows)&&(ii>1)&&(jj<ncols)&&(z<hmax)&&(SHAPE[i][j]<0.5)) {
@@ -584,7 +584,7 @@ void schatten()
                                         fx+=dx;
                                         ii-=vy;
                                     }
-                                    k++;
+                                    k+= 1;
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
@@ -605,7 +605,7 @@ void schatten()
                                 int ii=i;
                                 int jj=j;
                                 z=griddgm[i][j];
-                                k=1;
+                                int k=1;
                                 indexy[k]=ii;
                                 indexx[k]=jj;
                                 while ((ii<nrows)&&(ii>1)&&(jj>1)&&(z<hmax)&&(SHAPE[i][j]<0.5)) {
@@ -616,7 +616,7 @@ void schatten()
                                         fx+=dx;
                                         ii-=vy;
                                     }
-                                    k++;
+                                    k += 1;
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
@@ -649,7 +649,7 @@ void schatten()
                                 int ii=i;
                                 int jj=j;
                                 z=griddgm[i][j];
-                                k=1;
+                                int k=1;
                                 indexy[k]=ii;
                                 indexx[k]=jj;
                                 while ((ii>1)&&(jj>1)&&(jj<ncols)&&(z<hmax)&&(SHAPE[i][j]<0.5)) {
@@ -660,7 +660,7 @@ void schatten()
                                         fy+=dy;
                                         jj+=vx;
                                     }
-                                    k++;
+                                    k+=1;
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
@@ -681,7 +681,7 @@ void schatten()
                                 int ii=i;
                                 int jj=j;
                                 z=griddgm[i][j];
-                                k=1;
+                                int k=1;
                                 indexy[k]=ii;
                                 indexx[k]=jj;
                                 while ((ii<nrows)&&(jj>1)&&(jj<ncols)&&(z<hmax)&&(SHAPE[i][j]<0.5)) {
@@ -692,7 +692,7 @@ void schatten()
                                         fy+=dy;
                                         jj+=vx;
                                     }
-                                    k++;
+                                    k += 1;
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
