@@ -303,6 +303,7 @@ void albedosnowdepth() {
 
 void initgrid() {
     int     ik,kk,ir,jc;
+    int k;
     double  depth;
     double  depthl;
     float   coeff,coeffupper,coefflower;
