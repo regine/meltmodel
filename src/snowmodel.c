@@ -625,6 +625,7 @@ void changegrid() {
     double *temperaturenew,*densitynew,*watercontnew;
     double *refreezenew;
     float  *idnew;
+    int k;
     int    newk,newklast;
     double freshsnowlayerthickness,freshsnowlayerthicknessold,freshsnowlayerthicknessnew,extrathickness;
     double oldtoplayerthickness,oldtoplayermass,oldtoplayerdensity;
