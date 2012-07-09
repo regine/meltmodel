@@ -1233,7 +1233,7 @@ void startarrayreserve()
                     ndbefsnow[i][j]   = nodata;  /*number of days before snow fall*/
 
                     if(methodinisnow == 2) { /*initial snow cover*/
-                        if(SNOW[i][j] > 0){  /*no snow*/
+                        if(SNOW[i][j] == 0){  /*no snow*/
                             snowtofirn[i][j] = 0;   /*for snow albedo to drop from snow to firn*/
                         }else {
                             snowtofirn[i][j] = 1;   /*to avoid snow-to-firn-drop in albedo*/
