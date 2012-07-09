@@ -2845,6 +2845,7 @@ void tsurfenergybalance(double tskin) {
 
 void outputsubsurf() {
     int kk=1;
+    int k;
     //int ki,kj; /* L.G.: ki and kj are unused, can we delete? */
 
     jd2=jd;
