@@ -65,6 +65,12 @@ void startarraysdis()
     /*for simulation runs variable as arrays not needed (only one sum each), but
       here used for simplicity to avoid new variables (arrays needed for optimization) */
 
+    /*in case of simulation only one parameter constellation*/
+    if((disyesopt==0) && (ddfoptyes==0)) {
+        anzahlopt1 = 1;
+        anzahlopt2 = 1;
+    }
+
     /*** plus one probably not needed */
     f2      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
     sumf0x  = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
@@ -78,12 +84,6 @@ void startarraysdis()
     sumf0x2ln = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
     r2ln      = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
     f02ln     = matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
-
-    /*in case of simulation only one parameter constellation*/
-    if((disyesopt==0) && (ddfoptyes==0)) {
-        anzahlopt1 = 1;
-        anzahlopt2 = 1;
-    }
 
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
