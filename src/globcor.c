@@ -588,6 +588,7 @@ void schatten()
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
+                                        int m;
                                         for (m=1; m<k; m++)
                                             SHAPE[indexy[m]][indexx[m]]=1.0;
                                     }
@@ -619,6 +620,7 @@ void schatten()
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
+                                        int m;
                                         for (m=1; m<k; m++)
                                             SHAPE[indexy[m]][indexx[m]]=1.0;
                                     }
@@ -662,6 +664,7 @@ void schatten()
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
+                                        int m;
                                         for (m=1; m<k; m++)
                                             SHAPE[indexy[m]][indexx[m]]=1.0;
                                     }
@@ -693,6 +696,7 @@ void schatten()
                                     indexy[k]=ii;
                                     indexx[k]=jj;
                                     if (griddgm[ii][jj]>z) {
+                                        int m;
                                         for (m=1; m<k; m++)
                                             SHAPE[indexy[m]][indexx[m]]=1.0;
                                     }
