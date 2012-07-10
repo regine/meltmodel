@@ -466,7 +466,7 @@ extern int    exkorrindex,shapeindex;
 extern int    nostrl;
 extern int    cn,count;      /* nach je countextern intervallen werden neue Werte berechnet */
 extern int    split;         /* number ofextern intervals per time step for shade calculations */
-extern int    i,j,k;
+extern int    i,j;
 
 extern float  exkorstationhoriz;  /*radiation correction factor if station was horizontal*/
 extern float  radius2sun;         /*for calculation top of atmosphere and direct radiation*/

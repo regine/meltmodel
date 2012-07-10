@@ -33,7 +33,7 @@
 /*  NOT initialisation, but for functions changegrid and stationoutput*/
 /****************************************************************************/
 
-void snowlayermsnow() {
+void snowlayermsnow(int i, int j, int k) {
 
     /*calculate snow depth in m snow*/
     snowlayer[i][j] = 0.;
@@ -97,7 +97,7 @@ void meltlayermice() {
 /*    choice to be set in variab.h */
 /******************************************************************/
 
-void choice_layertemperature() {
+void choice_layertemperature(int i, int j, int k) {
     int inti;
 
     inti=(int)init_layertemperature;
@@ -105,10 +105,10 @@ void choice_layertemperature() {
 
     {
     case 1:
-        default_layertemp3grad();       /*default: 3 temp gradients*/
+        default_layertemp3grad(i, j, k);       /*default: 3 temp gradients*/
         break;
     case 3:
-        stor_layertemperature();       /*Storglaciaren spring 1999*/
+        stor_layertemperature(i, j, k);       /*Storglaciaren spring 1999*/
         break;
     default :
         printf("\n\n function choice_layertemperature: ERROR in variab.h: variable choice_layertemperature, must be 1 or 3\n\n");
@@ -124,7 +124,7 @@ void choice_layertemperature() {
 /*    choice to be set in variab.h */
 /******************************************************************/
 
-void choice_snowlayerdensity() {
+void choice_snowlayerdensity(int i, int j, int k) {
     int inti;
 
     inti=(int)init_snowlayerdensity;
@@ -132,13 +132,13 @@ void choice_snowlayerdensity() {
 
     {
     case 1:
-        default_snowlayerdensity();       /*default constant value*/
+        default_snowlayerdensity(i, j, k);       /*default constant value*/
         break;
     case 2:
-        default_snowlayerdensity3grad();       /*default 3 linear gradients*/
+        default_snowlayerdensity3grad(i, j, k);       /*default 3 linear gradients*/
         break;
     case 3:
-        stor_snowlayerdensity();       /*Storglaciaren spring 1999*/
+        stor_snowlayerdensity(i, j, k);       /*Storglaciaren spring 1999*/
         break;
     default :
         printf("\n\n function choice_snowlayerdensity: ERROR in variab.h: variable choice_snowlayerdensity, must be 1, 2 or 3\n\n");
@@ -154,20 +154,20 @@ void choice_snowlayerdensity() {
 /*    choice to be set in variab.h */
 /******************************************************************/
 
-void choice_firnlayerdensity() {
+void choice_firnlayerdensity(int i, int j, int k) {
     int inti;
 
     inti=(int)init_firnlayerdensity;
 
     switch(inti) {
     case 1:
-        default_firnlayerdensity();       /*default constant value*/
+        default_firnlayerdensity(i, j, k);       /*default constant value*/
         break;
     case 2:
-        default_firnlayerdensity1grad();       /*default 1 linear gradient*/
+        default_firnlayerdensity1grad(i, j, k);       /*default 1 linear gradient*/
         break;
     case 3:
-        stor_firnlayerdensity();       /*Storglaciaren spring 1999*/
+        stor_firnlayerdensity(i, j, k);       /*Storglaciaren spring 1999*/
         break;
     default :
         printf("\n\n function choice_firnlayerdensity: ERROR in variab.h: variable choice_firnlayerdensity, must be 1, 2 or 3\n\n");
@@ -216,7 +216,7 @@ void choice_snowlayermsnow() {
 /*  from data at simulation start or educated guesses                          */
 /*******************************************************************************/
 
-void default_layertemp3grad() {
+void default_layertemp3grad(int i, int j, int k) {
     /*temperatures at the turning points, 3 gradients are defined by 4 temperatures at 4 depths
       first temp is at surface, 4th at the depth where the ice is temperate*/
     float  tempsurface;    /*surface temp interpolated to grid cell*/
@@ -262,7 +262,7 @@ void default_layertemp3grad() {
 /* FUNCTION NOT CALLED ANYWHERE BECAUSE DEFAULT REPLACED BY OTHER FUNCTION*/
 /****************************************************************************/
 
-void default_layertemperature() {
+void default_layertemperature(int i, int j, int k) {
     float  tannualclim=-9;   /*SG= -3,  estimated annual average temperature climate station*/
     float  tsurfclim=-6.0;     /*SG= -6   estimated start surface temperature*/
     float  tgrad1,tgrad2;      /* vertical temperature gradient top part till climate value tannual*/
@@ -305,7 +305,7 @@ void default_layertemperature() {
 /*   called from function choice_snowlayerdensity()   */
 /****************************************************************************/
 
-void default_snowlayerdensity() {
+void default_snowlayerdensity(int i, int j, int k) {
     layerdensity[i][j][k] = densfirn;
 
     return;
@@ -317,7 +317,7 @@ void default_snowlayerdensity() {
 /*   this function calculates snow layer density based on 3 gradients       */
 /****************************************************************************/
 
-void default_snowlayerdensity3grad() {
+void default_snowlayerdensity3grad(int i, int j, int k) {
     double  densgrad1,densgrad2,densgrad3;      /* vertical density gradients*/
     double  densconst1,densconst2,densconst3;
     double  densbottom,denstop;
@@ -424,7 +424,7 @@ void default_snowlayerdensity3grad() {
 /*   using value for firn density from input.dat                            */
 /****************************************************************************/
 
-void default_firnlayerdensity() {
+void default_firnlayerdensity(int i, int j, int k) {
     layerdensity[i][j][k] = densfirn ;
 
     return;
@@ -436,7 +436,7 @@ void default_firnlayerdensity() {
 /*   called from choice_firnlayerdensity in snowinput.c                     */
 /****************************************************************************/
 
-void default_firnlayerdensity1grad() {
+void default_firnlayerdensity1grad(int i, int j, int k) {
     float firndensitygradient;    /*increase in density with increasing depth*/
 
     if((firndensitytop < 200) || (firndensitybottom < 200)) {
@@ -560,7 +560,7 @@ void default_snowlayermsnow3grad() {
 /*   based on measurements at Storglaciaren for may 1999                    */
 /****************************************************************************/
 
-void stor_layertemperature() {
+void stor_layertemperature(int i, int j, int k) {
     /*  float  tempcoeff[4]={0,-5.08817,-1.94638,0.967214}; */
     float  tempcoeff[4]= {0,-5.7912,-0.49947,0.41518};
     /* T = tempcoeff[1] + tempcoeff[2]*(m snow depth) + tempcoeff[3]*(m snow depth)^2 */
@@ -605,7 +605,7 @@ void stor_layertemperature() {
 /*   based on density measurements at Storglaciaren                         */
 /****************************************************************************/
 
-void stor_snowlayerdensity() {
+void stor_snowlayerdensity(int i, int j, int k) {
     double denssnowwe[4]= {0,0.0002,0.3414,0.0};
     /* cm we = denssnowwe[1]*(cm snow)^2 + denssnowwe[2]*(cm snow) */
     double  sum;
@@ -631,7 +631,7 @@ void stor_snowlayerdensity() {
 /*   based on density measurements at Storglaciaren                         */
 /****************************************************************************/
 
-void stor_firnlayerdensity() {
+void stor_firnlayerdensity(int i, int j, int k) {
     /*float  denscoeff[4]={0,186.296,219.988,1.63493}; */
     float  denscoeff[4]= {0,186.296,200.0,1.63493};
     /* kg/m3 = denscoeff[1] + denscoeff[2]*ln(m snow depth + denscoeff[3]) */
