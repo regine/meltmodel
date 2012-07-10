@@ -365,7 +365,8 @@ void albedoread()
         strcat(dummy,namealbedo);
 
         if ((inalbedo = fopen(dummy,"rb")) == NULL) {    /*OPEN NEW ALBEDO-FILE*/
-            printf("\n\n Albedo-File  %s  not found \n\n",namealb[ialb]);
+            printf("\n\n Error: methodinisnow == %d, ",methodinisnow);
+            printf("but Albedo-File  %s  not found. \n\n",namealb[ialb]);
             exit(20);
         }
 
