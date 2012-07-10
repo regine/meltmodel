@@ -1404,7 +1404,7 @@ void readclim()
 
     if ((year < 1500) || (year > 3000)) {
         printf("\n************** !!!  ERROR in climate data file !!! ************************");
-        printf("\n The first column (value=%.1f)is  outsite the range 1500 to 3000; it should be the year \n",year);
+        printf("\n The first column (value=%.1f)is  outside the range 1500 to 3000; it should be the year \n",year);
         exit(2);
     }
 
