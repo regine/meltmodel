@@ -41,6 +41,12 @@ void degreestart()
     rainyes = 0;
     ablyes = 0;
     surftempyes = 0;
+    if(ddmethod == 1){
+        shayes = 0;
+        exkyes = 0;
+        solyes = 0;
+        diryes = 0;
+    }
 
     methodglobal = 1;    /*to avoid array reservation for DIRECT2 and DIFFUS*/
     methodlongin = 1;    /*to avoid array reservation for LONGIN */
