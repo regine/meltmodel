@@ -3,22 +3,22 @@ INPUTFILE FOR MELT MODEL input.dat 1/2010 (behind % = comments), Juneau Icefield
 1       %output to screen every X day   daysscreenoutput
 ../test/one_point/input/           % Path for Inputfiles.  inpath
 ../test/one_point/output/   %Path for Outputfiles. outpath
-1  2000      %first julian day to be calculated.     jdbeg  yearbeg
-3  2000      %last julian day to be calculated.      jdend  yearend   
+363 1999      %first julian day to be calculated.     jdbeg  yearbeg
+364  1999      %last julian day to be calculated.      jdend  yearend   
 1   %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1   %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS ****************************
 0      %number of stakes for melt output.    maxmeltstakes
 1       %cum massbal multiplied by this factor in melting.dat plusminus
-3       %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
+1       %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
 %shayes exkyes solyes diryes dir2yes difyes gloyes albyes  swbyes linyes loutyes
-  1      0      0      0       0      0       0      0      0        0     0
+  0      0      0      0       0      0       0      0      0        0     0
 %netyes senyes latyes raiyes enbyes melyes  ablyes surftempyes  posyes ddfyes
-  0     0      0      0      0       1       0      0            1      1    
-2       %surface conditions to grid file (2=for specified JDs)           surfyes
+  0     0      0      0      0       0       0      0            0      0    
+0       %surface conditions to grid file (2=for specified JDs)           surfyes
 0       %snow cover to grid file at midnight.                            snowyes
 1       %snow or surface written to file if jd dividable by this value   daysnow
-2       %number of jd for output of surface type/snow cover              numbersnowdaysout
+0       %number of jd for output of surface type/snow cover              numbersnowdaysout
 190 210     %jd to be written to output for surface type and snow cover
 %----------- 2.) MASS BALANCE -------------------
 1           %gridout winter mass balance yes=1, no=0              winterbalyes
@@ -40,7 +40,7 @@ dummydates.dat   %file containing the dates of massbal meas       namedatesmassb
 pointoutput.txt  1 1   0    
 %******** 3.) METHODS ENERGY BALANCE COMPONENTS ********************************
 2    %1=surface maps 2=start with initial snow cover       methodinisnow
-1    %1=constant for surface types, >2=alb generated        methodsnowalbedo, 6=zongo
+2    %1=constant for surface types, >2=alb generated        methodsnowalbedo, 6=zongo
 1    %1=direct and diffuse not separated, 2=separated      methodglobal
 1    %1=longin from net,glob,ref (Tsurf=0),2=meas,3-6=from paramet methodlonginstation
 1    %1=longin constant, 2=spatially variable              methodlongin
@@ -51,9 +51,9 @@ pointoutput.txt  1 1   0
 1    %1=no ice heat flux 2=ice heat flux                        methodiceheat
 1    %1=neglected 2=neg energy balance stored to retard melt    methodnegbal
 %********* SCALING ********************************
-1    % V-A scaling yes=1, no=0,                 scalingyes
-1.375  % gamma in V-A scaling			gamma
-0.6    % coefficient in V-A scaling          c_coefficient
+0    % V-A scaling yes=1, no=0,                 scalingyes
+1.0  % gamma in V-A scaling			gamma
+1.0    % coefficient in V-A scaling          c_coefficient
 %********* 4.) NAMES OF INPUT FILES ********************************
 onepoint_dem.bin             %name of Digital Terrain Model    namedgm
 onepoint_drain.bin          %name of DTM with drainage basin  namedgmdrain
@@ -63,18 +63,18 @@ onepoint_aspect.bin           %name of DTM aspect               namedgmaspect
 dummy.bin     %name of DTM sky view factor      namedgmskyview
 onepoint_surf.bin         %name of DTM firnarea             namedgmfirn
 onepoint_snow.bin               %name of DTM initial snow cover   nameinitialsnow
-onepoint_clim.txt  %name of climate data file        nameklima
+onepoint_clim_0.txt  %name of climate data file        nameklima
 %********* 5.) GRID INFORMATION***************************************
 0.0 %geographical longitude [degree]       laenge
 0.0                %latitude                              breite
 0                   %longitude time refers to              reflongitude
 1                   %row in DTM where climate station is located   rowclim
 1                    %column of climate station             colclim
-1  7                 %take this elevation for AWS yes/no    climoutsideyes  heightclim
+1  1                 %take this elevation for AWS yes/no    climoutsideyes  heightclim
 1        %gridsize in m                         gridsize
 1                     %time step in hours                    timestep
 %********* 6.) CLIMATE DATA ******************************************
-3     %1=midnight time is 0, 2=time is 24, 3=24 but previous day formatclimdata
+1     %1=midnight time is 0, 2=time is 24, 3=24 but previous day formatclimdata
 6     %number of columns in climate file       maxcol
 4     %columns in climate input file: temperature   coltemp
 20     %column containing relative humidity     colhum
@@ -85,19 +85,19 @@ onepoint_clim.txt  %name of climate data file        nameklima
 20     %longwave incoming radiation             collongin
 20    %longwave outgoing radiation             collongout
 5     %precipitation                           colprec
-30    %cloud cover (number of eigths)          colcloud
-30    %time variant lapse rate (neg=decrease)  coltempgradvarying
+20    %cloud cover (number of eigths)          colcloud
+20    %time variant lapse rate (neg=decrease)  coltempgradvarying
 6     %column of discharge data	               coldis
 %********** CORRECTIONS TO INPUT ********************************
 0        %add this to ERA temp to get to elevationstation    ERAtempshift
 0          %add this to ERA wind to get to elevationstation    ERAwindshift
 %********** 7.) LAPSE RATE / SCENARIOS ********************************
 1          %1=const lapse rate 2=variable 2AWS 3=grid              methodtempinterpol
--0.6     %temperature change with elevation [degree/100m]        tempgrad
+-1.0     %temperature change with elevation [degree/100m]        tempgrad
 0          %climate perturbation: temp + this amount               tempscenario
 0          %climate perturbation: precip + this amount in percent  precscenario
 %on/off Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-0        0     0     0     0     -0.432     -0.308     -0.388     -0.322     -0.362     -0.362     0     0  %monthtempgrad(yes)
+0        0     0     0     0     0     0     0     0     0     0     0     0  %monthtempgrad(yes)
 0        0.5   1     1     1     1     1     1     1     1     1     1     1  %monthtempscen(yes)
 0        10   10    10    10    10    10    10    10    10    10    10    10  %monthprecipscen(yes)
 %******** 8.) SURFACE TYPE / ALBEDO ***********************************
@@ -143,35 +143,35 @@ onepoint_clim.txt  %name of climate data file        nameklima
 %*********** 12.) DISCHARGE ************************************************
 discharge.txt     %name of discharge output file                    nameqcalc
 -9999      %nodata value of discharge file		     nodis
-350        % storage constant k for firn                     firnkons
+150        % storage constant k for firn                     firnkons
 50         % storage constant k for snow                     snowkons
 5       % storage constant k for ice                      icekons
-30         % storage constant k for rock(outside glacier non-snowcovered)   icekons
+10         % storage constant k for rock(outside glacier non-snowcovered)   icekons
 %************* 13.) DISCHARGE STARTING VALUES**********************
-5.0       %start value for firn discharge (previous time step)  qfirnstart
+0.0       %start value for firn discharge (previous time step)  qfirnstart
 0.0       %start value for snow discharge (m3/s)            qsnowstart
-5.0       %start value for ice discharge                    qicestart
-5.0       %start value for rock discharge (outside glacier non-snowcovered) qicestart
+0.0       %start value for ice discharge                    qicestart
+0.0       %start value for rock discharge (outside glacier non-snowcovered) qicestart
 0.0       %groundwater discharge[m3]                        qground
 0         %difference between start of calculation and start r2  jdstartr2diff
 %%%%%%%%%%%% 15.) OPTIMIZATION %%%%%%%%%%%%%%%%%%%%%
 0                 %optimization run for k-values = 1; simulation=0  disyesopt
-radfactorsnow     %1. parameter to optimize                  optkA
+firnk3     %1. parameter to optimize                  optkA
 0.4               %startvalue of 1. parameter to optimize    startopt1
 0.2               %step length                               stepopt1
 7                 %number of steps no.1                      anzahlopt1
-radfactorice          %2. parameter to optimize              optkB
+firnk3          %2. parameter to optimize              optkB
 0.4                   %startvalue of 2. parameter            startopt2
 0.2                   %steplength no.2 of optimal r2         stepopt2
 8                     %number of steps no.2                  anzahlopt2
 matriz.dat         %name of r2-outputfile                    namematrix
 %============ 16.) SNOW MODEL by C. Tijm-Reijmer 2/2005 ========================
-1    %0=no percolation, 1=percolation+refreezing in snowlayer   percolationyes
-1    %0=no slush, 1=meltwater accumulation in snowlayer         slushformationyes
-1    %0=no densification, 1=densific. of dry snow due to aging  densificationyes
+0    %0=no percolation, 1=percolation+refreezing in snowlayer   percolationyes
+0    %0=no slush, 1=meltwater accumulation in snowlayer         slushformationyes
+0    %0=no densification, 1=densific. of dry snow due to aging  densificationyes
 0    %0=dry start, 1=wet start                                  wetstartyes
-30   %maximum number of vertical layers                         ndepths
-8    %number of subtimesteps for interpolation per main timestep 8 factinter
+10   %maximum number of vertical layers                         ndepths
+5    %number of subtimesteps for interpolation per main timestep 8 factinter
 %----------------------------
 0.04    %layer thickness of first layer (m snow)       thicknessfirst
 5.0     %layer thickness at deepest layer (m snow)     thicknessdeep
@@ -183,18 +183,18 @@ matriz.dat         %name of r2-outputfile                    namematrix
 1    %factor for subsurf output, 1=every hour, 24=once per day at midnight, factsubsurfout
 12   %offfsetfactor for subsurf output to make print at noon possible, offsetsubsurfout
 runoffyes superyes   wateryes   surfwateryes slushyes   coldsnowyes   coldtotyes      for grid output
-   1        1           1          1          1              1             1
+   0        0           0          0          0              0             0
 %========================================================
 %   17.) TEMPERATURE INDEX METHOD
 %========================================================
-1     %which temp index method (1,2 or 3)                     ddmethod
-8.0   %degree day factor for ice (only simple DDF method 1)   DDFice
-5.5   %degree day factor for snow (only simple DDF method 1)  DDFsnow
+2     %which temp index method (1,2 or 3)                     ddmethod
+10.0   %degree day factor for ice (only simple DDF method 1)   DDFice
+1.0   %degree day factor for snow (only simple DDF method 1)  DDFsnow
 %---------------------------------------------------
-2.7     %meltfactor (only for modified temp index method 2 or 3)   meltfactor           
-0.9   %radiation melt factor for ice                   radfactorice
-0.6     %radiation melt factor for snow                  radfactorsnow
+5.0     %meltfactor (only for modified temp index method 2 or 3)   meltfactor           
+10.0   %radiation melt factor for ice                   radfactorice
+1.0    %radiation melt factor for snow                  radfactorsnow
 1     %factor to reduce melt over debris               debrisfactor
 %******* 18.) OUTPUT STAKES **************************************
 3     %1=stake locations given in local coordinates (x,y), 2=as 1 but center, 3=row/col  coordinatesyes
-   0    0   %Easting  Northing
+   1    1   %Easting  Northing
