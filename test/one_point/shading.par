@@ -1,12 +1,12 @@
 ******** INPUT FILE FOR SHADING.C :  shading.par *****************************
-input/
-radiation/ %Outputpathname for direct rad files
+../test/one_point/input/
+../test/one_point/radiation/ %Outputpathname for direct rad files
 onepoint_dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
 onepoint_dem.bin   %NAME OF SLOPE FILE
 onepoint_dem.bin      %NAME OF ASPECT FILE
 ******************************************************************************
-50        %jdbeg   first julian day to be computed
-50        %jdend   last julian day to be computed
+360        %jdbeg   first julian day to be computed
+10        %jdend   last julian day to be computed
 ******************************************************************************
 0.0 %longitude 
 0.0 %latitude    
