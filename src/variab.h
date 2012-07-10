@@ -478,7 +478,7 @@ int    split;         /* number of intervals per time step for shade calculation
  *  ability to change one of these while its being used in a different loop.
  *  These guys get used all over the place, but need to go if the code is multi-threaded
  * */
-int    i,j,k;
+int    i,j;
 
 /* end LG */
 
