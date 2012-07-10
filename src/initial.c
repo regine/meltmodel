@@ -689,17 +689,19 @@ void startinputdata()
     /*read line by line until row before row to be included in calculations is found*/
     do {
         status = fscanf(inklima,"%f%f%f",&year,&jd,&zeit);   /*READ JULIAN DAY*/
+        if (status == EOF) {
+            printf("\n\n start julian day not found on climate file\n");
+            printf(" check control file 'input.dat'\n (File initial.c)\n\n");
+            fclose(inklima);
+            exit(1);
+
         readrestofline(&inklima);             /*READ REST OF LINE*/
 
 
         if((zeit==24) && ((int)jd/daysscreenoutput == floor((int)jd/daysscreenoutput)))
             printf("reading climate data to find start row: year = %.2f day %.2f time %.2f\n",year,jd,zeit);
 
-        if (status == EOF) {
-            printf("\n\n start julian day not found on climate file\n");
-            printf(" check control file 'input.dat'\n (File initial.c)\n\n");
-            fclose(inklima);
-            exit(1);
+
         }  /*endif*/
 
         if((timestep == 1) && (formatclimdata == 3) && ( zeit == 24))
