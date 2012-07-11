@@ -694,6 +694,7 @@ void startinputdata()
             printf(" check control file 'input.dat'\n (File initial.c)\n\n");
             fclose(inklima);
             exit(1);
+        }  /*endif*/
 
         readrestofline(&inklima);             /*READ REST OF LINE*/
 
@@ -702,7 +703,7 @@ void startinputdata()
             printf("reading climate data to find start row: year = %.2f day %.2f time %.2f\n",year,jd,zeit);
 
 
-        }  /*endif*/
+
 
         if((timestep == 1) && (formatclimdata == 3) && ( zeit == 24))
             timeok = 1;   /*midnight value found*/
