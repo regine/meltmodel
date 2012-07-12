@@ -20,8 +20,7 @@ endif(UNIX)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_subdirectory(src)
-add_subdirectory(shading)
-add_subdirectory(grid_tools)
+add_subdirectory(util)
 
 #search for tag programs
 find_program(CTAGS ctags)
