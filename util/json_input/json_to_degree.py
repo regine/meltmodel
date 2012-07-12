@@ -12,7 +12,9 @@ def main():
     import json
     
 # Parse commandline options
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Convert json formatted ' +
+            'config files to valid input.dat config files '+
+            'for the Hock melt model.')
 
     parser.add_argument('input', type=str, 
             help='json equivalent of input.dat')
