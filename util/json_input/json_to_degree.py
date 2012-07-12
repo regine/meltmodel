@@ -2,6 +2,8 @@
 # This code is distrubuted under the GPL
 # Author: Lyman Gillispie
 
+import sys
+
 class Error(Exception):
     pass
 
@@ -12,14 +14,14 @@ def main():
 # Parse commandline options
     parser = argparse.ArgumentParser()
 
-    args_files = parser.add_argument_group('Files')
-    args_files.add_argument('input', type=str, 
+    parser.add_argument('input', type=str, 
             help='json equivalent of input.dat')
-    args_files.add_argument('-o','--output', type=str, 
-            default='input.dat',help='output filename')
-
-#    parser.add_argument('-s', '--silent', action="store_true",
-#            help='do not warn on overwrite')
+    parser.add_argument('-o','--output', type=str, 
+            help='output filename, if unspecified output is sent to stdout')
+ 
+    parser.add_argument('-s', '--silent', action="store_true",
+            default=False,
+            help='silently overwrite <output>, if it exists')
 
     args = parser.parse_args()
 
@@ -31,23 +33,68 @@ def main():
             print "Json error, " + str(e) + " in {0}".format(in_file.name)
             return
 
-# check if out_file exists    
-#    if not args.silent:
-#      try:
-#         with open(args.output) as out_file:
-#               print "{0} already exists. Overwrite? [y/N]".format(args.output)
-#      except IOError: pass
-    
-    melt_mod_dict_to_dat(config)
+# Outputs config file (input.dat) to std out or to a file
+    if args.output == None: 
+        melt_mod_dict_to_dat(config)
+    else:
+        if not args.silent:
+            # check to see if the file exists
+            try:
+                out_file = open(args.output)
+                out_file.close()
+                choice = query_yes_no("{0}".format(args.output) +
+                       " already exists. Overwrite?" ,default="no")
+                if not choice:
+                    return
+            except IOError:
+                pass    
+
+    with open(args.output, 'w') as out_file:
+        sys.stdout = out_file
+        melt_mod_dict_to_dat(config)
+        sys.stdout = sys.__stdout__
 
     return
+
+def query_yes_no(question, default="yes"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+        It must be "yes" (the default), "no" or None (meaning
+        an answer is required of the user).
+
+    The "answer" return value is one of "yes" or "no".
+    """
+    valid = {"yes":True,   "y":True,  "ye":True,
+             "no":False,     "n":False}
+    if default == None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = raw_input().lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "\
+                             "(or 'y' or 'n').\n")
+
        
 def melt_mod_dict_to_dat(config):
     '''Super ugly conversion method, 
     Args: config - a dictionary containing all of the appropriate elements
-    Returns: currently prints to screen
-    TODO: return a strin to be output to a file or to the screen
+    Returns: prints to stdout a valid input.dat for the Hock melt model
     '''
+
     first_part = '\n\n{daysscreenoutput}\n{inpath}\n{outpath}\n{jdbeg}  {yearbeg}\n{jdend}  {yearend}\n{disyes}\n{calcgridyes}\n\n{maxmeltstakes}\n{plusminus}\n{do_out}\n\n{shayes} {exkyes} {solyes} {diryes} {dir2yes} {difyes} {gloyes} {albyes} {swbyes} {linyes} {loutyes}\n\n{netyes} {senyes} {latyes} {raiyes} {enbyes} {melyes} {ablyes} {surftempyes} {posyes} {ddfyes}\n{surfyes}\n{snowyes}\n{daysnow}\n{numbersnowdaysout}'
  
     print(first_part).format(**config)
