@@ -62,6 +62,7 @@ void opendiscalc()
 void startarraysdis()
 
 {
+    int iiopt, jjopt;
     /*for simulation runs variable as arrays not needed (only one sum each), but
       here used for simplicity to avoid new variables (arrays needed for optimization) */
 
@@ -102,10 +103,6 @@ void startarraysdis()
             r2ln[iiopt][jjopt] = 0.0;
         }
 
-    /*must be set to 1, because in case of simulation run it is 2, after the
-      loop and 1 is needed in r2calc*/
-    iiopt=1;
-    jjopt=1;
 
     return;
 }
@@ -121,6 +118,7 @@ void startarraysdis()
 void startarraysopt()
 
 {
+    int iiopt, jjopt;
     /*for every parameter constellation the previous day discharge */
     /* of the 3 reservoirs must be known for the next time step */
     qfirnopt= matrixreservdouble(1,anzahlopt1,1,anzahlopt2);
@@ -154,6 +152,7 @@ void startarraysopt()
 void openr2matrizkopt()
 
 {
+    int jjopt;
     strcpy(dummy,outpath);         /* definition of outpath */
     strcat(dummy,namematrix);    /* copies name of outputfile to path */
 
@@ -357,7 +356,7 @@ void whichreservoir()
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
 
-void sumr2()
+void sumr2(int iiopt, int jjopt)
 
 {
     /*SUMATION FOR r2 ONLY IF DISCHARGE DATA AVAILABLE,
@@ -397,7 +396,7 @@ void sumr2()
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
 
-void sumr2ln()
+void sumr2ln(int iiopt, int jjopt)
 
 {
     if(qdischgem != nodis)		  /* March 2006*/
@@ -522,8 +521,8 @@ void discharge()                  /*called each time step from main */
     volumesim = volumesim + qdischber*timestep*3600/100000;
     /*-------------------------------------------------------------------------------*/
     if(disyes == 1) {    /*only if discharge data available, i.e. if not 2*/
-        sumr2();
-        sumr2ln();
+        sumr2(1, 1);
+        sumr2ln(1, 1);
     }
     writedisoutput();   /*write data of one time step to output file*/
 
@@ -547,6 +546,7 @@ void discharge()                  /*called each time step from main */
 void r2calc()
 
 {
+    int iiopt, jjopt;
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
             f02[iiopt][jjopt] = (sumf0x2[iiopt][jjopt]-pow(sumf0x[iiopt][jjopt],2)/nstepsdis);
@@ -573,6 +573,7 @@ void r2calc()
 void r2calcln()
 
 {
+    int iiopt, jjopt;
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++)
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++) {
             f02ln[iiopt][jjopt] = (sumf0x2ln[iiopt][jjopt]-pow(sumf0xln[iiopt][jjopt],2)/nstepsdis);

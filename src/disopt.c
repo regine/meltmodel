@@ -29,7 +29,7 @@
 void dischargeopt()
 
 {
-
+    int iiopt, jjopt;
     /*------------------------------------------------------------------------------*/
     /*                        OPTIMIZATION HEAD-LOOP  for each timestep             */
 
@@ -59,7 +59,6 @@ void dischargeopt()
             precgrad = (iiopt-1)*stepopt1+startopt1;
 
         for (jjopt=1; jjopt<=anzahlopt2; jjopt++)   /* second parameter to optimize */
-
         {
             if (strcmp(optkB ,"firnk3") == 0)       /* 2. parameter increased */
                 firnkons = (jjopt-1)*stepopt2+startopt2;
@@ -154,8 +153,8 @@ void dischargeopt()
             /*              summation for r2-CRITERIUM                                      */
             /*------------------------------------------------------------------------------*/
 
-            sumr2();     /* SUM UP SUMS FOR r2-CALCULATION*/
-            sumr2ln();   /* SUMS FOR ln r2*/
+            sumr2(iiopt, jjopt);     /* SUM UP SUMS FOR r2-CALCULATION*/
+            sumr2ln(iiopt, jjopt);   /* SUMS FOR ln r2*/
             /*-------------------------------------------------------------------------------*/
 
             /* meltwater integrated over ice, snow, firn area for one parameter constellation*/
@@ -203,6 +202,7 @@ void dischargeopt()
 void write2matriz()
 
 {
+    int iiopt, jjopt;
     /*WRITE r2-MATRIX*/
 
     for (iiopt=1; iiopt<=anzahlopt1; iiopt++) { /*FOR EACH ROW = 1.PARAMETER*/

@@ -860,6 +860,7 @@ void startoutascii()
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
     /*filenames consist of path+subsurf+name for individual model output given in input.dat*/
     if ((methodsurftempglac == 4) && (outgridnumber > 0)) {
+        int k;
         strcpy(dummysubsurf,"subsurf");   /*add in front of outgridname*/
         for (k=1; k <= outgridnumber; k++) {
             strcpy(dummy,outpath);
