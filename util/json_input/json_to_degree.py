@@ -84,7 +84,8 @@ def melt_mod_dict_to_dat(config):
     '''Super ugly conversion method, 
     Args: config - a dictionary containing all of the appropriate elements
     Returns: outstring, a valid input.dat for the Hock melt model
-    
+    TODO: - change "+=" flow to a "list-append" and .join flow 
+          - change format strings to that they fit on a line
     '''
 
     outstring = ''
