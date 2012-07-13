@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright 2012 Lyman Gillispie
 # This code is distributed under the GPL License 
 # Author: Lyman Gillispie
