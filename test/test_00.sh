@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MELTMOD_PATH=$1
-MELTMOD_SOURCE=$2
+MELT_PATH=$1
+MELT_SOURCE=$2
 
 # Test name:
 echo "Test # 0: presence of tools and Python modules needed by other tests."
@@ -35,22 +35,20 @@ do
     fi
 done
 
-/usr/bin/env python $MELTMOD_PATH/json_to_degree.py $MELTMOD_SOURCE/util/json_input/test/json_test_in.json -o=foo.txt -s
-diff $MELTMOD_SOURCE/util/json_input/test/json_test_out.txt foo.txt
+/usr/bin/env python $MELT_PATH/json_to_degree.py $MELT_SOURCE/util/json_input/test/json_test_in.json -o=foo.txt -s
+diff $MELT_SOURCE/util/json_input/test/json_test_out.txt foo.txt
 if [ $? != 0 ];
 then
-    echo "json_to_degree.py Failed it's test"
+    echo "util/json_to_degree.py is broken: output is different than expected"
     success=0
 fi
 
+rm -f $files; 
 set +e
 
 if [ $success == 0 ];
 then
-    rm -f $files
     exit 1
 fi
 
-
-rm -f $files; 
 exit 0
