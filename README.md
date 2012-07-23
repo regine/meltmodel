@@ -7,6 +7,7 @@ Short-term mass balance variations (ablation and accumulation) are calculated  b
 # Building #
 Prerequisites:
 * Cmake: MeltMod uses [cmake](http://www.cmake.org/) to build itself, any version >=2.8 should work
+* Python 2, as well as the argparse module (included by default on versions >= 2.7)
 
 Building:
 - Download the source: 
