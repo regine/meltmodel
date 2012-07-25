@@ -1,8 +1,7 @@
 /*******************************************************************/
 /*  FILE   closeall.c                                              */
-/*              includes FUNCTION freematrix                       */
+/*                                                                 */
 /*     CLOSING FILES, FREE STORAGE                                 */
-/*  1.4.1997,  update 18 Nov 2011 */
 /*******************************************************************/
 
 #include "closeall.h"
@@ -14,7 +13,6 @@
 
 #include "initial.h"
 #include "grid.h"
-//#include "snowmodel.h"
 
 #include "variabex.h"      /* all global VARIABLES */
 

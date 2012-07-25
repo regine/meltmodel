@@ -1,10 +1,10 @@
 /* This file is part of the Hock Melt Model
- *
- * closeall.h
- *
- *  Created on: May 25, 2012
- *      Author: Lyman Gillispie
- */
+/*******************************************************************/
+/*  FILE   closeall.h                                              */
+/*                                                                 */
+/*     CLOSING FILES, FREE STORAGE                                 */
+/*                                                                 */
+/*******************************************************************/
 
 #ifndef MELT_MOD_CLOSEALL_H_
 #define MELT_MOD_CLOSEALL_H_
