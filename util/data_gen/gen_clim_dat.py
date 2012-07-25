@@ -14,8 +14,9 @@ class DateConflict(Error):
         return repr(self.value)
 
 
-def sim_clim_data(beg_year, end_year, jd_beg_day, jd_end_day, hours, temp, precip, discharge, tab_len = 4):
-
+def sim_clim_data(beg_year, end_year, jd_beg_day, jd_end_day, hours, temp,
+                  precip, discharge, tab_len = 4):
+    this_tab = tab_len*' '
     if beg_year > end_year:
         raise DateConflict('beg_year > end_year')
     elif beg_year == end_year and jd_beg_day > jd_end_day:
@@ -39,11 +40,10 @@ def sim_clim_data(beg_year, end_year, jd_beg_day, jd_end_day, hours, temp, preci
             last_day = 365
 
         for day in range(first_day,last_day+1):
-            disp_strings = [str(year) + tab_len*' '+str(day) + tab_len*' ' + str(time)
-                    + tab_len*' ' + str(temp) + tab_len*' ' + str(precip) + tab_len*' ' + str(discharge)
-                    for time in hours]
-            for element in disp_strings:
-                print(element)
+            for time in hours:
+                disp_strings = map(str,[year, day, time, temp, precip, discharge])
+                print ( this_tab.join(disp_strings) )
+    
 
 def main():
     import argparse
