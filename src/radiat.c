@@ -1049,14 +1049,14 @@ void longinstationbrunts()
 
 
 /******************************************************************/
-/*  FUNCTION : longinstationbrutsaert                                              */
-/*             CALCULATION LONGWAVE INCOMING RADIATION AT STATION                  */
-/*             FROM PARAMETERIZATION by Brutsaert for clear sky, zongo for clouds  */
-/*        cloud is read from climate input but the column was computed	priorly	   */
-/*        from ratio global radiation/topofatmosphere, fitted to Zongo data        */
-/*        CLOUD VARIES FROM 0 TO 1                                                 */
-/*        see Sicart, 2002, PhD thesis, p.260                                      */
-/*     March 2006                                                                  */
+/*  FUNCTION : longinstationbrutsaert                                       */
+/*    CALCULATION LONGWAVE INCOMING RADIATION AT STATION                    */
+/*    ROM PARAMETERIZATION by Brutsaert for clear sky, zongo for clouds     */
+/*    cloud is read from climate input but the column was computed	priorly */
+/*    from ratio global radiation/topofatmosphere, fitted to Zongo data     */
+/*    CLOUD VARIES FROM 0 TO 1                                              */
+/*    see Sicart, 2002, PhD thesis, p.260                                   */
+/*    March 2006                                                            */
 /******************************************************************/
 
 void longinstationbrutsaert()
