@@ -9,15 +9,25 @@ Prerequisites:
 * Cmake: MeltMod uses [cmake](http://www.cmake.org/) to build itself, any version >=2.8 should work
 * Python 2, as well as the argparse module (included by default on versions >= 2.7)
 
-Building:
-- Download the source: 
-    *either via git ```git clone https://github.com/fmuzf/melt_mod.git```
-    *or just download the zip file, then unzip it
-- Navigate to the project root : ```cd melt_mod```
-- Make an out-of-source build directory: ```mkdir build```
-- Navigate to the build directory: ```cd build```
-- Run cmake to generate the make file: ```cmake ..```
-- Run make and test to build MeltMod: ```make && make test```
+To download the latest release use git:
+
+    git clone git@github.com:fmuzf/melt_mod.git
+
+Installation requirements:
+
+  *  [Cmake](http://www.cmake.org/) version >= 2.8 must be installed and running.
+
+  *  A C -compiler
+
+  * [Python](http://www.python.org/) version 2.x
+
+To build MeltMod locally (within the source tree), do
+
+    $ cd melt_mod
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make && make test:
 
 You should now have a working copy of all the executables needed to run the model.
 
