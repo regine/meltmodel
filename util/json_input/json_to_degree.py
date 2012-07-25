@@ -1,7 +1,12 @@
 #!/usr/bin/env python
+
 # Copyright 2012 Lyman Gillispie
-# This code is distrubuted under the GPL
+# This code is distributed under the GPL
 # Author: Lyman Gillispie
+# 
+# Converts json-formatted input files for meltmod and returns an 'input.dat'
+# file formatted for meltmod may be run as a command-line utility, or may be
+# imported as a module 
 
 
 class Error(Exception):
