@@ -1,3 +1,4 @@
+# CMakeLists.txt for test/
 
 # Copy json_to_degree.py into the build directory:
 configure_file (${PROJECT_SOURCE_DIR}/util/json_input/json_to_degree.py ${PROJECT_BINARY_DIR}/json_to_degree.py COPYONLY)
@@ -10,8 +11,5 @@ macro(meltmod_test name script)
     add_test("${name}:${script}" ${MELTMOD_TEST_DIR}/${script} ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR})
 endmacro()
 
-# Tests themselves:
+# Add the tests themselves:
 meltmod_test (meltmod_testing_tools test_00.sh)
-
-
-

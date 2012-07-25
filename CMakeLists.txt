@@ -1,5 +1,7 @@
+# CMakeLists.txt for the root of the meltmod project
+# Tells cmake about the build environment and where to look
+# for source files
 cmake_minimum_required (VERSION 2.8)
-
 project (MeltModel)
 
 
@@ -8,9 +10,11 @@ project (MeltModel)
 if(APPLE)
     set(CMAKE_C_FLAGS "-m32")
 endif(APPLE)
-
+#LOTS of compiler warnings foe debug builds
 set(CMAKE_C_FLAGS_DEBUG "-Wall -Wextra -O0 -g")
-
+#Unix versions of gcc are a little more picky about having libmath linked explicit
+# whereas the osx compiler picks is up automatically. It may be a better
+# idea to explicitly link libmath always.
 if(UNIX)
     link_libraries(m)
 endif(UNIX)
@@ -51,5 +55,3 @@ add_custom_target(tags
 # MELTMOD regression testing
 ENABLE_TESTING()
 add_subdirectory (test)
-
-
