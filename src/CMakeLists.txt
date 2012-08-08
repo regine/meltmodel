@@ -72,3 +72,6 @@ target_link_libraries(meltmod closeall
                               turbul
                               userfile
                               writeout)
+
+install(TARGETS degree meltmod
+    RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/bin)
