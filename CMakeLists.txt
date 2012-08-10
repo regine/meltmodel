@@ -51,7 +51,3 @@ add_custom_target(cscope
 add_custom_target(tags
     COMMAND make ctags
     COMMAND make cscope)
-
-# MELTMOD regression testing
-ENABLE_TESTING()
-add_subdirectory (test)
