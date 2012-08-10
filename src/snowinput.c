@@ -1,4 +1,5 @@
 /***********************************************************************
+ * Copyright 2005, 2010, 2012 Carleen Tijm-Reijmer, Regine Hock
  * This file is part of MeltMod.
  * 
  * MeltMod is free software: you can redistribute it and/or modify

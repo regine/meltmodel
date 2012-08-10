@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
 # Copyright 2012 Lyman Gillispie
-# This code is distributed under the GPL
+# This code is distributed under the GPL v3 or later
 # Author: Lyman Gillispie
-# 
+#
 # Converts json-formatted input files for meltmod and returns an 'input.dat'
 # file formatted for meltmod may be run as a command-line utility, or may be
-# imported as a module 
+# imported as a module
 
 
 class Error(Exception):
@@ -55,7 +55,7 @@ def jsontodat(input, output=None, silent=False):
     """
     import json
 
-    
+
     # Open json config file and load the contents to a dictionary
     with open(input) as in_file:
         try:
@@ -65,7 +65,7 @@ def jsontodat(input, output=None, silent=False):
             return
 
 # Outputs config file (input.dat) to std out or to a file
-    if output == None: 
+    if output == None:
         print melt_mod_dict_to_dat(config)
     else:
         if not silent:
@@ -78,25 +78,25 @@ def jsontodat(input, output=None, silent=False):
                 if not choice:
                     return
             except IOError:
-                pass    
+                pass
 
         with open(output, 'w') as out_file:
             out_file.write(melt_mod_dict_to_dat(config))
-        
+
     return
 
 def melt_mod_dict_to_dat(config):
-    '''Super ugly conversion method, 
+    '''Super ugly conversion method,
     Args: config - a dictionary containing all of the appropriate elements
     Returns: outstring, a valid input.dat for the Hock melt model
-    TODO: - change "+=" flow to a "list-append" and .join flow 
+    TODO: - change "+=" flow to a "list-append" and .join flow
           - change format strings to that they fit on a line
     '''
 
     outstring = ''
 
     first_part = '\n\n{daysscreenoutput}\n{inpath}\n{outpath}\n{jdbeg}  {yearbeg}\n{jdend}  {yearend}\n{disyes}\n{calcgridyes}\n\n{maxmeltstakes}\n{plusminus}\n{do_out}\n\n{shayes} {exkyes} {solyes} {diryes} {dir2yes} {difyes} {gloyes} {albyes} {swbyes} {linyes} {loutyes}\n\n{netyes} {senyes} {latyes} {raiyes} {enbyes} {melyes} {ablyes} {surftempyes} {posyes} {ddfyes}\n{surfyes}\n{snowyes}\n{daysnow}\n{numbersnowdaysout}\n'
- 
+
     outstring += (first_part).format(**config)
 
     outstring += " ".join(map(str, config['jdsurface'])) + "\n\n"
@@ -106,10 +106,10 @@ def melt_mod_dict_to_dat(config):
     outstring += (second_part).format(**config)
 
     for grid in config['outgrids']:
-        outstring +=  (grid['name'] + " " + 
-            " ".join(map(str, grid['location'])) + 
-            " " + str(grid['outglobnet']) + "\n") 
-    
+        outstring +=  (grid['name'] + " " +
+            " ".join(map(str, grid['location'])) +
+            " " + str(grid['outglobnet']) + "\n")
+
     outstring += "\n"
 
     third_part = '{methodinisnow}\n{methodsnowalbedo}\n{methodglobal}\n{methodlonginstation}\n{methodlongin}\n{methodsurftempglac}\n\n{methodturbul}\n{method_z0Te}\n{methodiceheat}\n{methodnegbal}\n\n{scalingyes}\n{gamma}\n{c_coefficient}\n\n{namedgm}\n{namedgmdrain}\n{namedgmglac}\n{namedgmslope}\n{namedgmaspect}\n{namedgmskyview}\n{namedgmfirn}\n{nameinitialsnow}\n{nameklima}\n\n{laenge}\n{breite}\n{reflongitude}\n{rowclim}\n{colclim}\n{climoutsideyes}  {heightclim}\n{gridsize}\n{timestep}\n\n{formatclimdata}\n{maxcol}\n{coltemp}\n{colhum}\n{colwind}\n{colglob}\n{colref}\n{colnet}\n{collongin}\n{collongout}\n{colprec}\n{colcloud}\n{coltempgradvarying}\n{coldis}\n\n{ERAtempshift}\n{ERAwindshift}\n\n{methodtempinterpol}\n{tempgrad}\n{tempscenario}\n{precscenario}\n\n'
@@ -132,7 +132,7 @@ def melt_mod_dict_to_dat(config):
 
     for stake in config["stake_coords"]:
         outstring +=  (" ".join(map(str,stake)) + "\n")
-    
+
     return outstring
 
 def test_1():
@@ -143,22 +143,22 @@ def test_1():
         test_str = file.read()
 
     assert(test_str == gen_str)
-    
-    
-   
+
+
+
 def main():
     import argparse
-    
+
 # Parse commandline options
     parser = argparse.ArgumentParser(description='Convert json formatted ' +
             'config files to valid input.dat config files '+
             'for the Hock melt model.')
 
-    parser.add_argument('input', type=str, 
+    parser.add_argument('input', type=str,
             help='json equivalent of input.dat')
-    parser.add_argument('-o','--output', type=str, 
+    parser.add_argument('-o','--output', type=str,
             help='output filename, if unspecified output is sent to stdout')
- 
+
     parser.add_argument('-s', '--silent', action="store_true",
             default=False,
             help='silently overwrite <output>, if it exists')

@@ -1,4 +1,5 @@
 /***********************************************************************
+ * Copyright 2012 Regine Hock, Lyman Gillispie
  * This file is part of MeltMod.
  * 
  * MeltMod is free software: you can redistribute it and/or modify
@@ -23,7 +24,7 @@
 
 
 /*================================================================*/
-/* FILE tindex.c                                                  */
+/* FILE tindex.h                                                  */
 /* This file contains all functions which are needed              */
 /* to calculate melt by temperature index methods and             */
 /* discharge functions needed if melt parameters are optimized    */

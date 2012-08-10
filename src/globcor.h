@@ -1,4 +1,6 @@
 /***********************************************************************
+ * Copyright 2012 Regine Hock, Lyman Gillispie
+ *
  * This file is part of MeltMod.
  * 
  * MeltMod is free software: you can redistribute it and/or modify

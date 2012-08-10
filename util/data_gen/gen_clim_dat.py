@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Copyright 2012 Lyman Gillispie
-# This code is distributed under the GPL License 
+# This code is distributed under the GPL v3 or later
 # Author: Lyman Gillispie
 
 
@@ -33,7 +33,7 @@ def sim_clim_data(beg_year, end_year, jd_beg_day, jd_end_day, hours, temp,
         else:
             first_day = 1
 
-        # end on the right day this year 
+        # end on the right day this year
         if year == end_year:
             last_day = jd_end_day
         else:
@@ -43,7 +43,7 @@ def sim_clim_data(beg_year, end_year, jd_beg_day, jd_end_day, hours, temp,
             for time in hours:
                 disp_strings = map(str,[year, day, time, temp, precip, discharge])
                 print ( this_tab.join(disp_strings) )
-    
+
 
 def main():
     import argparse
@@ -80,7 +80,7 @@ def main():
             help=('hourly readings'))
 
     args_dates = parser.add_argument_group("Dates to be simulated")
-    args_dates.add_argument("-by", "--beg_year", required=True, 
+    args_dates.add_argument("-by", "--beg_year", required=True,
             type=int, choices=xrange(1500,3001),
             help=('first year to be output'))
     args_dates.add_argument("-bd", "--jd_beg_day", required=True,
@@ -94,7 +94,7 @@ def main():
             help=('Julian day to end on'))
 
     clim_data = parser.add_argument_group("Climate data")
-    clim_data.add_argument('-t', '--temp', 
+    clim_data.add_argument('-t', '--temp',
             type=float, default=0.0,
             help=('Temperature at all times'))
     clim_data.add_argument('-p', '--precip',
@@ -123,7 +123,7 @@ def main():
         elif args.formatclimdata ==3:
             hours = range(1,25)
 
-    sim_clim_data(args.beg_year, args.end_year, 
+    sim_clim_data(args.beg_year, args.end_year,
             args.jd_beg_day, args.jd_end_day, hours,
             args.temp, args.precip, args.discharge)
 
