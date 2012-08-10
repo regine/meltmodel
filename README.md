@@ -25,8 +25,11 @@ To build MeltMod, do
     $ make && make install:
     $ cd ..
 
-The binarys for MeltMod will now be located in melt_mod/bin
+The binaries for MeltMod will now be located in melt_mod/bin
 
 Further information about MeltMod is available 
 [here](http://www2.gi.alaska.edu/~regine/meltmodel.html).
+
+# License #
+GPL v3 or greater
 
