@@ -1,4 +1,4 @@
-### Major changes since v1.0
+### Major changes since 11/2011
 
 * Github hosting!
 
@@ -44,10 +44,3 @@ Which brings us to...
     - issue #9: Redundant long ints ```nrl,nrh,ncl,nch,ndl``` and ```ndh``` used for 
         matrix/tensor sizing were removed, matrix
         allocation and deallocation now take integers as arguments.
-    
-
-* Python tools:
-    - util/json_input : json_to_degree.py is a tool to convert a [json](http://www.json.org/)
-        formatted file to a correctly formatted ```input.dat``` file. 
-
-
