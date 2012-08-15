@@ -6,11 +6,11 @@ All information about MeltMod can be found at <http://www2.gi.alaska.edu/~regine
   *  [Cmake](http://www.cmake.org/) >= 2.8 must be installed and running.
 
 #### 1. A C compiler
-- __OS X__: You will need to download and install [XCode](https://developer.apple.com/xcode)
+- __Mac OS X__: You will need to download and install [XCode](https://developer.apple.com/xcode)
 
 - __Linux__: Your distro should include this, if not use your package manager to install gcc and g++.
     
-#### 2. Cmake
+#### 2. [Cmake](http://www.cmake.org/)
 - __OS X__ : We recommend you use a package manager such as [Homebrew](http://mxcl.github.com/homebrew/)
 (or [MacPorts](http://www.macports.org/), or [Fink](http://www.finkproject.org/)) to obtain cmake.
 
