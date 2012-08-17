@@ -37,22 +37,28 @@ by Carleen Tijm-Reijmer, Utrecht University.
 
 Download
 --------
-
+The model is hosted from our [github repository]({{%page.repo%}}).
+You can download the source as zip or tar files via:
 -   [Meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
 -   [Meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
 -   [Meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
 -   [Meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
-You can also clone the project with [Git](http://git-scm.com) by
+Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
     $ git clone git://{{ page.repo }}
+
+from a terminal. If you plan to modify the source, or contribute to the
+project, this is the preferred method. More information about git can be
+found at the [git-scm page](http://git-scm.com/) or at 
+[Github](help.github.com/articles/).
 
 Installation
 ------------
 
  
-A  more complete installation guide is avilable [here](install.html).
+A more complete installation guide is available [here](install.html).
 
 Documentation/Manual
 ---------------------
