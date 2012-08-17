@@ -2,7 +2,7 @@
 # Tells cmake about the build environment and where to look
 # for source files
 cmake_minimum_required (VERSION 2.8)
-project (MeltModel)
+project (MeltModel C)
 
 
 #Compiler Flags 
