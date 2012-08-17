@@ -4,6 +4,7 @@ title: MeltMod
 repo: http://github.com/fmuzf/melt_mod
 ---
 
+
 Programs needed by MeltMod
 --------------------------
 
@@ -39,6 +40,16 @@ Included with Xcode are the compilers needed to build Meltmod.
 install CMake from their [website](http://www.cmake.org/cmake/resources/software.html),
 or using your choise of package managers for OS X, i.e. [Homebrew](mxcl.github.com/homebrew/),
 [Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
-If you're already using a package manager, we recommend you use it to install CMake.
+If you're already using a package manager, we recommend you use it to install
+CMake
 
 
+Building MeltMod on Linux
+-------------------------
+
+
+Building MeltMod on Windows
+---------------------------
+1. Cygwin
+
+2. Visual Studio
