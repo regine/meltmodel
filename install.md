@@ -1,6 +1,7 @@
 ---
 layout: front_page 
 title: MeltMod
+subtitle: Installation Guide
 repo: http://github.com/fmuzf/melt_mod
 ---
 
@@ -46,7 +47,15 @@ CMake
 
 Building MeltMod on Linux
 -------------------------
+2. Your distro should come packaged with a C compiler
+1. Use your distribution's package manager to install cmake, e.g. __apt__ 
+(Ubuntu, Debian, etc)
 
+        $ apt-get install cmake
+
+    or __rpm__ (Fedora and others)
+        
+        $ rpm -ivh cmake
 
 Building MeltMod on Windows
 ---------------------------
