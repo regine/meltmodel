@@ -1,6 +1,7 @@
 ---
-layout: default
+layout: front_page 
 title: MeltMod
+repo: http://github.com/fmuzf/melt_mod
 ---
 
 Programs needed by MeltMod
