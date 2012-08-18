@@ -51,7 +51,7 @@ running:
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
-found at the [git-scm page](http://git-scm.com/) or at 
+found at [git-scm](http://git-scm.com/) or at 
 [Github](help.github.com/articles/).
 
 Installation
@@ -71,8 +71,10 @@ Recent Changes
 
 Literature And Previous Applications
 ------------------------------------
+Details of the models can be be found in the following papers:
 
-3 main papers
+- DeTIM : {% cite Hock99 %}
+- DEBaM : {% cite HockHolm05 %} and {% cite ReijHock08 %}
 
 List of other papers
 
@@ -84,3 +86,12 @@ or Carleen Tijm-Reijmer (University Utrecht). Note that the model may
 contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
 with us.
+
+References Which Cite the models
+--------------------------------
+
+__Temperature Index Model: DeTIM__
+{% bibliography tindex %}
+
+__Energy Balance Model: DEBaM__
+{% bibliography energy_bal %}

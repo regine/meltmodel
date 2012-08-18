@@ -1,4 +1,4 @@
-safe:        true
+safe:        false 
 auto:        true
 server:      true
 server_port: 4000
@@ -8,6 +8,7 @@ url: http://localhost:4000
 source:      .
 destination: ./_site
 plugins:     ./_plugins
+exclude:    README.md
 
 future:      true
 lsi:         false
@@ -39,3 +40,19 @@ kramdown:
     coderay_tab_width: 4
     coderay_bold_every: 10
     coderay_css: style
+
+scholar:
+  style: ./_bibliography/american-geophysical-union.csl
+  locale: en
+
+  sort_by: none
+  order: ascending
+
+  source: ./_bibliography
+  bibliography: refs
+
+  details_dir:    bibliography
+  details_layout: bibtex.html
+  details_link:   Details
+
+  query: "@*"  
