@@ -34,7 +34,7 @@ Prerequisites:
 
 To download the latest release use git:
 
-    git clone git@github.com:fmuzf/melt_mod.git
+    git clone https://github.com/fmuzf/melt_mod.git
 
 To build MeltMod, do
 
