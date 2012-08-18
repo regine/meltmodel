@@ -57,16 +57,32 @@ found at [git-scm](http://git-scm.com/) or at
 Installation
 ------------
 
+Prerequisites:
+
+* Cmake: MeltMod uses [Cmake](http://www.cmake.org/) to build itself,
+    any version >=2.8 should work
+* A working C compiler 
+
+To download the latest release use git:
+
+    git clone git@github.com:fmuzf/melt_mod.git
+
+To build MeltMod, do
+
+    $ cd melt_mod
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make && make install:
+    $ cd ..
+
+The binaries for MeltMod will now be located in melt_mod/bin
  
 A more complete installation guide is available [here](install.html).
 
 Documentation/Manual
 ---------------------
-...
-
-Recent Changes
---------------------------------
-...
+The most recent revision of the manual is available [here](http://gi.alaska.edu/~regine/meltmodel.html).
 
 
 Literature And Previous Applications
@@ -81,11 +97,19 @@ List of other papers
 Additional Information
 ----------------------
 
-For further information contact Regine Hock, (University of Alaska, Fairbanks)
-or Carleen Tijm-Reijmer (University Utrecht). Note that the model may
+For further information contact [Regine Hock](http://gi.alaska.edu/~regine/),
+(University of Alaska, Fairbanks) or Carleen Tijm-Reijmer 
+(University Utrecht). Note that the model may
 contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
 with us.
+
+If you find a glaring error, please feel free to let up know via the
+Github Issues page for the models.
+
+Look at our [changelog]({{page.repo}}/tree/release_0.2/doc/changes.md) for recent updates.
+
+
 
 References Which Cite the models
 --------------------------------
