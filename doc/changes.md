@@ -1,6 +1,15 @@
-### Major changes since 11/2011
+Major changes since 11/2011
+---------------------------
 
 * Github hosting!
+
+* Executable rename:
+    - ```degree``` is now known as the Distributed Enhanced Temperature Index 
+    Model (DeTIM), and has executable ```detim```
+
+    - ```meltmod``` is now know as the Distributed Energy Balance Model (DEBaM),
+    and has executable ```debam```
+ 
 
 * Build system in place! MeltMod now uses cmake to configure its builds.
     - Adds portability, cmake generates makefiles with the current environment
