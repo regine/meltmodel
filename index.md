@@ -47,7 +47,7 @@ You can download the source as zip or tar files via:
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone git://{{ page.repo }}
+    $ git clone https://github.com/fmuzf/melt_mod.git
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
@@ -62,10 +62,6 @@ Prerequisites:
 * Cmake: MeltMod uses [Cmake](http://www.cmake.org/) to build itself,
     any version >=2.8 should work
 * A working C compiler 
-
-To download the latest release use git:
-
-    git clone git@github.com:fmuzf/melt_mod.git
 
 To build MeltMod, do
 
