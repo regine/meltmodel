@@ -41,8 +41,8 @@ add_library(grid grid.c)
 
 # Create the target for the temprature-index model, and 
 # link together everything it needs
-add_executable(degree degree.c)
-target_link_libraries(degree closeall
+add_executable(detim detim.c)
+target_link_libraries(detim closeall
                              discharg
                              disopt
                              globcor
@@ -59,8 +59,8 @@ target_link_libraries(degree closeall
 
 # Create the target for the energy-balance model, and
 # link it to it's required libraries
-add_executable(meltmod meltmod.c)
-target_link_libraries(meltmod closeall
+add_executable(debam debam.c)
+target_link_libraries(debam closeall
                               discharg
                               disopt
                               globcor
@@ -73,5 +73,5 @@ target_link_libraries(meltmod closeall
                               userfile
                               writeout)
 
-install(TARGETS degree meltmod
+install(TARGETS detim debam
     RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/bin)
