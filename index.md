@@ -1,6 +1,6 @@
 --- 
 layout: front_page 
-title: DEBaM and DeTIM 
+title: DEBaM and DETIM 
 subtitle: Two Distributed Glacier Surface Mass-Balance and Discharge Models
 repo: http://github.com/fmuzf/melt_mod
 ---
@@ -41,10 +41,10 @@ Download
 --------
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
--   [Meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--   [Meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--   [Meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
--   [Meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
+-   [meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-   [meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-   [meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
+-   [meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
@@ -65,7 +65,7 @@ Prerequisites:
     any version >= 2.8 should work
 * A working C compiler 
 
-To build MeltMod, do
+To build DeBAM and DETIM, do
 
     $ cd melt_mod
     $ mkdir build
@@ -74,7 +74,7 @@ To build MeltMod, do
     $ make install
     $ cd ..
 
-The binaries for MeltMod will now be located in melt_mod/bin
+The model executables will now be located in ```melt_mod/bin```
  
 A more complete installation guide is available [here](install.html).
 
@@ -87,7 +87,7 @@ Literature And Previous Applications
 ------------------------------------
 The models are described in detail in the following papers:
 
-- DeTIM : {% bibliography tind_core %}
+- DETIM : {% bibliography tind_core %}
 - DEBaM : {% bibliography ebal_core %}
 
 List of references which are based on application of the source code is available [here](references.html)
@@ -108,8 +108,3 @@ If you find a glaring error or have suggestions how the manual can be improved, 
 Github Issues page for the models or via email.
 
 Look at our [changelog]({{page.repo}}/tree/release_0.2/doc/changes.md) for recent updates.
-
-
-
-
-
