@@ -1,39 +1,40 @@
 --- 
 layout: front_page 
 title: DEBaM and DeTIM 
-subtitle: Two Distributed Surface Mass Balance Models
+subtitle: Two Distributed Glacier Surface Mass-Balance and Discharge Models
 repo: http://github.com/fmuzf/melt_mod
 ---
 
 Overview
 --------
-Welcome to the homepage of two open source glacier mass-balance and discharge 
+Welcome to the homepage of two open source glacier surface mass-balance and discharge 
 models:
-- Distributed Energy Balance Model (DEBaM)
-- Distributed Enhanced Temperature Index Model (DeTIM)
+- __D__istributed __E__nergy __Ba_lance __M__odel (DEBaM)
+- __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
 
-The models compute glacier mass balance (ablation and accumulation) and
-discharge, with hourly to daily resolution. The mass balance model is
-fully distributed, i.e. calculations are performed for each grid cell of a
-digital elevation model.
-
-- __DEBaM__ computes surface melt by an energy balance approach. In addition,
-subsurface temperatures, water content and percolation can be computed by a
-one-dimensional multi-layer snow model that is forced by the surface energy
-balance.
-
-- __DeTiM__ offers various temperature index methods approaches. Discharge is
-calculated from the water provided by melt plus liquid precipitation by three
+The models compute glacier surface mass balance (ablation and accumulation) and
+discharge, with hourly to daily resolution. 
+The mass balance model is fully distributed, i.e. calculations are performed for each grid cell of a
+digital elevation model. Discharge is calculated from the water provided by melt plus liquid precipitation by three
 linear reservoirs corresponding to the different storage properties of firn,
 snow and glacier ice. Discharge simulations are optional, i.e. the mass balance
 model can be run independently of the discharge model. Glacier retreat may also
 be modeled using a simple volume-area scaling.
+In addition, DEBaM can compute subsurface temperatures, water content and percolation
+by a 1-D multi-layer snow model that is forced by the surface energy balance.
 
 Minimum data requirements are a digital elevation model and hourly or daily air
-temperature and precipitation data.
+temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, humidity
+and shortwave incoming radiation (DEBaM).
+
 The models were initially developed by Regine Hock in the mid 1990s and have
 been continuously expanded since. The subsurface module has been added in 2006
 by Carleen Tijm-Reijmer, Utrecht University.
+
+- __DEBaM__ computes surface melt by an energy balance approach.
+
+- __DETIM__ offers various temperature index methods approaches. 
+
 
 Download
 --------
@@ -83,12 +84,13 @@ The most recent revision of the manual is available [here](http://gi.alaska.edu/
 
 Literature And Previous Applications
 ------------------------------------
-Details of the models can be be found in the following papers:
+The models are described in detail in the following papers:
 
 - DeTIM : {% cite Hock99 %}
 - DEBaM : {% cite HockHolm05 %} and {% cite ReijHock08 %}
 
-List of other papers
+List of references which are based on application of the source code is available [here](references.html)
+
 
 Additional Information
 ----------------------
@@ -100,18 +102,11 @@ contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
 with us.
 
-If you find a glaring error, please feel free to let up know via the
-Github Issues page for the models.
+If you find a glaring error or have suggestions how the manual can be improved, please feel free to let up know via the
+Github Issues page for the models or via email.
 
 Look at our [changelog]({{page.repo}}/tree/release_0.2/doc/changes.md) for recent updates.
 
 
 
-References Which Cite the models
---------------------------------
 
-__Temperature Index Model: DeTIM__
-{% bibliography tindex %}
-
-__Energy Balance Model: DEBaM__
-{% bibliography energy_bal %}
