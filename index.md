@@ -71,7 +71,7 @@ To build MeltMod, do
     $ mkdir build
     $ cd build
     $ cmake ..
-    $ make install:
+    $ make install
     $ cd ..
 
 The binaries for MeltMod will now be located in melt_mod/bin
