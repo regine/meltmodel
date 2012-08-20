@@ -13,7 +13,7 @@ prerequisites needed before you can build and use the model. Namely:
 
 * A working C compiler: Since the models is written in C, you'll need
     something to compile it.
-* [Cmake](www.cmake.org): Is used to configure the models' build to your system.
+* [Cmake](www.cmake.org): Is used to prepare and configure the compilation 
 
 If you already have these on your machine, skip down to the section 
 "Compiling the Models"
