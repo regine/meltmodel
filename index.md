@@ -9,7 +9,7 @@ Overview
 --------
 Welcome to the homepage of two open source glacier surface mass-balance and discharge 
 models:
-- __D__istributed __E__nergy __Ba_lance __M__odel (DEBaM)
+- __D__istributed __E__nergy __Ba__lance __M__odel (DEBaM)
 - __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
 
 
@@ -89,6 +89,9 @@ The models are described in detail in the following papers:
 
 - DeTIM : {% bibliography tind_core %}
 - DEBaM : {% bibliography ebal_core %}
+
+List of references which are based on application of the source code is available [here](references.html)
+
 
 
 Additional Information
