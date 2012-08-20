@@ -22,7 +22,7 @@ subsurface temperatures, water content and percolation can be computed by a
 one-dimensional multi-layer snow model that is forced by the surface energy
 balance.
 
-- __DeTiM__ offers various temperature index methods approaches. Discharge is
+- __DeTIM__ offers various temperature index methods approaches. Discharge is
 calculated from the water provided by melt plus liquid precipitation by three
 linear reservoirs corresponding to the different storage properties of firn,
 snow and glacier ice. Discharge simulations are optional, i.e. the mass balance
@@ -37,7 +37,7 @@ by Carleen Tijm-Reijmer, Utrecht University.
 
 Download
 --------
-The model is hosted from our [github repository]({{%page.repo%}}).
+The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
 -   [Meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
 -   [Meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
@@ -59,8 +59,8 @@ Installation
 
 Prerequisites:
 
-* Cmake: MeltMod uses [Cmake](http://www.cmake.org/) to build itself,
-    any version >=2.8 should work
+* [Cmake](http://www.cmake.org/) is used to configure the build,
+    any version >= 2.8 should work
 * A working C compiler 
 
 To build MeltMod, do
@@ -69,7 +69,7 @@ To build MeltMod, do
     $ mkdir build
     $ cd build
     $ cmake ..
-    $ make && make install:
+    $ make install:
     $ cd ..
 
 The binaries for MeltMod will now be located in melt_mod/bin
@@ -85,10 +85,9 @@ Literature And Previous Applications
 ------------------------------------
 Details of the models can be be found in the following papers:
 
-- DeTIM : {% cite Hock99 %}
-- DEBaM : {% cite HockHolm05 %} and {% cite ReijHock08 %}
+- DeTIM : {% bibliography tind_core %}
+- DEBaM : {% bibliography ebal_core %}
 
-List of other papers
 
 Additional Information
 ----------------------
@@ -107,8 +106,8 @@ Look at our [changelog]({{page.repo}}/tree/release_0.2/doc/changes.md) for recen
 
 
 
-References Which Cite the models
---------------------------------
+References Citing the Models
+-----------------------------
 
 __Temperature Index Model: DeTIM__
 {% bibliography tindex %}
