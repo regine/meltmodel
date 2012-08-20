@@ -11,7 +11,7 @@ Programs needed by the Models
 
 * A working C compiler: Since the models is written in C, you'll need
     something that can compile it.
-* [Cmake](www.cmake.org): Is used to configure the models's build 
+* [Cmake](www.cmake.org): Is used to prepare and configure the compilation 
 
 
 Building DeTIM and DEBaM on OSX
