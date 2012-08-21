@@ -18,22 +18,22 @@ Setting up OS X
 Apple's software development tool [Xcode](https://developer.apple.com/xcode/).
 Included with Xcode are the compilers needed to build DEBaM and DTIM.
     
-    * The easiest way to obtain Xcode is via the App Store. It's pretty big,
-    so do this somewhere with a fast internet connection. 
+* The easiest way to obtain Xcode is via the App Store. It's pretty big,
+so do this somewhere with a fast internet connection. 
 
-    * Once it's downloaded, open Xcode from your Applications folder.
-    Follow the instructions asked by the dialog boxes.
+* Once it's downloaded, open Xcode from your Applications folder.
+Follow the instructions asked by the dialog boxes.
 
-    * After Xcode has finished installing, one further step is needed to install
-    the command-line tools:
+* After Xcode has finished installing, one further step is needed to install
+the command-line tools:
 
-        - Open the menu Xcode > Preferences
+    - Open the menu Xcode > Preferences
+    
+    - Open the Downloads tab in the Preferences
         
-        - Open the Downloads tab in the Preferences
-        
-        - In the Downloads list, select Command Line Tools, and push the
-        install button
-         
+    - In the Downloads list, select Command Line Tools, and push the
+    install button
+     
 
 2. You have two options for installing CMake: 
 
@@ -99,7 +99,8 @@ found at [git-scm](http://git-scm.com/) or at
 Open up a command-line window and navigate to the folder containing the 
 model source files.
 
-At the command prompt, to
+At the command prompt, do
+
     $ cd melt_mod
     $ mkdir build
     $ cd build
