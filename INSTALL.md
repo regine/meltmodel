@@ -1,24 +1,60 @@
-### Welcome to MeltMod!
-All information about MeltMod can be found at <http://www2.gi.alaska.edu/~regine/meltmodel.html>
+Prerequisites
+-------------
+Because the models are distributed only as source, there are a few
+prerequisites needed before you can build and use the model. Namely:
 
-### Major installation requirements:
-  *  A C compiler
-  *  [Cmake](http://www.cmake.org/) >= 2.8 must be installed and running.
+* A working C compiler: Since the models is written in C, you'll need
+    something to compile it.
+* [Cmake](www.cmake.org): Is used to prepare and configure the compilation 
 
-#### 1. A C compiler
-- __Mac OS X__: You will need to download and install [XCode](https://developer.apple.com/xcode)
+If you already have these on your machine, skip down to the section 
+[Compiling](#compiling)
 
-- __Linux__: Your distro should include this, if not use your package manager to install gcc and g++.
+
+Setting up OS X
+---------------
+
+1. To get a C compiler for OS X, you will need to obtain 
+Apple's software development tool [Xcode](https://developer.apple.com/xcode/).
+Included with Xcode are the compilers needed to build DEBaM and DTIM.
     
-#### 2. [Cmake](http://www.cmake.org/)
-- __OS X__ : We recommend you use a package manager such as [Homebrew](http://mxcl.github.com/homebrew/)
-(or [MacPorts](http://www.macports.org/), or [Fink](http://www.finkproject.org/)) to obtain cmake.
+    * The easiest way to obtain Xcode is via the App Store. It's pretty big,
+    so do this somewhere with a fast internet connection. 
 
-    If you're using Homebrew, do
+    * Once it's downloaded, open Xcode from your Applications folder.
+    Follow the instructions asked by the dialog boxes.
 
-        $ brew install cmake
+    * After Xcode has finished installing, one further step is needed to install
+    the command-line tools:
 
-- __Linux__ : Use your distribution's package manager to install cmake, e.g. apt (Ubuntu, Debian, etc)
+        - Open the menu Xcode > Preferences
+        
+        - Open the Downloads tab in the Preferences
+        
+        - In the Downloads list, select Command Line Tools, and push the
+        install button
+         
+
+2. You have two options for installing CMake: 
+
+* Install the binary OS X package from their
+ [website](http://www.cmake.org/cmake/resources/software.html),
+or 
+* Use your choice of package managers for OS X, i.e. [Homebrew](mxcl.github.com/homebrew/),
+[Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
+
+If you're already using a package manager, we recommend you use it to install
+CMake.
+
+
+Setting up Linux
+----------------
+This is perhaps the easiest situation in which you could find yourself,
+not least because you probably already have everything you need.
+
+1. Your distro should come packaged with a C compiler
+2. Use your distribution's package manager to install CMake, e.g. __apt__ 
+(Ubuntu, Debian, etc)
 
         $ apt-get install cmake
 
@@ -26,43 +62,52 @@ All information about MeltMod can be found at <http://www2.gi.alaska.edu/~regine
         
         $ rpm -ivh cmake
 
-#### 3. Get MeltMod
+Setting up Windows
+---------------------------
+1. Cygwin
 
-You have two options for obtaining MeltMod:
-    1. Download the source zipball from [Github](http://github.com/fmuzf/melt_mod/), unpack it, and build
-    2. Use [git]() to download the source.
-
-We recommend using git, a powerful version control system. By using git, 
-importing changes and bug fixes from our repository becomes easy. Furthermore, if you
-find and fix any bugs, or have any changes you'd like to make to the model, git provides
-a relatively streamlined way to do this.
-
-To install git, use whichever package manager your OS provides:
-
-- __OS X__ : If you're using Homebrew, you already have git. If you're using MacPorts
-or Fink, install git using these.
-
-- __Linux__ : Use your distribution's package manager to install cmake, e.g. apt (Ubuntu, Debian, etc)
-
-        $ apt-get install git
-
-    or __rpm__ (Fedora and others)
-        
-        $ rpm -ivh git
+2. Visual Studio
 
 
-To download the latest release using git:
+Compiling
+---------
 
-    git clone git@github.com:fmuzf/melt_mod.git
+#### Getting The Source
 
-#### 3. Build MeltMod
-To build MeltMod, open a terminal window and navigate to the directory containing the downloaded MeltMod files.
+Now you'll need to get a copy of the source code. 
+The models are hosted from our [github repository]({{%page.repo%}}).
+You can download the source as zip or tar files via:
+-   [meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-   [meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-   [meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
+-   [meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
+Alternately, you can also clone the project with [Git](http://git-scm.com) by
+running:
+
+    $ git clone https://github.com/fmuzf/melt_mod.git
+
+from a terminal. If you plan to contribute to the
+project, you should use git, and spend some time getting
+familiar with it.. More information about git can be
+found at [git-scm](http://git-scm.com/) or at 
+[Github](help.github.com/articles/).
+
+
+#### Compiling
+
+Open up a command-line window and navigate to the folder containing the 
+model source files.
+
+At the command prompt, to
     $ cd melt_mod
     $ mkdir build
     $ cd build
     $ cmake ..
-    $ make && make install
+    $ make install
     $ cd ..
 
-The binaries for the model should be located in melt_mod/bin/
+The model executables will now be located in ```melt_mod/bin```.
+
+For information regarding running the model, please consult
+the manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
