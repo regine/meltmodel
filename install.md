@@ -24,7 +24,7 @@ Setting up OS X
 
 1. To get a C compiler for OS X, you will need to obtain 
 Apple's software development tool [Xcode](https://developer.apple.com/xcode/).
-Included with Xcode are the compilers needed to build DEBaM and DTIM.
+Included with Xcode are the compilers needed to build DEBaM and DETIM.
     
     * The easiest way to obtain Xcode is via the App Store. It's pretty big,
     so do this somewhere with a fast internet connection. 
@@ -107,7 +107,8 @@ found at [git-scm](http://git-scm.com/) or at
 Open up a command-line window and navigate to the folder containing the 
 model source files.
 
-At the command prompt, to
+At the command prompt, do
+
     $ cd melt_mod
     $ mkdir build
     $ cd build
