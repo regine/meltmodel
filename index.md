@@ -22,15 +22,15 @@ snow and glacier ice. Discharge simulations are optional, i.e. the mass balance
 model can be run independently of the discharge model. Glacier retreat may also
 be modeled using a simple volume-area scaling.
 In addition, DEBaM can compute subsurface temperatures, water content and percolation
-by a 1-D multi-layer snow model that is forced by the surface energy balance.
+via a 1-D multi-layer snow model that is forced by the surface energy balance.
 
 Minimum data requirements are a digital elevation model and hourly or daily air
 temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, humidity
 and shortwave incoming radiation (DEBaM).
 
-The models were initially developed by Regine Hock in the mid 1990s and have
-been continuously expanded since. The subsurface module has been added in 2006
-by Carleen Tijm-Reijmer, Utrecht University.
+The models were initially developed by Regine Hock in the mid 1990s, and have
+since been continuously expanded. In 2006, Carleen Tijm-Reijmer contributed
+the subsurface snow model used by DEBaM.
 
 - __DEBaM__ computes surface melt by an energy balance approach.
 - __DETIM__ offers various temperature index methods approaches. 
@@ -60,8 +60,8 @@ Installation
 
 Prerequisites:
 
-* [Cmake](http://www.cmake.org/) is used to configure the build,
-    any version >= 2.8 should work
+* [Cmake](http://www.cmake.org/) is used to prepare and configure the
+compilation, any version >= 2.8 should work
 * A working C compiler 
 
 To build DeBAM and DETIM, do
