@@ -13,7 +13,7 @@ prerequisites needed before you can build and use the model. Namely:
 
 * A working C compiler: Since the models is written in C, you'll need
     something to compile it.
-* [Cmake](www.cmake.org): Is used to prepare and configure the compilation 
+* [Cmake](http://www.cmake.org): Is used to prepare and configure the compilation 
 
 If you already have these on your machine, skip down to the section 
 [Compiling](#compiling)
@@ -48,7 +48,7 @@ Included with Xcode are the compilers needed to build DEBaM and DETIM.
 * Install the binary OS X package from their
  [website](http://www.cmake.org/cmake/resources/software.html),
 or 
-* Use your choice of package managers for OS X, i.e. [Homebrew](mxcl.github.com/homebrew/),
+* Use your choice of package managers for OS X, i.e. [Homebrew](http://mxcl.github.com/homebrew/),
 [Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
 
 If you're already using a package manager, we recommend you use it to install
@@ -99,7 +99,7 @@ from a terminal. If you plan to contribute to the
 project, you should use git, and spend some time getting
 familiar with it.. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
-[Github](help.github.com/articles/).
+[Github](http://help.github.com/articles/).
 
 
 #### Compiling

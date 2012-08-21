@@ -54,7 +54,7 @@ running:
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
-[Github](help.github.com/articles/).
+[Github](http://help.github.com/articles/).
 
 Installation
 ------------
