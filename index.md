@@ -33,7 +33,6 @@ been continuously expanded since. The subsurface module has been added in 2006
 by Carleen Tijm-Reijmer, Utrecht University.
 
 - __DEBaM__ computes surface melt by an energy balance approach.
-
 - __DETIM__ offers various temperature index methods approaches. 
 
 

@@ -2,7 +2,6 @@ body {
 background-color: #D5D6D7;
 padding:20px;
 text-align: center;
-align: center;
 }
 .header {
 border-bottom: 1px solid #959596;
@@ -34,6 +33,8 @@ text-align: left;
 width: 700px;
 color: #333333;
 }
+#container li {margin-bottom: .3em}
+#container .bibliography li {margin-bottom: .5em}
 h1 { font-size: 3.8em; color: #736f30; margin-bottom: 3px; }
 h1 .small { font-size: 0.4em; }
 h1 a { text-decoration: none }
@@ -45,6 +46,9 @@ margin-bottom: 30px;
 margin-top: 30px;
 font-style: italic;
 }
+
+
+
 .download { float: right; }
 pre { background: #000; color: #fff; padding: 15px;}
 hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
