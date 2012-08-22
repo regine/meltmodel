@@ -2,7 +2,7 @@
 layout: front_page 
 title: DEBaM and DETIM 
 subtitle: Two Distributed Glacier Surface Mass-Balance and Discharge Models
-repo: http://github.com/fmuzf/melt_mod
+repo: http://github.com/fmuzf/meltmodel
 ---
 
 Overview
@@ -40,15 +40,15 @@ Download
 --------
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
--   [meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--   [meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--   [meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
--   [meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
+-   [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-   [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-   [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
+-   [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/fmuzf/melt_mod.git
+    $ git clone https://github.com/fmuzf/meltmodel.git
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
@@ -66,14 +66,14 @@ compilation, any version >= 2.8 should work
 
 To build DeBAM and DETIM, do
 
-    $ cd melt_mod
+    $ cd meltmodel
     $ mkdir build
     $ cd build
     $ cmake ..
     $ make install
     $ cd ..
 
-The model executables will now be located in ```melt_mod/bin```
+The model executables will now be located in ```meltmodel/bin```
  
 A more complete installation guide is available [here](install.html).
 
@@ -106,4 +106,4 @@ with us.
 If you find a glaring error or have suggestions how the manual can be improved, please feel free to let up know via the
 Github Issues page for the models or via email.
 
-Look at our [changelog]({{page.repo}}/tree/release_0.2/doc/changes.md) for recent updates.
+Look at our [changelog]({{page.repo}}/tree/release_0.2/changes.md) for recent updates.

@@ -2,7 +2,7 @@
 layout: front_page 
 title: DEBaM and DETIM
 subtitle: Installation Guide
-repo: http://github.com/fmuzf/melt_mod
+repo: http://github.com/fmuzf/meltmodel
 ---
 
 
@@ -85,15 +85,15 @@ Compiling
 Now you'll need to get a copy of the source code. 
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
--   [meltmod-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--   [meltmod-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--   [meltmod-dev.zip]({{%page.repo%}}/zipball/dev)
--   [meltmod-dev.tar.gz]({{%page.repo%}}/tarball/dev)
+-   [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-   [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-   [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
+-   [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/fmuzf/melt_mod.git
+    $ git clone https://github.com/fmuzf/meltmodel.git
 
 from a terminal. If you plan to contribute to the
 project, you should use git, and spend some time getting
@@ -109,14 +109,14 @@ model source files.
 
 At the command prompt, do
 
-    $ cd melt_mod
+    $ cd meltmodel
     $ mkdir build
     $ cd build
     $ cmake ..
     $ make install
     $ cd ..
 
-The model executables will now be located in ```melt_mod/bin```.
+The model executables will now be located in ```meltmodel/bin```.
 
 For information regarding running the model, please consult
 the manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
