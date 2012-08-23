@@ -2,7 +2,7 @@
 layout: front_page 
 title: DEBaM and DeTIM 
 subtitle: References
-repo: http://github.com/fmuzf/meltmodel
+repo: http://github.com/regine/meltmodel
 ---
 
 References using the code

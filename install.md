@@ -2,7 +2,7 @@
 layout: front_page 
 title: DEBaM and DETIM
 subtitle: Installation Guide
-repo: http://github.com/fmuzf/meltmodel
+repo: http://github.com/regine/meltmodel
 ---
 
 
@@ -93,7 +93,7 @@ You can download the source as zip or tar files via:
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/fmuzf/meltmodel.git
+    $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to contribute to the
 project, you should use git, and spend some time getting

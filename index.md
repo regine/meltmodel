@@ -2,7 +2,7 @@
 layout: front_page 
 title: DEBaM and DETIM 
 subtitle: Two Distributed Glacier Surface Mass-Balance and Discharge Models
-repo: http://github.com/fmuzf/meltmodel
+repo: http://github.com/regine/meltmodel
 ---
 
 Overview
@@ -48,7 +48,7 @@ You can download the source as zip or tar files via:
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/fmuzf/meltmodel.git
+    $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
