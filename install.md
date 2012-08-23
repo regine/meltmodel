@@ -19,7 +19,7 @@ If you already have these on your machine, skip down to the section
 [Compiling](#compiling)
 
 
-Setting up OS X
+Setting up Mac OS X
 ---------------
 
 1. To get a C compiler for OS X, you will need to obtain 
@@ -82,7 +82,7 @@ Compiling
 
 #### Getting The Source
 
-Now you'll need to get a copy of the source code. 
+Now you'll need to get a copy of the source code (We suggest you download the version release-0.2). 
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
 -   [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
@@ -91,13 +91,13 @@ You can download the source as zip or tar files via:
 -   [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
-running:
+running (command line in terminal):
 
     $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to contribute to the
 project, you should use git, and spend some time getting
-familiar with it.. More information about git can be
+familiar with it. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
 

@@ -13,24 +13,25 @@ models:
 - __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
 
 
-The models compute glacier surface mass balance (ablation and accumulation) and
+The models compute __glacier surface mass balance__ (ablation and accumulation) and
 discharge, with hourly to daily resolution. 
 The mass balance model is fully distributed, i.e. calculations are performed for each grid cell of a
-digital elevation model. Discharge is calculated from the water provided by melt plus liquid precipitation by three
+digital elevation model. Discharge is calculated by three
 linear reservoirs corresponding to the different storage properties of firn,
-snow and glacier ice. Discharge simulations are optional, i.e. the mass balance
-model can be run independently of the discharge model. Glacier retreat may also
+snow and glacier ice. __Discharge__ simulations are optional, i.e. the mass balance
+model can be run independently of the discharge model. Glacier __retreat__ may also
 be modeled using a simple volume-area scaling.
 In addition, DEBaM can compute subsurface temperatures, water content and percolation
-via a 1-D multi-layer snow model that is forced by the surface energy balance.
+via a 1-D __multi-layer snow model__ that is forced by the surface energy balance.
 
-Minimum data requirements are a digital elevation model and hourly or daily air
+__Minimum data requirements__ are a digital elevation model and hourly or daily air
 temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, humidity
 and shortwave incoming radiation (DEBaM).
 
 The models were initially developed by Regine Hock in the mid 1990s, and have
 since been continuously expanded. In 2006, Carleen Tijm-Reijmer contributed
-the subsurface snow model used by DEBaM.
+the subsurface snow model used by DEBaM. The models were made open source in August 2012
+with help of Lyman Gillispie.
 
 - __DEBaM__ computes surface melt by an energy balance approach.
 - __DETIM__ offers various temperature index methods approaches. 
@@ -55,6 +56,8 @@ project, this is the preferred method. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
 
+The download will always include both DETIM and DEBaM. Most files are needed for both models.
+
 Installation
 ------------
 
@@ -73,8 +76,8 @@ To build DeBAM and DETIM, do
     $ make install
     $ cd ..
 
-The model executables will now be located in ```meltmodel/bin```
- 
+The model executables (detim and debam) will now be located in ```meltmodel/bin```
+
 A more complete installation guide is available [here](install.html).
 
 Documentation/Manual
@@ -92,7 +95,6 @@ The models are described in detail in the following papers:
 List of references which are based on application of the source code is available [here](references.html)
 
 
-
 Additional Information
 ----------------------
 
@@ -103,7 +105,7 @@ contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
 with us.
 
-If you find a glaring error or have suggestions how the manual can be improved, please feel free to let up know via the
-Github Issues page for the models or via email.
+If you find errors or have suggestions how the manual (or model) can be improved, 
+please feel free to let up know via the Github Issues page for the models or via email.
 
 Look at our [changelog]({{page.repo}}/tree/release_0.2/changes.md) for recent updates.

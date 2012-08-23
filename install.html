@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>DEBaM and DETIM: Installation Guide</title>
+    <!-- Homepage CSS -->
+    <link rel="stylesheet" href="./css/screen.css" type="text/css" media="screen, projection" />
+
+ </head>
+
+<body>
+<a href=http://github.com/regine/meltmodel><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="outerContainer">
+  <div class="header">
+    <span class="pageTitle">
+        <a href="index.html">DEBaM and DETIM</a>
+    </span><br>
+    <span class="small">
+        Installation Guide
+    </span>
+  </div>
+  <div id="container">
+    <div class="description">
+    </div>
+
+    <h2 id='prerequisites'>Prerequisites</h2>
+
+<p>Because the models are distributed only as source, there are a few prerequisites needed before you can build and use the model. Namely:</p>
+
+<ul>
+<li>A working C compiler: Since the models is written in C, you&#8217;ll need something to compile it.</li>
+
+<li><a href='http://www.cmake.org'>Cmake</a>: Is used to prepare and configure the compilation</li>
+</ul>
+
+<p>If you already have these on your machine, skip down to the section <a href='#compiling'>Compiling</a></p>
+
+<h2 id='setting_up_mac_os_x'>Setting up Mac OS X</h2>
+
+<ol>
+<li>
+<p>To get a C compiler for OS X, you will need to obtain Apple&#8217;s software development tool <a href='https://developer.apple.com/xcode/'>Xcode</a>. Included with Xcode are the compilers needed to build DEBaM and DETIM.</p>
+
+<ul>
+<li>
+<p>The easiest way to obtain Xcode is via the App Store. It&#8217;s pretty big, so do this somewhere with a fast internet connection.</p>
+</li>
+
+<li>
+<p>Once it&#8217;s downloaded, open Xcode from your Applications folder. Follow the instructions asked by the dialog boxes.</p>
+</li>
+
+<li>
+<p>After Xcode has finished installing, one further step is needed to install the command-line tools:</p>
+
+<p>- Open the menu Xcode &gt; Preferences</p>
+
+<p>- Open the Downloads tab in the Preferences</p>
+
+<p>- In the Downloads list, select Command Line Tools, and push the install button</p>
+</li>
+</ul>
+</li>
+
+<li>
+<p>You have two options for installing CMake:</p>
+</li>
+</ol>
+
+<ul>
+<li>Install the binary OS X package from their <a href='http://www.cmake.org/cmake/resources/software.html'>website</a>, or</li>
+
+<li>Use your choice of package managers for OS X, i.e. <a href='http://mxcl.github.com/homebrew/'>Homebrew</a>, <a href='http://www.finkproject.org/'>Fink</a> or <a href='http://www.macports.org/'>MacPorts</a>.</li>
+</ul>
+
+<p>If you&#8217;re already using a package manager, we recommend you use it to install CMake.</p>
+
+<h2 id='setting_up_linux'>Setting up Linux</h2>
+
+<p>This is perhaps the easiest situation in which you could find yourself, not least because you probably already have everything you need.</p>
+
+<ol>
+<li>
+<p>Your distro should come packaged with a C compiler</p>
+</li>
+
+<li>
+<p>Use your distribution&#8217;s package manager to install CMake, e.g. <strong>apt</strong> (Ubuntu, Debian, etc)</p>
+
+<pre><code> $ apt-get install cmake</code></pre>
+
+<p>or <strong>rpm</strong> (Fedora and others)</p>
+
+<pre><code> $ rpm -ivh cmake</code></pre>
+</li>
+</ol>
+
+<h2 id='setting_up_windows'>Setting up Windows</h2>
+
+<ol>
+<li>
+<p>Cygwin</p>
+</li>
+
+<li>
+<p>Visual Studio</p>
+</li>
+</ol>
+
+<h2 id='compiling'>Compiling</h2>
+
+<h4 id='getting_the_source'>Getting The Source</h4>
+
+<p>Now you&#8217;ll need to get a copy of the source code (We suggest you download the version release-0.2). The models are hosted from our <a href='http://github.com/regine/meltmodel'>github repository</a>. You can download the source as zip or tar files via:</p>
+
+<ul>
+<li><a href='http://github.com/regine/meltmodel/zipball/release_0.2'>meltmodel-release_0.2.zip</a></li>
+
+<li><a href='http://github.com/regine/meltmodel/tarball/release_0.2'>meltmodel-release_0.2.tar.gz</a></li>
+
+<li><a href='http://github.com/regine/meltmodel/zipball/dev'>meltmodel-dev.zip</a></li>
+
+<li><a href='http://github.com/regine/meltmodel/tarball/dev'>meltmodel-dev.tar.gz</a></li>
+</ul>
+
+<p>Alternately, you can also clone the project with <a href='http://git-scm.com'>Git</a> by running (command line in terminal):</p>
+
+<pre><code>$ git clone https://github.com/regine/meltmodel.git</code></pre>
+
+<p>from a terminal. If you plan to contribute to the project, you should use git, and spend some time getting familiar with it. More information about git can be found at <a href='http://git-scm.com/'>git-scm</a> or at <a href='http://help.github.com/articles/'>Github</a>.</p>
+
+<h4 id='compiling'>Compiling</h4>
+
+<p>Open up a command-line window and navigate to the folder containing the model source files.</p>
+
+<p>At the command prompt, do</p>
+
+<pre><code>$ cd meltmodel
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make install
+$ cd ..</code></pre>
+
+<p>The model executables will now be located in <code>meltmodel/bin</code>.</p>
+
+<p>For information regarding running the model, please consult the manual, located at <a href='http://gi.alaska.edu/~regine/meltmodel'>Regine Hock&#8217;s page</a>.</p>
+
+  </div></div>
+</body>
+</html>
