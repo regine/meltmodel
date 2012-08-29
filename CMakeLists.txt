@@ -51,3 +51,6 @@ add_custom_target(cscope
 add_custom_target(tags
     COMMAND make ctags
     COMMAND make cscope)
+
+install(FILES input.dat 
+	DESTINATION ${CMAKE_SOURCE_DIR}/bin)
