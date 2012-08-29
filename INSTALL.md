@@ -75,17 +75,17 @@ Compiling
 #### Getting The Source
 
 Now you'll need to get a copy of the source code. 
-The models are hosted from our [github repository](https://github.com/fmuzf/melt_mod).
+The models are hosted from our [github repository](https://github.com/regine/meltmodel).
 You can download the source as zip or tar files via:
--   [meltmod-release\_0.2.zip](https://github.com/fmuzf/melt_mod/zipball/release_0.2)
--   [meltmod-release\_0.2.tar.gz](https://github.com/fmuzf/melt_mod/tarball/release_0.2)
--   [meltmod-dev.zip](https://github.com/fmuzf/melt_mod/zipball/dev)
--   [meltmod-dev.tar.gz](https://github.com/fmuzf/melt_mod/tarball/dev)
+-   [meltmod-release\_0.2.zip](https://github.com/regine/meltmodel/zipball/release_0.2)
+-   [meltmod-release\_0.2.tar.gz](https://github.com/regine/meltmodel/tarball/release_0.2)
+-   [meltmod-dev.zip](https://github.com/regine/meltmodel/zipball/dev)
+-   [meltmod-dev.tar.gz](https://github.com/regine/meltmodel/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/fmuzf/melt_mod.git
+    $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to contribute to the
 project, you should use git, and spend some time getting
@@ -101,14 +101,14 @@ model source files.
 
 At the command prompt, do
 
-    $ cd melt_mod
+    $ cd meltmodel
     $ mkdir build
     $ cd build
     $ cmake ..
     $ make install
     $ cd ..
 
-The model executables will now be located in ```melt_mod/bin```.
+The model executables will now be located in ```meltmodel/bin```.
 
 For information regarding running the model, please consult
 the manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
