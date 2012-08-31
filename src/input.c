@@ -18,7 +18,7 @@
 /*********************************************************/
 /*   FILE          input.c                        ********/
 /*   FUNCTION      input_read                     ********/
-/*   READ INPUT FROM CONTROLING INPUT FILE : 'input.dat' */
+/*   READ INPUT FROM CONTROLING INPUT FILE : 'input.txt' */
 /*   FILE NAMES, GRIDSIZE ETC.                      ******/
 /***  31.3.1997, update 22 July 2010,  18 November 2011  */
 /*********************************************************/
@@ -57,22 +57,22 @@ void input_read()
     nameinitialsnow = (char*)calloc(80,sizeof(char));
     namedatesmassbal= (char*)calloc(80,sizeof(char));
 
-    strcpy(filenamein,"input.dat");    /* $$$$$$ NAME NAMELIST-FILE $$$$$ */
+    strcpy(filenamein,"input.txt");    /* $$$$$$ NAME NAMELIST-FILE $$$$$ */
 
     if ((in = fopen (filenamein,"rt")) == NULL) {             /*OPEN FILE*/
-        printf("\n Input-File 'input.dat' not found \n\n");
+        printf("\n Input-File 'input.txt' not found \n\n");
         printf("       File input.c ");
         exit(1);
     }
 
-    printf("\n\n\n\n\n\n ***********INPUTFILE : input.dat *****************\n");
+    printf("\n\n\n\n\n\n ***********INPUTFILE : input.txt *****************\n");
 
     readrestofline(&in);
     readrestofline(&in);  /*UEBERLESEN 2 ZEILEN*/
     fscanf(in,"%f",&daysscreenoutput);
     readrestofline(&in);
     if (daysscreenoutput < 1) {
-        printf("\n\n  daysscreenoutput wrong in input.dat, must be >= 1\n\n");
+        printf("\n\n  daysscreenoutput wrong in input.txt, must be >= 1\n\n");
         exit(1);
     }
 
@@ -95,14 +95,14 @@ void input_read()
 
     if ((outcontrol = fopen(outcontrolname,"wt")) == NULL) {
         printf("\n\n ERROR opening controlling output-file: %s\n",outcontrolname);
-        printf("   Output path specified in input.dat may not exist !\n\n");
+        printf("   Output path specified in input.txt may not exist !\n\n");
         exit(20);
     }
 
     if(energymethod == 1)     fprintf(outcontrol,"ENERGY BALANCE MODEL RUN\n\n");
     if(degreedaymethod == 1)  fprintf(outcontrol,"TEMPERATURE INDEX MODEL RUN\n\n");
 
-    fprintf(outcontrol,"OUTPUT VARIABLES IN input.dat ARE RESET IN CASES CERTAIN COMBINATIONS ARE NOT POSSIBLE\n");
+    fprintf(outcontrol,"OUTPUT VARIABLES IN input.txt ARE RESET IN CASES CERTAIN COMBINATIONS ARE NOT POSSIBLE\n");
     fprintf(outcontrol,"---- LIST OF SUCH CHANGES DONE BY THE PROGRAM: \n\n");
 
     /****** READ JULIANS DAYS TO BE CALCULATED ************/
@@ -112,7 +112,7 @@ void input_read()
     readrestofline(&in);
 
     if (yearend < yearbeg) {
-        printf("\n\n start or last year (yearbeg or yearend) wrong in input.dat\n\n");
+        printf("\n\n start or last year (yearbeg or yearend) wrong in input.txt\n\n");
         exit(1);
     }
 
@@ -122,7 +122,7 @@ void input_read()
     fscanf(in,"%d",&disyes);
     readrestofline(&in);
     if ((disyes != 1) && (disyes != 0) && (disyes != 2)) {
-        printf("\n\n ERROR in input.dat: disyes (%d) must be 0, 1 or 2\n\n",disyes);
+        printf("\n\n ERROR in input.txt: disyes (%d) must be 0, 1 or 2\n\n",disyes);
         exit(3);
     }
 
@@ -134,7 +134,7 @@ void input_read()
     fscanf(in,"%d",&calcgridyes);
     readrestofline(&in);
     if ((calcgridyes != 1) && (calcgridyes != 2) ) {
-        printf("\n\n ERROR in input.dat: calcgridyes must be 1 or 2 \n\n");
+        printf("\n\n ERROR in input.txt: calcgridyes must be 1 or 2 \n\n");
         exit(3);
     }
     if (calcgridyes == 1) { /*compute whole grid*/
@@ -217,7 +217,7 @@ void input_read()
     printf(" numbersnowdaysout = %5d\n",numbersnowdaysout);
 
     if((surfyes > 2) || (snowyes > 2)) {
-        printf("\n\n ERROR in input.dat: surfyes and snowyes must be 0, 1 or 2 !!! \n\n");
+        printf("\n\n ERROR in input.txt: surfyes and snowyes must be 0, 1 or 2 !!! \n\n");
         exit(2);
     }
 
@@ -228,7 +228,7 @@ void input_read()
             fscanf(in,"%f",&jdsurface[i]);
             printf(" jdsurface[%d] = %.0f\n",i,jdsurface[i]);
             if((jdsurface[i] < 0) || (jdsurface[i] > 1000)) {
-                printf("\n\n ERROR in input.dat:  jdsurface must be 1-1000 !!! \n\n");
+                printf("\n\n ERROR in input.txt:  jdsurface must be 1-1000 !!! \n\n");
                 exit(2);
             }
         }  /*endfor*/
@@ -245,11 +245,11 @@ void input_read()
     fscanf(in,"%f%f",&summerjdbeg,&summerjdend);
     readrestofline(&in);
     if ((winterbalyes != 0) && (winterbalyes != 1)) {
-        printf("\n\n ERROR in input.dat:  winterbalyes must be 0 or 1 !!! \n\n");
+        printf("\n\n ERROR in input.txt:  winterbalyes must be 0 or 1 !!! \n\n");
         exit(2);
     }
     if ((summerbalyes != 0) && (summerbalyes != 1)) {
-        printf("\n\n ERROR in input.dat:  summerbalyes (=%d) must be 0 or 1 !!! \n\n",summerbalyes);
+        printf("\n\n ERROR in input.txt:  summerbalyes (=%d) must be 0 or 1 !!! \n\n",summerbalyes);
         exit(2);
     }
     printf(" winterbalyes = %5d\n",winterbalyes);
@@ -258,7 +258,7 @@ void input_read()
     fscanf(in,"%d",&datesfromfileyes);
     readrestofline(&in);
     if ((datesfromfileyes != 0) && (datesfromfileyes != 1)) {
-        printf("\n\n ERROR in input.dat:  datesfromfileyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
+        printf("\n\n ERROR in input.txt:  datesfromfileyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
         exit(2);
     }
     fscanf(in,"%s",namedatesmassbal);
@@ -273,7 +273,7 @@ void input_read()
     readrestofline(&in);
     printf(" snowfrsnow2zeroeachyearyes = %5d\n",snow2zeroeachyearyes);
     if ((snow2zeroeachyearyes != 0) && (snow2zeroeachyearyes != 1)) {
-        printf("\n\n ERROR in input.dat:  snow2zeroeachyearyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
+        printf("\n\n ERROR in input.txt:  snow2zeroeachyearyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
         exit(2);
     }
 
@@ -287,7 +287,7 @@ void input_read()
     fscanf(in,"%f",&cm_or_m);
     readrestofline(&in);
     if ((cm_or_m != 10) && (cm_or_m != 1000)) {
-        printf("\n\n ERROR in input.dat:  variable cm_or_m (=%.0f)!!! \n\n",cm_or_m);
+        printf("\n\n ERROR in input.txt:  variable cm_or_m (=%.0f)!!! \n\n",cm_or_m);
         exit(2);
     }
 
@@ -345,7 +345,7 @@ void input_read()
         printf("\nINITIAL SNOW COVER NEEDED\n");
         break;
     default :
-        printf("\n\n ERROR in input.dat: variable methodinisnow\n\n");
+        printf("\n\n ERROR in input.txt: variable methodinisnow\n\n");
         exit(10);
         fclose(outcontrol);
     }
@@ -363,7 +363,7 @@ void input_read()
     readrestofline(&in);
 
     if((methodglobal > 2) || (methodlongin > 2)) {
-        printf("\n\n ERROR in input.dat: methodglobal (=%d) and methodlongin (=%d) must be 1 or 2 !!! \n\n",methodglobal,methodlongin);
+        printf("\n\n ERROR in input.txt: methodglobal (=%d) and methodlongin (=%d) must be 1 or 2 !!! \n\n",methodglobal,methodlongin);
         exit(2);
     }
     
@@ -376,7 +376,7 @@ void input_read()
     fscanf(in,"%d",&methodturbul);
     readrestofline(&in);
     if((methodturbul < 1) || (methodturbul > 4)) {
-        printf("\n\n ERROR in input.dat: methodturbul (=%d) must be 1, 2, 3 or 4 !!! \n\n",methodturbul);
+        printf("\n\n ERROR in input.txt: methodturbul (=%d) must be 1, 2, 3 or 4 !!! \n\n",methodturbul);
         exit(2);
     }
 
@@ -410,7 +410,7 @@ void input_read()
             printf("SNOW ALBEDO ACCORDING TO SICART PHD P.243\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodsnowalbedo\n\n");
+            printf("\n\n ERROR in input.txt: variable methodsnowalbedo\n\n");
             exit(10);
         }
 
@@ -426,7 +426,7 @@ void input_read()
             printf("DIRECT AND DIFFUSE RADIATION SEPARATED\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodglobal\n\n");
+            printf("\n\n ERROR in input.txt: variable methodglobal\n\n");
             exit(10);
         }
 
@@ -450,7 +450,7 @@ void input_read()
             printf("LONGWAVE INCOMING RADIATION PAR. BY KONZELMANN BUT CLOUDS PARAMETERIZED\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodlonginstation\n\n");
+            printf("\n\n ERROR in input.txt: variable methodlonginstation\n\n");
             exit(10);
         }
 
@@ -465,7 +465,7 @@ void input_read()
             printf("LONGWAVE INCOMING RADIATION VARIABLE IN SPACE\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodlongin\n\n");
+            printf("\n\n ERROR in input.txt: variable methodlongin\n\n");
             exit(10);
         }
 
@@ -491,7 +491,7 @@ void input_read()
             fprintf(outcontrol,"  methodiceheat and methodnegbal set to 0\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodsurftempglac\n");
+            printf("\n\n ERROR in input.txt: variable methodsurftempglac\n");
             exit(10);
         }
 
@@ -509,7 +509,7 @@ void input_read()
             printf("CHR TURBULENCE ACCORDING TO MUNRO (with stability)\n"); /*CHR added option*/
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodturbul\n\n");
+            printf("\n\n ERROR in input.txt: variable methodturbul\n\n");
             exit(10);
         }
 
@@ -521,7 +521,7 @@ void input_read()
             printf("ICE HEAT FLUX CALCULATED\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodiceheat\n\n");
+            printf("\n\n ERROR in input.txt: variable methodiceheat\n\n");
             exit(10);
         }
 
@@ -532,7 +532,7 @@ void input_read()
             printf("NEGATIVE ENERGY BALANCES STORED\n");
             break;
         default :
-            printf("\n\n ERROR in input.dat: variable methodnegbal\n\n");
+            printf("\n\n ERROR in input.txt: variable methodnegbal\n\n");
             exit(10);
         }
     }  /*endif energy balance*/
@@ -583,7 +583,7 @@ void input_read()
         printf("\n NO VOLUME - AREA SCALING\n");
         break;
     default :
-        printf("\n\n ERROR in input.dat: variable scalingyes must be 0 or 1\n\n");
+        printf("\n\n ERROR in input.txt: variable scalingyes must be 0 or 1\n\n");
         exit(10);
         fclose(outcontrol);
     }
@@ -631,15 +631,15 @@ void input_read()
     readrestofline(&in);
 
     if ((laenge < -180) || (laenge > 180)) {
-        printf("\n\n ERROR in input.dat: longitude (=%.3f) \n\n",laenge);
+        printf("\n\n ERROR in input.txt: longitude (=%.3f) \n\n",laenge);
         exit(2);
     }
     if ((breite < -90) || (breite > 90)) {
-        printf("\n\n ERROR in input.dat: latitude (=%.3f) \n\n",breite);
+        printf("\n\n ERROR in input.txt: latitude (=%.3f) \n\n",breite);
         exit(2);
     }
     if ((reflongitude < -180) || (reflongitude > 180)) {
-        printf("\n\n input.dat: reference longitude n\n");
+        printf("\n\n input.txt: reference longitude n\n");
         exit(2);
     }
 
@@ -653,12 +653,12 @@ void input_read()
     readrestofline(&in);
     if((climoutsideyes != 0) && (climoutsideyes != 1) && (climoutsideyes !=
             2)) {
-        printf("\n\n ERROR in input.dat: variable: climoutsideyes) \n\n");
+        printf("\n\n ERROR in input.txt: variable: climoutsideyes) \n\n");
         exit(3);
     }
 
     /*    if((energymethod == 1) && (climoutsideyes == 1))
-          {  printf("\n\n ERROR in input.dat: climoutsideyes=1 \n\n");
+          {  printf("\n\n ERROR in input.txt: climoutsideyes=1 \n\n");
              printf("\n\n In energy balance modelling the climate station must be in the grid\n\n");
            	 exit(3);
           }
@@ -670,7 +670,7 @@ void input_read()
     readrestofline(&in);
 
     if ((timestep !=1) && (timestep != 24)) {
-        printf("\n timestep wrong in input.dat\n");
+        printf("\n timestep wrong in input.txt\n");
         printf("    must be 1 (hourly) or 24 (daily\n");
         printf("if other time steps wanted, finding climate start row must be adjusted in initial.c\n\n");
         exit(2);
@@ -689,7 +689,7 @@ void input_read()
     fscanf(in,"%d",&formatclimdata);
     readrestofline(&in);
     if((formatclimdata != 1) && (formatclimdata != 2) && (formatclimdata != 3)) {
-        printf("\n ERROR in input.dat: formatclimdata must be 1, 2 or 3 \n\n");
+        printf("\n ERROR in input.txt: formatclimdata must be 1, 2 or 3 \n\n");
         exit(2);
     }
 
@@ -769,7 +769,7 @@ void input_read()
         printf("\n air temperatures read from gridded files\n");
         break;
     default :
-        printf("\n\n ERROR in input.dat: variable methodtempinterpol, must be 1,2 or 3\n\n");
+        printf("\n\n ERROR in input.txt: variable methodtempinterpol, must be 1,2 or 3\n\n");
         exit(10);
     }
 
@@ -793,7 +793,7 @@ void input_read()
     else if(monthtempscenyes == 1)
         printf("\n monthly temperature scenario used\n\n");
     else {
-        printf("\n ERROR input.dat: variable monthtempscenyes = %d\n",monthtempscenyes);
+        printf("\n ERROR input.txt: variable monthtempscenyes = %d\n",monthtempscenyes);
         printf("\n must be 0 or 1   (input.c) \n\n");
         exit(2);
     }
@@ -803,7 +803,7 @@ void input_read()
     else if(monthprecipscenyes == 1)
         printf("\n monthly precipitation scenario used\n\n");
     else {
-        printf("\n ERROR input.dat: variable monthprecipscenyes = %d\n",monthprecipscenyes);
+        printf("\n ERROR input.txt: variable monthprecipscenyes = %d\n",monthprecipscenyes);
         printf("\n must be 0 or 1  (input.c) \n\n");
         exit(2);
     }
@@ -854,7 +854,7 @@ void input_read()
     readrestofline(&in);
 
     if((albsnow > 1) || (albice > 1) || (albfirn > 1)) {
-        printf("\n\n ERROR in input.dat: variable albsnow %.2f or albice %.2f or albfirn %.2f wrong (> 1)\n\n",
+        printf("\n\n ERROR in input.txt: variable albsnow %.2f or albice %.2f or albfirn %.2f wrong (> 1)\n\n",
                albsnow,albice,albfirn);
         exit(3);
     }
@@ -863,7 +863,7 @@ void input_read()
     printf("min albedo = %8.2f\n",albmin);
     printf("no. of days since snowfall = %6.1f\n",ndstart);
     if(albmin > 0.95) {
-        printf("\n\n ERROR in input.dat : variable albmin %.2f wrong (> 0.95)\n\n",albmin);
+        printf("\n\n ERROR in input.txt : variable albmin %.2f wrong (> 0.95)\n\n",albmin);
         exit(3);
     }
 
@@ -885,25 +885,25 @@ void input_read()
     readrestofline(&in);
 
     if((prozdiffuse < 0) || (prozdiffuse > 50)) {
-        printf("\n\n ERROR in input.dat : variable prozdiffuse wrong  (input.c)\n\n");
+        printf("\n\n ERROR in input.txt : variable prozdiffuse wrong  (input.c)\n\n");
         exit(3);
     }
     if((trans < 0.3) || (trans > 1)) {
-        printf("\n\n ERROR in input.dat : variable trans wrong %.2f  (input.c) \n\n",trans);
+        printf("\n\n ERROR in input.txt : variable trans wrong %.2f  (input.c) \n\n",trans);
         exit(3);
     }
 
     if((startratio < 0) || (startratio > 1.5)) {
-        printf("\n\n ERROR in input.dat : variable startratio wrong %.2f\n\n",startratio);
+        printf("\n\n ERROR in input.txt : variable startratio wrong %.2f\n\n",startratio);
         exit(3);
     }
     if((ratiodir2dir < 0) || (ratiodir2dir > 1.5)) {
-        printf("\n\n ERROR in input.dat : variable ratiodir2dir wrong %.2f\n\n",ratiodir2dir);
+        printf("\n\n ERROR in input.txt : variable ratiodir2dir wrong %.2f\n\n",ratiodir2dir);
         exit(3);
     }
 
     if((surftemplapserate > 0) || (surftemplapserate < -2)) {
-        printf("\n\n ERROR in input.dat : variable surftemplapserate wrong %.2f\n\n",surftemplapserate);
+        printf("\n\n ERROR in input.txt : variable surftemplapserate wrong %.2f\n\n",surftemplapserate);
         exit(3);
     }
     fscanf(in,"%d",&directfromfile);
@@ -955,7 +955,7 @@ void input_read()
     printf("slopestation  = %5d\n",slopestation);
 
     if ((slopestation != 0) && (slopestation != 1)) {
-        printf("\n\n ERROR in input.dat : slopestation is wrong, must be 0 or 1 !\n\n ");
+        printf("\n\n ERROR in input.txt : slopestation is wrong, must be 0 or 1 !\n\n ");
         exit(11);
     }
 
@@ -978,7 +978,7 @@ void input_read()
     readrestofline(&in);
 
     if ((z0proz < 0) || (z0min < 0) ||  (z0min < 0)) {
-        printf("\n\n ERROR in input.dat : z0proz,min,max must be > 0 !\n\n ");
+        printf("\n\n ERROR in input.txt : z0proz,min,max must be > 0 !\n\n ");
         exit(11);
     }
 
@@ -990,7 +990,7 @@ void input_read()
     readrestofline(&in);
     if((methodprecipinterpol > 3) || (methodprecipinterpol < 1)) {
         printf("\n\n input.c: methodprecipinterpol must be 1, 2 or 3 but it is %d\n",methodprecipinterpol);
-        printf("   check input.dat: wrong value or rows are not in right order or too few or too many !!!\n\n");
+        printf("   check input.txt: wrong value or rows are not in right order or too few or too many !!!\n\n");
         exit(10);
     }
 
@@ -1184,7 +1184,7 @@ void input_read()
     readrestofline(&in);
     printf("percolationyes = %d\n",percolationyes);
     if((percolationyes != 0) && (percolationyes != 1)) {
-        printf(" \n variable percolationyes wrong in input.dat = %d\n",percolationyes);
+        printf(" \n variable percolationyes wrong in input.txt = %d\n",percolationyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
@@ -1194,7 +1194,7 @@ void input_read()
     readrestofline(&in);
     if (percolationyes == 0) slushformationyes = 0;
     if((slushformationyes != 0) && (slushformationyes != 1)) {
-        printf(" \n variable slushformationyes wrong in input.dat = %d\n",slushformationyes);
+        printf(" \n variable slushformationyes wrong in input.txt = %d\n",slushformationyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
@@ -1202,14 +1202,14 @@ void input_read()
     fscanf(in,"%d",&densificationyes);
     readrestofline(&in);
     if((densificationyes != 0) && (densificationyes != 1)) {
-        printf(" \n variable densificationyes wrong in input.dat =%d\n",densificationyes);
+        printf(" \n variable densificationyes wrong in input.txt =%d\n",densificationyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
     fscanf(in,"%d",&wetstartyes);
     readrestofline(&in);
     if((wetstartyes != 0) && (wetstartyes != 1)) {
-        printf(" \n variable wetstartyes wrong in input.dat = %d\n",wetstartyes);
+        printf(" \n variable wetstartyes wrong in input.txt = %d\n",wetstartyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
@@ -1224,28 +1224,28 @@ void input_read()
     fscanf(in,"%f",&thicknessfirst);
     readrestofline(&in);
     if((thicknessfirst <=0) || (thicknessfirst >50)) {
-        printf(" \n variable thicknessfirst wrong in input.dat =%.2f\n",thicknessfirst);
+        printf(" \n variable thicknessfirst wrong in input.txt =%.2f\n",thicknessfirst);
         printf("    must be between 0 and 50 (function input.c)\n\n");
         exit(4);
     }
     fscanf(in,"%f",&thicknessdeep);
     readrestofline(&in);
     if((thicknessdeep <=0) || (thicknessdeep < thicknessfirst)) {
-        printf(" \n variable thicknessdeep wrong in input.dat = %.2f\n",thicknessdeep);
+        printf(" \n variable thicknessdeep wrong in input.txt = %.2f\n",thicknessdeep);
         printf("    must be >0 and < thicknessfirst (function input.c)\n\n");
         exit(4);
     }
     fscanf(in,"%f",&depthdeep);
     readrestofline(&in);
     if((depthdeep <=0) || (depthdeep < depthdeep)) {
-        printf(" \n variable depthdeep wrong in input.dat = %.2f\n",depthdeep);
+        printf(" \n variable depthdeep wrong in input.txt = %.2f\n",depthdeep);
         printf("    must be >0 and < depthdeep (function input.c)\n\n");
         exit(4);
     }
     fscanf(in,"%lf",&denssnow);
     readrestofline(&in);
     if(denssnow > 700) {
-        printf(" \n variable denssnow=%.2lf wrong in input.dat\n",denssnow);
+        printf(" \n variable denssnow=%.2lf wrong in input.txt\n",denssnow);
         printf(" \n should be: denssnow > 700  (input.c)\n\n");
         exit(4);
     }
@@ -1254,14 +1254,14 @@ void input_read()
     fscanf(in,"%d",&irrwatercontyes);
     readrestofline(&in);
     if((irrwatercontyes != 0) && (irrwatercontyes != 1) && (irrwatercontyes != 2)) {
-        printf(" \n variable irrwatercontyes wrong in input.dat =%d\n",irrwatercontyes);
+        printf(" \n variable irrwatercontyes wrong in input.txt =%d\n",irrwatercontyes);
         printf("    must be 0, 1 or 2 (function input.c)\n\n");
         exit(4);
     }
     fscanf(in,"%lf",&irrwatercont);
     readrestofline(&in);
     if((irrwatercont <=0) || (irrwatercont > 0.5)) {
-        printf(" \n variable depthdeep wrong in input.dat =%.2lf\n",irrwatercont);
+        printf(" \n variable depthdeep wrong in input.txt =%.2lf\n",irrwatercont);
         printf("    must be >0 and < 0.5 (function input.c)\n\n");
         exit(4);
     }
@@ -1272,7 +1272,7 @@ void input_read()
     fscanf(in,"%d",&factsubsurfout);
     readrestofline(&in);
     if((factsubsurfout < 1) || (factsubsurfout > 24)) {
-        printf(" \n variable irrwatercontyes wrong in input.dat = %d\n",factsubsurfout);
+        printf(" \n variable irrwatercontyes wrong in input.txt = %d\n",factsubsurfout);
         printf("    must be 0, 1 or 2 (function input.c)\n\n");
         exit(4);
     }
@@ -1284,12 +1284,12 @@ void input_read()
     fscanf(in,"%d%d%d",&slushyes,&coldsnowyes,&coldtotyes);
     readrestofline(&in);
     if((superyes != 0) && (superyes != 1)) {
-        printf(" \n variable superyes wrong in input.dat = %d\n",superyes);
+        printf(" \n variable superyes wrong in input.txt = %d\n",superyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
     if((coldtotyes != 0) && (coldtotyes != 1)) {
-        printf(" \n variable coldtotyes wrong in input.dat = %d\n",coldtotyes);
+        printf(" \n variable coldtotyes wrong in input.txt = %d\n",coldtotyes);
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
@@ -1312,7 +1312,7 @@ void input_read()
     fscanf(in,"%d",&ddmethod);
     readrestofline(&in);
     if((ddmethod < 1) || (ddmethod > 3)) {
-        printf(" \n variable ddmethod wrong in input.dat = %d\n",ddmethod);
+        printf(" \n variable ddmethod wrong in input.txt = %d\n",ddmethod);
         printf("    must be 1 - 3  (function input.c)\n\n");
         exit(4);
     }
@@ -1335,7 +1335,7 @@ void input_read()
     readrestofline(&in);     /* COMMENT STAKES */
     fscanf(in,"%d",&coordinatesyes);
     if((coordinatesyes < 1) || (coordinatesyes > 3)) {
-        printf(" \nERROR in input.dat: coordinatesyes (=%d) must be 1, 2 or 3  (input.c)\n\n",coordinatesyes);
+        printf(" \nERROR in input.txt: coordinatesyes (=%d) must be 1, 2 or 3  (input.c)\n\n",coordinatesyes);
         exit(4);
     }
     printf("coordinatesyes = %d\n",coordinatesyes);
@@ -1390,7 +1390,7 @@ void input_read()
         /*note: do_out is set to 0 early in case of daily time steps*/
     }  /*endif maxmeltstakes*/
 
-    printf("*** ALL ROWS READ FROM input.dat ***\n");
+    printf("*** ALL ROWS READ FROM input.txt ***\n");
 
     /*if the climate station is outside the grid, it does not make sense to compute only
       the location of the climate station*/
@@ -1439,8 +1439,8 @@ void input_read()
     fprintf(outcontrol,"---- END OF LIST OF SUCH CHANGES ---- \n");
     fprintf(outcontrol,"--------------------------------------------------- \n\n");
 
-    /*write entire input.dat as it is to control output file res.out*/
-    rewind(in);    /*go back to beginning of input.dat file*/
+    /*write entire input.txt as it is to control output file res.out*/
+    rewind(in);    /*go back to beginning of input.txt file*/
     while((c=getc(in)) != EOF)
         putc(c,outcontrol);
 
