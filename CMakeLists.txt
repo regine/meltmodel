@@ -54,3 +54,6 @@ add_custom_target(tags
 
 install(FILES input.txt 
 	DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+
+install(FILES shading.txt 
+	DESTINATION ${CMAKE_SOURCE_DIR}/bin)
