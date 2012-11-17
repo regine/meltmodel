@@ -108,14 +108,14 @@ void whichreservoir();
 /*     sum up sums required for r2 calculations (simulation and optimization */
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
-void sumr2();
+void sumr2(int iiopt, int jjopt);
 
 /*****************************************************************************/
 /*  FUNCTION  sumr2ln                                                        */
 /*     sum up sums required for logarithmic r2 calculations                  */
 /*      called from discharge() (below),    only if discharge data available */
 /*****************************************************************************/
-void sumr2ln();
+void sumr2ln(int iiopt, int jjopt);
 
 /**************************************************************************/
 /*  FUNCTION  writedisoutput                                              */

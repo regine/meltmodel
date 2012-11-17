@@ -29,7 +29,7 @@
 /*   this function calculates snow layer thickness in m of snow             */
 /*  NOT initialisation, but for functions changegrid and stationoutput*/
 /****************************************************************************/
-void snowlayermsnow();
+void snowlayermsnow(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  meltlayermice                                                  */
@@ -43,21 +43,21 @@ void meltlayermice();
 /*    called from initgrid in snowmodel.c     */
 /*    choice to be set in variab.h */
 /******************************************************************/
-void choice_layertemperature();
+void choice_layertemperature(int i, int j, int k);
 
 /******************************************************************/
 /* FUNCTION  choice_snowlayerdensity                                           */
 /*    called from initgrid in snowmodel.c     */
 /*    choice to be set in variab.h */
 /******************************************************************/
-void choice_snowlayerdensity();
+void choice_snowlayerdensity(int i, int j, int k);
 
 /******************************************************************/
 /* FUNCTION  choice_firnlayerdensity                              */
 /*    called from initgrid in snowmodel.c                         */
 /*    choice to be set in variab.h */
 /******************************************************************/
-void choice_firnlayerdensity();
+void choice_firnlayerdensity(int i, int j, int k);
 
 /******************************************************************/
 /* FUNCTION  choice_snowlayermsnow                                */
@@ -76,7 +76,7 @@ void choice_snowlayermsnow();
 /*  the depths at which the temperature gradient changes should be determined  */
 /*  from data at simulation start or educated guesses                          */
 /*******************************************************************************/
-void default_layertemp3grad();
+void default_layertemp3grad(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  default_layertemperature                                       */
@@ -85,7 +85,7 @@ void default_layertemp3grad();
 /*   temperate below 30 m, and spring start                                 */
 /* FUNCTION NOT CALLED ANYWHERE BECAUSE DEFAULT REPLACED BY OTHER FUNCTION*/
 /****************************************************************************/
-void default_layertemperature();
+void default_layertemperature(int i, int j, int k);
 
 /*============== SNOW LAYER DENSITY - 2 default options ====================================*/
 
@@ -95,13 +95,13 @@ void default_layertemperature();
 /*   using value for firn density from input.dat                        */
 /*   called from function choice_snowlayerdensity()   */
 /****************************************************************************/
-void default_snowlayerdensity();
+void default_snowlayerdensity(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  default_snowlayerdensity3grad                                  */
 /*   this function calculates snow layer density based on 3 gradients       */
 /****************************************************************************/
-void default_snowlayerdensity3grad();
+void default_snowlayerdensity3grad(int i, int j, int k);
 
 /*============== FIRN LAYER DENSITY - 2 default options ======================================*/
 
@@ -110,14 +110,14 @@ void default_snowlayerdensity3grad();
 /*   this function calculates a default firnlayer density                   */
 /*   using value for firn density from input.dat                            */
 /****************************************************************************/
-void default_firnlayerdensity();
+void default_firnlayerdensity(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  default_firnlayerdensity1grad                                  */
 /*   this function calculates a firnlayer density by a linear gradient      */
 /*   called from choice_firnlayerdensity in snowinput.c                     */
 /****************************************************************************/
-void default_firnlayerdensity1grad();
+void default_firnlayerdensity1grad(int i, int j, int k);
 
 /*============== CONVERSION SNOW LAYER DENSITY - 2 default options ======================*/
 /*============== INVERTS DEFAULT SNOW LAYER DENSITY OPTIONS ======================*/
@@ -149,21 +149,21 @@ void default_snowlayermsnow3grad();
 /*   this function calculates layer temperature                             */
 /*   based on measurements at Storglaciaren for may 1999                    */
 /****************************************************************************/
-void stor_layertemperature();
+void stor_layertemperature(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  stor_snowlayerdensity                                          */
 /*   this function calculates snow layer density                            */
 /*   based on density measurements at Storglaciaren                         */
 /****************************************************************************/
-void stor_snowlayerdensity();
+void stor_snowlayerdensity(int, int, int);
 
 /****************************************************************************/
 /* FUNCTION  stor_firnlayerdensity                                          */
 /*   this function calculates firn layer density                            */
 /*   based on density measurements at Storglaciaren                         */
 /****************************************************************************/
-void stor_firnlayerdensity();
+void stor_firnlayerdensity(int i, int j, int k);
 
 /****************************************************************************/
 /* FUNCTION  stor_snowlayermsnow                                            */
