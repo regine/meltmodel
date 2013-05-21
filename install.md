@@ -5,7 +5,6 @@ subtitle: Installation Guide
 repo: http://github.com/regine/meltmodel
 ---
 
-
 Prerequisites
 -------------
 Because the models are distributed only as source, there are a few

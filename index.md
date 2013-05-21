@@ -35,7 +35,7 @@ the subsurface snow model used by DEBaM. The models were made open source in Aug
 with help of Lyman Gillispie.
 
 - __DEBaM__ computes surface melt by an energy balance approach.
-- __DETIM__ offers various temperature index methods approaches. 
+- __DETIM__ computes surface melt by various temperature index approaches. 
 
 
 Download
