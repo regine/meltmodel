@@ -35,6 +35,7 @@
 #include "grid.h"
 #include "radiat.h"
 #include "snowinput.h"
+#include "skintemperature.h"
 #include "turbul.h"
 
 #include "variabex.h"      /* all global VARIABLES */
@@ -201,7 +202,7 @@ void albedosnowdepth() {
     } else {
         snowrest = snowlayer[i][j];
         if (snowlayer[i][j] <= 0.0) snowrest= (snowlayersum[i][j]/denssnow);
-        snowrest = snowrest /*- superice[i][j]/densice*/; //LG: what's going on here?
+        /*snowrest = snowrest - superice[i][j]/densice;*/ //LG: what's going on here?
         if (snowrest < 0.) snowrest = 0.;
         /*if ((FIRN[i][j] > 0.) && (snowrest == 0.)) snowrest = 0.001;*/
         if ((layerid[i][j][1] == 2) && (snowrest == 0.)) snowrest = 0.001;
@@ -420,6 +421,7 @@ void initgrid() {
 
     conduc=arrayreservdouble(1,ndepths);
     conducdtdz=arrayreservdouble(1,ndepths);
+    layerenergy=arrayreservdouble(1,ndepths);
 
     coeff = (factorthickness - thicknessfirst)/factorthickness;
     coeffupper = coeff;
@@ -1327,44 +1329,6 @@ void resetgridsummer() {
 }
 
 /****************************************************************************/
-/* FUNCTION  surftempfrommodel                                                */
-/*   this function calculates surface temperature of glacier by linear      */
-/*   extrapolating temperature of upper two layers                          */
-/****************************************************************************/
-
-void surftempfrommodel() {
-    float  tgrad;
-    float  tsurf;
-
-    jd2=jd;
-    if ((zeit == 24) && (inter == factinter))
-        jd2 = (int)jd + 1;
-
-    /*  printf(" calculate surftemp from model. row  %d  col  %d  \n\n",i,j);*/
-    /* tgrad = (layertemperature[i][j][2] - layertemperature[i][j][1]) / (layerthickness[i][j][1]+layerthickness[i][j][2]); */
-    tgrad = (layertemperature[i][j][2] - layertemperature[i][j][1]) / (layerdepth[i][j][2] - layerdepth[i][j][1]);
-
-
-    /* tsurf = layertemperature[i][j][1] - tgrad * layerthickness[i][j][1]; */
-    tsurf = layertemperature[i][j][1] - tgrad * layerdepth[i][j][1];
-
-    /* Surface temperature of melting snow cannot exceed 0.0 C or 273.16 K */
-    if (tsurf > 0.0) {
-        tsurf = 0.0;
-    }
-    if (tsurf < surftempminimum) {
-        fprintf(outcontrol,"0 jd=%.3f i=%d j=%d k 1 temp %.3f \n",jd2,i,j,tsurf);
-        tsurf = surftempminimum;
-        resoutlines += 1;
-        if(resoutlines > resoutlinesmax)
-            toobig_resout();    /*exit program*/
-    }  /*endif*/
-
-    surftemp[i][j] = tsurf;
-
-    return;
-}
-/****************************************************************************/
 /* FUNCTION  outputsubsurflines                                             */
 /*   this function prints out subsurf conditions for given location         */
 /*   for each time step one row for each layer                              */
@@ -1464,106 +1428,6 @@ void outputsubsurflines() {
         }
 
     } /*ENDIF klinesmax loop*/
-
-    return;
-}
-/****************************************************************************/
-/* FUNCTION  surftempskin                                                   */
-/*   this function calculates surface temperature of glacier by             */
-/*   using a skinlayer formulation                                          */
-/*   a skin layer is a surface layer without heat capacity                  */
-/*   the skinlayer temp is calculated by writing the surface EB in terms of  */
-/*   it and deriving a formultion of Tskin                                  */
-/*   longin and longout from previous timestep                              */
-/****************************************************************************/
-
-void surftempskin() {
-    int tskiniter;
-    float tkel = 273.16;     /*0 point of water in K*/
-    double dtsurf,tsurf,tsurfold;
-
-    turbfluxes();
-
-    tsurf = surftemp[i][j];
-    tsurf1 = surftemp[i][j] - tinterv;
-    tsurf2 = surftemp[i][j] + tinterv;
-    dtsurf = 2.*taccur;
-
-    tskiniter = 0;
-
-    while (dtsurf > taccur) {
-        tskiniter = tskiniter+1;
-        tsurfold = tsurf;
-
-        bisection();
-        tsurf = tbisection;
-
-        if (tsurf >= tkel)
-            tsurf = tkel;
-        tspechum = tsurf;
-        kspechum = 2;
-        spechum();
-
-        turbfluxes();
-
-        tsurfenergybalance(tsurf);
-        if (tsurf >= tkel)
-            tsurfenergybalance(tkel);
-        sourceskin = balancetsurf;
-        if (sourceskin < 0.)
-            sourceskin = 0.;
-
-        dtsurf = fabs(tsurf - tsurfold);
-    }
-
-    return;
-}
-
-/****************************************************************************/
-/* FUNCTION bisection (x1,x2,x_acc)  */
-/****************************************************************************/
-/* This function determines the surface temperature required to close the energy balance */
-/****************************************************************************/
-
-void bisection() {
-    int kmax = 40;
-    int k;
-    double dtsurf,ff,fmid,tmid,rtb;
-
-    tsurfenergybalance(tsurf2);
-    fmid = balancetsurf;
-    tsurfenergybalance(tsurf1);
-    ff = balancetsurf;
-
-    if ((ff*fmid) >= 0.0) {
-        printf("\n Error: Root must be bracketed for bisection! %f %f %f %f %f\n",jd2,tsurf1,tsurf2,ff,fmid);
-        exit(4);
-    }
-
-    if ( ff < 0.0) {
-        rtb=tsurf1;
-        dtsurf=tsurf2-tsurf1;
-    } else {
-        rtb=tsurf2;
-        dtsurf=tsurf1-tsurf2;
-    }
-
-    for (k = 1; k <= kmax; k++) {
-        dtsurf = dtsurf * 0.5;
-        tmid = rtb+dtsurf;
-        tsurfenergybalance(tmid);
-        fmid = balancetsurf;
-
-        if (fmid <= 0.0)
-            rtb = tmid;
-        if ((fabs(dtsurf) < taccur) || (fmid == 0.0))
-            k = kmax+1;
-    }
-
-    if (k == kmax)
-        printf("\n Warning: maximum number of bisections!! %f %f %f \n",jd2,tmid,fmid);
-
-    tbisection = rtb;
 
     return;
 }
@@ -1722,9 +1586,13 @@ void densification(int i, int j, int k) {
 
 void snowmelt(int i, int j, int k) {
     double  meltedlayer;
+    double  meltedsurflayer;
+    float  deltat;
     float  Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     float  depth;
     int idone;
+
+    deltat = timestep*3600;
 
     /*depth = snowlayer[i][j];*/
     depth = FIRN[i][j]+snowlayer[i][j];
@@ -1732,8 +1600,14 @@ void snowmelt(int i, int j, int k) {
     /*if (FIRN[i][j] > 0.)
       depth = layerdepth[i][j][(int)layeramount[i][j]] +
               0.5*layerthickness[i][j][(int)layeramount[i][j]];*/
+              
+    meltedsurflayer = 0.;
+    meltedlayer = 0.;
+    if ((skin_or_inter == 0) && (k == 1)) meltedsurflayer = source*deltat/Lf;
+    if (layertemperature[i][j][k] > 0.) meltedlayer = layerenergy[k]/Lf;
+/*    meltedlayer = layertemperature[i][j][k]*layermass[i][j][k]*cpice/Lf + meltedsurflayer;*/
+    meltedlayer = meltedlayer + meltedsurflayer;
 
-    meltedlayer = layertemperature[i][j][k]*layermass[i][j][k]*cpice/Lf;
     layerwatercont[i][j][k] = layerwatercont[i][j][k] + meltedlayer;
 
     /*first melt the fresh snowlayer*/
@@ -1749,6 +1623,8 @@ void snowmelt(int i, int j, int k) {
         snowlayersum[i][j] = snowlayersum[i][j] - meltedlayer;
         if (snowlayersum[i][j] < 0.) snowlayersum[i][j] = 0.;
     }
+    /*calculate thickness of superimposed ice layer, independent of snow/ice thickness*/
+    /*This does not affect meltedlayer*/
     if ( /*(k!= 1) &&*/ (meltedlayer > 0) && (superice[i][j] > 0.) &&
                         ((depth-(superice[i][j]/densice)) < layerdepth[i][j][k]+0.5*layerthickness[i][j][k]) &&
                         ((depth-(superice[i][j]/densice)) > layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) ) {
@@ -1767,6 +1643,7 @@ void snowmelt(int i, int j, int k) {
         superice[i][j] = superice[i][j] - meltedlayer;
         if (superice[i][j] < 0.) superice[i][j] = 0.;
     }
+    /*End superimposed ice calculations*/
     /*then melt the first snow/firn/ice layer*/
     layerrefreeze[i][j][k] = layerrefreeze[i][j][k] - (meltedlayer/layermass[i][j][k])*layerrefreeze[i][j][k];
     if (layerrefreeze[i][j][k] < 0.) layerrefreeze[i][j][k] = 0.;
@@ -1777,7 +1654,7 @@ void snowmelt(int i, int j, int k) {
         layermass[i][j][k] = 0.;
         layerthickness[i][j][k] = 0.;
     }
-    layertemperature[i][j][k] = 0.0;
+    if (layertemperature[i][j][k] > 0.) layertemperature[i][j][k] = 0.0;
 
     return;
 }
@@ -1795,15 +1672,16 @@ void refreezing(int i, int j, int k) {
     double  energytemperature;/*energy necessary to raise layertemperature to melting level */
     double  energydensity;    /*energy necessary to convert water into ice enough to raise layerdensity to density ice*/
     double  energy;           /*actual energy used (smallest from the above three)*/
-    double  energytempleft;   /*energy left necessary to raise temperature to melting point after refreezing*/
+/*    double  energytempleft;*/   /*energy left necessary to raise temperature to melting point after refreezing*/
 
     /*if (FIRN[i][j] > 0.) superice[i][j] = 0.;*/
 
     if (layerdensity[i][j][k] < densice-diffdensice) {
         energywater = layerwatercont[i][j][k]*Lf;
-        energytemperature = fabs(layertemperature[i][j][k])*layermass[i][j][k]*cpice;
+  /*      energytemperature = fabs(layertemperature[i][j][k])*layermass[i][j][k]*cpice; */
+        energytemperature = fabs(layerenergy[k]);
         energydensity = (densice - layerdensity[i][j][k])*layerthickness[i][j][k]*Lf;
-        energy = energywater;
+       energy = energywater;
         if (energy > energytemperature) energy = energytemperature;
         if (energy > energydensity) energy = energydensity;
         masschangelayer = energy/Lf;
@@ -1820,13 +1698,16 @@ void refreezing(int i, int j, int k) {
         }
 
         layerdensity[i][j][k] = layermass[i][j][k]/layerthickness[i][j][k];
-        energytempleft = energytemperature - energy;
-        if (energytempleft < 0) energytempleft = 0.; /*precision*/
-        layertemperature[i][j][k] = -1.0*energytempleft/(layermass[i][j][k]*cpice);
+/*        energytempleft = energytemperature - energy;
+        if (energytempleft < 0) energytempleft = 0.;*/ /*precision*/
+  /*      layertemperature[i][j][k] = -1.0*energytempleft/(layermass[i][j][k]*cpice);*/
+         layertemperature[i][j][k] = layertemperature[i][j][k] + Lf*energy/(layermass[i][j][k]*cpice); 
+         if (layertemperature[i][j][k] > 0.) layertemperature[i][j][k] = 0.;
     }
     if ((k == 1) && (layertemperature[i][j][k] < 0.0) && (layerwatercont[i][j][k] > 0.0)) {
         energywater = layerwatercont[i][j][k]*Lf;
-        energytemperature = fabs(layertemperature[i][j][k])*layermass[i][j][k]*cpice;
+        energytemperature = fabs(layertemperature[i][j][k])*1.0*layermass[i][j][k]*cpice;
+        if (skin_or_inter == 1) energytemperature = fabs(layertemperature[i][j][k])*1.5*layermass[i][j][k]*cpice;
         energy = energywater;
         if (energy > energytemperature) energy = energytemperature;
         masschangelayer = energy/Lf;
@@ -1835,9 +1716,11 @@ void refreezing(int i, int j, int k) {
         layermass[i][j][k] = layermass[i][j][k] + masschangelayer;
         layerthickness[i][j][k] = layerthickness[i][j][k] + masschangelayer/densice;
         layerdensity[i][j][k] = layermass[i][j][k]/layerthickness[i][j][k];
-        energytempleft = energytemperature - energy;
-        if (energytempleft < 0) energytempleft = 0.; /*precision*/
-        layertemperature[i][j][k] = -1.0*energytempleft/(layermass[i][j][k]*cpice);
+/*        energytempleft = energytemperature - energy;
+        if (energytempleft < 0) energytempleft = 0.; *//*precision*/
+/*        layertemperature[i][j][k] = -1.0*energytempleft/(layermass[i][j][k]*cpice);*/
+         layertemperature[i][j][k] = layertemperature[i][j][k] + Lf*energy/(layermass[i][j][k]*cpice); 
+         if (layertemperature[i][j][k] > 0.) layertemperature[i][j][k] = 0.;
         superice[i][j] = superice[i][j]+masschangelayer;
     }
 
@@ -2070,9 +1953,8 @@ void irreducible_coleou(int i, int j, int k) {
 void subsurf() {
     float   deltat;
     float   stcrit;
-    double  conducdtdzskin;
-    /* L.G.: density is unused, can we delete it? */
-    //float   density;
+    double  dzl;
+    double  factG,factGa,factGb,term1,term2;
     int     factsource=1;   /*fraction of enbal heating/cooling the first layer was 0.65 */
     float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     int k;
@@ -2082,39 +1964,75 @@ void subsurf() {
         jd2 = (int)jd + 1;
 
     deltat = timestep*3600;
-    source = ENBAL[i][j]; /*this includes energy from rain */
+
+    /* Assume no radiation penetration*/
+/*    source = 0.;*/
+    tsurfenergybalance(surftemp[i][j]);
+    source = balancetsurf;
+    if (skin_or_inter == 1) source = -1.*ENBAL[i][j]; /*this includes energy from rain */
 
     /*printf(" recalculate subsurface temperatures. row  %d  col  %d  \n\n",i,j);*/
-    for (k=1; k <= (int)layeramount[i][j]; k++) {   /*for each layer*/
+    for (k=1; k <= (int)layeramount[i][j]; k++) {   /*for each layer first temperature calculation*/
         iceconductivity(i, j, k);
-        if (k > 1) {
-            conducdtdz[k-1] = -0.5 * (conduc[k-1] + conduc[k]) *
+        layerenergy[k] = 0.;
+        if (k == 1) {
+        conducdtdz[k] = conduc[k] * (layertemperature[i][j][k] - surftemp[i][j])/layerthickness[i][j][k];	 /*Newly added*/
+     }
+        else /*if (k > 1)*/ {
+/*            conducdtdz[k-1] = -0.5 * (conduc[k-1] + conduc[k]) *
                               (layertemperature[i][j][k]-layertemperature[i][j][k-1]) /
-                              (layerdepth[i][j][k]-layerdepth[i][j][k-1]);
-            /* NOTE: minus sign because sign convention flux is opposite to grid of subsurface */
+                              (layerdepth[i][j][k]-layerdepth[i][j][k-1]); */ /*OLD FORMULATION*/
+            /* NOTE: minus sign  old formulation because sign convention flux is opposite to grid of subsurface */
+            dzl = 0.5*(layerthickness[i][j][k] + layerthickness[i][j][k-1]);
+            conducdtdz[k] = (0.5/dzl)*(conduc[k]*layerthickness[i][j][k] + conduc[k-1]*layerthickness[i][j][k-1])*
+                                     (layertemperature[i][j][k]-layertemperature[i][j][k-1]) / dzl;         
         }
+
     }  /*endfor next layer*/
 
-    /*boundary condition, no heat flux to or from lower layers*/
-    conducdtdz[(int)layeramount[i][j]] = 0.0;
-
-    /* Assume no radiation pentration*/
-    /* First calculate temperature first layer*/
-    layertemperature[i][j][1] = layertemperature[i][j][1] - ((conducdtdz[1] - source * factsource) /
-                                layerthickness[i][j][1]) * deltat/layerrhocp[i][j][1];
-    if ((layertemperature[i][j][1] > 0.0) && (percolationyes == 0)) layertemperature[i][j][1] = 0.0;
-    if (layertemperature[i][j][1] < surftempminimum) {
-        fprintf(outcontrol,"1 jd %f i %d j %d k 1 temp %f \n",jd2,i,j,layertemperature[i][j][1]);
-        layertemperature[i][j][1] = surftempminimum;
-        resoutlines += 1;
-        if(resoutlines > resoutlinesmax) toobig_resout();
+    if (skin_or_inter == 0) {
+      if (tsurfextrapolation == 1) {
+        factG = conducdtdz[1];  }
+      else if (tsurfextrapolation == 2) {
+        factGa = conduc[1]*(surftemp[i][j]-layertemperature[i][j][1])/layerthickness[i][j][1];
+        term1 = ((conduc[1]*layerthickness[i][j][1]+conduc[2]*layerthickness[i][j][2])/
+                 (layerthickness[i][j][1]+layerthickness[i][j][2]));
+        term2 = ((layertemperature[i][j][1]-layertemperature[i][j][2])/
+                 (0.5*(layerthickness[i][j][1]+layerthickness[i][j][2])));
+        factGb = term1*term2;
+        factG = -(layerthickness[i][j][1]*(2.*factGa - factGb) + layerthickness[i][j][2]*factGa)/
+                (layerthickness[i][j][1]+layerthickness[i][j][2]);
+      }
     }
 
-    for (k=1; k <= (int)layeramount[i][j]; k++) {
+    /*boundary condition, no heat flux to or from lower layers*/
+/*    conducdtdz[(int)layeramount[i][j]] = 0.0; */ /* with above formulation now redundant new boundary condition set below*/
+             
+    for (k=1; k <= (int)layeramount[i][j]-1; k++) {
+
         /* First calculate temperature */
-        if (k > 1) {
-            layertemperature[i][j][k] = layertemperature[i][j][k] - ((conducdtdz[k] - conducdtdz[k-1]) /
-                                        layerthickness[i][j][k]) * deltat/layerrhocp[i][j][k];
+      if (skin_or_inter == 1 && k == 1 ) {
+         /* First calculate temperature first layer*/
+        layertemperature[i][j][k] = layertemperature[i][j][k] + 
+                               (deltat/(0.5*(layerrhocp[i][j][k]+layerrhocp[i][j][k+1])))*
+                               ((conducdtdz[k+1] - source* factsource)/layerthickness[i][j][k]); 
+        layerenergy[k] = layerrhocp[i][j][k]*1.0*layerthickness[i][j][k]*layertemperature[i][j][k];		/*negative value for T below 0degC*/
+        if ((layertemperature[i][j][k] > 0.0) && (percolationyes == 0)) layertemperature[i][j][k] = 0.0;
+         if (layertemperature[i][j][k] < surftempminimum) {
+           fprintf(outcontrol,"1 jd %f i %d j %d k 1 temp %f \n",jd2,i,j,layertemperature[i][j][1]);
+           layertemperature[i][j][k] = surftempminimum;
+           resoutlines += 1;
+           if(resoutlines > resoutlinesmax) toobig_resout();
+          }
+         }
+        else {
+           layertemperature[i][j][k] = layertemperature[i][j][k] + 
+                               (deltat/(0.5*(layerrhocp[i][j][k]+layerrhocp[i][j][k+1])))*
+                               ((conducdtdz[k+1]-conducdtdz[k])/layerthickness[i][j][k]); 
+            if (k == 1) {
+              layerenergy[k] = layerrhocp[i][j][k]*1.5*layerthickness[i][j][k]*layertemperature[i][j][k];}
+            else {
+              layerenergy[k] = layerrhocp[i][j][k]*layerthickness[i][j][k]*layertemperature[i][j][k];}
             if ((layertemperature[i][j][k] > 0.0) && (percolationyes == 0)) layertemperature[i][j][k] = 0.0;
             if (layertemperature[i][j][k] < surftempminimum) {
                 fprintf(outcontrol,"2 jd %f i %d j %d k %d temp %f \n",jd2,i,j,k,layertemperature[i][j][k]);
@@ -2123,7 +2041,18 @@ void subsurf() {
                 if(resoutlines > resoutlinesmax) toobig_resout();
             }
         }  /*endif*/
+    }  /* end do over layers*/ 
+        layertemperature[i][j][(int)layeramount[i][j]] = layertemperature[i][j][(int)layeramount[i][j] -1];
+        layerenergy[(int)layeramount[i][j]] = layerenergy[(int)layeramount[i][j] -1];
+        /* new boundary condition formulation, no heat flux to or from lower layers */
         /*  temperature profile re-calculated done*/
+        if (skin_or_inter == 1) source = -source;
+        if (surftemp[i][j] < 0.) source = 0;	/*source is now only melt energy, not energy used for heating*/
+        if (surftemp[i][j] >= 0. && source < 0.) {
+        if (skin_or_inter == 0) fprintf(outcontrol,"Tskin == 0., but source < 0.: %f %d %d %f %f \n",jd2,i,j,surftemp[i][j],source);
+        source = 0.;}
+
+    for (k=1; k <= (int)layeramount[i][j]; k++) {   /*for each layer now snow content calculation*/
 
         if (percolationyes == 1) {
             /* melting of the snow/firn/ice layer */
@@ -2132,8 +2061,17 @@ void subsurf() {
                 sumrain = rainprec;
                 layerwatercont[i][j][k] = layerwatercont[i][j][k] + sumrain;
             }
-            if (layertemperature[i][j][k] > 0.0)
+            if (skin_or_inter == 0) {/* skin layer formulation*/
+              if ((k == 1 && surftemp[i][j] >= 0.) || (layertemperature[i][j][k] > 0.0))
+               snowmelt(i, j, k);
+            }
+            else { /*skin or inter == 1 (extrapolation of upperlayers)*/
+              if (layertemperature[i][j][k] > 0.0) snowmelt(i, j, k);}
+
+/*            if ((skin_or_inter == 0 && layertemperature[i][j][k] >= 0.0) || 
+                (skin_or_inter == 1 && layertemperature[i][j][k] > 0.0 )) {
                 snowmelt(i, j, k);
+                 }*/
             if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                     (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                     (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2155,7 +2093,7 @@ void subsurf() {
                 surfacewater[i][j] = 0.;
             }
             if ((layerwatercont[i][j][k] > 0.0) && (layertemperature[i][j][k] < 0.)) {
-                refreezing(i, j, k);
+              refreezing(i, j, k);
                 if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
                         (layerwatercont[i][j][k] < 0) || (layerthickness[i][j][k] < 0.) ||
                         (layerdensity[i][j][k] < denssnow-1.) || (layerdensity[i][j][k] > denswater*1.1) ||
@@ -2283,9 +2221,9 @@ void subsurf() {
     }
 
     if (skin_or_inter == 0)
-        ICEHEAT[i][j] = - conducdtdzskin /*- sourceskin*layerthickness[i][j][1]*/;
+        ICEHEAT[i][j] = -factG ;
     else
-        ICEHEAT[i][j] = - source + MELT[i][j]*Lf/deltat;
+        ICEHEAT[i][j] = source + MELT[i][j]*Lf/deltat;
 
 
     /* Check stability of the solution with criterium: D*dt/dx2 < 0.25 */
@@ -2378,6 +2316,7 @@ void interpolate() {
         net = netold + inter*gradnet;
     if(methodlonginstation == 2)  /*longwave incoming radiation measurements used*/
         LWin = LWinold + inter*gradLWin;
+    if (wind < 0.1) wind = 0.1;
 
     if (inter == factinter) {  /*last sub timestep*/
         /*store values before reading new row of data from file*/
@@ -2393,467 +2332,6 @@ void interpolate() {
             LWinold = LWin;            /*long wave incoming radiation*/
     }
     /*printf("\n TIME %d %f %f %f",nsteps,jd,jd2,jdold,zeit);*/
-
-    return;
-}
-
-/*==============FUNCTION THAT WOULD BELONG TO TURBUL.C ====================== */
-
-/****************************************************************************/
-/* FUNCTION  turbfluxes                                                         */
-/*   this function calculates the turbulent fluxes of heat and moisture     */
-/****************************************************************************/
-
-void turbfluxes() {
-    int   iter;
-    float crit;	/*criterium to stop iteration*/
-    float Tkel = 273.16;
-    float karman = 0.40;			/*Karmans constant*/
-    float g      = 9.81;			/*gravitational constant*/
-    /* L.G.: cp is unused, can we delete it? */
-    //float cp = 1005.;				/*specific heat air at constant pressure J K-1 kg-1 */
-    float ustarn,thstarn,qstarn;
-    float dustar,dthstar,dqstar;
-    /* L.G.: Ribulk is unused, can we delete it? */
-    // float Ribulk;
-    float Lcrit;
-    float fact;
-    int nostabil = 1; /*logical yes (1) or no (0) stability correction */
-    int nosurfstabil = 1; /*logical yes (1) or no (0) stability correction at surface level*/
-    /*only has effect when nostabil = 1*/
-    int notrick = 0;  /*logical yes (1) or no (0) trick to increase flux under very stable conditions*/
-
-    jd2=jd;
-    if ((zeit == 24) && (inter == factinter))
-        jd2 = (int)jd + 1;
-
-    /*printf("Turbulent fluxes %f \n",jd2);*/
-    Lcrit = 0.3;
-    crit = 0.01;
-    dustar = 1.0;
-    dthstar = 1.0;
-    dqstar = 1.0;
-    iter = 0;
-    PhiM = 0.;
-    PhiH = 0.;
-    PhiE = 0.;
-    PhiM0 = 0.;
-    PhiH0 = 0.;
-    PhiE0 = 0.;
-
-    airpress();
-    tspechum = tempint[i][j];
-    kspechum = 1;
-    spechum();
-    tspechum = surftemp[i][j];
-    kspechum = 2;
-    spechum();
-
-    /*First step, calculate u*, th*, q* under neutral conditions*/
-    roughnesslength();
-    ustar = (karman * (wind - 0.0 )) / log(z2/z0w);
-    frictionveloc = ustar;
-    if(method_z0Te == 2)       /*method to compute z0T and z0e*/
-        roughnesslengthAndreas();
-    if(method_z0Te == 3)       /*method to compute z0T and z0e*/
-        roughnesslengthAndreasmodified();
-
-    thstar = (karman * (tempint[i][j] - surftemp[i][j])) / log(z2/z0T);
-    qstar = (karman * (q - q0)) / log(z2/z0e);
-
-    /* Calculate the Monin Obukhov length under neutral conditions*/
-    /*  MoninL = pow(ustar,2.) / ( (karman*g/(tempint[i][j]+Tkel)) *
-               (thstar + 0.62 * (tempint[i][j]+Tkel) * qstar ) ); */
-    MoninL = pow(ustar,2.) / ( (karman*g/(tempint[i][j]+Tkel)) *
-                               (thstar + (karman*0.61/log(z2/z0T)) *
-                                (((tempint[i][j]+Tkel) * q )) - (surftemp[i][j]+Tkel) * q0) ) ;
-
-    /*  if ((MoninL < Lcrit) && (MoninL >= 0.))
-       MoninL = Lcrit; */
-
-    if (nostabil == 1) {
-        while ((dustar > crit) || (dthstar > crit) || (dqstar > crit)) {
-
-            /*Now add stability and iterate */
-            if (MoninL < 0.) {
-                unstable(); /* only small change with respect to stabilityunstable()*/
-                /*  fprintf(outcontrol,"Unstable %d %f %f %f %f %f %f %f %f %f \n",
-                          iter,MoninL,PhiM,PhiH,temp,surftemp[i][j],wind,z0w,z0T,z0e);*/
-            }
-            if (MoninL > 0.) {
-                stable(); /* only small change with respect to stabilityBeljaar()*/
-                /*   fprintf(outcontrol,"Stable %d %f %f %f %f %f %f %f %f %f \n",
-                           iter,MoninL,PhiM,PhiH,temp,surftemp[i][j],wind,z0w,z0T,z0e);*/
-            }
-
-            if ((MoninL > 1000) || (MoninL < -1000)) { /*almost neutral anyway*/
-                PhiM = 0.;
-                PhiH = 0.;
-                PhiE = 0.;
-                PhiM0 = 0.;
-                PhiH0 = 0.;
-                PhiE0 = 0.;
-            }
-
-            /*Recalculate the u*, th* and q* */
-            ustarn = (karman * (wind - 0.0 )) / ( log(z2/z0w) - PhiM + PhiM0);
-            if (nosurfstabil == 0)
-                ustarn = (karman * (wind - 0.0 )) / ( log(z2/z0w) - PhiM );
-            /*Calculate roughness length for heat and moisture, necessary to calculate th* and q* */
-            frictionveloc = ustarn;
-            if(method_z0Te == 1)       /*method to compute z0T and z0e*/
-                roughnesslength();       /*z0T and z0e fixed ratio to z0w*/
-            if(method_z0Te == 2)
-                roughnesslengthAndreas(); /* z0T,e according to Andreas, 1987, needs friction velocity*/
-            if(method_z0Te == 3)       /*method to compute z0T and z0e*/
-                roughnesslengthAndreasmodified();
-
-
-            thstarn = (karman * (tempint[i][j] - surftemp[i][j])) / ( log(z2/z0T) - PhiH + PhiH0);
-            qstarn = (karman * (q - q0)) / ( log(z2/z0e) - PhiE + PhiE0);
-            if (nosurfstabil == 0) {
-                thstarn = (karman * (tempint[i][j] - surftemp[i][j])) / ( log(z2/z0T) - PhiH );
-                qstarn = (karman * (q - q0)) / ( log(z2/z0e) - PhiE );
-            }
-
-            if (ustar == 0.)
-                dustar = 0.;
-            else
-                dustar = fabs( (ustarn - ustar) / ustar );
-            if (thstar == 0.)
-                dthstar = 0.;
-            else
-                dthstar = fabs( (thstarn - thstar) / thstar );
-            if (qstar == 0.)
-                dqstar = 0.;
-            else
-                dqstar = fabs( (qstarn - qstar) / qstar );
-
-            /* Calculate the Monin Obukhov length including stability*/
-            MoninL = pow(ustarn,2.) / ( (karman*g/(tempint[i][j]+Tkel)) *
-                                        (thstarn + 0.62 * (tempint[i][j]+Tkel) * qstarn ) );
-            if ((MoninL < Lcrit) && (MoninL >=0.)) {
-                /*fprintf(outcontrol," %f %f %d %f %f %f %f %f %f %f %f %f \n",
-                      jd2,zeit,iter,MoninL,PhiM,PhiH,temp,surftemp[i][j],wind,z0w,z0T,z0e); */
-                dustar  = 0.001;
-                dthstar = 0.001;
-                dqstar  = 0.001;
-                if (notrick == 1) {
-                    fact = (karman*g/(tempint[i][j]+Tkel)) *
-                           (thstarn + 0.62 * (tempint[i][j]+Tkel) * qstarn);
-                    ustar = sqrt(Lcrit*fact);
-                    thstar = thstarn;
-                    qstar = qstarn;
-                }
-                if (MoninL == 0.0) { /*no turbulent fluxes at all*/
-                    /*printf("\n %f %d Monin length Lmo=0 wind=%f \n",jd2,iter,wind);*/
-                    /*exit(6);*/
-                    ustar = 0.;
-                    thstar = 0.;
-                    qstar = 0.;
-                }
-                /*  MoninL = pow(ustar,2.) / ( (karman*g/(tempint[i][j]+Tkel)) *
-                         (thstar + 0.62 * (tempint[i][j]+Tkel) * qstar ) );*/
-                if (MoninL != 0.) MoninL = Lcrit;
-            } else {
-                ustar = ustarn;
-                thstar = thstarn;
-                qstar = qstarn;
-            }
-            iter = iter + 1;
-
-        }
-    } /*end yes stability correction*/
-
-    /* Finally calculate the fluxes */
-    sensiblenew();
-    latentnew();
-
-    if (iter > 30)
-        fprintf(outcontrol," function turbfluxes %.2f %.0f %d temp=%.2f surftemp=%.2f wind=%.2f L=%f  \n",
-                jd2,zeit,iter,tempint[i][j],surftemp[i][j],wind,MoninL);
-
-    /*   Ribulk = (9.81*z2*(((tempint[i][j]+273.16)*(1 + 0.62 * q)) - (surftemp[i][j]+273.16))) /
-                (  ((tempint[i][j]+273.16)*(1 + 0.62 * q)) * pow(wind,2.) );
-       if ((nsteps == 1) && (inter == 1))
-       fprintf(outcontrol," jd hour iter T T0 WS Lmo H Rib z/Lmo ustar thstar qstar z0m z0h z0q Re\n");
-       fprintf(outcontrol," %f %f %d %f %f %f %f %f %f %f %f %f %f %f %f %f \n",
-    	        jd2,zeit,iter,tempint[i][j],surftemp[i][j],wind,MoninL,SENSIBLE[i][j],Ribulk,
-    	        z2/MoninL,ustar,thstar,qstar,z0w,z0T,z0e,(ustar*z0w/0.0000139));*/
-
-    return;
-}
-
-/***************************************************************************/
-/* FUNCTION   roughnesslengthAndreasmodified                               */
-/* CALCULATION OF ROUGHNESS LENGTHS ACCORDING TO Andreas 1997              */
-/*                      surface renewal theory, see Munro 1990             */
-/*             modified as by Smeets et al 2006 in prep                    */
-/*  function of Reynolds number, then assumed constant for entire glacier  */
-/*  function called for climate station grid from function iterationstation */
-/***************************************************************************/
-
-void roughnesslengthAndreasmodified() {
-    float  Re;     /*Reynoldnumber*/
-    float  viscos;
-    /*   float  b0T,b1T,b2T, b0e,b1e,b2e;*/
-
-    /* viscos = 0.000015;   kinematic viscosity of air m2/s  for 0 degrees */
-    viscos = 0.0000139;     /*kinematic viscosity of air m2/s for 5 degrees*/
-
-    /*change z0 as fixed ratio in case of snow surface*/
-    if (surface[i][j] == 1)           /*snow surface*/
-        z0w=z0wice/dividerz0snow;         /*z0w can be different for ice and snow*/
-    else {                           /*ice*/
-        if ((methodsurftempglac == 4) && (snowlayersum[i][j] > 0.))
-            z0w=z0wice/dividerz0snow;
-        else
-            z0w=z0wice;
-    }
-
-    Re = frictionveloc*z0w/viscos;
-
-    /*coefficients according to Andreas 1987, Boundary Layer Meteor. 38, 159-184 */
-    /*coefficients according to Smeets 2006 */
-    if (surface[i][j] != 3) {
-        if (Re <= 0.135) { /*Smooth regime*/
-            z0T = z0w*exp(1.250);
-            z0e = z0w*exp(1.610);
-        } else if ((Re > 0.135) && (Re < 2.5)) { /*Transitional regime*/
-            z0T = z0w*exp(0.149-0.550*log(Re));
-            z0e = z0w*exp(0.351-0.628*log(Re));
-        } else if (Re >= 2.5) { /*Rough regime */
-            z0T = z0w*exp(0.317-0.565*log(Re)-0.183* pow((log(Re)),2) );
-            z0e = z0w*exp(0.396-0.512*log(Re)-0.180* pow((log(Re)),2) );
-        }
-    } else {
-        /*  if (Re <= 0.135)*/ /*Smooth regime*/
-        if (Re <= 11.0) { /*Smooth regime*/
-            z0T = z0w*exp(1.250);
-            z0e = z0w*exp(1.610);
-        }
-        /*  else if ((Re > 0.135) && (Re < 2.5))*/ /*Transitional regime*/
-        /*  else if ((Re > 0.135) && (Re < 162))*/ /*Transitional regime*/
-        /* { z0T = z0w*exp(1.250);
-             z0e = z0w*exp(1.610);}*/
-        /*  else if (Re >= 2.5)*/ /*Rough regime */
-        /* else if (Re >= 162)*/ /*Rough regime */
-        else if (Re > 11.0) { /*Rough regime */
-            z0T = z0w*exp(3.5-0.7*log(Re)-0.1* pow((log(Re)),2) );
-            z0e = z0T;
-        }
-    }
-
-    return;
-}
-
-/****************************************************************************/
-/* FUNCTION  spechum                                                        */
-/*   this function calculates the specific humidity at surface and          */
-/*   at observation level. At surface it is the saturation value            */
-/****************************************************************************/
-
-void spechum() {
-    int kk = kspechum;
-    float  Tkel = 273.16;
-    float  rd=287.05;         /*gas constant of dry air*/
-    float  rv=461.51;         /*gas constant of moist air*/
-    float eps = rd/rv;
-    float  tk;
-    float tklvl = Tkel + 2.;
-    float  fact1,fact2a,fact2b,fact3,fact4;
-    float  Ls = 2849000.0;   /*latent heat of sublimation  in J/kg*/
-    float  Lv = 2514000.0;   /* latent heat of evaporation  [J/kg] */
-    /* L.G.: LL is unused, can we delete it? */
-    // float  LL;
-    float  beta=2317;         /*constant for calculation es J K-1 kg-1*/
-    float  es0 = 610.78;      /*water vapour pressure at melting point hPa*/
-    float  esat;
-
-
-    /* saturation vapor pressure */
-    /* above 2deg with respect to water, below with respect to ice*/
-    /*  for (kk=1; kk <= 2; kk++)
-      { if (kk == 1) tk = tempint[i][j] + Tkel;
-        if (kk == 2) tk = surftemp[i][j] + Tkel; */
-    tk = tspechum + Tkel;
-
-    fact1 = 1./rv;
-    fact2a = (Lv + beta * Tkel);
-    fact2b = (Ls + beta * Tkel);
-    fact3 = ( (1./Tkel) - (1./tk) );
-    fact4 = beta * log(tk/Tkel);
-
-    if (tk > tklvl)		/* with respect to water (Lv)*/
-        esat = es0 * exp(fact1 * ((fact2a*fact3)-fact4) );
-    if (tk <= tklvl)		/* with respect to ice (Ls)*/
-        esat = es0 * exp(fact1 * ((fact2b*fact3)-fact4) );
-
-    /* vapor pressure*/
-    if (kk == 1) e = esat*hum/100.; /*in Pa*/
-    if (kk == 2) e0 = esat; /*in Pa*/
-
-    /* specific humidity */
-    if (kk == 1) q = (eps*e) / (p-(1.-eps)*esat);
-    if (kk == 2) q0 = (eps*e0) / (p-(1.-eps)*esat);
-    /*}*/
-
-    return;
-}
-/***************************************************************************/
-/* FUNCTION   stable                                                       */
-/* CALCULATION OF STABILITY FUNCTIONS FOR STABLE CASE                      */
-/*   stability function (stable) according to Beljaar and Holtslag, 1991   */
-/***************************************************************************/
-
-void stable() {
-    float  aa,b,c,d;
-
-    aa=1;
-    b=0.667;
-    c=5;
-    d=0.35;
-
-    PhiM= -( (aa*(z2/MoninL)) + b*((z2/MoninL)-(c/d))*exp(-d*(z2/MoninL)) + (b*c/d) );
-    PhiH= -( (pow((1+ (2/3)*aa*(z2/MoninL)),1.5)) + b*((z2/MoninL)-(c/d))*exp(-d*(z2/MoninL)) +
-             (b*c/d) -1 );
-    PhiE=PhiH;
-
-    PhiM0= -((aa*z0w/MoninL) + b*(z0w/MoninL-c/d)*exp(-d*z0w/MoninL) + b*c/d);
-    PhiH0= -((pow((1+2/3*aa*z0T/MoninL),1.5)) + b*(z0T/MoninL-c/d)*exp(-d*z0T/MoninL) + b*c/d-1);
-    PhiE0= -((pow((1+2/3*aa*z0e/MoninL),1.5)) + b*(z0e/MoninL-c/d)*exp(-d*z0e/MoninL) + b*c/d-1);
-
-    /*   PhiM = -pow(( 1 + 6.25* z2 / MoninL ),0.8);
-       PhiH = -pow(( 1 + 9.375* z2 / MoninL ),0.8);	*/
-
-    return;
-}
-
-/***************************************************************************/
-/* FUNCTION   unstable                                                     */
-/* CALCULATION OF STABILITY FUNCTION FOR UNSTABLE CASE                     */
-/*                     according to Panofsky and Dutton, 1984              */
-/***************************************************************************/
-
-void unstable() {
-    float  xx;
-
-    xx=pow((1-16*z2/MoninL),0.25);
-    PhiM=log((1+pow(xx,2))/2 * pow(((1+xx)/2),2)) - 2*atan(xx)+pi/2;
-    PhiH=2*log(0.5*(1+ (pow( (1-16*z2/MoninL),0.5) )));
-    PhiE=PhiH;
-
-    xx=pow((1-16*z0w/MoninL),0.25);
-    PhiM0=log((1+pow(xx,2))/2 * pow(((1+xx)/2),2)) - 2*atan(xx)+pi/2;
-    PhiH0=2*log(0.5*(1+ (pow( (1-16*z0T/MoninL),0.5) )));
-    PhiE0=2*log(0.5*(1+ (pow( (1-16*z0e/MoninL),0.5) )));
-
-    return;
-}
-
-/***************************************************************************/
-/* FUNCTION   sensiblenew                                                  */
-/* CALCULATION OF SENSIBLE HEAT HEAT                                       */
-/***************************************************************************/
-
-void sensiblenew() {
-    float rd     = 287.05;	  /*gas constant of dry air*/
-    float densair;
-    float Tkel = 273.16;
-    float cp = 1005.;				/*specific heat air at constant pressure J K-1 kg-1 */
-
-    airpress();
-    densair = p / (rd*(tempint[i][j]+Tkel));
-
-    SENSIBLE[i][j] = densair*cp*thstar*ustar;
-
-    return;
-}
-
-/***************************************************************************/
-/* FUNCTION   latentnew                                                    */
-/* CALCULATION OF LATENT HEAT HEAT                                         */
-/***************************************************************************/
-
-void latentnew() {
-    float Ls     = 2849000.0;   /*latent hate of sublimation  in J/kg*/
-    float Lv     = 2514000.0;   /* latent heat of evaporation  [J/kg] */
-    float LL;
-    float rd     = 287.05;	  /*gas constant of dry air*/
-    float densair;
-    float Tkel = 273.16;
-
-    if (surftemp[i][j] < 0.0) LL=Ls;
-    if (surftemp[i][j] >= 0.0) LL=Lv;
-
-    airpress();
-    densair = p / (rd*(tempint[i][j]+Tkel));
-
-    LATENT[i][j] = densair*LL*qstar*ustar;
-
-    return;
-}
-
-/***************************************************************************/
-/* FUNCTION   tsurfenergybalance                                                    */
-/* calculates the energy balance as a function of the surface temperature (K)      */
-/***************************************************************************/
-
-void tsurfenergybalance(double tskin) {
-    float rd     = 287.05;	  /*gas constant of dry air*/
-    float tkel   = 273.16;
-    float cp	    = 1005.;	/*specific heat air at constant pressure J K-1 kg-1 */
-    float g      = 9.81;		/*gravitational constant*/
-    float karman = 0.40;			/*Karmans constant*/
-    float sigma=0.0000000567; /* Stefan Boltzman constant*/
-    float emis = 1.0;   /*Emissivity snow*/
-    float Ls     = 2849000.0;   /*latent hate of sublimation  in J/kg*/
-    float Lv     = 2514000.0;   /* latent heat of evaporation  [J/kg] */
-    float LL;
-    float sumdivs;
-    float densair;
-    float Ch,Cq;
-    float factS,factL,factH,factLE,factG,factGa,factGb;
-    float term1,term2;
-
-    sumdivs = 0.;		/* for later to include radiation penetration*/
-
-    if (tskin < 0.0) LL=Ls;
-    if (tskin >= 0.0) LL=Lv;
-
-    airpress();
-    densair = p / (rd*(tempint[i][j]+tkel));
-
-    /* net radiation */
-    factS = SWBAL[i][j] - sumdivs;
-    factL = LONGIN[i][j] -sigma*emis*pow((tskin+tkel),4);
-    /* sensible heat flux*/
-    Ch = pow(karman,2)/((log(z2/z0w) - PhiM + PhiM0)*(log(z2/z0T) - PhiH + PhiH0));
-    factH = Ch*densair*cp*wind*(tempint[i][j] - tskin + z2*g/cp);
-    /* latent heat flux */
-    Cq = pow(karman,2)/((log(z2/z0w) - PhiM + PhiM0)*(log(z2/z0e) - PhiE + PhiE0));
-    factLE = Cq*densair*LL*wind*(q-q0);
-
-    /* subsurface energy flux */
-    if (tsurfextrapolation == 1) {
-        factG = -(conduc[1]*(tskin-layertemperature[i][j][1]))/layerthickness[i][j][1];
-        /*  factG = -(conduc[1]*(tskin-layertemperature[i][j][1]))/(0.5*layerthickness[i][j][1]); */
-    } else if (tsurfextrapolation == 2) {
-        factGa = conduc[1]*(tskin-layertemperature[i][j][1])/layerthickness[i][j][1];
-        /*  factGa = -(conduc[1]*(tskin-layertemperature[i][j][1]))/(0.5*layerthickness[i][j][1]); */
-        term1 = ((conduc[1]*layerthickness[i][j][1]+conduc[2]*layerthickness[i][j][2])/
-                 (layerthickness[i][j][1]+layerthickness[i][j][2]));
-        term2 = ((layertemperature[i][j][1]-layertemperature[i][j][2])/
-                 (0.5*(layerthickness[i][j][1]+layerthickness[i][j][2])));
-        factGb = term1*term2;
-        factG = -(layerthickness[i][j][1]*(2.*factGa - factGb) + layerthickness[i][j][2]*factGa)/
-                (layerthickness[i][j][1]+layerthickness[i][j][2]);
-    }
-
-    if (skin_or_inter == 1) factG = 0.;
-
-
-    balancetsurf = factS + factL + factH + factLE + factG;
 
     return;
 }

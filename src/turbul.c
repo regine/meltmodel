@@ -37,6 +37,7 @@
 #include "radiat.h"
 #include "snowinput.h"
 #include "snowmodel.h"
+#include "skintemperature.h"
 #include "userfile.h"
 #include "writeout.h"
 
@@ -1130,6 +1131,8 @@ void iterationstation()
     i=rowclim;
     j=colclim;
 
+    if ((methodsurftempglac != 4) || (methodsurftempglac == 4 && skin_or_inter == 1)) {
+    /* in case of snow model with skin formulation is the part below already carried out, see debam*/
     /********* GLOBAL RADIATION **********************/
     if(methodglobal==1)     /*no separation into direct and diffus*/
         globradratio();           /*calculation of global radiation*/
@@ -1173,7 +1176,8 @@ void iterationstation()
         albedosnowmeas();   /*use measured daily means of snow albedo*/
 
     shortwavebalance();    /*SHORTWAVE RADIATION BALANCE*/
-
+   } /*end case skinlayer formulation */
+   
     /********* SURFACE TEMPERATURE **********************/
 
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
@@ -1217,13 +1221,14 @@ void iterationstation()
             latent();
             break;
         case 4:
-            turbfluxes();  /*as 3 but different way: Carleen Tijm-Reijmer, 2/2005*/
+            if (skin_or_inter == 1) turbfluxes();  /*as 3 but different way: Carleen Tijm-Reijmer, 2/2005*/
             break;
         }
 
         /********* LONGWAVE RADIATION **********************/
-        if(methodlongin == 2)      /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
-            longinpluess();
+        if(methodlongin == 2) {      /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
+           if ((methodsurftempglac != 4) || (skin_or_inter == 1))
+            longinpluess();}
 
         /*  printf("   glob %5.2f ref %5.2f  net %5.2f LWout %5.2f\n",glob,ref,net,LWout); } */
 
@@ -1239,7 +1244,7 @@ void iterationstation()
 
 
         /********* ENERGY BALANCE *************************/
-        if (methodsurftempglac == 4)
+        if ((methodsurftempglac == 4) && (skin_or_inter == 1))
             ICEHEAT[i][j] = 0.;
         energybalance();
 
