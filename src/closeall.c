@@ -209,6 +209,7 @@ void closeall()
 
         freearraydouble(conduc,1,ndepths);
         freearraydouble(conducdtdz,1,ndepths);
+        freearraydouble(layerenergy,1,ndepths);
 
         freematrixdouble(snowlayersum,1,nrows,1,ncols);
         freematrixdouble(MELTsum,1,nrows,1,ncols);

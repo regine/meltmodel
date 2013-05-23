@@ -41,6 +41,7 @@
 #include "radiat.h"
 #include "snowinput.h"
 #include "snowmodel.h"
+#include "skintemperature.h"
 #include "turbul.h"
 #include "userfile.h"
 #include "writeout.h"
@@ -190,6 +191,53 @@ int main()
             else
                 whichsurface(); /*VALUE FOR ARRAY surface (SNOW,FIRN,ICE,ROCK) FOR ALBEDO, K-VALUES*/
 
+
+            /*SWBAL is needed in order to calculate skin layer temperature at the climate station*/
+            if (methodsurftempglac == 4 && skin_or_inter == 0 ) {    
+                i=rowclim;
+                j=colclim;   
+            /********* GLOBAL RADIATION **********************/
+            if(methodglobal==1)     /*no separation into direct and diffus*/
+                globradratio();           /*calculation of global radiation*/
+            if(methodglobal==2) {   /*separate interpolation of direct and diffuse radiation*/
+                interpoldirect();
+                interpoldiffus();
+                adddirectdiffus();
+            }
+
+           /********** PRECIPITATION *****needed before albedo in method 2*********/
+            precipinterpol();
+            precipenergy(); 
+
+            /********* ALBEDO **********************/
+             if(readsnowalbedo==0) { /*no use of albedo measurements*/
+                 switch(methodsnowalbedo) {
+                 case 1:
+                     albedocalcconst();    /*constant albedo for snow/slush/ice*/
+                     break;
+                 case 2:
+                     albedocalc();  /*albedo generated as function of T, snow fall*/
+                     break;
+                 case 3:
+                     albedocalc();  /*as 2 but incl. cloud dependence*/
+                     break;
+                 case 4:
+                     albedocalcdepth();  /*as 2 but depending on snowdepth*/
+                     break;
+                 case 5:
+                     albedocalcdepth();  /*as 4 but incl. cloud dependence*/
+                     break;
+                 case 6:
+                     albedosnowpoly();  /*modified version of oerlemans and knap, sicart PhD. p.243*/
+                     break;
+                 }  /*end case*/
+             }  /*endif*/
+             else     /*measured albedo data read from file*/
+                 albedosnowmeas();   /*use measured daily means of snow albedo - Storglac*/
+
+             shortwavebalance();    /*SHORTWAVE RADIATION BALANCE*/
+             }/*end extra actions to create correct input for skin layer formulation
+
             /*LONGWAVE OUT RADIATION AT CLIMATE STATION FROM MEAS*/
             if(methodsurftempglac == 3) { /*use longwave outgoing measurements at climate station*/
                 i=rowclim;
@@ -205,8 +253,12 @@ int main()
             if(methodsurftempglac == 4) { /*CHR added option*/
                 i=rowclim;
                 j=colclim;
-                if (skin_or_inter == 1) surftempfrommodel();  /*CALCULATE SURFACE TEMP AT CLIMATE STATION FROM T OF 2 UPPER LAYERS*/
-                if (skin_or_inter == 0) surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
+                surftempfrommodel();  /*CALCULATE SURFACE TEMP AT CLIMATE STATION FROM T OF 2 UPPER LAYERS*/
+                /* in case of skin layer formulation extrapolation used as first guess*/
+                if (skin_or_inter == 0) {
+                LONGIN[i][j] = LWin;
+                surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
+                }
                 surftempstationalt=surftemp[rowclim][colclim];
                 if (((int)jd2 == (int)summerjdend+1) && ((int)zeit == 1) && (inter == 1)) {
                     resetgridwinter();
@@ -235,7 +287,7 @@ int main()
                     vappress();    /*** CALCULATION VAPOUR PRESSURE FROM REL. HUMIDITY  ***/
                     sensiblestabilityiteration();    /*DETERMINE STABILITY FUNCTIONS AND z0T, zoe*/
                 }
-                if (methodturbul == 4) /*by C. Tijm-Reijmner*/
+                if ((methodturbul == 4) && (skin_or_inter == 1)) /*by C. Tijm-Reijmner*/
                     turbfluxes();  /*almost same as 3, but differently programmed*/
             }  /*endif*/
 
@@ -264,7 +316,6 @@ int main()
                             notcalc = 1;    /*ENERGY BALANCE FOR STATION GRID CELL ALREADY CALCULATED*/
                         else               /*TO AVOID TO BE COMPUTED AGAIN*/
                             notcalc = 0;
-
 
                         if(notcalc==0) {    /*COMPUTE ENERGY BALANCE ONLY IF NOT YET CALCULATED*/
                             /********* GLOBAL RADIATION **********************/
@@ -333,6 +384,14 @@ int main()
                                 break;
                             case 4:  /*SNOW MODEL*/
                                 surftempfrommodel();   /*surftemp from interpolation of T of upper 2 layers*/
+                                 /* in case of skin layer formulation extrapolation used as first guess*/
+                                if (skin_or_inter == 0) {
+                                if(methodlongin == 2) {     /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
+                                    longinpluess();   }        /*NEEDS SURFACE TEMPERATURE in this case from previous time step*/
+                                else
+                                { LONGIN[i][j] = LWin;}
+                                surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
+                                }
                                 break;
                             }
 
@@ -363,15 +422,16 @@ int main()
                                     latent();     /*STAB FUNCTIONS HAVE BEEN DETERMINED BEFORE */
                                     break;        /*STAB FUNCTIONS SPATIALLY NOT VARIABLE*/
                                 case 4:
-                                    sensiblenew();   /*SAME AS 3, BUT DIFFERENT WAYS OF COMPUTATION*/
-                                    latentnew();     /*by Carleen Tijm-Reijmer, 2/2005*/
+                                    if (skin_or_inter == 1) turbfluxes();  /*as 3 but different way: Carleen Tijm-Reijmer, 2/2005*/
                                     break;
                                 }
 
 
                                 /********* LONGWAVE RADIATION **********************/
-                                if(methodlongin == 2)      /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
+                                if(methodlongin == 2) {     /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
+                                   if ((methodsurftempglac != 4) || (skin_or_inter == 1))
                                     longinpluess();           /*NEEDS SURFACE TEMPERATURE*/
+                                }
 
                                 if(methodsurftempglac >= 2)     /*LONGWAVE OUTGOING RAD VARIABLE IN SPACE OR FROM LONGOUT MEAS*/
                                     longoutcalc();    /*if melting surface: LWout is initialized to melting conditions*/
@@ -387,7 +447,7 @@ int main()
                                     iceheatStorglac();        /*predefined ice heat flux, specific Storglac*/
 
                                 /********* ENERGY BALANCE *************************/
-                                if (methodsurftempglac == 4)
+                                if (methodsurftempglac == 4 && skin_or_inter == 1)
                                     ICEHEAT[i][j] = 0.;
 
                                 energybalance();

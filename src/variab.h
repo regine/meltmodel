@@ -28,7 +28,7 @@
 
 /*HIDDEN OPTIONS TO ADJUST ========*/
 
-float  surftempminimum = -30;  /*surftemp cannot be lower than this*/
+float  surftempminimum = -40.;  /*surftemp cannot be lower than this*/
 int    dat_or_txt = 2;   /*1=dat, 2=txt, extension for areamean, grid asciifiles*/
 int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1, no=0;  April 2010*/
 /*only if methodsurtempglac=3 */
@@ -46,11 +46,11 @@ float snowscenario = 0;  /*default should be 0; this amount is added to each gri
 /*=== SUBSURFACE SNOW MODEL ===*/
 /*----- NEEDS TO BE ADJUSTED BY USER TO EACH CASE (glacier and simulation start condition ----------------------------------*/
 /*----- choose default options for initialization of vertical profiles of temp and density*/
-int init_layertemperature=1;	/*1=default 3 gradients, (2=does not exist), 3=storglaciaren*/
-int init_snowlayerdensity=2;	/*1=default constant density, 2=default 3 gradients, 3=storglaciaren*/
-int init_firnlayerdensity=1;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
+int init_layertemperature=3;	/*1=default 3 gradients, (2=does not exist), 3=storglaciaren*/
+int init_snowlayerdensity=3;	/*1=default constant density, 2=default 3 gradients, 3=storglaciaren*/
+int init_firnlayerdensity=3;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
 /*int init_snowlayermsnow=1;*/		/*1=default constant density, 2= default 3 linear gradients,  3=storglaciaren*/
-int init_outputlines=1;		/*1=default,3=storglaciaren*/
+int init_outputlines=3;		/*1=default,3=storglaciaren*/
 
 /*============= INITIALIZATION OF SNOW TEMPERATURE PROFEILS - in case init_layertemperature = 2  ======================== */
 /*temperatures at the turning points, 3 gradients are defined by 4 temperatures at 4 depths
@@ -92,7 +92,7 @@ int  supericegrid=0;     /* 0 = all grids at normal vertical resolution, 1 = cho
 int  typealbedo=1;   /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
 int  typeconduc=2;      /*5 functions to compute ice conductivity*/
 int  typedens=3;		/*3 functions to compute densification of the dry snowpack*/
-int  skin_or_inter=1;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  skin_or_inter=0;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
 int  tsurfextrapolation=2;   /*extrapolation to surface temp 1 = upper layer and surf, 2 = upper 2 layers and surf*/
 int  resoutlinesmax = 50000;   /*exit program, if more lines written to res.out*/
 int  bs_eachday_yes = 0;   /*summer balance written to file every day - for Dyurgerov method, 1=yes, 0=no*/
@@ -557,7 +557,7 @@ double ***layerrefreeze;    /*3D matrix total refrozen mass layer*/
 float  ***layerid;          /*3D matrix defines snow layer=1, firnlayer=2 icelayer=3*/
 float  **layeramount;       /*number of layers*/
 float  **layeramountcold;   /*number of layers used to calculate the cold content*/
-double **snowlayersum;      /*new snow depth in m snow not yet thick enough for nwe layer*/
+double **snowlayersum;      /*new snow depth in mm we not yet thick enough for new layer*/
 double **snowlayer;         /*snow depth in m snow*/
 double **meltlayer;         /*melted layer in m ice*/
 double **MELTsum;           /*sum of melted snow on interpolated time steps*/
@@ -584,6 +584,7 @@ float  **coldcontentsnow;   /*cold content snow layer, measure of temperate or n
 float  **coldcontentice;    /*cold content total layer, measure of temperate or not*/
 double *conduc;             /*layer conductivity*/
 double *conducdtdz;         /*layer conductivitytimes temperature lapserate*/
+double *layerenergy;    /*layer available energy to refreeze*/
 int    ndepths;             /*maximum number of vertical layers*/
 int    factinter;           /*factor for interpolation between two time steps*/
 int    factsubsurfout;      /*factor for subsurf output to file 1 = every hour, 24 = ones per day at midnight */
@@ -619,16 +620,17 @@ float  timesteporig;
 double sumrunoff,sumpercolation,summelt,sumrain;
 float  **accyear;
 float  q,q0;
-float  ustar,thstar,qstar;
-float  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
+double  ustar,thstar,qstar;
+double  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
+double  Ch,Cq;         /*exchange coefficients heat and moisture surface*/
 char   outsubsurflinename[61];
 FILE   *outsubsurf[50];
 FILE   *outsubsurfline[11];
 double source;   /*is ENBAL of considered grid cell*/
 
-float taccur=0.01;
+float taccur=0.005;
 float tinterv=40.;
-float tsurf1,tsurf2;
+double tsurf1,tsurf2;
 double balancetsurf, tbisection;
 int kspechum;
 double tspechum;
