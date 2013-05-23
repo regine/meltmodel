@@ -89,7 +89,7 @@ void scaling() {
     /* --- REMOVE GRID CELLES FROM GLACIER DEM--------*/
     /* -----------------------------------------------*/
 
-    if((areachange < 0) && (glacareanew > 0));     /*only for retreat, no advance*/
+    if((areachange < 0) && (glacareanew > 0))/*;*/     /*only for retreat, no advance*/
     {
         for (ii=1; ii<=  -areachange_numbercells; ii++) {       /*ueber alle Reihen*/
             minimum = 10000.0;      /*minimum, must be initialized high*/

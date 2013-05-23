@@ -542,7 +542,7 @@ extern double ***layerwatercont;   /*3D matrix watercontent layer*/
 extern double ***layerrefreeze;    /*3D matrix total refrozen mass layer*/
 extern float  **layeramount;       /*number of layers*/
 extern float  **layeramountcold;   /*number of layers used to calculate the cold content*/
-extern double **snowlayersum;      /*new snow depth in m snow not yet thick enough for nwe layer*/
+extern double **snowlayersum;      /*new snow depth in mm we not yet thick enough for nwe layer*/
 extern double **snowlayer;         /*snow depth in m snow*/
 extern double **meltlayer;         /*melted layer in m ice*/
 extern double **MELTsum;           /*sum of melted snow on interpolated time steps*/
@@ -569,6 +569,7 @@ extern float  **coldcontentsnow;   /*cold content snow layer, measure of tempera
 extern float  **coldcontentice;    /*cold content total layer, measure of temperate or not*/
 extern double *conduc;             /*layer conductivity*/
 extern double *conducdtdz;         /*layer conductivitytimes temperature lapserate*/
+extern double *layerenergy;    /*layer available energy to refreeze*/
 extern int    ndepths;             /*maximum number of vertical layers*/
 extern int    factinter;           /*factor for interpolation between ntwo time steps*/
 extern int    factsubsurfout;      /*factor for subsurf output to file 1 = every hour, 24 = ones per day at midnight */
@@ -604,8 +605,9 @@ extern float  timesteporig;
 extern double sumrunoff,sumpercolation,summelt,sumrain;
 extern float  **accyear;
 extern float  q,q0;
-extern float  ustar,thstar,qstar;
-extern float  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
+extern double  ustar,thstar,qstar;
+extern double  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
+extern double  Ch,Cq;         /*exchange coefficients heat and moisture surface*/
 extern char   outsubsurflinename[61];
 extern FILE   *outsubsurf[50];
 extern FILE   *outsubsurfline[11];
@@ -613,7 +615,7 @@ extern double source;   /*is ENBAL of considered grid cell*/
 
 extern float taccur;
 extern float tinterv;
-extern float tsurf1,tsurf2;
+extern double tsurf1,tsurf2;
 extern double balancetsurf, tbisection;
 extern int kspechum;
 extern double tspechum;
