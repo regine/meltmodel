@@ -2,7 +2,6 @@
 layout: front_page 
 title: DEBaM and DeTIM 
 subtitle: References and student theses
-repo: http://github.com/regine/meltmodel
 ---
 
 References using the model code
