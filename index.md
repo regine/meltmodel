@@ -42,10 +42,11 @@ Download
 --------
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
--   [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--   [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--   [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
--   [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
+
+-  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-  [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
+-  [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
