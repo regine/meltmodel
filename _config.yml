@@ -3,6 +3,4 @@ baseurl:    /
 
 source:      .
 destination: ./_site
-markdown: rdiscount
 
-exclude: README.md
