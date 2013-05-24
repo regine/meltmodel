@@ -33,15 +33,15 @@ changes public.
 preinstalled on OS X. You should update gem though, at a command prompt,
 do 
 
-      $ sudo gem update --system
+        $ sudo gem update --system
     
 - __Linux__: Since many distros don't include ruby by default, you'll need
 to install it using your package manager.
 
     * __apt__ (Ubunutu, Debian etc.), do
 
-          $ sudo apt-get install ruby
-          $ sudo apt-get install ruby-gems
+            $ sudo apt-get install ruby
+            $ sudo apt-get install ruby-gems
 
 
 Getting Jekyll Using Ruby-Gems
@@ -76,6 +76,7 @@ returned to a command prompt.
 You can now preview the site, make more changes and repeat.
 
 - Jekyll comes with come really handy built-in options.
+
     * When working, it can get tiresome to rebuild the site
     constantly, the ```--watch``` option tells Jekyll to watch
     the directory, and rebuild the site every time a file is changed.

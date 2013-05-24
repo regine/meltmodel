@@ -9,6 +9,7 @@ Overview
 --------
 Welcome to the homepage of two open source glacier surface mass-balance and discharge 
 models:
+
 - __D__istributed __E__nergy __Ba__lance __M__odel (DEBaM)
 - __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
 
@@ -90,14 +91,12 @@ Literature And Previous Applications
 The models are described in detail in the following papers:
 
 - DETIM : 
-
   1. Hock, R. (1999),
       A distributed temperature index ice and snow melt
       model including potential direct solar radiation, 
       *Journal of Glaciology*, *45*(149), 101-111.
 
 - DEBaM : 
-
   1. Hock, R., and B. Holmgren (2005),
      A distributed energy balance model for complex
      topography and its application to Storglaciären, Sweden,

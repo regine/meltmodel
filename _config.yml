@@ -4,3 +4,8 @@ baseurl:    /
 source:      .
 destination: ./_site
 
+
+markdown: redcarpet
+
+redcarpet:
+  render_options: ["with_toc_data"]

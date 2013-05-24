@@ -25,34 +25,25 @@ Setting up Mac OS X
 1. To get a C compiler for OS X, you will need to obtain 
 Apple's software development tool [Xcode](https://developer.apple.com/xcode/).
 Included with Xcode are the compilers needed to build DEBaM and DETIM.
-    
-    * The easiest way to obtain Xcode is via the App Store. It's pretty big,
-    so do this somewhere with a fast internet connection. 
-
-    * Once it's downloaded, open Xcode from your Applications folder.
-    Follow the instructions asked by the dialog boxes.
-
-    * After Xcode has finished installing, one further step is needed to install
-    the command-line tools:
-
-        - Open the menu Xcode > Preferences
-        
-        - Open the Downloads tab in the Preferences
-        
-        - In the Downloads list, select Command Line Tools, and push the
-        install button
-         
-
+  * The easiest way to obtain Xcode is via the App Store. It's pretty big,
+  so do this somewhere with a fast internet connection. 
+  * Once it's downloaded, open Xcode from your Applications folder.
+  Follow the instructions asked by the dialog boxes.
+  * After Xcode has finished installing, one further step is needed to install
+  the command-line tools:
+      - Open the menu Xcode > Preferences
+      - Open the Downloads tab in the Preferences
+      - In the Downloads list, select Command Line Tools, and push the
+      install button
 2. You have two options for installing CMake: 
-
 * Install the binary OS X package from their
  [website](http://www.cmake.org/cmake/resources/software.html),
-or 
-* Use your choice of package managers for OS X, i.e. [Homebrew](http://mxcl.github.com/homebrew/),
-[Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
+  or 
+  * Use your choice of package managers for OS X, i.e. [Homebrew](http://mxcl.github.com/homebrew/),
+  [Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
 
-If you're already using a package manager, we recommend you use it to install
-CMake.
+  If you're already using a package manager, we recommend you use it to install
+  CMake.
 
 
 Setting up Linux
@@ -85,10 +76,11 @@ Compiling
 Now you'll need to get a copy of the source code (We suggest you download the version release-0.2). 
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
--   [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--   [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--   [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
--   [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
+
+-  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
+-  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-  [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
+-  [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running (command line in terminal):
