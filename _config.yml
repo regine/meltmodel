@@ -41,18 +41,3 @@ kramdown:
     coderay_bold_every: 10
     coderay_css: style
 
-scholar:
-  style: ./_bibliography/american-geophysical-union.csl
-  locale: en
-
-  sort_by: none
-  order: ascending
-
-  source: ./_bibliography
-  bibliography: refs
-
-  details_dir:    bibliography
-  details_layout: bibtex.html
-  details_link:   Details
-
-  query: "@*"  
