@@ -89,9 +89,24 @@ Literature And Previous Applications
 ------------------------------------
 The models are described in detail in the following papers:
 
-- DETIM : {% bibliography tind_core %}
-- DEBaM : {% bibliography ebal_core %}
+- DETIM : 
 
+  1. Hock, R. (1999),
+      A distributed temperature index ice and snow melt
+      model including potential direct solar radiation, 
+      *Journal of Glaciology*, *45*(149), 101-111.
+
+- DEBaM : 
+
+  1. Hock, R., and B. Holmgren (2005),
+     A distributed energy balance model for complex
+     topography and its application to Storglaciären, Sweden,
+     *Journal of Glaciology*, *51*(172), 25-36.
+  2. Reijmer, C. H., and R. Hock (2008),
+     A distributed energy balance model including
+     a multi-layer sub-surface snow model,
+     *Journal of Glaciology*, *54*(184), 61-72.
+  
 List of references which are based on application of the source code is available [here](references.html)
 
 
