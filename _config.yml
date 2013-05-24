@@ -8,4 +8,6 @@ destination: ./_site
 markdown: redcarpet
 
 redcarpet:
-  render_options: ["with_toc_data"]
+  extensions: ["with_toc_data"]
+
+
