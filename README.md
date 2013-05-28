@@ -52,7 +52,7 @@ These instructions should work regardless of your platform
 package manager to install Jekyll.
 * Type:
 
-      $ gem install jekyll
+        $ gem install jekyll
 
 * And that's it! If you receive an error telling you that you don't
 have permission to install the gems, add ```sudo``` to the beginning of
@@ -67,7 +67,7 @@ and navigate to the melt_mod source directory (the one containing this
 README file).
 - At the terminal enter
 
-      $ jekyll build
+        $ jekyll build
 
 - Some information should be displayed in the terminal, and you should be
 returned to a command prompt.
@@ -83,14 +83,14 @@ You can now preview the site, make more changes and repeat.
     * It's also helpful to preview the page as it gets served
       by a real-live webserver. We can do that locally by typing
 
-          $ jekyll serve
+            $ jekyll serve
 
       at our command prompt. Stop the server by typing Ctl-C.
       Navigate to ```localhost:4000``` in a web browser to see what the site
       will look like when posted live. 
     * The real gem in this comes when we combine the above, with
 
-          $ jekyll serve --watch
+            $ jekyll serve --watch
 
       which lets us make edits and preview them by reloading the
       loaclly served version.
@@ -106,7 +106,7 @@ case there's some subtle syntax error somewhere.
 - Commit the changes to the ```gh-pages``` branch
 - Push these changes to the server:
 
-      $ git push origin gh-pages 
+        $ git push origin gh-pages 
 
 - Check the project website and make sure the changes have posted. If not, check
 Github's [status page](http://status.github.com) to see if there's an outage.
