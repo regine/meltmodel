@@ -69,7 +69,7 @@ On Windows, we have had success getting DEBaM and DETIM running using
 __Imprtant:__ If you choose to use Cygwin, you *must* install CMake using
 Cygwin, otherwise CMake will be oblivious to the fact that you have
 installed a compiler.
-__Disclaimer about CMAKE and Cygwin__
+
 Each of the following instructions roughly corresponds to a single dialog
 window of Cygwin's installer.
 
