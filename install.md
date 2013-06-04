@@ -68,6 +68,7 @@ Setting up Windows
 2. Visual Studio
 
 
+<a id="compiling"></a>
 Compiling
 ---------
 
