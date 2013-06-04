@@ -58,6 +58,36 @@ debam: $(DEBAM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(DEBAM_OBJECTS) $(MODEL_SRC)/debam.c -o  $(BINARY_DIR)/debam
 
+models: debam detim
+
+
+#### Utility Programs ####
+
+# Grid tools
+ascigrid: ./util/grid_tools/ascigrid.c
+	@mkdir -p $(BINARY_DIR)
+	@echo "Building ascigrid"
+	$(CC) $(CFLAGS) $< -o $(BINARY_DIR)/$@
+
+gridasci: util/grid_tools/gridasci.c
+	@mkdir -p $(BINARY_DIR)
+	@echo "Building gridasci"
+	$(CC) $(CFLAGS) $< -o $(BINARY_DIR)/$@
+
+gridtools: ascigrid gridasci
+
+# Shading calculator
+
+shading: ./util/shading/shading.c
+	@mkdir -p $(BINARY_DIR)
+	@echo "Building shading"
+	$(CC) $(CFLAGS) $< -o $(BINARY_DIR)/$@
+
+utils: gridtools shading
+
+all: models utils
+
+
 
 clean:
 	rm -r $(MODEL_BUILD_TMP)
