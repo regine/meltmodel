@@ -61,12 +61,40 @@ not least because you probably already have everything you need.
         
         $ rpm -ivh cmake
 
+
 Setting up Windows
 ---------------------------
-1. Cygwin
+On Windows, we have had success getting DEBaM and DETIM running using 
+[Cygwin](http://www.cygwin.com/), a Linux-like system for Windows.
+__Imprtant:__ If you choose to use Cygwin, you *must* install CMake using
+Cygwin, otherwise CMake will be oblivious to the fact that you have
+installed a compiler.
+__Disclaimer about CMAKE and Cygwin__
+Each of the following instructions roughly corresponds to a single dialog
+window of Cygwin's installer.
 
-2. Visual Studio
+1. Download and run Cygwin's ```setup.exe``` installer; this will
+   install Cygwin, as well as the compiler gcc and CMake.
+2. Click "Next" at the first prompt.
+3. When prompted to "Choose A Download Source" select "Install from Internet"
+4. Choose your Root Install Directory: unless you are really sure,
+   leave this set to the default.
+5. Ditto for "Select Local Package Repository"
+6. Under "Select Connection Type", let Cygwin know how to connect to
+   the internet (usually "Direct Connection").
+7. Under "Select a Mirror" it's fine to do nothing here. If your
+   download speeds really crawl, you can cancel the installation
+   and change this. 
+8. Under "Select Packages" exapnd the "Devel" section by clicking
+   on the "+" sign in the box.
+  - Select ```gcc``` and ```cmake```.
+9. Click "Next" and follow the remaining installation instructions.
 
+10. Open Cygwin by either clicking the icon on your desktop, or
+via the Start Menu. Cygwin will present itself as command prompt
+window.
+
+11. Proceed as below in the [Compiling](#compiling) section.
 
 <a id="compiling"></a>
 Compiling
