@@ -3,7 +3,7 @@ MODEL_BUILD_TMP = ./build
 BINARY_DIR = ./bin
 
 CC=gcc
-CFLAGS = -Wall -O0 -g
+CFLAGS = -Wall -O3
 LDFLAGS = -lm
 
 $(MODEL_BUILD_TMP)/%.o: $(MODEL_SRC)/%.c
@@ -34,9 +34,10 @@ DETIM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.o))
 
 detim: $(DETIM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
+	@echo "Building DETiM:"
 	$(CC) $(CFLAGS) $(LDFLAGS) $(DETIM_OBJECTS) $(MODEL_SRC)/detim.c -o  $(BINARY_DIR)/detim
 
-
+## Source-files requires by DEBaM
 DEBAM_SOURCES = closeall.c \
 								discharg.c \
 								disopt.c \
@@ -56,6 +57,7 @@ DEBAM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DEBAM_SOURCES:.c=.o))
 
 debam: $(DEBAM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
+	@echo "Building DEBAM:"
 	$(CC) $(CFLAGS) $(LDFLAGS) $(DEBAM_OBJECTS) $(MODEL_SRC)/debam.c -o  $(BINARY_DIR)/debam
 
 models: debam detim
