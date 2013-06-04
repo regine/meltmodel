@@ -27,7 +27,7 @@ changes public.
 
 The default library that Jekyll uses to parse Markdown behaves
 irregularly, so we will also install Redcarpet, an optional
-Markdown library, supported bu Github and Github Pages.
+Markdown library, supported by Github and Github Pages.
 
 We'll use Ruby-Gems, a package manager for the Ruby programming
 language, and it's command-line program ```gem``` to install Jekyll
