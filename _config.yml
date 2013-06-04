@@ -1,7 +1,7 @@
 safe:       true 
 baseurl:    /
 
-source:      ./_source
+source:      ./
 destination: ./_site
 
 
