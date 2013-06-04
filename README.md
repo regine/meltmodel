@@ -1,6 +1,6 @@
 ---
 layout: front_page
-title: DeBAM and DeTIM
+title: DEBaM and DETIM
 subtitle: Making Changes to This Webpage
 ---
 The Basics:
@@ -103,9 +103,17 @@ to the page will require some familiarity
 with how Jekyll works, you can read its documentation at
 [http://jekyllrb.com](http://jekyllrb.com).
 
-The source-files for this page are located in the
-```_source``` folder.  Any edits we want to make
-must be made to the files in ```_source```.
+Any file in the directory root not prefixed by an
+underscore will be procedded by Jekyll and included
+in the final wepage. At the moment, these consist of
+Markdown files as well as a CSS file which defines
+how the page is displayed. Any of these files may be
+edited with your favorite text-editor.
+
+The ```_layouts``` directory contains the HTML
+templates which wrap around the pages in the site.
+More information about the directory structure
+is availible [here](http://jekyllrb.com/docs/structure/).
 
 ### Building the Site
 
@@ -147,7 +155,7 @@ Jekyll comes with a few useful comand-line options.
 
     at our command prompt; Jekyll will generate the
     webpage, and serve it locally. In your web-browser, 
-    browse to ```http //localhost:4000``` 
+    browse to [http://localhost:4000](http://localhost:4000)
     to see what the site will look like when posted ot Github. 
     When you are done, open the terminal window in which you
     ran jekyll, and stop the server by typing ```Ctl-C```.
