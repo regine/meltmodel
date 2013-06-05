@@ -65,7 +65,7 @@ Setting up Windows
 ---------------------------
 On Windows, we have had success getting DEBaM and DETIM running using 
 [Cygwin](http://www.cygwin.com/), a Linux-like system for Windows.
-__Imprtant:__ If you choose to use Cygwin, you *must* install CMake using
+__Important:__ If you choose to use Cygwin, you *must* install CMake using
 Cygwin, otherwise CMake will be oblivious to the fact that you have
 installed a compiler.
 
@@ -84,9 +84,9 @@ window of Cygwin's installer.
 7. Under "Select a Mirror" it's fine to do nothing here. If your
    download speeds really crawl, you can cancel the installation
    and change this. 
-8. Under "Select Packages" exapnd the "Devel" section by clicking
+8. Under "Select Packages" expand the "Devel" section by clicking
    on the "+" sign in the box.
-  - Select ```gcc``` and ```cmake```.
+  - Select ```gcc```, ```make``` and ```cmake```.
 9. Click "Next" and follow the remaining installation instructions.
 
 10. Open Cygwin by either clicking the icon on your desktop, or

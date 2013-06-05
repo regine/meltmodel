@@ -11,7 +11,7 @@ using [Jekyll](http://jekyllrb.com/), a program written in Ruby
 which generates HTML from a variety of different
 source formats. In particular, we can write pages in 
 [Markdown](http://daringfireball.net/projects/markdown/basics)
-and generate valid html files. 
+and generate valid HTML files. 
 
 
 Prerequisites
@@ -45,7 +45,7 @@ do
 
         $ gem update --system
 
-If you recieve an error telling you you do not hav to correct file
+If you receive an error telling you you do not have to correct file
 permissions, you may need to add ```sudo``` to the beginning of
 this command.
     
@@ -66,15 +66,21 @@ to install it using your package manager.
 These instructions should work regardless of your platform
 
 * Open a terminal window, we will use ```gem```, to install
-Jekyll and Redcarpet
+Jekyll and Redcarpet. Again, it's possible that you may need
+to add ```sudo``` to the beginning of these commands to install
+the packages.
 * Type:
 
         $ gem install jekyll
         $ gem install redcarpet
 
-* And that's it! Again, it's possible that you may need to add ```sudo```
-to the beginning of these commands to install the packages. 
+* And that's it! It's not uncommon that your packages will
+be installed successfully, but an error installing
+the documentation will be displayed, this is usually fine;
+unless gem exits early, citing an installation error,
+your installation should be fine.
 
+ 
 Editing the Site
 ----------------
 
@@ -94,6 +100,17 @@ and check out the ```gh-pages``` branch.
     
     $ git checkout gh-pages
 
+The ```gh-pages``` is what is known as a "orphan branch",
+and its contents are unrelated to the main line of
+development for the model. By switching into the ```gh-pages```
+branch, git will replace the contents of the ```meltmodel```
+folder downloaded from Github (by default this will be the
+current version of the models' source code) with the source
+for the webpage. If you need to get back to the model code
+type ```git branch``` to see the list of branches tracked by
+git, and then ```git checkout <branch name>``` to checkout
+the code in branch ```<branch name>```.
+More info about git can be found at the (git project)[http://git-scm.com].
 
 ### Making Edits
 This webpage is mostly written in Markdown,
@@ -104,8 +121,8 @@ with how Jekyll works, you can read its documentation at
 [http://jekyllrb.com](http://jekyllrb.com).
 
 Any file in the directory root not prefixed by an
-underscore will be procedded by Jekyll and included
-in the final wepage. At the moment, these consist of
+underscore will be processed by Jekyll and included
+in the final Webpage. At the moment, these consist of
 Markdown files as well as a CSS file which defines
 how the page is displayed. Any of these files may be
 edited with your favorite text-editor.
@@ -113,16 +130,16 @@ edited with your favorite text-editor.
 The ```_layouts``` directory contains the HTML
 templates which wrap around the pages in the site.
 More information about the directory structure
-is availible [here](http://jekyllrb.com/docs/structure/).
+is available [here](http://jekyllrb.com/docs/structure/).
 
 ### Building the Site
 
 Once we have made edits, if we would like to verify
-that the changes we've made look whe way we want
+that the changes we've made look the way we want
 them to, we can use Jekyll to generate the HTML files
 which will be served on Github.  The generated webpage
 will be located in a the directory ```_site```,
-if this directory does nto exist, it will be created,
+if this directory does not exist, it will be created,
 it if does exist, its contents will be removed.
 
 - At the terminal enter
@@ -133,9 +150,10 @@ it if does exist, its contents will be removed.
 returned to a command prompt.
 - If everything has gone successfully, there should be a new directory
 ```_site```, the contents of which are the homepage for the model!
-You can now preview the site, make edits and repeat.
+You can now preview the site by opening the HTML files in ```_site```,
+make edits and repeat.
 
-Jekyll comes with a few useful comand-line options.
+Jekyll comes with a few useful command-line options.
 
   * When working, it can get tiresome to rebuild the site
   constantly, the ```--watch``` option tells Jekyll to watch
@@ -143,6 +161,10 @@ Jekyll comes with a few useful comand-line options.
   At the command prompt, type
 
           $ jekyll build --watch 
+
+  Jekyll will now run indefinitely, regenerating the webpage
+  each time you save changes to the source. To stop Jekyll:
+  type ```Ctl-c``` in the terminal window in which Jekyll is running.
   
   * While one can open the generated HTML files and preview them
   in a browser, it's a better idea to preview them by having a
@@ -154,14 +176,15 @@ Jekyll comes with a few useful comand-line options.
           $ jekyll serve
 
     at our command prompt; Jekyll will generate the
-    webpage, and serve it locally. In your web-browser, 
+    webpage, and start a webserver, which will serve
+    the webpage locally. In your web-browser, 
     browse to [http://localhost:4000](http://localhost:4000)
-    to see what the site will look like when posted ot Github. 
+    to see what the site will look like when posted to Github. 
     When you are done, open the terminal window in which you
-    ran jekyll, and stop the server by typing ```Ctl-C```.
+    ran jekyll, and stop the server by typing ```Ctl-c```.
     
 
-  * We can combine these two, and Jekyll will both
+  * __Recommended__: We can combine these two, and Jekyll will both
   serve the webpage locally, and watch for changes,
   and regenerate the site as we make changes. Type
 
@@ -169,7 +192,8 @@ Jekyll comes with a few useful comand-line options.
 
   Now, after making and saving changes, reload the browser
   window which is previewing the webpage, your changes
-  sould appear.
+  should appear. Again, typing ```Ctl-c``` in the appropriate
+  terminal will stop the jekyll process.
 
   
 
@@ -179,11 +203,17 @@ Once we are finished editing the site, we need to
 upload it to Github. This is done by making a new
 commit to the ```gh-pages``` branch using git.
 
-- Generate the final page to be uploaded, make sure to preview it just in
-case there's some subtle syntax error somewhere.
 - Commit these changes; we'll use the `-a` flag to add all changes made
 
         $ git commit -a
+
+  git will open an editor, and you should enter a brief
+  message describing the changes you have made.
+  If the message is sufficiently short, you can bypass the
+  editor, and enter you message on the commandline using the ```-m```
+  command-line option
+
+        $ git commit -a -m "<commit-message>"
 
 - Push these changes to the server:
 
