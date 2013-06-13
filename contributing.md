@@ -7,41 +7,42 @@ subtitle: Contributing
 Git and Github
 --------------
 We use [git](git-scm.com) to keep track of changes we make to
-the model. Git is a revision control system, similar in goals
-to SVN or CVS, but completely different in execution. 
+the model. Git is a revision control system, similar in purpose 
+to SVN or CVS, but different in execution. 
 If you're new to git, Github has some good documentation on
 [setting up git](https://help.github.com/articles/set-up-git),
-and [gitref](http://gitref.org/) has an excellent git tutorial.
-Finally, the git project's 
-[documentation](http://git-scm.com/documentation) is a good resource
-for more in-depth details on git's workings. Jan Krüger has a great
+and [gitref](http://gitref.org/) has an excellent git tutorial,
+, the git project's [documentation](http://git-scm.com/documentation)
+is a good resource for more in-depth details on git's workings,
+and Jan Krüger has a great
 [git cheat sheet](http://jan-krueger.net/development/git-cheat-sheet-take-two)
 if one needs a quick reference.
 
 The model repository is hosted by [Github](http://github.com),
 a webpage that offers project hosting, as well as a bevy of tools
-of collaborating using git. Signing up is free, as is hosting
-open source projects; we strongly recommend that collaborators
+for collaborating using git. Signing up, as well as hosting
+open source projects, is free, and we strongly recommend that collaborators
 sign up and use Github to assist in collaboration.
 
 Using Git
 ---------
 Git's a flexible tool, which allows for a wide variety of
-work flows.  Here's one:
+work flows.  Here's one which serves well for working with DEBaM
+and DETIM.
 
 ###Workflow:
 
 1. __Branch__:
-  When making changes, say adding a feature, fixing a bug,
+  When making changes, i.e. adding a feature, fixing a bug,
   or editing documentation, make a new branch off of
-  the **master**, and give it a descriptive name.
-  This lets you make changes and develop them separate
+  the **relese_0.2** branch, and give it a descriptive name.
+  Branches let you make changes and develop them separate
   from the main line of development. This way if your changes take
-  awhile and you need to work on a different part of the project
+  awhile or you need to work on a different part of the project
   you can commit the changes you've made so far, and switch
-  back to the master branch. Or if your changes simply don't
-  work out, you can delete the changes you made without
-  having to track them down.
+  back to the release branch. Or if your changes simply don't
+  work out, you can delete the changes you made by simply deleting the
+  branch instead of having to track down every change made.
 
   Say we want to add some code for calculating skin temperatures,
   at the terminal just type:
@@ -51,19 +52,20 @@ work flows.  Here's one:
   and make that the active branch.
 
 2. __Make Changes__:
-  In your new branch, make changes at will, by
-  editing files, adding files or removing files.
+  Now that we're in a new branch, we can make changes at will, by
+  editing, adding or removing files.
   Git will recognize files in the directory as being in one of
   four statuses:
     - *Untracked:* Git is not tracking this file, and it is not
       included in the repository.
-    - *Unmodified:* Git is tracking this file, and it had not
+    - *Unmodified:* Git is tracking this file, and it has not
       changed since the most recent commit.
     - *Modified:* This file is being tracked, and has changed
       since the last commit, but Git has not been told to
       include these changes.
     - *Staged:* Some changes made to this file have been staged,
-      and these changes will be included in the next commit.
+      and these changes will be included the next time a commit
+      is made.
   
   At the command line, you can view the status of your files
   via the command
@@ -106,31 +108,26 @@ work flows.  Here's one:
     or add more changes we still can before we make our commit,
     but we will need the stage these changes too, with another
     ```git add``` command.
-  * *Commit* Once we're happy that we've assembled a commit
-  which reflects a logical collection of changes, and staged all
-  of those, we need to save these changes to the repository.
+  * *Commit* Once we've staged a collection of changes,
+  we need to save these changes to the repository.
   Simply type
 
             $ git commit
-  an editor will open, and you should enter a descriptive message
+  a text editor will open, and you should enter a descriptive message
   describing the changes made by this commit.
   If your message is sufficiently terse, you can enter it at the
   command line, with the ```-m``` option:
 
             $ git commit -m "Added skin temperature calculations."
   Now, if we check the status of the repository using ```git status```
-  we will see that those changes which we committed are no longer marked
+  we will see that the changes we committed are no longer marked
   as modified.
 
 4. __Make More Changes and Make More Commits__:
-  We can now happily edit away, making more changes as will. Repeat
+  We can now happily edit away, making more changes at will. Repeat
   steps 2 and 3 as needed, making new commits as you go.
  
 4. __Push Branch to Github__:
-  If you've made some changes, are are ready to share them, but
-  they aren't ready to be merged into the main release branch,
-  you can push them to Github in the branch that 
-
   At some point you'll want to share you changes with others. If you
   have pulled the source from your own fork on Github this is
   as easy as
@@ -142,10 +139,10 @@ work flows.  Here's one:
   "skin\_temperature"to the remote server named "origin".
 
   Until you are sure that you want to include the changes you've made
-  in the release of the model, it's wise that you keep your edits isolated
+  in the release of the model, it's wise to keep your edits isolated
   in the branch you've made. Continue this by repeating steps
-  2 - 5; when your code is ready to be included in the model's
-  released code, proceed to 6.
+  2 - 5. When your code is ready to be included in the model's
+  "official" code, proceed to 6.
    
 6. __Submit a pull request__:
   A good way to let people know that you've been working on the model,
@@ -171,9 +168,8 @@ work flows.  Here's one:
      branch into the ```release_0.2``` branch we would do the following
      from the command line:
 
-
-        $ git checkout release_0.2 
-        $ git merge skin_temperature
+            $ git checkout release_0.2 
+            $ git merge skin_temperature
 
 9. __Push to Github__:
   Finally, to push the changes we've made up to Github, we would do the following
