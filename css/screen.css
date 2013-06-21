@@ -2,12 +2,17 @@ body {
 background-color: #D5D6D7;
 padding:20px;
 text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 20px;
+color: #333333;
 }
 .header {
 border-bottom: 1px solid #959596;
-padding: 5px;
+padding-bottom: 5px;
+padding-top: 15px;
 color: #ffffff;
-background-color: rgb(115, 160, 197);
+background-color: rgb(49, 153, 211);
 }
 .header a {
 text-decoration: none;
@@ -21,7 +26,7 @@ font-weight: normal;
 
 #outerContainer {
 border:1px solid #959596;
-font-family: "helvetica"; 
+//font-family: "helvetica"; 
 color: #000000;
 margin: 0 auto;
 background-color: #ffffff;
@@ -35,11 +40,11 @@ color: #333333;
 }
 #container li {margin-bottom: .3em}
 #container .bibliography li {margin-bottom: .5em}
-h1 { font-size: 3.8em; color: #736f30; margin-bottom: 3px; }
+h1 { font-size: 3.8em; margin-bottom: 3px; }
 h1 .small { font-size: 0.4em; }
 h1 a { text-decoration: none }
 h2 { font-size: 1.5em; text-align: left;}
-h3 { font-size: 1.2em; color: #111144}
+h3 { font-size: 1.2em;}
 .description {
 font-size: 1.2em;
 margin-bottom: 30px;
@@ -47,10 +52,46 @@ margin-top: 30px;
 font-style: italic;
 }
 
+code, pre {
+padding: 0 3px 2px;
+font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+font-size: 12px;
+color: #333333;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+}
+
+code {
+padding: 2px 4px;
+color: #d14;
+white-space: nowrap;
+background-color: #f7f7f9;
+border: 1px solid #e1e1e8;
+}
+
+pre code {
+display: block;
+padding: 9.5px;
+margin: 0 0 10px;
+font-size: 13px;
+line-height: 20px;
+word-break: break-all;
+word-wrap: break-word;
+white-space: pre;
+white-space: pre-wrap;
+background-color: #f5f5f5;
+border: 1px solid #ccc;
+border: 1px solid rgba(0, 0, 0, 0.15);
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+}
+
 
 
 .download { float: right; }
-pre { background: #000; color: #fff; padding: 15px;}
+//pre { background: #000; color: #fff; padding: 15px;}
 hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 .footer { text-align:center; padding-top:30px; font-style: italic; }
 .styleCredit { font-size: 75%; }
