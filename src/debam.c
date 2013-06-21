@@ -22,7 +22,7 @@
 /* PROGRAM  debam.c, formerly meltmod.c                          */
 /*   DISTRIBUTED SNOW/ICE MELT MODEL BASED ON ENERGY BALANCE */
 /*   CALCULATIONS INCLUDING OPTIONAL DISCHARGE CALCULATIONS  */
-/*   5.3.1998, update 18 July 2010, rename August, 2012         */
+/*   5.3.1998, update 13 June 2013, renamed August, 2012         */
 /*************************************************************/
 
 
@@ -535,7 +535,6 @@ int main()
                             }
                             /*============================================================*/
 
-                            if( (winterbalyes == 1) || (summerbalyes == 1) || (maxmeltstakes > 0))
                                 if (griddgmglac[i][j] != nodata)   /*only for glacier, no matter if dgmdrain is larger*/
                                     massbalance();
 

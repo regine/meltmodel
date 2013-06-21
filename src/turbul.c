@@ -21,7 +21,7 @@
 /*         SPATIAL INTERPOLATION OF METEOROLOGICAL INPUT FACTORS TO GRID    */
 /*          temperature, air pressure, vapour pressure, precipitation       */
 /*         CALCULATION TURBULENT HEAT FLUXES                                */
-/*  29.9.1997, last update 28 April 2010 */
+/*  29.9.1997, last update 13 June 2013*/
 /****************************************************************************/
 
 
@@ -736,12 +736,14 @@ void precipinterpol()
 
             break;
 
-        case 2:   /*multiply precip read from AWS file by value from index map*/
-            precip = prec * precipindexmap[i][j];
+        case 2:   /*multiply precip read from AWS file (corrected by undercatch) by value from index map*/
+            precip = prec+prec*preccorr/100.0;   /*CORRECTION DUE TO GAUGE UNDERTAKE*/
+            precip = precip * precipindexmap[i][j];
             break;
 
         case 3:   /*read precipitation from file for each time step*/
-            precip = precipreadgrid[i][j];
+            precip = precipreadgrid[i][j]; 
+            precip = precip+precip*preccorr/100.0;  /*ADD % CORRECTION*/
             break;
 
         }  /*end switch methodprecipinterpol*/
@@ -1040,7 +1042,8 @@ void massbalance()
     }
 
     /*works only if model run starts in summer, preferably at winterjdbeg*/
-    if (methodsurftempglac == 4) {
+    if (methodsurftempglac == 4) 
+    {
         if(jdold == winterjdbeg) {
             itswinter = 1;
             itssummer = 0;
@@ -1058,7 +1061,7 @@ void massbalance()
             itswinter = 0;
             itssummer = 1;
         }
-    }
+    }  /**endif methodsurftempglac == 4 /
 
     /* massbal is in cm !!!  ABLA and snowprec in mm !!! */
     /* massbal is grid cell mass balance, will be overriden for next grid cell*/
@@ -1069,11 +1072,17 @@ void massbalance()
         massbal = snowprec/10 - MELT[i][j]/10;
     if (methodsurftempglac == 4)
         massbal += sumrain/10;
-
+      
+  /* massbalance is cumulated mass balance over whole period of computation, i.e.
+       not necessarily balance year if jdbeg is before start day winterbalance
+       used to calculate time series output of areamean (glacierwide balances*/
+        MASSBALcum[i][j] +=  massbal;   /*grid of cumulative mass balance*/
+  
     if((itswinter == 1) && (winterbalyes == 1))
         WINTERBAL[i][j] +=  massbal;
 
-    if((itssummer == 1) && (summerbalyes == 1)) {
+    if((itssummer == 1) && (summerbalyes == 1)) 
+    {
         SUMMERBAL[i][j] +=  massbal;
 
         if (methodsurftempglac == 4) {
@@ -1094,12 +1103,6 @@ void massbalance()
             printf("jd=%.1f   massbal = %.2f Winterbal = %.2f SUMMERBAL=%.2f  itswinter=%d\n",jd,massbal,WINTERBAL[i][j],SUMMERBAL[i][j],itswinter);
     */
 
-    /* massbalance is cumulated mass balance over whole period of computation, i.e.
-       not necessarily balance year if jdbeg is before start day winterbalance */
-    if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) ) {
-        MASSBALcum[i][j] +=  massbal;
-
-
         /*MASSBAL arrays set to zero in writemassbalgrid() after winter/summer end*/
         if (methodsurftempglac == 4) {
             if ((SNOW[i][j] >= 0.)  && (SNOWswitch[i][j] == 0.))
@@ -1109,7 +1112,6 @@ void massbalance()
 
             if (SNOW[i][j] == 0.) SNOWswitch[i][j] = 1.;
         }
-    }
 
     return;
 }

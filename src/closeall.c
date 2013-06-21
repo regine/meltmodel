@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with This software.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************/
+/* last update 13 June 2013*/
+ 
 /*******************************************************************/
 /*  FILE   closeall.c                                              */
 /*                                                                 */
@@ -33,8 +35,6 @@
 #include "grid.h"
 
 #include "variabex.h"      /* all global VARIABLES */
-
-
 
 
 void closeall()
@@ -318,8 +318,8 @@ void closeall()
 
         if(winterbalyes == 1)   freematrix(WINTERBAL,1,nrows,1,ncols);
         if(summerbalyes == 1)   freematrix(SUMMERBAL,1,nrows,1,ncols);
-        if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) )
-            freematrix(MASSBALcum,1,nrows,1,ncols);
+        
+        freematrix(MASSBALcum,1,nrows,1,ncols);
 
     }  /*if*/
 

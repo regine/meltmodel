@@ -24,7 +24,7 @@
        OPEN AND READ GRID FILES, RESERVE STORAGE OF ALL 2D-ARRAYS
        OPEN FILE WITH CLIMATE DATA and READ UNTIL START
        OPEN OUTPUT-FILES                                           */
-/*  1.12.1997, update 18 Nov 2011 */
+/*  1.12.1997, last update 13 June 2013*/
 /*******************************************************************/
 
 #include "initial.h"
@@ -858,12 +858,12 @@ void startoutascii()
         if(energymethod == 1) {   /*is set in meltmod.c, not in input.dat*/
             fprintf(outarea," year jd    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
             fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ");
-            fprintf(outarea," rain    enbal     melt  abla  massbal surftemp\n");
+            fprintf(outarea," rain    enbal     melt  abla  cummassbal surftemp\n");
         }
 
         if(degreedaymethod == 1) { /*is set in degree.c*/
             fprintf(outarea," year jd     time  shade exkorr  solhor dirclearsky");
-            fprintf(outarea,"  melt  meantemp tempstation DDFcalc\n");
+            fprintf(outarea,"  melt  meantemp tempstation DDFcalc cummassbal\n");
         }
 
         if(dat_or_txt == 1)    /*variables first line, filename in second line*/
@@ -1190,10 +1190,10 @@ void startarrayreserve()
         SUMMERBAL  = matrixreserv(1,nrows,1,ncols);
         initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);
     }
-    if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) ) {
-        MASSBALcum = matrixreserv(1,nrows,1,ncols);
-        initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
-    }
+
+    MASSBALcum = matrixreserv(1,nrows,1,ncols);
+    initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
+    
 
 
     if(degreedaymethod == 1) {

@@ -19,7 +19,7 @@
 
 /*************************************************************/
 /*  variab.h                                                 */
-/*    update 18 Nov 2011 */
+/*    update 21 June 2013 */
 /*************************************************************/
 
 /*-------------------------------------------------------------*/
@@ -144,19 +144,19 @@ char   *namedatesmassbal=NULL;
 // RH char   inpath[81]="",outpath[81]="";    /*Path for Input/Output-files*/
 char   inpath[201]="",outpath[201]="";    /*Path for Input/Output-files*/
 char   namealb[20][31];             /*name of albedo-file of one day*/
-char   namealbedo[31];              /*variable for all albedo files */
-char   namealbedoout[31];           /*output file for grid output*/
-char   nameshade[31],nameexkorr[31],namedirect[31],namedirect2[21]; /*OUTPUT-FILES*/
-char   namesolhor[31],nameglobal[31],namediffus[31],nameswbal[21];
-char   namelongin[31],namelongout[31],namenetrad[31],namesensible[31];
-char   namelatent[31],namerainen[31],nameenbal[31],namemelt[31],nameabla[31];
-char   namesurf[31],namesurftemp[31],namewritesnow[31];
-char   namesnowfree[31];
-char   namewinterbal[61],namesummerbal[61],namemassbal[61];
-char   outgridname[20][31],outareaname[61],outspecificmassbalname[61];
-char   namemassbalprofile[61];
+char   namealbedo[51];              /*variable for all albedo files */
+char   namealbedoout[51];           /*output file for grid output*/
+char   nameshade[51],nameexkorr[51],namedirect[51],namedirect2[51]; /*OUTPUT-FILES*/
+char   namesolhor[51],nameglobal[51],namediffus[51],nameswbal[51];
+char   namelongin[51],namelongout[51],namenetrad[51],namesensible[51];
+char   namelatent[51],namerainen[51],nameenbal[51],namemelt[51],nameabla[51];
+char   namesurf[51],namesurftemp[51],namewritesnow[51];
+char   namesnowfree[51];
+char   namewinterbal[71],namesummerbal[71],namemassbal[71];
+char   outgridname[20][51],outareaname[71],outspecificmassbalname[71];
+char   namemassbalprofile[71];
 char   dummy[101];
-char   nametempgrid[61];
+char   nametempgrid[71];
 
 /********* FILES **********/
 FILE   *indgm=NULL,*indgmdrain=NULL,*indgmglac=NULL;       /* input files */
@@ -256,7 +256,7 @@ double areashade,areaexkorr;    /*spatial means over whole glacier*/
 double areasolhor,areadirect,areadirect2,areadiffus;
 double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
 double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
-double areasurftemp;
+double areasurftemp,areacummassbal;
 
 double laenge, breite;                    /*longitude, latitude deg */
 double reflongitude;              /*longitude time refers to*/
@@ -282,7 +282,7 @@ int    coltemp, colhum, colwind;          /* column of parameter    */
 int    colglob, colref, colnet, colprec;  /* in climate input file  */
 int    collongin,collongout,colcloud,coltempgradvarying;
 
-char   rest[200];                 /* to ignore rest of row or whole row */
+char   rest[500];                 /* to ignore rest of row or whole row */
 float  jd,zeit,year;                                  /*julian day, hours*/
 float  jd2;
 float  temp,hum,wind,glob,ref=0,net,prec,cloud;               /*climate data*/
@@ -352,7 +352,7 @@ float  albedosnow[1000];        /*measured snow albedo - daily means*/
 float  directstationhoriz;     /*direct radiation if climate station grid horizontal*/
 int    shadefromfile=0;        /*1=shading is read from files*/
 int    directfromfile;         /*1=direct radiation is read from files*/
-char   pathdirectfile[100];    /*path of shading/direct input files*/
+char   pathdirectfile[150];    /*path of shading/direct input files*/
 float  daysdirect = 1;         /*files only exist every number of days defined here*/
 float  jddirect;               /*julian day of direct file prior to start day*/
 
@@ -383,8 +383,8 @@ float summerjdbegmeas[2050];
 float nextyear;  /*needed if multi-year mass bal is computed and dates differ*/
 float elevbeltmin,beltwidth;   /*for mass balance profiles*/
 int   numberbelt;    /*number of elevation belts for bn profiles*/
-float areabelt[101];   /*area of each elevation belt*/
-float winterbalprofile[101],summerbalprofile[101],massbalprofile[101];
+float areabelt[201];   /*area of each elevation belt*/
+float winterbalprofile[201],summerbalprofile[201],massbalprofile[201];
 /*max 100 elevation belts for mass balance profiles*/
 
 float ratioglobToA,ratioglobToAold=0.5;   /*for cloud dependence albedo*/
@@ -409,8 +409,8 @@ double  **f2ln,**sumf0xln,**sumf0x2ln;
 double  **r2ln,**f02ln;
 double  **volumeopt;
 
-char   namedgmfirn[30];
-char   nameqcalc[30];
+char   namedgmfirn[70];
+char   nameqcalc[70];
 
 float  dischkons;
 float  meltwat;
@@ -533,12 +533,12 @@ float  debrisfactor;     /*melt reduction factor for debris cover on glacier*/
 int  maxmeltstakes;       /*number of locations to be written to melt file*/
 int  meltoutrow[101];      /*row of location*/
 int  meltoutcol[101];      /*column of location*/
-float  melt_xcoordinate[101];      /*x-coordinate of stake location*/
-float  melt_ycoordinate[101];      /*y-coordinate of stake location*/
-float  stn_xcoordinate[101];      /*x-coordinate of output station*/
-float  stn_ycoordinate[101];      /*y-coordinate of output station*/
+float  melt_xcoordinate[301];      /*x-coordinate of stake location*/
+float  melt_ycoordinate[301];      /*y-coordinate of stake location*/
+float  stn_xcoordinate[301];      /*x-coordinate of output station*/
+float  stn_ycoordinate[301];      /*y-coordinate of output station*/
 
-char outmeltstakename[80],outmassbalstakename[80];
+char outmeltstakename[200],outmassbalstakename[200];
 FILE *outmeltstakes=NULL,*outmassbalstakes=NULL;
 int  coordinatesyes;
 
@@ -623,7 +623,7 @@ float  q,q0;
 double  ustar,thstar,qstar;
 double  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
 double  Ch,Cq;         /*exchange coefficients heat and moisture surface*/
-char   outsubsurflinename[61];
+char   outsubsurflinename[81];
 FILE   *outsubsurf[50];
 FILE   *outsubsurfline[11];
 double source;   /*is ENBAL of considered grid cell*/

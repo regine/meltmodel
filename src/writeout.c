@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  update 5 Jan 2011 */
+/*  update 13 June 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -27,6 +27,7 @@
 #include<string.h>
 #include<math.h>
 
+/*include all .h files that have functions that are called in this file*/
 #include "initial.h"
 #include "grid.h"
 #include "snowinput.h"
@@ -1738,30 +1739,33 @@ void meanmassbalprofile()
 void areameannull()
 
 {
-    areashade    = 0.;
-    areaexkorr   = 0.;
-    areasolhor   = 0.;
-    areadirect   = 0.;
-    areadirect2  = 0.;
-    areadiffus   = 0.;
-    areaalbedo   = 0.;
-    areaglobal   = 0.;
-    areaswbal    = 0.;
-    arealongin   = 0.;
-    arealongout = 0.;
-    areanetrad   = 0.;
-    areasensible = 0.;
-    arealatent   = 0.;
-    arearain     = 0.;
-    areaenbal    = 0.;
-    areamelt     = 0.;
-    areaabla     = 0.;
-    areasurftemp = 0.;
-
+    if(energymethod == 1) {
+      areashade    = 0.;
+      areaexkorr   = 0.;
+      areasolhor   = 0.;
+      areadirect   = 0.;
+      areadirect2  = 0.;
+      areadiffus   = 0.;
+      areaalbedo   = 0.;
+      areaglobal   = 0.;
+      areaswbal    = 0.;
+      arealongin   = 0.;
+      arealongout  = 0.;
+      areanetrad   = 0.;
+      areasensible = 0.;
+      arealatent   = 0.;
+      arearain     = 0.;
+      areaenbal    = 0.;
+      areaabla     = 0.;
+      areasurftemp = 0.;
+    }
     if(degreedaymethod == 1) {
         areapos = 0.;
         areaddf = 0.;
     }
+    
+    areamelt     = 0.;
+    areacummassbal = 0;
 
     return;
 }
@@ -1818,6 +1822,7 @@ void areasum()
     }
 
     areamelt += MELT[i][j];       /*only melt is calculated for both cases*/
+    areacummassbal += MASSBALcum[i][j];
 
     return;
 }
@@ -1880,6 +1885,7 @@ void areameanwrite()
     }
 
     areamelt = areamelt/nglac;
+    areacummassbal = areacummassbal/nglac;
 
     /*midnight, must be next day for continous series of real numbers for grapher plot*/
     jd2 = jd;
@@ -1892,13 +1898,13 @@ void areameanwrite()
         fprintf(outarea,"%8.2f %8.2f %8.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f",areadiffus,
                 areaglobal,areareflect,areaalbedo,areaswbal,arealongin,arealongout,arealongbal,areanetrad);
         fprintf(outarea,"%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f",
-                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla);
+                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areacummassbal);
         fprintf(outarea,"%7.2f\n",areasurftemp);
     } /*endif*/
 
     if(degreedaymethod == 1)
         fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f %8.2f %8.2f %8.2f\n",
-                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf);
+                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areacummassbal);
 
     return;
 }
