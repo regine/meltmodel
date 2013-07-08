@@ -11,8 +11,9 @@ the model. Git is a revision control system, similar in purpose
 to SVN or CVS, but different in execution. 
 If you're new to git, Github has some good documentation on
 [setting up git](https://help.github.com/articles/set-up-git),
-and [gitref](http://gitref.org/) has an excellent git tutorial,
-, the git project's [documentation](http://git-scm.com/documentation)
+and [gitref](http://gitref.org/) is a good quick-reference page and has an
+excellent git tutorial as well,
+the git project's [documentation](http://git-scm.com/documentation)
 is a good resource for more in-depth details on git's workings,
 and Jan Krüger has a great
 [git cheat sheet](http://jan-krueger.net/development/git-cheat-sheet-take-two)
@@ -47,9 +48,18 @@ and DETIM.
   Say we want to add some code for calculating skin temperatures,
   at the terminal just type:
 
+        $ git branch skin_temperature
+        $ git checkout skin_temperature
+  or, we can use the equivalent one-liner:
+
         $ git checkout -b skin_temperature
   this will create a new branch, entitled ```skin_temperature```
-  and make that the active branch.
+  and make that the active branch. Now, any changes which we commit to
+  the repository will be made to the new branch only.
+
+  The title ```skin_temperature``` is just an example, we could have
+  named the new branch anything,  but we should give the branches
+ descriptive names; a branch in which we plan to fix a bug
 
 2. __Make Changes__:
   Now that we're in a new branch, we can make changes at will, by
@@ -143,17 +153,37 @@ and DETIM.
   in the branch you've made. Continue this by repeating steps
   2 - 5. When your code is ready to be included in the model's
   "official" code, proceed to 6.
-   
+
+5. __Deleting a Branch__:
+  Git's branches are easy to make, and easy to delete. If we decide that
+  the changes we've made on the branch aren't to our likeing, and
+  want to get rid of them entirely, we can delete the entire branch. 
+  Here we're going to delete the ```skin_temperature``` branch.
+  We shoudld first make sure that we're on different branch from the one
+  we're deleting:
+ 
+        $ git checkout release_0.2
+  we can then delete the branch in our working copy
+
+        $ git branch -d skin_temperature
+
+  This only deletes the local version of the branch; if this branch has 
+  been pushed to Github, we can delete it there too. This should be done
+  with caution. 
+
+        $ git push origin :skin_temperature
+
+
 6. __Submit a pull request__:
   A good way to let people know that you've been working on the model,
-  and that your changes may be ready to be merged into he model, is to
+  and that your changes may be ready to be merged into the model, is to
   submit a Pull Request through Github. Once you've submitted a Pull
   request, people can review the changes, discuss modifications, and
   submit follow-up commits if need be.  Github's
   [help page](https://help.github.com/articles/using-pull-requests)
   on Pull Requests is a good place to learn more about Pull Requests.
  
-8. __Merge Into Master__:
+7. __Merge Into Master__:
   Once changes have been reviewed and approved, our final task is to
   merge them into the main code repository. This can be done in
   two ways:
@@ -171,7 +201,7 @@ and DETIM.
             $ git checkout release_0.2 
             $ git merge skin_temperature
 
-9. __Push to Github__:
+8. __Push to Github__:
   Finally, to push the changes we've made up to Github, we would do the following
   from the command line.
 
