@@ -45,20 +45,14 @@ Installation
 
 Prerequisites:
 
-* [Cmake](http://www.cmake.org/) is used to configure the build,
-    any version >= 2.8 should work
 * A working C compiler 
 
 To build DeBAM and DETIM, do
 
-    $ cd melt_mod
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make install
-    $ cd ..
+    $ cd meltmodel
+    $ make all
 
-The model executables will now be located in ```melt_mod/bin```
+The model executables will now be located in ```meltmodel/bin```
  
 A more complete installation guide is available in install.md.
 

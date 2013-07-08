@@ -5,7 +5,6 @@ prerequisites needed before you can build and use the model. Namely:
 
 * A working C compiler: Since the models is written in C, you'll need
     something to compile it.
-* [Cmake](http://www.cmake.org): Is used to prepare and configure the compilation 
 
 If you already have these on your machine, skip down to the section 
 [Compiling](#compiling)
@@ -35,38 +34,12 @@ the command-line tools:
     install button
      
 
-2. You have two options for installing CMake: 
-
-* Install the binary OS X package from their
- [website](http://www.cmake.org/cmake/resources/software.html),
-or 
-* Use your choice of package managers for OS X, i.e. [Homebrew](http://mxcl.github.com/homebrew/),
-[Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
-
-If you're already using a package manager, we recommend you use it to install
-CMake.
-
-
 Setting up Linux
 ----------------
 This is perhaps the easiest situation in which you could find yourself,
 not least because you probably already have everything you need.
 
 1. Your distro should come packaged with a C compiler
-2. Use your distribution's package manager to install CMake, e.g. __apt__ 
-(Ubuntu, Debian, etc)
-
-        $ apt-get install cmake
-
-    or __rpm__ (Fedora and others)
-        
-        $ rpm -ivh cmake
-
-Setting up Windows
----------------------------
-1. Cygwin
-
-2. Visual Studio
 
 
 Compiling
@@ -102,11 +75,7 @@ model source files.
 At the command prompt, do
 
     $ cd meltmodel
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make install
-    $ cd ..
+    $ make all
 
 The model executables will now be located in ```meltmodel/bin```.
 
