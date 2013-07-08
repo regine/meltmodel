@@ -206,3 +206,31 @@ and DETIM.
   from the command line.
 
         $ git push origin release_0.2
+
+### A Concise version of the above
+
+__Making Changes___:
+
+  1. Create a new branch:
+
+        $ git branch <branch_name>
+
+  2. Make Changes/ Add files
+
+        $ git add <new/changed_filename>
+  3. Check on what's added/changed/staged
+
+        $ git status
+  4. Commit changes
+
+        $ git commit
+  5. Push to Github
+
+        $ git push origin
+  6. Delete a local branch
+
+        $ git branch -d <branch_name>
+  7. Merge one branch (source) into another (target)
+
+        $ git checkout <target_branch_name>
+        $ git merge <source_branch_name>
