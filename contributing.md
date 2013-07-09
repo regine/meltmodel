@@ -215,6 +215,9 @@ __Making Changes___:
 
         $ git branch <branch_name>
 
+  2. Check out a branch:
+      
+        $ git checkout <branch_name>
   2. Make Changes/ Add files
 
         $ git add <new/changed_filename>
