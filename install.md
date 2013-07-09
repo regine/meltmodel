@@ -12,7 +12,7 @@ prerequisites needed before you can build and use the model. Namely:
 
 * A working C compiler: Since the models is written in C, you'll need
     something to compile it.
-* [Cmake](http://www.cmake.org): Is used to prepare and configure the compilation 
+* Gnu Make
 
 If you already have these on your machine, skip down to the section 
 [Compiling](#compiling)
@@ -21,7 +21,7 @@ If you already have these on your machine, skip down to the section
 Setting up Mac OS X
 ---------------
 
-1. To get a C compiler for OS X, you will need to obtain 
+1. To get a C compiler and Make for OS X, you will need to obtain 
 Apple's software development tool [Xcode](https://developer.apple.com/xcode/).
 Included with Xcode are the compilers needed to build DEBaM and DETIM.
   * The easiest way to obtain Xcode is via the App Store. It's pretty big,
@@ -34,46 +34,39 @@ Included with Xcode are the compilers needed to build DEBaM and DETIM.
       - Open the Downloads tab in the Preferences
       - In the Downloads list, select Command Line Tools, and push the
       install button
-2. You have two options for installing CMake: 
-* Install the binary OS X package from their
- [website](http://www.cmake.org/cmake/resources/software.html),
-  or 
-  * Use your choice of package managers for OS X, i.e. [Homebrew](http://mxcl.github.com/homebrew/),
-  [Fink](http://www.finkproject.org/) or [MacPorts](http://www.macports.org/).
-
-  If you're already using a package manager, we recommend you use it to install
-  CMake.
-
-
+2. You're done!
+ 
 Setting up Linux
 ----------------
 This is perhaps the easiest situation in which you could find yourself,
 not least because you probably already have everything you need.
 
-1. Your distro should come packaged with a C compiler
-2. Use your distribution's package manager to install CMake, e.g. __apt__ 
-(Ubuntu, Debian, etc)
+Many distros come packaged with a C compiler and Make, but a notable few
+don't. If you have the following, run the commands below at the command line
 
-        $ apt-get install cmake
+- __Ubuntu/Debian__:
 
-    or __rpm__ (Fedora and others)
-        
-        $ rpm -ivh cmake
+        $ apt-get install build-essential
 
+- __Fedora__:
 
+        $ yum install make automake gcc gcc-c++ 
+
+- __Arch__:
+
+        $ pacman -S base-devel
+
+ 
 Setting up Windows
 ---------------------------
 On Windows, we have had success getting DEBaM and DETIM running using 
 [Cygwin](http://www.cygwin.com/), a Linux-like system for Windows.
-__Important:__ If you choose to use Cygwin, you *must* install CMake using
-Cygwin, otherwise CMake will be oblivious to the fact that you have
-installed a compiler.
 
 Each of the following instructions roughly corresponds to a single dialog
 window of Cygwin's installer.
 
 1. Download and run Cygwin's ```setup.exe``` installer; this will
-   install Cygwin, as well as the compiler gcc and CMake.
+   install Cygwin, as well as the compiler gcc an Make.
 2. Click "Next" at the first prompt.
 3. When prompted to "Choose A Download Source" select "Install from Internet"
 4. Choose your Root Install Directory: unless you are really sure,
@@ -86,7 +79,7 @@ window of Cygwin's installer.
    and change this. 
 8. Under "Select Packages" expand the "Devel" section by clicking
    on the "+" sign in the box.
-  - Select ```gcc```, ```make``` and ```cmake```.
+  - Select ```gcc```, and ```make```.
 9. Click "Next" and follow the remaining installation instructions.
 
 10. Open Cygwin by either clicking the icon on your desktop, or
@@ -107,8 +100,6 @@ You can download the source as zip or tar files via:
 
 -  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
 -  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--  [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
--  [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running (command line in terminal):
@@ -130,13 +121,22 @@ model source files.
 At the command prompt, do
 
     $ cd meltmodel
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make install
-    $ cd ..
+    $ make models
 
 The model executables will now be located in ```meltmodel/bin```.
+
+The Makefile provides several different build targets, for those who
+only wish to build parts of the project. These targets are built by
+running ```make <target_name>``` at the command line, where ```<target_name>```
+is one of the following:
+
+- __debam__ or __detim__: Either of these builds _only_ the model
+- __models__: builds both models
+- __ascigrid__ or __gridasci__ or __gridtools__: ascigrid and gridasci build the individual executables, grid tools builds both
+- __shading__: builds the shading tool
+- __utils__: builds both shading and the grid tools
+- __all__: builds everything
+- __clean__: deletes all built executables and intermediate build products. 
 
 For information regarding running the model, please consult
 the manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
