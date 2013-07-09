@@ -33,7 +33,7 @@ Download
 Clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/regine/melt_mod.git
+    $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
