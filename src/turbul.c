@@ -1096,7 +1096,7 @@ void massbalance()
 
     /* massbalance is cumulated mass balance over whole period of computation, i.e.
        not necessarily balance year if jdbeg is before start day winterbalance */
-    if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0) ) {
+    if( ((winterbalyes == 1) && (summerbalyes == 1)) || (maxmeltstakes > 0)) {
         MASSBALcum[i][j] +=  massbal;
 
 
@@ -1317,6 +1317,7 @@ void iterationstation()
             ABLAsum[i][j] = 0.;
             RUNOFFsum[i][j] = 0.;
             SNOWsum[i][j] = 0.;
+            MBsum[i][j] = 0.;
         }
         subsurf(); /*chr calculate new surface temperature field*/
         waterequivalentabla();
@@ -1326,6 +1327,7 @@ void iterationstation()
             MELTsum[i][j] += MELT[i][j];
             RUNOFFsum[i][j] += RUNOFF[i][j];
             SNOWsum[i][j] += snowprec;
+            MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
             sumSNOWprec[i][j] += snowprec;
             sumRAINprec[i][j] += rainprec;
         }

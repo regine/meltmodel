@@ -362,6 +362,7 @@ void initgrid() {
     ABLAsum=matrixreservdouble(1,nrows,1,ncols);
     RUNOFFsum=matrixreserv(1,nrows,1,ncols);
     SNOWsum=matrixreserv(1,nrows,1,ncols);
+    MBsum=matrixreserv(1,nrows,1,ncols);
     SNOWinit=matrixreserv(1,nrows,1,ncols);
     MASSBALcumstake=matrixreserv(1,nrows,1,ncols);
     SUMMERBALST=matrixreserv(1,nrows,1,ncols);
@@ -1286,6 +1287,8 @@ void resetgridwinter() {
             if (surface[i][j] != nodis) {
                 for (k = 1; k <= (int)layeramount[i][j]; k++) {
                     if (layerid[i][j][k] == 1) layerid[i][j][k] = 2;
+                    if (layerid[i][j][k] == 3 && layerdensity[i][j][k] <= 825.) layerid[i][j][k] = 2;
+                    if (layerid[i][j][k] == 2 && layerdensity[i][j][k] > 825.) layerid[i][j][k] = 3;
                 }
                 changegrid();
             }

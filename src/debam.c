@@ -505,6 +505,7 @@ int main()
                                     ABLAsum[i][j] = 0.;
                                     RUNOFFsum[i][j] = 0.;
                                     SNOWsum[i][j] = 0.;
+                                    MBsum[i][j] = 0.;
                                 }
                                 subsurf(); /*chr calculate new surface temperature field*/
                                 waterequivalentabla();     /*** WATER EQUIVALENT ABLATION ***/
@@ -514,6 +515,7 @@ int main()
                                     MELTsum[i][j] += MELT[i][j];
                                     RUNOFFsum[i][j] += RUNOFF[i][j];
                                     SNOWsum[i][j] += snowprec;
+                                    MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
                                     sumSNOWprec[i][j] += snowprec;
                                     sumRAINprec[i][j] += rainprec;
                                 }

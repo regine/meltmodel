@@ -2060,8 +2060,9 @@ void stationoutput()
                 }
                 fprintf(outgrid[ii],"%10.5f",snowprec-ABLA[r][c]); /*CHR mass bal added*/
             }
-            if (methodsurftempglac == 4)
-                fprintf(outgrid[ii],"%10.5f",SNOWsum[r][c]-ABLA[r][c]); /*CHR mass bal added*/
+            if (methodsurftempglac == 4) { /*CHR mass bal added*/
+                fprintf(outgrid[ii],"%10.5f",MBsum[r][c]); /*CHR mass bal added*/
+              }
 
             /*only if snow model is run*/
             if (methodsurftempglac == 4) {

@@ -549,6 +549,7 @@ extern double **MELTsum;           /*sum of melted snow on interpolated time ste
 extern double **ABLAsum;           /*sum of ablation on interpolated time steps*/
 extern float  **RUNOFFsum;         /*sum of melted snow + rain on interpolated time steps*/
 extern float  **SNOWsum;           /*sum of snow precipitation on interpolated time steps*/
+extern float  **MBsum;           /*sum of massbalance on interpolated time steps*/
 extern float  **SNOWinit;          /*initial snow height*/
 extern float  **MASSBALcumstake;   /*sum of lost snow height for stakes*/
 extern float  **SUMMERBALST;       /*sum of lost snow height over summer for stakes*/

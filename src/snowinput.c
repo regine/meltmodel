@@ -76,18 +76,22 @@ void meltlayermice() {
     if (surface[i][j] != nodis) {
         if (methodsurftempglac == 4) {
             if (SNOW[i][j] == 0.) {
-                if (layerid[i][j][1] == 2) {
+//                if (layerid[i][j][1] < 3) {
                     meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1];
                     snowlayer[i][j] = meltlayer[i][j];
-                }
-                if (layerid[i][j][1] == 3) {
-                    meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
-                    snowlayer[i][j] = meltlayer[i][j];
-                }
+//                }
+//                if (layerid[i][j][1] == 3) {
+//                    meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
+//                    snowlayer[i][j] = meltlayer[i][j];
+//                }
             }
             if ((SNOW[i][j] != 0.) && (meltlayer[i][j] != 0)) {
-                if (layerid[i][j][1] < 3) meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1];
-                if (layerid[i][j][1] == 3) meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
+//                if (layerid[i][j][1] < 3) {
+                  meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1];
+//                }
+//                if (layerid[i][j][1] == 3) {
+//                  meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
+//                }
                 snowlayer[i][j] = meltlayer[i][j];
             }
 
