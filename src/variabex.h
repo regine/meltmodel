@@ -336,7 +336,7 @@ extern double areashade,areaexkorr;    /*spatial means over whole glacier*/
 extern double areasolhor,areadirect,areadirect2,areadiffus;
 extern double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
 extern double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
-extern double areasurftemp;
+extern double areasurftemp,areacummassbal;
 
 extern int    nglac;                  /*number of glacier grids*/
 extern float  albedosnow[1000];        /*measured snow albedo - daily means*/

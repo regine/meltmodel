@@ -20,7 +20,7 @@
 /* PROGRAM  detim.c, formerly degree.c                               */
 /*  DISTRIBUTED SNOW/ICE MELT MODEL BASED ON TEMPERATURE INDEX       */
 /*  METHODS ENERGY BALANCE INCLUDING OPTIONAL DISCHARGE CALCULATIONS */
-/*   5.3.1998, update 21 Sep 2011, rename August 2012                */
+/*   5.3.1998, last update 13 June 2013, renamed August 2012         */
 /*********************************************************************/
 
 
@@ -29,6 +29,7 @@
 #include<string.h>
 #include<math.h>
 
+/*include all .h files that have functions that are called in this file*/
 #include "closeall.h"
 #include "discharg.h"
 #include "disopt.h"
@@ -173,9 +174,8 @@ int main()
                     if(methodinisnow == 2)      /*run with known initial snow cover*/
                         snowcoverdegree();       /*snow precip added to snow cover, to find k-values*/
 
-                    if( (winterbalyes == 1) || (summerbalyes == 1) || (maxmeltstakes > 0))
-                        if (griddgmglac[i][j] != nodata)   /*only for glacier, no matter if dgmdrain is larger*/
-                            massbalance();
+                    if (griddgmglac[i][j] != nodata)   /*only for glacier, no matter if dgmdrain is larger*/
+                            massbalance();    /*compute mass balance in any case, used for areamean output*/
 
                     /*** SUMMING UP ALL VALUES OVER AREA - for spatial means ***/
                     if(do_out_area == 1)
