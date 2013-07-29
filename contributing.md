@@ -25,6 +25,15 @@ for collaborating using git. Signing up, as well as hosting
 open source projects, is free, and we strongly recommend that collaborators
 sign up and use Github to assist in collaboration.
 
+In particular, Github allows you to create your own fork of the model code,
+and host it on Github as well.  Think of your fork as your own version of
+the model, which you can modify, upload and share these modifications. Github also
+offers tools for combining changes from forks into the main project, as well
+as tools to discussing changes before they are merged. These tools make forking
+the project a great way to get started contributing, instructions for making your
+own fork on Github are located at [https://help.github.com/articles/fork-a-repo](https://help.github.com/articles/fork-a-repo).
+
+
 Using Git
 ---------
 Git's a flexible tool, which allows for a wide variety of
