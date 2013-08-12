@@ -43,7 +43,7 @@ void input_read()
     FILE  *in=NULL;
     char  filenamein[61];       /*name of Steuerfile*/
 //RH    char  outcontrolname[61];
-    char  outcontrolname[81];
+    char  outcontrolname[282];
     int   c;    /*to read file character by character and write to res.txt*/
     int methodsurftemglac_change = 0;
 
