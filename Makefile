@@ -3,13 +3,13 @@ MODEL_BUILD_TMP = ./build
 BINARY_DIR = ./bin
 
 CC=gcc
-CFLAGS = -Wall -O3
+CFLAGS = -Wall -O0 -g -m32
 LDFLAGS = -lm
 
 $(MODEL_BUILD_TMP)/%.o: $(MODEL_SRC)/%.c
 	@echo "Building $@"
 	@mkdir -p $(MODEL_BUILD_TMP)
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@ $(LDFLAGS) 
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@ 
 
 
 ## Source-files Required by DETIM
@@ -28,14 +28,15 @@ DETIM_SOURCES = closeall.c \
 								turbul.c\
 							 	userfile.c \
 								writeout.c \
-								scaling.c
+								scaling.c \
+								detim.c
 
 DETIM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.o))
 
 detim: $(DETIM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building DETiM:"
-	$(CC) $(CFLAGS) $(DETIM_OBJECTS) $(MODEL_SRC)/detim.c -o  $(BINARY_DIR)/detim $(LDFLAGS)
+	$(CC) $(CFLAGS) $(DETIM_OBJECTS) -o  $(BINARY_DIR)/detim $(LDFLAGS)
 
 ## Source-files requires by DEBaM
 DEBAM_SOURCES = closeall.c \
@@ -51,14 +52,15 @@ DEBAM_SOURCES = closeall.c \
 								skintemperature.c \
 								turbul.c \
 								userfile.c \
-								writeout.c
+								writeout.c \
+								debam.c
 
 DEBAM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DEBAM_SOURCES:.c=.o))
 
 debam: $(DEBAM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building DEBAM:"
-	$(CC) $(CFLAGS) $(DEBAM_OBJECTS) $(MODEL_SRC)/debam.c -o  $(BINARY_DIR)/debam $(LDFLAGS)
+	$(CC) $(CFLAGS) $(DEBAM_OBJECTS) -o  $(BINARY_DIR)/debam $(LDFLAGS)
 
 
 models: debam detim
