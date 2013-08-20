@@ -1343,7 +1343,7 @@ void outputsubsurflines() {
     int     kk,ki,kj;
     int     printyes;
     int     of,cf;
-    char dummysubsurf[20];
+    char dummysubsurf[FNAME_LEN];
 
     of = 0;
     cf = 0;

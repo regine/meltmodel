@@ -286,7 +286,7 @@ void schatten()
       geschrieben werden sollen, Name: sub__.__ mit Zeit als real*/
 
     FILE   *shadesubint=NULL;
-    char   namesubint[21];
+    char   namesubint[FNAME_LEN];
     float  faktorstation;  /*NEU NUR KONTROLL-SCREEN-OUTPUT $$$ */
 
     exkorstationhoriz  = 0.0;

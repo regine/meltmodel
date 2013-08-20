@@ -832,7 +832,7 @@ void startoutascii()
 {
     /*LG: kk is unused, can we delete it?*/
     //int kk; /*CHR in aid of more than 1 subsurfline file */
-    char dummysubsurf[20];
+    char dummysubsurf[FNAME_LEN];
 
     /*-----------------------------------------------------------------------------*/
     /***OPEN ASCII-OUTPUTFILES FOR MODEL RESULTS OF SPATIAL MEAN and WRITE HEAD    */

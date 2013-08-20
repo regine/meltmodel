@@ -650,7 +650,7 @@ void readprecipindexmap() {
 /***************************************************************************/
 
 void readprecipfromfile() {
-    char   nameprecipgrid[80];
+    char   nameprecipgrid[FNAME_LEN];
 
     strcpy(dummy,pathdirectfile);
     sprintf(nameprecipgrid,"precip%04d%03d%02d.bin",(int)year,(int)jd,(int)zeit);
