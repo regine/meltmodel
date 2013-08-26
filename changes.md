@@ -1,3 +1,19 @@
+08/26/2013
+----------
+* File and path name-lengths have been made uniform. There are three preprocessor
+  macros, located in 'variab.h' and 'variabex.h' called:
+    - ```FNAME_LEN``` : Length of filenames. Set currently to 80.
+    - ```PNAME_LEN``` : Length of paths/directory names. Set to 201.
+    - ```PFNAME_LEN``` : Max length of fully qualified path+filenames,
+      this should be set equal to ```FNAME_LEN + PNAME_LEN```, currently
+      set to 281.
+  To declare a new string, for say a filename, do the following:
+  ```c
+    char filename[FNAME_LEN];
+    char pathtofile[PNAME_LEN];
+    char fullfilename[PFNAME_LEN];
+  ```
+
 Major changes since 11/2011
 ---------------------------
 
