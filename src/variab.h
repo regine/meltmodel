@@ -21,6 +21,13 @@
 /*  variab.h                                                 */
 /*    update 21 June 2013 */
 /*************************************************************/
+#ifndef MELT_MOD_VARIAB_H_
+#define MELT_MOD_VARIAB_H_
+
+#define FNAME_LEN 80
+#define PNAME_LEN 201
+#define PFNAME_LEN 281
+
 
 /*-------------------------------------------------------------*/
 /*** VARIABLES                                               ***/
@@ -142,21 +149,21 @@ char   *namedgmslope=NULL,*namedgmaspect=NULL,*nameklima=NULL;
 char   *namedgmskyview=NULL,*nameinitialsnow=NULL;
 char   *namedatesmassbal=NULL;
 // RH char   inpath[81]="",outpath[81]="";    /*Path for Input/Output-files*/
-char   inpath[201]="",outpath[201]="";    /*Path for Input/Output-files*/
-char   namealb[20][31];             /*name of albedo-file of one day*/
-char   namealbedo[51];              /*variable for all albedo files */
-char   namealbedoout[51];           /*output file for grid output*/
-char   nameshade[51],nameexkorr[51],namedirect[51],namedirect2[51]; /*OUTPUT-FILES*/
-char   namesolhor[51],nameglobal[51],namediffus[51],nameswbal[51];
-char   namelongin[51],namelongout[51],namenetrad[51],namesensible[51];
-char   namelatent[51],namerainen[51],nameenbal[51],namemelt[51],nameabla[51];
-char   namesurf[51],namesurftemp[51],namewritesnow[51];
-char   namesnowfree[51];
-char   namewinterbal[71],namesummerbal[71],namemassbal[71];
-char   outgridname[20][51],outareaname[71],outspecificmassbalname[71];
-char   namemassbalprofile[71];
-char   dummy[101];
-char   nametempgrid[71];
+char   inpath[PNAME_LEN]="",outpath[PNAME_LEN]="";    /*Path for Input/Output-files*/
+char   namealb[20][FNAME_LEN];             /*name of albedo-file of one day*/
+char   namealbedo[FNAME_LEN];              /*variable for all albedo files */
+char   namealbedoout[FNAME_LEN];           /*output file for grid output*/
+char   nameshade[FNAME_LEN],nameexkorr[FNAME_LEN],namedirect[FNAME_LEN],namedirect2[FNAME_LEN]; /*OUTPUT-FILES*/
+char   namesolhor[FNAME_LEN],nameglobal[FNAME_LEN],namediffus[FNAME_LEN],nameswbal[FNAME_LEN];
+char   namelongin[FNAME_LEN],namelongout[FNAME_LEN],namenetrad[FNAME_LEN],namesensible[FNAME_LEN];
+char   namelatent[FNAME_LEN],namerainen[FNAME_LEN],nameenbal[FNAME_LEN],namemelt[FNAME_LEN],nameabla[FNAME_LEN];
+char   namesurf[FNAME_LEN],namesurftemp[FNAME_LEN],namewritesnow[FNAME_LEN];
+char   namesnowfree[FNAME_LEN];
+char   namewinterbal[FNAME_LEN],namesummerbal[FNAME_LEN],namemassbal[FNAME_LEN];
+char   outgridname[20][FNAME_LEN],outareaname[FNAME_LEN],outspecificmassbalname[FNAME_LEN];
+char   namemassbalprofile[FNAME_LEN];
+char   dummy[PFNAME_LEN];
+char   nametempgrid[FNAME_LEN];
 
 /********* FILES **********/
 FILE   *indgm=NULL,*indgmdrain=NULL,*indgmglac=NULL;       /* input files */
@@ -352,7 +359,7 @@ float  albedosnow[1000];        /*measured snow albedo - daily means*/
 float  directstationhoriz;     /*direct radiation if climate station grid horizontal*/
 int    shadefromfile=0;        /*1=shading is read from files*/
 int    directfromfile;         /*1=direct radiation is read from files*/
-char   pathdirectfile[150];    /*path of shading/direct input files*/
+char   pathdirectfile[PNAME_LEN];    /*path of shading/direct input files*/
 float  daysdirect = 1;         /*files only exist every number of days defined here*/
 float  jddirect;               /*julian day of direct file prior to start day*/
 
@@ -409,8 +416,8 @@ double  **f2ln,**sumf0xln,**sumf0x2ln;
 double  **r2ln,**f02ln;
 double  **volumeopt;
 
-char   namedgmfirn[70];
-char   nameqcalc[70];
+char   namedgmfirn[FNAME_LEN];
+char   nameqcalc[FNAME_LEN];
 
 float  dischkons;
 float  meltwat;
@@ -443,7 +450,7 @@ float   qdischdiffln;    /*logarithmic*/
 int     coldis;
 float   nodis;            /*nodata value of discharge file*/
 
-char   namematrix[21];      /*name of r2-file, optimization run*/
+char   namematrix[FNAME_LEN];      /*name of r2-file, optimization run*/
 FILE   *r2file;
 
 int    nstepsdis=0;
@@ -513,7 +520,7 @@ float dark_a,dark_e,inta,inte,split_temp,Anteil_dunkel,Anteil_hell;
 int    ddmethod;         /*which temperature index method*/
 FILE   *outpos=NULL;     /*output grid file of pos temperatures*/
 FILE   *outddf=NULL;     /*output grid file of degree day factors*/
-char   namepos[80],nameddf[80];   /*names of output grid files*/
+char   namepos[FNAME_LEN],nameddf[FNAME_LEN];   /*names of output grid files*/
 float  **TEMPOS,**DDFCALC;        /*2-D arrays*/
 double **meanTEMPOSday,**meanTEMPOSall;
 double **meanDDFCALCday,**meanDDFCALCall;
@@ -538,7 +545,7 @@ float  melt_ycoordinate[301];      /*y-coordinate of stake location*/
 float  stn_xcoordinate[301];      /*x-coordinate of output station*/
 float  stn_ycoordinate[301];      /*y-coordinate of output station*/
 
-char outmeltstakename[200],outmassbalstakename[200];
+char outmeltstakename[PFNAME_LEN],outmassbalstakename[PFNAME_LEN];
 FILE *outmeltstakes=NULL,*outmassbalstakes=NULL;
 int  coordinatesyes;
 
@@ -623,7 +630,7 @@ float  q,q0;
 double  ustar,thstar,qstar;
 double  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
 double  Ch,Cq;         /*exchange coefficients heat and moisture surface*/
-char   outsubsurflinename[81];
+char   outsubsurflinename[FNAME_LEN];
 FILE   *outsubsurf[50];
 FILE   *outsubsurfline[11];
 double source;   /*is ENBAL of considered grid cell*/
@@ -636,10 +643,10 @@ int kspechum;
 double tspechum;
 
 /*** name grid output***/
-char   namerunoff[31],namesuper[31],namewater[31],namesurfwater[31],nameslush[21];
-char   namecoldsnow[31],namecoldtot[31],namesnprecip[31],nameraprecip[31],namemass[31];
-char   namecapwat[31],nameslwat[31],namesummerbalst[61];
-char   outmassbalstakename2[80];
+char   namerunoff[FNAME_LEN],namesuper[FNAME_LEN],namewater[FNAME_LEN],namesurfwater[FNAME_LEN],nameslush[FNAME_LEN];
+char   namecoldsnow[FNAME_LEN],namecoldtot[FNAME_LEN],namesnprecip[FNAME_LEN],nameraprecip[FNAME_LEN],namemass[FNAME_LEN];
+char   namecapwat[FNAME_LEN],nameslwat[FNAME_LEN],namesummerbalst[FNAME_LEN];
+char   outmassbalstakename2[FNAME_LEN];
 FILE   *outrunoff=NULL,*outsuper=NULL,*outwater=NULL,*outsurfwater=NULL;    /*outgridfiles*/
 FILE   *outslush=NULL,*outcoldsnow=NULL,*outcoldtot=NULL,*outsnprecip=NULL,*outraprecip=NULL;
 FILE   *outmass=NULL,*outcapwat=NULL,*outslwat=NULL,*outsummerbalst=NULL;
@@ -653,4 +660,4 @@ double **meanslushthicknessday,**meanslushthicknessall;     /*slush*/
 double **meancoldcontentsnowday,**meancoldcontentsnowall;     /*cold content snow*/
 double **meancoldcontenticeday,**meancoldcontenticeall;     /*cold content all*/
 /*============================================================*/
-
+#endif // MELT_MOD_VARIAB_H_

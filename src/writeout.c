@@ -1601,7 +1601,7 @@ void computemassbalprofile(float **matrixprofile,float *massbalbands)
 void meanmassbalprofile()
 
 {
-    char  nameprofile[100],nameoutmeanprofile[101];
+    char  nameprofile[FNAME_LEN],nameoutmeanprofile[FNAME_LEN];
     FILE  *meanprofile,*outmeanprofile;     /*file to open for each year,  output file*/
     int   jj=1,ii,icol;
     float rowprofile[8];    /*7 columns in profile file*/

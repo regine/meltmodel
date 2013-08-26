@@ -42,7 +42,7 @@ void scaling() {
     float minimum;
     int min_i,min_j,ii;
     FILE   *outnewDEMglac=NULL;
-    char   namenewDEMglac[100];
+    char   namenewDEMglac[PFNAME_LEN];
 
     /* --- DETERMINE GLACIER AREA, count number of glacier gridcells -----------*/
     /*Note that variable nglac refers to all drainage basin grid cells*/

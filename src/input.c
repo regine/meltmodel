@@ -41,21 +41,21 @@ void input_read()
 {
 
     FILE  *in=NULL;
-    char  filenamein[61];       /*name of Steuerfile*/
+    char  filenamein[FNAME_LEN];       /*name of Steuerfile*/
 //RH    char  outcontrolname[61];
-    char  outcontrolname[81];
+    char  outcontrolname[PFNAME_LEN];
     int   c;    /*to read file character by character and write to res.txt*/
     int methodsurftemglac_change = 0;
 
-    namedgm       = (char*)calloc(80,sizeof(char));     /*RESERVE STORAGE*/
-    namedgmdrain  = (char*)calloc(80,sizeof(char));
-    namedgmglac   = (char*)calloc(80,sizeof(char));
-    nameklima     = (char*)calloc(80,sizeof(char));
-    namedgmslope  = (char*)calloc(80,sizeof(char));
-    namedgmaspect = (char*)calloc(80,sizeof(char));
-    namedgmskyview  = (char*)calloc(80,sizeof(char));
-    nameinitialsnow = (char*)calloc(80,sizeof(char));
-    namedatesmassbal= (char*)calloc(80,sizeof(char));
+    namedgm       = (char*)calloc(FNAME_LEN,sizeof(char));     /*RESERVE STORAGE*/
+    namedgmdrain  = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedgmglac   = (char*)calloc(FNAME_LEN,sizeof(char));
+    nameklima     = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedgmslope  = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedgmaspect = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedgmskyview  = (char*)calloc(FNAME_LEN,sizeof(char));
+    nameinitialsnow = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedatesmassbal= (char*)calloc(FNAME_LEN,sizeof(char));
 
     strcpy(filenamein,"input.txt");    /* $$$$$$ NAME NAMELIST-FILE $$$$$ */
 

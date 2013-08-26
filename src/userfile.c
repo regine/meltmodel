@@ -46,7 +46,7 @@ void readalbedo29()
 
 {
     FILE   *inalbedosnow=NULL;
-    char   filenamealbedo[61];
+    char   filenamealbedo[PFNAME_LEN];
     int    jdalb;
     float  a1,a2,a3,a4,a5,a6,a7,a8,a9,a10;
 
@@ -86,7 +86,7 @@ void readalbedo16()
 
 {
     FILE   *inalbedosnow=NULL;
-    char   filenamealbedo[61];
+    char   filenamealbedo[PFNAME_LEN];
     int    jdalb;
     float  a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12;
 

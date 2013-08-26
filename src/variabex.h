@@ -21,6 +21,13 @@
 /*    update 22 July 2010 */
 /*************************************************************/
 
+#ifndef MELT_MOD_VARIAB_H_
+#define MELT_MOD_VARIAB_H_
+
+#define FNAME_LEN 80
+#define PNAME_LEN 200
+#define PFNAME_LEN 280
+
 /*-------------------------------------------------------------*/
 /*** VARIABLES                                               ***/
 /*-------------------------------------------------------------*/
@@ -131,22 +138,22 @@ extern  char   *namedgm,*namedgmdrain,*namedgmglac;  /* Filenames */
 extern  char   *namedgmslope,*namedgmaspect,*nameklima;
 extern  char   *namedgmskyview,*nameinitialsnow;
 extern  char   *namedatesmassbal;
-extern  char   inpath[81],outpath[81];    /*Path for Input/Output-files*/
+extern  char   inpath[FNAME_LEN],outpath[FNAME_LEN];    /*Path for Input/Output-files*/
 //extern  char   inpath[101],outpath[101];    /*Path for Input/Output-files*/
-extern  char   namealb[20][31];             /*name of albedo-file of one day*/
-extern char   namealbedo[31];              /*variable for all albedo files */
-extern char   namealbedoout[31];           /*output file for grid output*/
-extern char   nameshade[31],nameexkorr[31],namedirect[31],namedirect2[21]; /*OUTPUT-FILES*/
-extern char   namesolhor[31],nameglobal[31],namediffus[31],nameswbal[21];
-extern char   namelongin[31],namelongout[31],namenetrad[31],namesensible[31];
-extern char   namelatent[31],namerainen[31],nameenbal[31],namemelt[31],nameabla[31];
-extern char   namesurf[31],namesurftemp[31],namewritesnow[31];
-extern char   namesnowfree[31];
-extern char   namewinterbal[61],namesummerbal[61],namemassbal[61];
-extern char   outgridname[20][31],outareaname[61],outspecificmassbalname[61];
-extern char   namemassbalprofile[61];
-extern char   dummy[101];
-extern char   nametempgrid[61];
+extern  char   namealb[20][FNAME_LEN];             /*name of albedo-file of one day*/
+extern char   namealbedo[FNAME_LEN];              /*variable for all albedo files */
+extern char   namealbedoout[FNAME_LEN];           /*output file for grid output*/
+extern char   nameshade[FNAME_LEN],nameexkorr[FNAME_LEN],namedirect[FNAME_LEN],namedirect2[FNAME_LEN]; /*OUTPUT-FILES*/
+extern char   namesolhor[FNAME_LEN],nameglobal[FNAME_LEN],namediffus[FNAME_LEN],nameswbal[FNAME_LEN];
+extern char   namelongin[FNAME_LEN],namelongout[FNAME_LEN],namenetrad[FNAME_LEN],namesensible[FNAME_LEN];
+extern char   namelatent[FNAME_LEN],namerainen[FNAME_LEN],nameenbal[FNAME_LEN],namemelt[FNAME_LEN],nameabla[FNAME_LEN];
+extern char   namesurf[FNAME_LEN],namesurftemp[FNAME_LEN],namewritesnow[FNAME_LEN];
+extern char   namesnowfree[FNAME_LEN];
+extern char   namewinterbal[FNAME_LEN],namesummerbal[FNAME_LEN],namemassbal[FNAME_LEN];
+extern char   outgridname[20][FNAME_LEN],outareaname[FNAME_LEN],outspecificmassbalname[FNAME_LEN];
+extern char   namemassbalprofile[FNAME_LEN];
+extern char   dummy[PFNAME_LEN];
+extern char   nametempgrid[FNAME_LEN];
 
 /********* FILES **********/
 extern  FILE  *indgm,*indgmdrain,*indgmglac;       /* input files */
@@ -268,7 +275,7 @@ extern  int    coltemp, colhum, colwind;          /* column of parameter    */
 extern  int    colglob, colref, colnet, colprec;  /* in climate input file  */
 extern  int    collongin,collongout,colcloud,coltempgradvarying;
 
-extern  char   rest[200];                 /* to ignore rest of row or whole row */
+extern  char   rest[500];                 /* to ignore rest of row or whole row */
 extern  float  jd,zeit,year;                                  /*julian day, hours*/
 extern  float  jd2;
 extern  float  temp,hum,wind,glob,ref,net,prec,cloud;               /*climate data*/
@@ -343,7 +350,7 @@ extern float  albedosnow[1000];        /*measured snow albedo - daily means*/
 extern float  directstationhoriz;     /*direct radiation if climate station grid horizontal*/
 extern int    shadefromfile;        /*1=shading is read from files*/
 extern int    directfromfile;       /*1=direct radiation is read from files*/
-extern char   pathdirectfile[100];     /*path of shading/direct input files*/
+extern char   pathdirectfile[PNAME_LEN];     /*path of shading/direct input files*/
 
 extern float  daysdirect;             /*files only exist every number of days defined here*/
 extern float  jddirect;               /*julian day of direct file prior to start day*/
@@ -402,8 +409,8 @@ extern double  **f2ln,**sumf0xln,**sumf0x2ln;
 extern double  **r2ln,**f02ln;
 extern double  **volumeopt;
 
-extern char   namedgmfirn[30];
-extern char   nameqcalc[30];
+extern char   namedgmfirn[FNAME_LEN];
+extern char   nameqcalc[FNAME_LEN];
 
 extern float  dischkons;
 extern float  meltwat;
@@ -436,7 +443,7 @@ extern float   qdischdiffln;
 extern int     coldis;    /*column of discharge data in input file*/
 extern float   nodis;            /*nodata value of discharge file)*/
 
-extern char   namematrix[21];      /*name of r2-file, optimization run*/
+extern char   namematrix[FNAME_LEN];      /*name of r2-file, optimization run*/
 extern  FILE   *r2file;
 extern int    nstepsdis;
 
@@ -498,7 +505,7 @@ extern float dark_a,dark_e,inta,inte,split_temp,Anteil_dunkel,Anteil_hell;
 extern int    ddmethod;         /*which temperature index method*/
 extern  FILE   *outpos;     /*output grid file of pos temperatures*/
 extern  FILE   *outddf;     /*output grid file of degree day factors*/
-extern char   namepos[80],nameddf[80];   /*names of output grid files*/
+extern char   namepos[FNAME_LEN],nameddf[FNAME_LEN];   /*names of output grid files*/
 extern float  **TEMPOS,**DDFCALC;        /*2-D arrays*/
 extern double **meanTEMPOSday,**meanTEMPOSall;
 extern double **meanDDFCALCday,**meanDDFCALCall;
@@ -523,7 +530,7 @@ extern float  melt_ycoordinate[101];      /*y-coordinate of location*/
 extern float  stn_xcoordinate[101];      /*x-coordinate of output station*/
 extern float  stn_ycoordinate[101];      /*y-coordinate of output station*/
 
-extern char outmeltstakename[80],outmassbalstakename[80];
+extern char outmeltstakename[PFNAME_LEN],outmassbalstakename[PFNAME_LEN];
 extern FILE *outmeltstakes,*outmassbalstakes;
 extern int  coordinatesyes;
 
@@ -608,7 +615,7 @@ extern float  q,q0;
 extern double  ustar,thstar,qstar;
 extern double  PhiM0,PhiH0,PhiE0;         /*stability functions wind, heat surface*/
 extern double  Ch,Cq;         /*exchange coefficients heat and moisture surface*/
-extern char   outsubsurflinename[61];
+extern char   outsubsurflinename[FNAME_LEN];
 extern FILE   *outsubsurf[50];
 extern FILE   *outsubsurfline[11];
 extern double source;   /*is ENBAL of considered grid cell*/
@@ -621,10 +628,10 @@ extern int kspechum;
 extern double tspechum;
 
 /*** name grid output***/
-extern char   namerunoff[31],namesuper[31],namewater[31],namesurfwater[31],nameslush[21];
-extern char   namecoldsnow[31],namecoldtot[31],namesnprecip[31],nameraprecip[31],namemass[31];
-extern char   namecapwat[31],nameslwat[31],namesummerbalst[61];
-extern char   outmassbalstakename2[80];
+extern char   namerunoff[FNAME_LEN],namesuper[FNAME_LEN],namewater[FNAME_LEN],namesurfwater[FNAME_LEN],nameslush[FNAME_LEN];
+extern char   namecoldsnow[FNAME_LEN],namecoldtot[FNAME_LEN],namesnprecip[FNAME_LEN],nameraprecip[FNAME_LEN],namemass[FNAME_LEN];
+extern char   namecapwat[FNAME_LEN],nameslwat[FNAME_LEN],namesummerbalst[FNAME_LEN];
+extern char   outmassbalstakename2[FNAME_LEN];
 extern FILE   *outrunoff,*outsuper,*outwater,*outsurfwater;    /*outgridfiles*/
 extern FILE   *outslush,*outcoldsnow,*outcoldtot,*outsnprecip,*outraprecip;
 extern FILE   *outmass,*outcapwat,*outslwat,*outsummerbalst;
@@ -638,3 +645,5 @@ extern double **meanslushthicknessday,**meanslushthicknessall;     /*slush*/
 extern double **meancoldcontentsnowday,**meancoldcontentsnowall;     /*cold content snow*/
 extern double **meancoldcontenticeday,**meancoldcontenticeall;     /*cold content all*/
 /*============================================================*/
+
+#endif // MELT_MOD_VARIAB_H_
