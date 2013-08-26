@@ -14,6 +14,35 @@
     char fullfilename[PFNAME_LEN];
   ```
 
+6/21/2013
+---------
+* Added added glacierwide cumulative balances to areamean.txt; increase array sizes of names in variab.h
+  Purpose: allow comparison e.g. with GRACE time series; no change in
+  input.txt, column is added to areamean.txt;
+  Before: mass balance only computed if if( ((winterbalyes == 1) &&
+  (summerbalyes == 1)) || (maxmeltstakes > 0) ), NEW: if condition
+  removed.
+
+5/23/2013
+--------
+* Added Skin-Temperature calculations.
+
+11/4/2012
+---------
+* Fixed mismatching declarations in headers.
+
+8/31/2012
+---------
+* Configuration filenmae changed from ```input.dat``` to ```input.txt```.
+* Added sample ```shading.txt``` shading configuration file.
+* Added Matlab visualization functions ```inputreadagrid.m``` and ```grids2diff.m```,
+* Updated Matlab vis tool ``grid.m```
+
+8/28/2012
+---------
+* Added sample ```input.dat``
+* Added Matlab grid visualization tool.
+
 Major changes since 11/2011
 ---------------------------
 
