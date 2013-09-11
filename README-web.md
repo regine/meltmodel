@@ -80,6 +80,21 @@ the documentation will be displayed, this is usually fine;
 unless gem exits early, citing an installation error,
 your installation should be fine.
 
+* __Caveat__: Github doesn't always use the most recent
+version of jekyll or redcarpet for pages, to ensure
+that the versions of these packages match the versions
+used by Github, take a peek at
+(their documentation)[https://help.github.com/articles/using-jekyll-with-pages]
+for using Jekyll and Pages, as of this writing, the versions
+may be found in the
+(github-pages gemspec)[https://github.com/github/pages-gem/blob/master/github-pages.gemspec#L16].
+If indeed an older version is called for, say jekyll needs to be at version 1.1.2,
+and redcarpet needs to be version 2.2.2
+it's possible to install these specifc versions via
+
+        $ gem install jekyll --version "=1.1.2"
+        $ gem install redcarpet --version "=2.2.2"
+
  
 Editing the Site
 ----------------
