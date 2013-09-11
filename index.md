@@ -26,7 +26,7 @@ In addition, DEBaM can compute subsurface temperatures, water content and percol
 via a 1-D __multi-layer snow model__ that is forced by the surface energy balance.
 
 __Minimum data requirements__ are a digital elevation model and hourly or daily air
-temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, humidity
+temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, relative humidity
 and shortwave incoming radiation (DEBaM).
 
 The models were initially developed by Regine Hock in the mid 1990s, and have
@@ -34,8 +34,8 @@ since been continuously expanded. In 2006, Carleen Tijm-Reijmer contributed
 the subsurface snow model used by DEBaM. The models were made open source in August 2012
 with help of Lyman Gillispie.
 
-- __DEBaM__ computes surface melt by an energy balance approach.
-- __DETIM__ computes surface melt by various temperature index approaches 
+- __DEBaM__ computes surface melt by an energy balance approach
+- __DETIM__ computes surface melt by various temperature index approaches. 
 
 
 Download
@@ -45,15 +45,13 @@ You can download the source as zip or tar files via:
 
 -  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
 -  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--  [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
--  [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
     $ git clone https://github.com/regine/meltmodel.git
 
-from a terminal. If you plan to modify the source, or contribute to the
+from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). If you plan to modify the model source code, or contribute to the
 project, this is the preferred method. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
@@ -123,4 +121,7 @@ with us.
 If you find errors or have suggestions how the manual (or model) can be improved, 
 please feel free to let up know via the Github Issues page for the models or via email.
 
-Look at our [changelog]({{page.repo}}/tree/release_0.2/changes.md) for recent updates.
+
+Model updates and changes
+-------------------------
+The model constantly evolves. All significant model changes and updates since 2012 are logged [here]({{page.repo}}/tree/release_0.2/changes.md).

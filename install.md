@@ -107,15 +107,13 @@ You can download the source as zip or tar files via:
 
 -  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
 -  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
--  [meltmodel-dev.zip]({{%page.repo%}}/zipball/dev)
--  [meltmodel-dev.tar.gz]({{%page.repo%}}/tarball/dev)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
-running (command line in terminal):
+running:
 
     $ git clone https://github.com/regine/meltmodel.git
 
-from a terminal. If you plan to contribute to the
+from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). If you plan to contribute to the
 project, you should use git, and spend some time getting
 familiar with it. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
@@ -130,14 +128,12 @@ model source files.
 At the command prompt, do
 
     $ cd meltmodel
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make install
-    $ cd ..
+    $ make ..
 
-The model executables will now be located in ```meltmodel/bin```.
+The model executables and required input parameter files will now be located in ```meltmodel/bin```. The model source files are under ```meltmodel/src```.
+A detailed description of the folders and files after installation which are under the folder ```meltmodel``` is given in the file ```README_what_is_what.rft```.
 
 For information regarding running the model, please consult
-the manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
+the model manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
+
 
