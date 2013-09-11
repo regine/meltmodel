@@ -130,6 +130,40 @@ retrieve the changes by ```git stash pop```. ```git stash list``` gives you a li
 Alternatively (recommended), instead of switching between gh-pages and the release branch, checkout out ```gh-pages``` and the release in different folders, i.e. download 2 different copies.
 More info about git can be found at the (git project)[http://git-scm.com].
 
+It's common that details
+regarding the compilation or use of the model change, and they need
+to be documented somewhere. A good idea is to first document these
+in the text and markdown files included with the model source code;
+this helps ensure that when someone download your code, they've also
+recieved instructions on how to get it up and running. This is especially
+important for users who may be using older code, with instructions
+differing from those posted to the webpage. Doing this makes it easier
+to update the webpage as well, since many of the pages here correspond
+to files inculded with the model source code. Below is a list
+of files which roughly corrsepond with oneanother
+
+<table>
+  <thead>
+    <tr>
+      <th>gh-pages</th>
+      <th>Model Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index.md</td>
+      <td>README.md</td>
+    </tr>
+    <tr>
+      <td>install-web.md</td>
+      <td>INSTALL.md</td>
+    </tr>
+  </tbody>
+</table>
+
+The contents of the above file should be more or less the same
+for the currently released version of the model.
+
 ### Making Edits
 This webpage is mostly written in Markdown (files end with ```.md```),
 with some HTML templates and CSS, and converted
