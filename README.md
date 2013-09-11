@@ -33,7 +33,7 @@ Download
 Clone the project with [Git](http://git-scm.com) by
 running:
 
-    $ git clone https://github.com/regine/melt_mod.git
+    $ git clone https://github.com/regine/meltmodel.git
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
@@ -45,20 +45,14 @@ Installation
 
 Prerequisites:
 
-* [Cmake](http://www.cmake.org/) is used to configure the build,
-    any version >= 2.8 should work
 * A working C compiler 
 
 To build DeBAM and DETIM, do
 
-    $ cd melt_mod
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make install
-    $ cd ..
+    $ cd meltmodel
+    $ make all
 
-The model executables will now be located in ```melt_mod/bin```
+The model executables will now be located in ```meltmodel/bin```
  
 A more complete installation guide is available in install.md.
 
