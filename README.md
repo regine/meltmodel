@@ -111,7 +111,8 @@ type ```git branch``` to see the list of branches tracked by
 git, and then ```git checkout <branch name>``` to checkout
 the code in branch ```<branch name>```. This does not work if changes have been made to files in the repository that have not been committed yet.
 A workaround is to temporarily stash the changes by the command ```git stash```. Now you can switch branches. Once you switch back you can
-retrieve the changes by ```git stash pop```. ```git stash list``` gives you a list of what is in the stash.
+retrieve the changes by ```git stash pop```. ```git stash list``` gives you a list of what is in the stash. Remove _site before switching back to the model release branch.
+Alternatively (recommended), instead of switching between gh-pages and the release branch, checkout out ```gh-pages``` and the release in different folders, i.e. download 2 different copies.
 More info about git can be found at the (git project)[http://git-scm.com].
 
 ### Making Edits
