@@ -128,7 +128,7 @@ model source files.
 At the command prompt, do
 
     $ cd meltmodel
-    $ make ..
+    $ make all
 
 The model executables and required input parameter files will now be located in ```meltmodel/bin```. The model source files are under ```meltmodel/src```.
 A detailed description of the folders and files after installation which are under the folder ```meltmodel``` is given in the file ```README_what_is_what.rft```.
