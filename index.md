@@ -73,7 +73,7 @@ To build DeBAM and DETIM, do
 
 The model executables (detim and debam) will now be located in ```meltmodel/bin```
 
-A more complete installation guide is available [here](install.html).
+A more complete installation guide is available [here](install-web.html).
 
 Documentation/Manual
 ---------------------
