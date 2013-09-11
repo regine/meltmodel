@@ -109,13 +109,18 @@ current version of the models' source code) with the source
 for the webpage. If you need to get back to the model code
 type ```git branch``` to see the list of branches tracked by
 git, and then ```git checkout <branch name>``` to checkout
-the code in branch ```<branch name>```.
+the code in branch ```<branch name>```. This does not work if changes have been made to files in the repository that have not been committed yet.
+A workaround is to temporarily stash the changes by the command ```git stash```. Now you can switch branches. Once you switch back you can
+retrieve the changes by ```git stash pop```. ```git stash list``` gives you a list of what is in the stash. Remove _site before switching back to the model release branch.
+Alternatively (recommended), instead of switching between gh-pages and the release branch, checkout out ```gh-pages``` and the release in different folders, i.e. download 2 different copies.
 More info about git can be found at the (git project)[http://git-scm.com].
 
 ### Making Edits
-This webpage is mostly written in Markdown,
+This webpage is mostly written in Markdown (files end with ```.md```),
 with some HTML templates and CSS, and converted
-to HTML by [Jekyll](http://jekyllrb.com). Major edits
+to HTML by [Jekyll](http://jekyllrb.com). To edit the .md file, open them in any text editor and edit them.
+
+Major edits
 to the page will require some familiarity
 with how Jekyll works, you can read its documentation at
 [http://jekyllrb.com](http://jekyllrb.com).
@@ -167,8 +172,8 @@ Jekyll comes with a few useful command-line options.
   type ```Ctl-c``` in the terminal window in which Jekyll is running.
   
   * While one can open the generated HTML files and preview them
-  in a browser, it's a better idea to preview them by having a
-  web-server serve up the pages, this ensures things like CSS
+  in a browser, it's a better idea to preview them through a
+  web-server; this ensures things like CSS
   and Javascript files used by the page are found correctly.
   Jekyll comes with a small webserver built in, which we can use
   to preview the webpage before finalizing any changes. By typing

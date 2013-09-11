@@ -28,7 +28,7 @@ subtitle: References and Student Theses
 
 10. Woul, de, R. H. M., M. Braun, T. Thorsteinsson, JóhannessonT., and S. Halldorsdottir (2006), Firn layer effect on glacial runoff - A case study at Hofsjökull, Iceland, *Hydrological Processes 20*, *20*, 2171-2185.
 
-11. Huss, M., A. Bauder, M. Werder, M. Funk, and R. Hock (2007), Glacier-dammed lake outburst events of Gornersee, Switzerland., *Journal of Glaciology*, *53*(181), 189-200.
+11. Huss, M., A. Bauder, M. Werder, M. Funk, and R. Hock (2007), Glacier-dammed lake outburst events of Gornersee, Switzerland, *Journal of Glaciology*, *53*(181), 189-200.
 
 12. Hock, R., V. Radic, and M. de Woul (2007), Climate sensitivity of Storglaciären - An intercomparison of mass balance models using ERA-40 reanalysis and regional climate model data, *Annals of Glaciology*, *46*, 342-348.
 
