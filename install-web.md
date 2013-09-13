@@ -142,4 +142,7 @@ is one of the following:
 For information regarding running the model, please consult
 the model manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
 
-
+More
+----
+There have been tools developed to help with certain tasks related to the model;
+a partial list of these may be found at the [External Tools page](tools.html)
