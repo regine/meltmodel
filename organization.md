@@ -12,8 +12,8 @@ other 'util'. These two models contain source code:
 find useful, such as
     * ascigrid and gridasci : these take ascii-grid files and
     convert them into the binary format used by the models, and
-    can convert them back.
-    * shading : generates shade and theoretical incoming radiation
+    can convert them back (developed by Joerg Schulla)
+    * shading : generates grid files including shading and potential direct radiation
     based on your DEM.
 
 
