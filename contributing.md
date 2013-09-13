@@ -54,21 +54,21 @@ and DETIM.
   work out, you can delete the changes you made by simply deleting the
   branch instead of having to track down every change made.
 
-  Say we want to add some code for calculating skin temperatures,
+  Say we want to add a new parameterization to compute longwave radiation,
   at the terminal just type:
 
-        $ git branch skin_temperature
-        $ git checkout skin_temperature
+        $ git branch longwave
+        $ git checkout longwave
   or, we can use the equivalent one-liner:
 
-        $ git checkout -b skin_temperature
-  this will create a new branch, entitled ```skin_temperature```
+        $ git checkout -b longwave
+  this will create a new branch, entitled ```longwave```
   and make that the active branch. Now, any changes which we commit to
   the repository will be made to the new branch only.
 
-  The title ```skin_temperature``` is just an example, we could have
-  named the new branch anything,  but we should give the branches
- descriptive names; a branch in which we plan to fix a bug
+  The title ```longwave``` is just an example, we could have
+  named the new branch anything, but we should give the branches
+ descriptive names.
 
 2. __Make Changes__:
   Now that we're in a new branch, we can make changes at will, by
@@ -116,16 +116,17 @@ and DETIM.
   So how do we make a commit? Assuming we've made some changes,
   we need to assemble a commit, by *staging* changes. Git requires
   you to explicitly add every change that you want included. Suppose
-  we've created a new library called ```skintemperature.c``` and
-  a corresponding header file ```skintemterature.h```. 
+  we've only changed the source file ```radiat.c``` and
+  the corresponding header file ```radiat.h```. 
   * *Stage* These files are currently untracked by Git. We add them
     by staging them using the ```git add``` command.
 
-            $ git add skintemperature.c skintemperature.h
+            $ git add radiat.c radiat.h
+  * If we added a new source file, e.g. ```longwave.c```we add that file including the header file,     
   * From here we can use ```git status``` to see the status of
     the repository, if we decide we'd like to undo some changes
     or add more changes we still can before we make our commit,
-    but we will need the stage these changes too, with another
+    but we will need to stage these changes too, with another
     ```git add``` command.
   * *Commit* Once we've staged a collection of changes,
   we need to save these changes to the repository.
@@ -137,7 +138,7 @@ and DETIM.
   If your message is sufficiently terse, you can enter it at the
   command line, with the ```-m``` option:
 
-            $ git commit -m "Added skin temperature calculations."
+            $ git commit -m "Added new longwave radiation parameterization."
   Now, if we check the status of the repository using ```git status```
   we will see that the changes we committed are no longer marked
   as modified.
@@ -151,11 +152,10 @@ and DETIM.
   have pulled the source from your own fork on Github this is
   as easy as
 
-        $ git push origin skin_temperature
-  where you should replace "skin\_temperature" with the name of the
-  branch you've been working on.
+        $ git push origin longwave
+  where "longwave" is our example of the name of the branch and needs to be replaced by the name of the branch you've been working on in case it is different.
   This tells git to push the changes you've made on the branch 
-  "skin\_temperature"to the remote server named "origin".
+  "longwave" to the remote server named "origin".
 
   Until you are sure that you want to include the changes you've made
   in the release of the model, it's wise to keep your edits isolated
@@ -167,20 +167,20 @@ and DETIM.
   Git's branches are easy to make, and easy to delete. If we decide that
   the changes we've made on the branch aren't to our likeing, and
   want to get rid of them entirely, we can delete the entire branch. 
-  Here we're going to delete the ```skin_temperature``` branch.
+  Here we're going to delete the ```longwave``` branch.
   We shoudld first make sure that we're on different branch from the one
   we're deleting:
  
         $ git checkout release_0.2
   we can then delete the branch in our working copy
 
-        $ git branch -d skin_temperature
+        $ git branch -d longwave
 
   This only deletes the local version of the branch; if this branch has 
   been pushed to Github, we can delete it there too. This should be done
   with caution. 
 
-        $ git push origin :skin_temperature
+        $ git push origin :longwave
 
 
 6. __Submit a pull request__:
@@ -203,12 +203,12 @@ and DETIM.
 
   2. Manually merging via the commandline:
      Following the example we have been working with, to merge
-     the changes we've made on the ```skin_temperature```
+     the changes we've made on the ```longwave```
      branch into the ```release_0.2``` branch we would do the following
      from the command line:
 
             $ git checkout release_0.2 
-            $ git merge skin_temperature
+            $ git merge longwave
 
 8. __Push to Github__:
   Finally, to push the changes we've made up to Github, we would do the following

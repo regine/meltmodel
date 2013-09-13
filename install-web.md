@@ -124,7 +124,9 @@ At the command prompt, do
     $ make models
 
 The model executables and required input parameter files will now be located in ```meltmodel/bin```. The model source files are under ```meltmodel/src```.
-A detailed description of the folders and files after installation which are under the folder ```meltmodel``` is given in the file ```README_what_is_what.rft```.
+A detailed description of the folders and files after installation which are under the folder ```meltmodel``` is given [here]({{page.repo}}/tree/release_0.2/organization.md) or in the file ```README_what_is_what.rft```.
+.
+
 
 The Makefile provides several different build targets, for those who
 only wish to build parts of the project. These targets are built by
