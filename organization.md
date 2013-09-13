@@ -5,16 +5,29 @@ What's in the Folders?
 ----------------------
 
 You've probably noticed that there are two sub-directories
-in the root folder of the project, one called 'src' and the
-other 'util'. These two models contain source code:
-- src : Contains source code for the models.
-- util : Contains source code for utilities which users may
+in the root folder of the project, one called ```src``` and the
+other ```util```. These two models contain source code:
+- ```src``` : Contains source code for the models.
+- ```util``` : Contains source code for utilities which users may
 find useful, such as
-    * ascigrid and gridasci : these take ascii-grid files and
+    * ```ascigrid``` and ```gridasci``` : these take ascii-grid files and
     convert them into the binary format used by the models, and
     can convert them back (developed by Joerg Schulla)
     * shading : generates grid files including shading and potential direct radiation
     based on your DEM.
+    * ```visualization```: contains matlab files to visualize model input and
+    output (only grids) programs ```grid``` and ```grids2diff``` and parameter
+    file for both programs ```inputreadgrid.m```
+
+### After building the Model
+Building the model creates two new subdirectories:
+- ```build```: Our Makefile uses this directory to store the intermediate
+build files produced by the ```c``` compiler; these will predominately be
+```.o``` c-object files. The contents of this folder will probably be of
+little interest to most users.
+- ```bin```: When building an executable, out Makefile places the final
+executable in this folder, this includes the model executeables, grid tools
+and shading tool.
 
 
 What're the Other Files For?
@@ -29,6 +42,7 @@ are also displayed on Github's repository page.
 of the installation instructions given on the webpage
 * _changes.md_ : Rough change-log, if anything major changes, it's a good idea to
 write it down here, under a new heading at the top, including the date.
+* _organization.md_: this file, describing the organization of the project
 
 __COPYING.txt__ : Includes a copy of the GNU General Public License v.3, this
 is the license under which we are distributing the models.
@@ -40,8 +54,7 @@ file. Similarly, if git doesn't appear to see a file that you know is there,
 check to make sure git isn't ignoring it. To let git track a previously ignored
 file, simply remove the file's entry from .gitignore.
 
-__CMakeLists.txt__ :  CMake uses this file, and every file in the project with
-this filename, as configuration files. This file tells CMake what to do, 
-which files and subdirectories to track, and what the compiler should do with
-them. Altering these directly affects the manner in which the model is compiled,
-so care is advised when editing these.
+__Makefile__ : The Makefile tells make what to do when building the models/utilities 
+
+__input.txt__ : A sample configuration file for DEBaM and DETIM
+__shading.txt__: A sample config file for the shading utility
