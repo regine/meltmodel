@@ -80,6 +80,21 @@ the documentation will be displayed, this is usually fine;
 unless gem exits early, citing an installation error,
 your installation should be fine.
 
+* __Caveat__: Github doesn't always use the most recent
+version of jekyll or redcarpet for pages, to ensure
+that the versions of these packages match the versions
+used by Github, take a peek at
+(their documentation)[https://help.github.com/articles/using-jekyll-with-pages]
+for using Jekyll and Pages, as of this writing, the versions
+may be found in the
+(github-pages gemspec)[https://github.com/github/pages-gem/blob/master/github-pages.gemspec#L16].
+If indeed an older version is called for, say jekyll needs to be at version 1.1.2,
+and redcarpet needs to be version 2.2.2
+it's possible to install these specifc versions via
+
+        $ gem install jekyll --version "=1.1.2"
+        $ gem install redcarpet --version "=2.2.2"
+
  
 Editing the Site
 ----------------
@@ -114,6 +129,40 @@ A workaround is to temporarily stash the changes by the command ```git stash```.
 retrieve the changes by ```git stash pop```. ```git stash list``` gives you a list of what is in the stash. Remove _site before switching back to the model release branch.
 Alternatively (recommended), instead of switching between gh-pages and the release branch, checkout out ```gh-pages``` and the release in different folders, i.e. download 2 different copies.
 More info about git can be found at the (git project)[http://git-scm.com].
+
+It's common that details
+regarding the compilation or use of the model change, and they need
+to be documented somewhere. A good idea is to first document these
+in the text and markdown files included with the model source code;
+this helps ensure that when someone download your code, they've also
+recieved instructions on how to get it up and running. This is especially
+important for users who may be using older code, with instructions
+differing from those posted to the webpage. Doing this makes it easier
+to update the webpage as well, since many of the pages here correspond
+to files inculded with the model source code. Below is a list
+of files which roughly corrsepond with oneanother
+
+<table>
+  <thead>
+    <tr>
+      <th>gh-pages</th>
+      <th>Model Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index.md</td>
+      <td>README.md</td>
+    </tr>
+    <tr>
+      <td>install-web.md</td>
+      <td>INSTALL.md</td>
+    </tr>
+  </tbody>
+</table>
+
+The contents of the above file should be more or less the same
+for the currently released version of the model.
 
 ### Making Edits
 This webpage is mostly written in Markdown (files end with ```.md```),
