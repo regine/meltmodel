@@ -1,9 +1,9 @@
 ******** INPUT FILE FOR SHADING.C :  shading.par *****************************
-/reginefolder/model/studies/JuneauIcefield/indata/
-/reginefolder/model/studies/JuneauIcefield/indata/directHerbert/
-herb_DEM.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
-herb_slope.bin   %NAME OF SLOPE FILE
-herb_aspect.bin      %NAME OF ASPECT FILE
+/Users/luser/Documents/lemon_input/
+/Users/luser/Documents/lemon_input/directLemon/
+dav_dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
+dav_slope.bin   %NAME OF SLOPE FILE
+dav_aspect.bin      %NAME OF ASPECT FILE
 ***************************************************************************
 1        %jdbeg   first julian day to be computed
 365        %jdend   last julian day to be computed
