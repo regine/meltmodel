@@ -19,6 +19,14 @@ find useful, such as
     output (only grids) programs ```grid``` and ```grids2diff``` and parameter
     file for both programs ```inputreadgrid.m```
 
+There is a third subdirectory, ```example```, which contains a sample dataset
+and configureation file for running the model. Included are sample digiral elevation
+models, firn, snow and ice coverage, aspect data for potential radiation calculation
+and discharge data. Configuration files for the models, and shading tool are included
+as well:
+__input.txt__ : A sample configuration file for DEBaM and DETIM
+__shading.txt__: A sample config file for the shading utility.
+
 ### After building the Model
 Building the model creates two new subdirectories:
 - ```build```: Our Makefile uses this directory to store the intermediate
@@ -56,5 +64,4 @@ file, simply remove the file's entry from .gitignore.
 
 __Makefile__ : The Makefile tells make what to do when building the models/utilities 
 
-__input.txt__ : A sample configuration file for DEBaM and DETIM
-__shading.txt__: A sample config file for the shading utility
+
