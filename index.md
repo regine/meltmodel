@@ -117,7 +117,7 @@ If you find errors or have suggestions how the manual (or model) can be improved
 please feel free to let up know via the Github Issues page for the models or via email.
 
 There have been tools developed to help with certain tasks related to the model;
-a partial list of these may be found at the [External Tools page](tools.html)
+a partial list of these may be found at the [External Tools page](tools.html).
 
 
 Model updates and changes
