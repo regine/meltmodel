@@ -1,31 +1,31 @@
 ******** INPUT FILE FOR SHADING.C :  shading.par *****************************
-/reginefolder/model/studies/JuneauIcefield/indata/
-/reginefolder/model/studies/JuneauIcefield/indata/directHerbert/
-herb_DEM.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
-herb_slope.bin   %NAME OF SLOPE FILE
-herb_aspect.bin      %NAME OF ASPECT FILE
+/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input/
+/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input_rad/
+SGshade30dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
+SGshade30slope.bin   %NAME OF SLOPE FILE
+SGshade30aspect.bin      %NAME OF ASPECT FILE
 ***************************************************************************
-1        %jdbeg   first julian day to be computed
-365        %jdend   last julian day to be computed
+128        %jdbeg   first julian day to be computed
+260        %jdend   last julian day to be computed
 ******************************************************************************
--134.604679    %longitude 
-58.580757     %latitude    
--120       %reflongitude    /*meridian time refers to, e.g. Greenwich time = 0*/
-100       %rowclim  /*row of grid cell for output of one single grid cell Stor: 54 104*/
-100       %colclim  /*column of this output grid cell*/
+18.475    %longitude 
+67.9042     %latitude    
+15       %reflongitude    /*meridian time refers to, e.g. Greenwich time = 0*/
+67       %rowclim  /*row of grid cell for output of one single grid cell Stor: 54 104*/
+88       %colclim  /*column of this output grid cell*/
 **************************************************
 1    %timestep      /*time interval of output: 1=hourly, e.g. 12=half-daily*/
 6    %split         /*number of subintervals per timestep for shade calculation*/
-1    %dailyoutput   /* 0=every timestep, 1=daily means, 2=period mean*/
+0    %dailyoutput   /* 0=every timestep, 1=daily means, 2=period mean*/
 ******* TYPE OF GRID OUTPUT WANTED ***************
 0    %writeshade      0=no output, 1=output  (shading to output)
 0    %writeexkorr     exposition correction factor
 1    %writedirect     slope-corrected clear-sky direct radiation
-1    %writesinglegrid     SOLAR GEOMETRY WRITEN TO FILE zenith.dat FOR ONE GRID CELL*/
+0    %writesinglegrid     SOLAR GEOMETRY WRITEN TO FILE zenith.dat FOR ONE GRID CELL*/
 ********SIZE OF GRID TO BE WRITTEN TO OUTPUT***********************************
-1    %wholegridyes      1= whole grid to output, 0=only part of grid to output
-1 322  %startrow endrow   first and last row to be outputted
-1 284  %startcol endcol   first and last columns to be outputted
+0    %wholegridyes      1= whole grid to output, 0=only part of grid to output
+23 101  %startrow endrow   first and last row to be outputted
+27 159  %startcol endcol   first and last columns to be outputted
 *********************************************
 1    %daysdirect      write to output every number of days given here (2=every 2. day)
 0    %add2jd          add this number to jd of output grids, e.g. 365 for next year

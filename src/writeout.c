@@ -2051,9 +2051,9 @@ void stationoutput()
             i = r;
             j = c;
             if (methodsurftempglac != 4) {
-                // Last parameter of snowlayermsnow is only used when methodsurftempglac==4
+                // (Last) parameter of snowlayermsnow and meltlayermice is only used when methodsurftempglac==4
                 snowlayermsnow(i, j, -1);
-                meltlayermice();
+                meltlayermice(-1.);
             }
             fprintf(outgrid[ii],"%10.5f",snowlayer[r][c]);
 

@@ -36,7 +36,7 @@ void snowlayermsnow(int i, int j, int k);
 /*   this function calculates thickness of melted layer in m ice        */
 /*  NOT initialisation, but for functions changegrid and stationoutput*/
 /****************************************************************************/
-void meltlayermice();
+void meltlayermice(float densfirst);
 
 /******************************************************************/
 /* FUNCTION  choice_layertemperature                                           */

@@ -68,31 +68,23 @@ void snowlayermsnow(int i, int j, int k) {
 /* FUNCTION  meltlayermice                                                  */
 /*   this function calculates thickness of melted layer in m ice        */
 /*  NOT initialisation, but for functions changegrid and stationoutput*/
+/* Modified by Tobben August 2013                                      */
 /****************************************************************************/
 
-void meltlayermice() {
+void meltlayermice(float densfirst) {
 
     /*calculate ice melt in m ice*/
     if (surface[i][j] != nodis) {
         if (methodsurftempglac == 4) {
             if (SNOW[i][j] == 0.) {
-//                if (layerid[i][j][1] < 3) {
-                    meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1];
-                    snowlayer[i][j] = meltlayer[i][j];
-//                }
-//                if (layerid[i][j][1] == 3) {
-//                    meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
-//                    snowlayer[i][j] = meltlayer[i][j];
-//                }
+//            	meltlayer[i][j] += (snowprec/denssnow) - (ABLA[i][j]-sumrain)/layerdensity[i][j][1]; //New Tobben; ABLA includes runoff and sumrain is subtracted
+//                snowlayer[i][j] = snowlayer[i][j] +(snowprec/denssnow) - (ABLA[i][j]-sumrain)/layerdensity[i][j][1]; // new Tobben
+            	meltlayer[i][j] += (snowprec/denssnow) - (ABLA[i][j]-sumrain)/densfirst; //New Tobben; ABLA includes runoff and sumrain is subtracted
+                snowlayer[i][j] = snowlayer[i][j] +(snowprec/denssnow) - (ABLA[i][j]-sumrain)/densfirst; // new Tobben
             }
-            if ((SNOW[i][j] != 0.) && (meltlayer[i][j] != 0)) {
-//                if (layerid[i][j][1] < 3) {
-                  meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1];
-//                }
-//                if (layerid[i][j][1] == 3) {
-//                  meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/densice;
-//                }
-                snowlayer[i][j] = meltlayer[i][j];
+            if (SNOW[i][j] != 0.) {
+                //meltlayer[i][j] -= -(snowprec/denssnow) + ABLA[i][j]/layerdensity[i][j][1]; commented away Tobben
+                snowlayer[i][j] = snowlayer[i][j] + meltlayer[i][j]; // New Tobben
             }
 
         } else {
