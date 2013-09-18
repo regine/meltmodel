@@ -28,7 +28,7 @@ sign up and use Github to assist in collaboration.
 
 Versioning
 ----------
-As of version x.x.x, we've begun using [Semantic Versioning](http://semver.org/)
+As of version 1.0.0, we've begun using [Semantic Versioning](http://semver.org/)
 to dictate model version numbers. Roughly speaking, version numbers consist of
 MAJOR.MINOR.PATCH, which are incremented when
 1. MAJOR: when backwards incompatible changes are made
