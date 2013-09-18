@@ -1,9 +1,9 @@
 ******** INPUT FILE FOR SHADING.C :  shading.par *****************************
-/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input/
-/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input_rad/
-SGshade30dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
-SGshade30slope.bin   %NAME OF SLOPE FILE
-SGshade30aspect.bin      %NAME OF ASPECT FILE
+/Users/luser/Documents/lemon_input/
+/Users/luser/Documents/lemon_input/directLemon/
+dav_dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
+dav_slope.bin   %NAME OF SLOPE FILE
+dav_aspect.bin      %NAME OF ASPECT FILE
 ***************************************************************************
 128        %jdbeg   first julian day to be computed
 260        %jdend   last julian day to be computed
