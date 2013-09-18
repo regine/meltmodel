@@ -25,13 +25,6 @@ for collaborating using git. Signing up, as well as hosting
 open source projects, is free, and we strongly recommend that collaborators
 sign up and use Github to assist in collaboration.
 
-In particular, Github allows you to create your own fork of the model code,
-and host it on Github as well.  Think of your fork as your own version of
-the model, which you can modify, upload and share these modifications. Github also
-offers tools for combining changes from forks into the main project, as well
-as tools to discussing changes before they are merged. These tools make forking
-the project a great way to get started contributing, instructions for making your
-own fork on Github are located at [https://help.github.com/articles/fork-a-repo](https://help.github.com/articles/fork-a-repo).
 
 
 Using Git
@@ -42,10 +35,25 @@ and DETIM.
 
 ###Workflow:
 
+1. __Fork__:
+  Github allows you to create your own fork of the model code,
+  and host it on Github as well.  Think of your fork as your own version of
+  the model, which you can modify, upload and share these modifications. Github also
+  offers tools for combining changes from forks into the main project, as well
+  as tools to discussing changes before they are merged. These tools make forking
+  the project a great way to get started contributing, instructions for making your
+  own fork on Github are located at [https://help.github.com/articles/fork-a-repo](https://help.github.com/articles/fork-a-repo).
+
+  This only needs to be done the first time you start working with the
+  model code; your fork will need to be updated occasionally to keep up
+  to date with changes to the model, but you shouldn't need to re-fork the
+  model.
+
+
 1. __Branch__:
   When making changes, i.e. adding a feature, fixing a bug,
   or editing documentation, make a new branch off of
-  the **relese_0.2** branch, and give it a descriptive name.
+  the **release_0.2** branch, and give it a descriptive name.
   Branches let you make changes and develop them separate
   from the main line of development. This way if your changes take
   awhile or you need to work on a different part of the project
