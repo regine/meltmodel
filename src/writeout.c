@@ -2051,9 +2051,9 @@ void stationoutput()
             i = r;
             j = c;
             if (methodsurftempglac != 4) {
-                // Last parameter of snowlayermsnow is only used when methodsurftempglac==4
+                // (Last) parameter of snowlayermsnow and meltlayermice is only used when methodsurftempglac==4
                 snowlayermsnow(i, j, -1);
-                meltlayermice();
+                meltlayermice(-1.);
             }
             fprintf(outgrid[ii],"%10.5f",snowlayer[r][c]);
 
@@ -2066,8 +2066,9 @@ void stationoutput()
                 }
                 fprintf(outgrid[ii],"%10.5f",snowprec-ABLA[r][c]); /*CHR mass bal added*/
             }
-            if (methodsurftempglac == 4)
-                fprintf(outgrid[ii],"%10.5f",SNOWsum[r][c]-ABLA[r][c]); /*CHR mass bal added*/
+            if (methodsurftempglac == 4) { /*CHR mass bal added*/
+                fprintf(outgrid[ii],"%10.5f",MBsum[r][c]); /*CHR mass bal added*/
+              }
 
             /*only if snow model is run*/
             if (methodsurftempglac == 4) {

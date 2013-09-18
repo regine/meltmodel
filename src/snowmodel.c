@@ -362,6 +362,7 @@ void initgrid() {
     ABLAsum=matrixreservdouble(1,nrows,1,ncols);
     RUNOFFsum=matrixreserv(1,nrows,1,ncols);
     SNOWsum=matrixreserv(1,nrows,1,ncols);
+    MBsum=matrixreserv(1,nrows,1,ncols);
     SNOWinit=matrixreserv(1,nrows,1,ncols);
     MASSBALcumstake=matrixreserv(1,nrows,1,ncols);
     SUMMERBALST=matrixreserv(1,nrows,1,ncols);
@@ -657,6 +658,7 @@ void changegrid() {
     double energy;           /*actual energy used (smallest from the above three)*/
     double masschangelayer;
     double energytemperatureold;
+    double densfirst;
     float  Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     /* L.G.: airvolumeice and  minwatercont are unused, can we delete? */
     // double airvolumeice;     /*volume in ice available to store water in*/
@@ -687,6 +689,7 @@ void changegrid() {
     dummyabla = 0.0;
     newk = 0;
     testabla = 1;
+    densfirst = layerdensity[i][j][1];
 
     /*if ((ABLA[i][j] >= 0.0) && (percolationyes == 1))*/ /*MELT already taken into account in the layer size only sublimation to correct for*/
     if (percolationyes == 1) {
@@ -1165,7 +1168,7 @@ void changegrid() {
         }
     }
     k=1;
-    meltlayermice();
+    meltlayermice(densfirst);
 
     if (dummydepth < depthdeep) {
         newk = newk + 1;
@@ -1246,12 +1249,40 @@ void changegrid() {
 /* changes grid at end of mass balance year in order to make multiyear calculation of mb possible*/
 /* layerid 1 is set to 2, snow becomes firn*/
 /* SNOW set to 0*/
+/* Modified by Tobben August 2013                                         */
 /****************************************************************************/
 
 void resetgridwinter() {
     int     k,ir,jc;
     int     krows,kcols;
-
+	
+	krows = nrows;
+    kcols = ncols;
+// start new algo TOBBEN
+// snow depth (sum of all snow layerthickness[i][j][k] ) is added in meltlayer[][] before all snow is converted to firn.
+    if (calcgridyes == 2) {
+        krows = 1;
+        kcols = 1;
+    }
+    for (ir = 1; ir <= krows; ir++) {
+        for (jc = 1; jc <= kcols; jc++) {
+            i = ir;
+            j = jc;
+            if (calcgridyes == 2) {
+                i = rowclim;
+                j = colclim;
+            }
+            if (surface[i][j] != nodis) {
+                for (k = 1; k <= (int)layeramount[i][j]; k++) {
+                    if (layerid[i][j][k] == 1){ 
+												meltlayer[i][j] = meltlayer[i][j] + layerthickness[i][j][k];
+                		}    
+                }
+                
+            }
+        }
+    }
+		// end new algo TOBBEN
     initializeglacier2zero_nodatadouble(nrows, ncols, SNOW);
     initializeglacier2zero_nodata_tensdouble(nrows, ncols, ndepths,layerrefreeze);
     if (runoffyes == 1)
@@ -1286,6 +1317,8 @@ void resetgridwinter() {
             if (surface[i][j] != nodis) {
                 for (k = 1; k <= (int)layeramount[i][j]; k++) {
                     if (layerid[i][j][k] == 1) layerid[i][j][k] = 2;
+                    if (layerid[i][j][k] == 3 && layerdensity[i][j][k] <= 825.) layerid[i][j][k] = 2;
+                    if (layerid[i][j][k] == 2 && layerdensity[i][j][k] > 825.) layerid[i][j][k] = 3;
                 }
                 changegrid();
             }

@@ -1,53 +1,57 @@
 INPUTFILE FOR DETIM and DEBaM  input.txt (behind % = comments), Example file
 ***********************************************************
-10       %output to screen every X day   daysscreenoutput
-/reginefolder/model/studies/JuneauIcefield/indata/            % Path for Inputfiles.  inpath
-/reginefolder/model/studies/JuneauIcefield/outputLemmon/test/   %Path for Outputfiles. outpath
-244  2005      %first julian day to be calculated.     jdbeg  yearbeg
-365  2008      %last julian day to be calculated.      jdend  yearend   
-2   %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
-1   %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
+5       %output to screen every X day   daysscreenoutput
+/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input/            % Path for Inputfiles.  inpath
+/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/output/tst/   %Path for Outputfiles. outpath
+129  1999      %first julian day to be calculated.     jdbeg  yearbeg
+245  1999      %last julian day to be calculated.      jdend  yearend   
+0   %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
+2   %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS ****************************
-10      %number of stakes for melt output.    maxmeltstakes
-1       %cum massbal multiplied by this factor in melting.dat plusminus
+0      %number of stakes for melt output.    maxmeltstakes
+-1       %cum massbal multiplied by this factor in melting.dat plusminus
 3       %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
 %shayes exkyes solyes diryes dir2yes difyes gloyes albyes  swbyes linyes loutyes
   0      0      0      0       0      0       0      0      0        0     0
 %netyes senyes latyes raiyes enbyes melyes  ablyes surftempyes  posyes ddfyes
   0     0      0      0      0       1       0      0            1      1    
-2       %surface conditions to grid file (2=for specified JDs)           surfyes
-0       %snow cover to grid file at midnight.                            snowyes
-1       %snow or surface written to file if jd dividable by this value   daysnow
-2       %number of jd for output of surface type/snow cover              numbersnowdaysout
-190 210     %jd to be written to output for surface type and snow cover
+0       %surface conditions to grid file (2=for specified JDs)           surfyes
+2       %snow cover to grid file at midnight.                            snowyes
+2       %snow or surface written to file if jd dividable by this value   daysnow
+14       %number of jd for output of surface type/snow cover              numbersnowdaysout
+129 130 140 150 160 170 180 190 200 210 220 230 240 245    %jd to be written to output for surface type and snow cover
 %----------- 2.) MASS BALANCE -------------------
-1           %gridout winter mass balance yes=1, no=0              winterbalyes
+0           %gridout winter mass balance yes=1, no=0              winterbalyes
 244 135	    %julian day winter starts and ends                    winterjdbeg  winterjdend
 1           %gridout summer mass balance yes=1, no=0              summerbalyes
 136 243     %julian day summer starts and ends                    summerjdbeg  summerjdend
 0	    %1=dates for MB meas read from file, 0=fixed dates    datesfromfileyes
-dummydates.dat   %file containing the dates of massbal meas       namedatesmassbal
+datesmassbalance.dat   %file containing the dates of massbal meas       namedatesmassbal
 20          % vertical extent of elevation bands (m) for mass balance profiles       beltwidth
-1           %set snow cover to 0 at start of each massbal year    snow2zeroeachyearyes
+0           %set snow cover to 0 at start of each massbal year    snow2zeroeachyearyes
 1           %times series file with number of pixels snowfree written to file  snowfreeyes
 -----------------------------------------
-0           %gridoutput of melt cumulated=1 or mean=0             cumulmeltyes
+1           %gridoutput of melt cumulated=1 or mean=0             cumulmeltyes
 1000        %if cumulated, output in cm=10 or m=1000              cm_or_m
 1           %time series of spatial mean to output (yes=1 no=0)   do_out_area
-1          %number of individual grid points for which model result output  outgridnumber
+5          %number of individual grid points for which model result output  outgridnumber
 %***====read if number > 0============================***
 %***Outputfilename ** row/x-coord ***column/y-coord *** glob and net data included from input data    
-pointoutput.txt      528686    6464504  0    
+model6.txt           49   104               0          
+model18.txt          45   62               1                   
+model23.txt          46   45                0
+model24.txt          45   41                0
+model29.txt          43   25                0            
 %******** 3.) METHODS ENERGY BALANCE COMPONENTS ********************************
 2    %1=surface maps 2=start with initial snow cover       methodinisnow
-1    %1=constant for surface types, >2=alb generated        methodsnowalbedo, 6=zongo
-1    %1=direct and diffuse not separated, 2=separated      methodglobal
-1    %1=longin from net,glob,ref (Tsurf=0),2=meas,3-6=from paramet methodlonginstation
-1    %1=longin constant, 2=spatially variable              methodlongin
-1    %1=surftemp=0, 2=iteration 3=measurement+(decrease height), 4=snowmodel  methodsurftempglac
+4    %1=constant for surface types, >2=alb generated        methodsnowalbedo, 6=zongo
+2    %1=direct and diffuse not separated, 2=separated      methodglobal
+2    %1=longin from net,glob,ref (Tsurf=0),2=meas,3-6=from paramet methodlonginstation
+2    %1=longin constant, 2=spatially variable              methodlongin
+4    %1=surftemp=0, 2=iteration 3=measurement+(decrease height), 4=snowmodel  methodsurftempglac
 %********************* TURBULENCE OPTION
-1    %1=turbulence accord. to Escher-Vetter, 2=Ambach 3=stabil  methodturbul
-1    %1=z0T/z0w fixed ratio 2=according to Andreas (1987)       method_z0Te
+4    %1=turbulence accord. to Escher-Vetter, 2=Ambach 3=stabil  methodturbul
+2    %1=z0T/z0w fixed ratio 2=according to Andreas (1987)       method_z0Te
 1    %1=no ice heat flux 2=ice heat flux                        methodiceheat
 1    %1=neglected 2=neg energy balance stored to retard melt    methodnegbal
 %********* SCALING ********************************
@@ -55,49 +59,49 @@ pointoutput.txt      528686    6464504  0
 1.375  % gamma in V-A scaling			gamma
 0.6    % coefficient in V-A scaling          c_coefficient
 %********* 4.) NAMES OF INPUT FILES ********************************
-DEM.bin             %name of Digital Terrain Model    namedgm
-watershed.bin          %name of DTM with drainage basin  namedgmdrain
-glacier.bin         %name of DTM glacier              namedgmglac
-slope.bin            %name of DTM slope                namedgmslope
-aspect.bin           %name of DTM aspect               namedgmaspect
-dummy.bin     %name of DTM sky view factor      namedgmskyview
-firn.bin         %name of DTM firnarea             namedgmfirn
-snowcover.bin               %name of DTM initial snow cover   nameinitialsnow
-climatedischargeinput.txt  %name of climate data file        nameklima
+SG30dem.bin             %name of Digital Terrain Model    namedgm
+dummy.bin          %name of DTM with drainage basin  namedgmdrain
+SG30demglac.bin         %name of DTM glacier              namedgmglac
+SG30slope.bin            %name of DTM slope                namedgmslope
+SG30aspect.bin           %name of DTM aspect               namedgmaspect
+SG30skyview.bin     %name of DTM sky view factor      namedgmskyview
+FIRNdepth.bin         %name of DTM firnarea             namedgmfirn
+snowMay1999.bin               %name of DTM initial snow cover   nameinitialsnow
+met18_99h_corr.txt		climatedischargeinput.txt  %name of climate data file        nameklima
 %********* 5.) GRID INFORMATION***************************************
--134.5048              %geographical longitude [degree]       laenge
-58.5117                %latitude                              breite
--120                   %longitude time refers to              reflongitude
-100                   %row in DTM where climate station is located   rowclim
-100                    %column of climate station             colclim
-1  1865                %take this elevation for AWS yes/no    climoutsideyes  heightclim
-100        %gridsize in m                         gridsize
-24                      %time step in hours                    timestep
+18.475              %geographical longitude [degree]       laenge
+67.9042             %latitude                              breite
+15.00               %longitude time refers to              reflongitude
+45                  %row in DTM where climate station is located   rowclim
+62                  %column of climate station             colclim
+0  1000.                %take this elevation for AWS yes/no    climoutsideyes  heightclim
+30        %gridsize in m                         gridsize
+1                      %time step in hours                    timestep
 %********* 6.) CLIMATE DATA AND DISCHARGE DATA*********************************
-3     %1=midnight time is 0, 2=time is 24, 3=24 but previous day formatclimdata
-3     %number of columns in climate file       maxcol
-4     %columns in climate input file: temperature   coltemp
-20     %column containing relative humidity     colhum
-20    %column wind speed [m/s]                 colwind
-20     %global radiation                        colglob
-20     %reflected shortwave radiation           colref
-20    %net radiation                           colnet
-20     %longwave incoming radiation             collongin
-20    %longwave outgoing radiation             collongout
-5     %precipitation                           colprec
-30    %cloud cover (number of eigths)          colcloud
-30    %time variant lapse rate (neg=decrease)  coltempgradvarying
-8     %column of discharge data	               coldis
+1     %1=midnight time is 0, 2=time is 24, 3=24 but previous day formatclimdata
+25     %number of columns in climate file       maxcol
+5     %columns in climate input file: temperature   coltemp
+7     %column containing relative humidity     colhum
+9    %column wind speed [m/s]                 colwind
+13     %global radiation                        colglob
+14     %reflected shortwave radiation           colref
+23    %net radiation                           colnet
+16     %longwave incoming radiation             collongin
+17    %longwave outgoing radiation             collongout
+24     %precipitation                           colprec
+25    %cloud cover (number of eigths)          colcloud
+25    %time variant lapse rate (neg=decrease)  coltempgradvarying
+25     %column of discharge data	               coldis
 %********** CORRECTIONS TO CLIMATE INPUT ********************************
 0        %add this to ERA temp to get to elevationstation    ERAtempshift
 0          %add this to ERA wind to get to elevationstation    ERAwindshift
 %********** 7.) LAPSE RATE / SCENARIOS ********************************
 1          %1=const lapse rate 2=variable 2AWS 3=grid              methodtempinterpol
--0.6     %temperature change with elevation [degree/100m]        tempgrad
+-0.7     %temperature change with elevation [degree/100m]        tempgrad
 0          %climate perturbation: temp + this amount               tempscenario
 0          %climate perturbation: precip + this amount in percent  precscenario
 %on/off Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-0        0     0     0     0     -0.432     -0.308     -0.388     -0.322     -0.362     -0.362     0     0  %monthtempgrad(yes)
+0        1     1     1     1     1     1     1     1     1     1     1     1  %monthtempgrad(yes)
 0        0.5   1     1     1     1     1     1     1     1     1     1     1  %monthtempscen(yes)
 0        10   10    10    10    10    10    10    10    10    10    10    10  %monthprecipscen(yes)
 %******** 8.) SURFACE TYPE / ALBEDO ***********************************
@@ -119,12 +123,12 @@ climatedischargeinput.txt  %name of climate data file        nameklima
 0.95       %first ratio of direct and clear-sky direct rad       ratiodir2dir
 -0.5       %decrease in surftemp with height if longout meas     surftemplapserate
 1          %direct radiation read from file = 1                  directfromfile
-/meltmodel/studies/test/indata/direct/    %Path for direct files     pathdirectfile
+/Users/reijmer/Research/Distributed/DEBaM/run_meltmodel/input_rad/    %Path for direct files     pathdirectfile
 1          %files only exist every number of days defined here   daysdirect
 1          %0=slope at climate station is set to 0               slopestation
 %******** 10.) TURBULENCE ***********************************************
 0.25        step for surface temp lowering for iteration      iterstep
-0.001       roughness length for wind for ice in m   .0027    z0wice
+0.0027       roughness length for wind for ice in m   .0027    z0wice
 100         z0Temp is zow divided by this value               dividerz0T
 1           z0snow is z0wice divided by this value            dividerz0snow
 0           increase of z0 with decreasing elevation          z0proz
@@ -132,14 +136,14 @@ climatedischargeinput.txt  %name of climate data file        nameklima
 0.02        max z0w ice                                       icez0max
 %********** 11.) PRECIPITATION *******************************************
 1         %1=lapse rate 2=scale AWS precip with index map 3=read grids   methodprecipinterpol
-10         %precipitation change with elevation [%/100m]      precgrad
-0  1900   %precipitation change with elevation beyond certain elevation     precgradhigh precgradelev
-50         %35 precipitation correction, caused by losses     preccorr
-1.0       %snow precip is multiplied by this factor      snowmultiplierglacier
+19         %precipitation change with elevation [%/100m]      precgrad
+40  1700   %precipitation change with elevation beyond certain elevation     precgradhigh precgradelev
+35         %35 precipitation correction, caused by losses     preccorr
+1.2       %snow precip is multiplied by this factor      snowmultiplierglacier
 1.0       %snow precip is multiplied by this factor      snowmultiplierrock
-1.5      %threshold temperature rain/snow precipitation     threshtemp
-0         %0=if massbal calculations for whole drainage basin, 1=only glacier  onlyglacieryes
-50        %percentage of glacierization                      glacierpart
+1.3      %threshold temperature rain/snow precipitation     threshtemp
+1         %0=if massbal calculations for whole drainage basin, 1=only glacier  onlyglacieryes
+70        %percentage of glacierization                      glacierpart
 %*********** 12.) DISCHARGE ************************************************
 discharge.txt     %name of discharge output file                    nameqcalc
 -9999      %nodata value of discharge file		     nodis
@@ -148,9 +152,9 @@ discharge.txt     %name of discharge output file                    nameqcalc
 5       % storage constant k for ice                      icekons
 30         % storage constant k for rock(outside glacier non-snowcovered)   icekons
 %************* 13.) DISCHARGE STARTING VALUES**********************
-5.0       %start value for firn discharge (previous time step)  qfirnstart
+0.0       %start value for firn discharge (previous time step)  qfirnstart
 0.0       %start value for snow discharge (m3/s)            qsnowstart
-5.0       %start value for ice discharge                    qicestart
+0.0       %start value for ice discharge                    qicestart
 5.0       %start value for rock discharge (outside glacier non-snowcovered) qicestart
 0.0       %groundwater discharge[m3]                        qground
 0         %difference between start of calculation and start r2  jdstartr2diff
@@ -176,9 +180,9 @@ matriz.dat         %name of r2-outputfile                    namematrix
 0.04    %layer thickness of first layer (m snow)       thicknessfirst
 5.0     %layer thickness at deepest layer (m snow)     thicknessdeep
 30      %maximum depth model (m)                       depthdeep
-200     %density of fresh snowfall kg/m3               denssnow
+300     %density of fresh snowfall kg/m3               denssnow
 1       %0=constant irreducible water content, 1=density dep. Schneider, 2= density dep. Coleou  irrwatercontyes
-0.02    %fraction of space irreducible filled with water         irrwatercont
+0.05    %fraction of space irreducible filled with water         irrwatercont
 %---- Output ----------
 1    %factor for subsurf output, 1=every hour, 24=once per day at midnight, factsubsurfout
 12   %offfsetfactor for subsurf output to make print at noon possible, offsetsubsurfout
@@ -196,15 +200,68 @@ runoffyes superyes   wateryes   surfwateryes slushyes   coldsnowyes   coldtotyes
 0.6     %radiation melt factor for snow                  radfactorsnow
 1     %factor to reduce melt over debris               debrisfactor
 %******* 18.) OUTPUT STAKES **************************************
-1     %1=stake locations given in local coordinates (x,y), 2=as 1 but center, 3=row/col  coordinatesyes
-   526413    6477414   %Easting  Northing
-   526421    6477906
-   526916    6480622
-   526703    6483888
-   529730    6485882
-   528450    6489725
-   531931    6489677
-   535638    6487437
-   534402    6491654
-   526403    6477418
-  
+3     %1=stake locations given in local coordinates (x,y), 2=as 1 but center, 3=row/col  coordinatesyes   526413    6477414   %Easting  Northing
+
+1614697.8898  7538106.9083    26.27      cm measured melt 1
+1614684.7087  7537908.0603    23.878   2
+1614672.3354  7537707.4241    51.032   3
+1614902.7917  7538084.1087    42.452   4
+1614884.3538  7537893.1416    48.37    5
+1614873.4503  7536543.9193    74.104 
+1614890.3739  7536591.8111    69.512
+1614947.4754  7537134.5961    78.53
+1614898.4891  7537184.3137    94.9576
+1614973.7413  7537224.7377    79.1356   10
+1614968.8614  7537181.714     83.512
+1615022.5409  7536916.2005    79.846
+1614957.4903  7537175.8941    85.252
+1615077.2022  7536470.8455    97.448
+1615166.8655  7537674.3203    116.6036
+1615192.1228  7537330.4613    138.0916
+1615217.8609  7536774.0272    134.8016
+1615428.1685  7537133.4448    97.284
+1615541.7199  7537109.4939    89.744
+1615722.6914  7537173.1293    174.782   20
+1615680.1637  7537105.5268    165.782
+1615736.8488  7537093.579     167.648
+1615866.187   7536829.0669    192.276
+1616087.8056  7536587.9307    178.634
+1616076.0429  7537305.0916    181.382
+1616070.3272  7537104.7192    188.8088
+1616099.9888  7536592.3775    175.392
+1616131.0926  7537403.1747    191.4536
+1616116.6996  7537205.4888    185.402
+1616177.8457  7536900.4626    189.774   30
+1616252.2431  7537390.5716    185.9576
+1616322.7111  7537400.1429    161.6688
+1616237.4797  7536866.6041    176.552
+1616336.2901  7537191.4654    181.886
+1616340.3291  7536667.1815    201.1088
+1616370.1372  7536759.3416    200.762
+1616494.948   7537268.3001    201.276
+1616509.9265  7537070.6825    186.5888
+1616641.8667  7537392.747     152.8688
+1616711.6427  7536670.6914    234.65   40
+1616803.3837  7537394.6242    202.5188
+1616706.4868  7537028.7984    207.216
+1616793.0503  7536854.8041    244.01
+1616867.5704  7537353.9256    232.812
+1616771.288   7537039.1642    226.244
+1616934.4199  7537149.1889    244.71
+1617033.8235  7536755.4808    290.1116
+1617092.9679  7536939.784     259.616
+1617262.7916  7537212.1861    325.4816
+1617294.191   7537026.175     356.552   50
+1617428.1604  7537030.0516    365.076
+1617482.423   7536906.924     333.542
+1617471.8303  7537012.6258    375.714   53
+   58   139      %1   4144.60  1275.70   4    
+   58   134      %2   3977.00  1293.20   6    
+   55   134      %3   3987.00  1392.30   6N1  
+   62   133      %4   3965.70  1182.00   6S1  
+   65   134      %5   3977.60  1081.90   6S2  
+   58   129      %6   3839.10  1304.50   8    
+   51   127      %7   3789.60  1513.40   8N2  
+   67   126      %8   3751.90  1015.30   8S3   
+   57   126      %9   3753.10  1312.10   9     
+   60   125      %10   3731.30  1229.20   9S1

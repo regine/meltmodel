@@ -1042,8 +1042,7 @@ void massbalance()
     }
 
     /*works only if model run starts in summer, preferably at winterjdbeg*/
-    if (methodsurftempglac == 4) 
-    {
+    if (methodsurftempglac == 4) {
         if(jdold == winterjdbeg) {
             itswinter = 1;
             itssummer = 0;
@@ -1319,6 +1318,7 @@ void iterationstation()
             ABLAsum[i][j] = 0.;
             RUNOFFsum[i][j] = 0.;
             SNOWsum[i][j] = 0.;
+            MBsum[i][j] = 0.;
         }
         subsurf(); /*chr calculate new surface temperature field*/
         waterequivalentabla();
@@ -1328,6 +1328,7 @@ void iterationstation()
             MELTsum[i][j] += MELT[i][j];
             RUNOFFsum[i][j] += RUNOFF[i][j];
             SNOWsum[i][j] += snowprec;
+            MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
             sumSNOWprec[i][j] += snowprec;
             sumRAINprec[i][j] += rainprec;
         }
