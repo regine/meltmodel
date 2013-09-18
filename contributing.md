@@ -31,8 +31,11 @@ Versioning
 As of version 1.0.0, we've begun using [Semantic Versioning](http://semver.org/)
 to dictate model version numbers. Roughly speaking, version numbers consist of
 MAJOR.MINOR.PATCH, which are incremented when
+
 1. MAJOR: when backwards incompatible changes are made
+
 2. MINOR: when backwards-compatible functionality is added
+
 3. PATCH: when backwards-compatible bug fixes are made.
 The upshot of which is that your configuration files for version
 ```1.0.3``` will not work with version ```3.6.4``` but will work
