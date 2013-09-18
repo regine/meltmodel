@@ -111,10 +111,13 @@ For further information contact [Regine Hock](http://gi.alaska.edu/~regine/),
 (University Utrecht). Note that the model may
 contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
-with us.
+with us.  
 
 If you find errors or have suggestions how the manual (or model) can be improved, 
 please feel free to let up know via the Github Issues page for the models or via email.
+If you are interesteding contributing to the model directly, we use [git](http://git-scm.com/)
+and [Github](github.com) to manage our code, more information about how to use
+these can be found on our [contributing page](contributing.html).
 
 There have been tools developed to help with certain tasks related to the model;
 a partial list of these may be found at the [External Tools page](tools.html).
