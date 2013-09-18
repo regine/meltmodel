@@ -115,7 +115,7 @@ with us.
 
 If you find errors or have suggestions how the manual (or model) can be improved, 
 please feel free to let up know via the Github Issues page for the models or via email.
-If you are interesteding contributing to the model directly, we use [git](http://git-scm.com/)
+If you are interested in contributing to the model directly, we use [git](http://git-scm.com/)
 and [Github](github.com) to manage our code, more information about how to use
 these can be found on our [contributing page](contributing.html).
 
