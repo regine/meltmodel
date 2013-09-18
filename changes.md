@@ -1,3 +1,6 @@
+### 09/18/2013
+* v1.0.0
+
 ### 09/11/2013
 * Switched build system from CMake to Makefile.
 
