@@ -56,5 +56,6 @@ file, simply remove the file's entry from .gitignore.
 
 __Makefile__ : The Makefile tells make what to do when building the models/utilities 
 
-__input.txt__ : A sample configuration file for DEBaM and DETIM
-__shading.txt__: A sample config file for the shading utility
+__input.txt__ : A sample parameter file for the programs debam and detim
+__shading.txt__: A sample parameter file for the shading program
+Note: parameter files need to be copied to the bin-directory and adjusted to your case prior to running the models
