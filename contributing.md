@@ -37,7 +37,8 @@ MAJOR.MINOR.PATCH, which are incremented when
 2. MINOR: when backwards-compatible functionality is added
 
 3. PATCH: when backwards-compatible bug fixes are made.
-The upshot of which is that your configuration files for version
+
+The upshot of which is that your parameter files for model version
 ```1.0.3``` will not work with version ```3.6.4``` but will work
 with ```1.2.0``` and ```1.0.4```.  If you are contributing, we
 highly recommend you read the [full SemVer specification](http://semver.org).
