@@ -113,7 +113,7 @@ familiar with it. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
 
-Note, that the ___master version___ will always be the most up-to-date model version. Earlier
+Note, that the __master version__ will always be the most up-to-date model version. Earlier
 version are called 'release_XXX' with XXX denoting the release number. 
 Older versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
 and can be [reviewed on Github](https://github.com/regine/meltmodel/releases) under 'Branch'.

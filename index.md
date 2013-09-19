@@ -13,7 +13,6 @@ models:
 - __D__istributed __E__nergy __Ba__lance __M__odel (DEBaM)
 - __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
 
-
 The models compute __glacier surface mass balance__ (ablation and accumulation) and
 discharge, with hourly to daily resolution. 
 The mass balance model is fully distributed, i.e. calculations are performed for each grid cell of a
@@ -125,7 +124,6 @@ with ```1.2.0``` and ```1.0.4```.
 
 The various versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
 and can be [reviewed on Github](https://github.com/regine/meltmodel/releases).
-
 
 Additional Information
 ----------------------
