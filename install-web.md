@@ -1,7 +1,7 @@
 ---
 layout: front_page 
 title: DEBaM and DETIM
-subtitle: Installation Guide
+subtitle: Installation Guide (Version 1.0.0)
 repo: http://github.com/regine/meltmodel
 ---
 
@@ -94,24 +94,29 @@ Compiling
 
 #### Getting The Source
 
-Now you'll need to get a copy of the source code (We suggest you download the version release-0.2). 
+Now you'll need to get a copy of the source code (We suggest you download the version master). 
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
 
--  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-  [meltmodel-master.zip]({{%page.repo%}}/zipball/master)
+-  [meltmodel-master.tar.gz]({{%page.repo%}}/tarball/master)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
     $ git clone https://github.com/regine/meltmodel.git
 
-from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). If you plan to contribute to the
-project, you should use git, and spend some time getting
+from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). 
+If you plan to contribute to the
+project and change or add to the source code, you should use git, and spend some time getting
 familiar with it. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
 
+Note, that the ___master version___ will always be the most up-to-date model version. Earlier
+version are called 'release_XXX' with XXX denoting the release number. 
+Older versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
+and can be [reviewed on Github](https://github.com/regine/meltmodel/releases) under 'Branch'.
 
 #### Compiling
 
@@ -123,10 +128,11 @@ At the command prompt, do
     $ cd meltmodel
     $ make models
 
-The model executables and required input parameter files will now be located in ```meltmodel/bin```. The model source files are under ```meltmodel/src```.
-A detailed description of the folders and files after installation which are under the folder ```meltmodel``` is given [here]({{page.repo}}/tree/release_0.2/organization.md) or in the file ```README_what_is_what.rft```.
+The model executables and required input parameter files will now be located in ```meltmodel/bin```. 
+The model source files are under ```meltmodel/src```.
+A detailed description of the folders and files after installation which are under the folder ```meltmodel``` 
+is given [here]({{page.repo}}/tree/master/organization.md).
 .
-
 
 The Makefile provides several different build targets, for those who
 only wish to build parts of the project. These targets are built by
@@ -144,7 +150,7 @@ is one of the following:
 For information regarding running the model, please consult
 the model manual, located at [Regine Hock's page](http://gi.alaska.edu/~regine/meltmodel).
 
-More
-----
-There have been tools developed to help with certain tasks related to the model;
-a partial list of these may be found at the [External Tools page](tools.html)
+#### Additional Model Tools
+
+Additional tools have been developed to help with certain tasks related to the model, for example,
+making model calibration more efficient. They are described and can be downloaded at the [External Tools page](tools.html).

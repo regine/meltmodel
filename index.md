@@ -31,7 +31,8 @@ and shortwave incoming radiation (DEBaM).
 
 The models were initially developed by Regine Hock in the mid 1990s, and have
 since been continuously expanded. In 2006, Carleen Tijm-Reijmer contributed
-the subsurface snow model used by DEBaM. The models were made open source in August 2012
+the subsurface snow model used by DEBaM. The models are portable to different platforms (Mac, Linux, Windows ...).
+The models were made open source in August 2012
 with help of Lyman Gillispie.
 
 - __DEBaM__ computes surface melt by an energy balance approach
@@ -43,20 +44,23 @@ Download
 The models are hosted from our [github repository]({{%page.repo%}}).
 You can download the source as zip or tar files via:
 
--  [meltmodel-release\_0.2.zip]({{%page.repo%}}/zipball/release_0.2)
--  [meltmodel-release\_0.2.tar.gz]({{%page.repo%}}/tarball/release_0.2)
+-  [meltmodel-master.zip]({{%page.repo%}}/zipball/master)
+-  [meltmodel-master.tar.gz]({{%page.repo%}}/tarball/master)
 
 Alternately, you can also clone the project with [Git](http://git-scm.com) by
 running:
 
     $ git clone https://github.com/regine/meltmodel.git
 
-from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). If you plan to modify the model source code, or contribute to the
+from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). 
+If you plan to modify the model source code, or contribute to the
 project, this is the preferred method. More information about git can be
 found at [git-scm](http://git-scm.com/) or at 
 [Github](http://help.github.com/articles/).
 
-The download will always include both DETIM and DEBaM. Most files are needed for both models.
+The download will always include both DETIM and DEBaM. Most files are needed for both models. 
+Note that the ___master version___ is always the most up-to-date model version. 
+The current version is 1.0.
 
 Installation
 ------------
@@ -73,12 +77,16 @@ To build DeBAM and DETIM, do
 
 The model executables (detim and debam) will now be located in ```meltmodel/bin```
 
-A more complete installation guide is available [here](install-web.html).
+A __complete installation guide__ is available [here](install-web.html).
 
 Documentation/Manual
 ---------------------
 The most recent revision of the manual is available [here](http://gi.alaska.edu/~regine/meltmodel.html).
 
+Additional Model Tools
+----------------------
+Additional tools have been developed to help with certain tasks related to the model, for example,
+making model calibration more efficient; a partial list of these may be found at the [External Tools page](tools.html).
 
 Literature And Previous Applications
 ------------------------------------
@@ -102,12 +110,27 @@ The models are described in detail in the following papers:
   
 List of references which are based on application of the source code is available [here](references.html)
 
+Versioning
+----------
+As of version 1.0.0 (September 2013), we've begun using [Semantic Versioning](http://semver.org/)
+to dictate model version numbers. Roughly speaking, version numbers consist of
+MAJOR.MINOR.PATCH, which are incremented when
+
+1. MAJOR: when backwards incompatible changes are made
+2. MINOR: when backwards-compatible functionality is added
+3. PATCH: when backwards-compatible bug fixes are made.
+The upshot of which is that your configuration files for version
+```1.0.3``` will not work with version ```3.6.4``` but will work
+with ```1.2.0``` and ```1.0.4```.  
+
+The various versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
+and can be [reviewed on Github](https://github.com/regine/meltmodel/releases).
+
 
 Additional Information
 ----------------------
-
 For further information contact [Regine Hock](http://gi.alaska.edu/~regine/),
-(University of Alaska, Fairbanks) or Carleen Tijm-Reijmer 
+(University of Alaska, Fairbanks) or [Carleen Tijm-Reijmer](http://www.staff.science.uu.nl/~reijm101/)
 (University Utrecht). Note that the model may
 contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
@@ -115,14 +138,10 @@ with us.
 
 If you find errors or have suggestions how the manual (or model) can be improved, 
 please feel free to let up know via the Github Issues page for the models or via email.
-If you are interested in contributing to the model directly, we use [git](http://git-scm.com/)
-and [Github](github.com) to manage our code, more information about how to use
-these can be found on our [contributing page](contributing.html).
-
-There have been tools developed to help with certain tasks related to the model;
-a partial list of these may be found at the [External Tools page](tools.html).
-
 
 Model updates and changes
 -------------------------
 The model constantly evolves. All significant model changes and updates since 2012 are logged [here]({{page.repo}}/tree/release_0.2/changes.md).
+If you are interested in contributing to the model directly, for example, by adding new features, check our [contributing page](contributing.html). We use [git](http://git-scm.com/)
+and [Github](github.com) to manage our code.
+

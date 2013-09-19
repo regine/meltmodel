@@ -112,3 +112,7 @@ subtitle: References and Student Theses
 15. Petlicki, M., 2011.
     Modelowanie bilansu masy i energii lodowca Arie na Spitsbergenie,
     PhD Thesis, Poland.
+
+16. Truessel, B., 2013.
+	Yakutat Glacier
+    PhD Thesis, University of Alaska Fairbanks.
