@@ -6,7 +6,7 @@ subtitle: Some Useful Tools For Use With the Models
 
 The following tools were developed by Lyman Gillispie in August 2013:
 
-* __[MultiRun](https://github.com/fmuzf/matlab_hk_impervious)__:
+* __[MultiRun](https://github.com/fmuzf/matlab_hk_MultiRun)__:
 A Matlab tool for running the models (detim/debam) multiple times over ranges
 of parameter values, and thereby making model calibration more efficient.
 The tool generates a series of parameter files (```input.txt```) with different parameter values
