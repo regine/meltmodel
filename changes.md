@@ -1,7 +1,7 @@
-
- ### 09/20/2013  (by C. Reijmer)
-   * v1.0.1
-   Bug fix
+### 09/20/2013 
+* v1.0.1
+   Error in code fixed  (by C. Reijmer)
+   Bug fixed in the skin layer formulation responsible for the lack of closure of the surface energy balance as found in the output.
 - Added MBsum in order to have mass balance output consistent with other mass balance parameters output.
 - Made changes (together with Torbjorn Ostby) to functions meltlayermice and resetgridwinter to remove 
 some bugs related to the sr50 output. Correspondence between mass balance output and sr50 has improved.
@@ -11,7 +11,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 * v1.0.0
 
 ### 09/11/2013
-* Switched build system from CMake to Makefile.
+* Switched build system from CMake to Makefile (L. Gillispie).
 
 
 ### 08/26/2013
