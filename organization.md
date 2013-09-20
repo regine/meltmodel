@@ -25,8 +25,10 @@ run the models: digital elevation models of the entire domain, the watershed (ar
 slope and aspect grids, firn and initial snow cover and skyview factor grids. 
 Adjusted parameter files for the models, and shading tool are included
 as well:
+
 __input.txt__ : A sample configuration file for DEBaM and DETIM
 __shading.txt__: A sample config file for the shading utility.
+
 Note that you need to adjust the input/output paths in the example parameter files and copy them to the
 folder of the executables. Then you should be able to run the example.
 Files are given in asci-format and binary format as required by the model. However, sometimes the asci-files
