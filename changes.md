@@ -1,3 +1,12 @@
+
+ ### 09/20/2013  (by C. Reijmer)
+   * v1.0.1
+   Bug fix
+- Added MBsum in order to have mass balance output consistent with other mass balance parameters output.
+- Made changes (together with Torbjorn Ostby) to functions meltlayermice and resetgridwinter to remove 
+some bugs related to the sr50 output. Correspondence between mass balance output and sr50 has improved.
+- Made changes to functions subsurf and surftempskin to correct a bug resulting in wrong surface temperature to be used to calculate the sensible and latent heat flux. As a result energy balance was not 0 for T<0. This is fixed now.
+
 ### 09/18/2013
 * v1.0.0
 
