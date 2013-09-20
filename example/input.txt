@@ -1,8 +1,8 @@
 Sample input.txt file for Lemon Glacier
 ***********************************************************
 100.0    %output to screen every X day.  daysscreenoutput.
-/Users/luser/Documents/lemon_input/    %Path for Inputfiles.  inpath
-/Users/luser/Documents/lemon_output/    %Path for Outputfiles.  outpath
+/Users/luser/Documents/example_data/    %Path for Inputfiles.  inpath
+/Users/luser/Documents/example_output/    %Path for Outputfiles.  outpath
 244  2008    %first julian day to be calculated.  jdbeg  yearbeg
 300  2010    %last julian day to be calculated.  jdend  yearend
 2    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
@@ -119,7 +119,7 @@ climatedischargeinput1949-2011.txt    %name of climate data file.  nameklima
 0.95    %first ratio of direct and clear-sky direct rad.  ratiodir2dir
 -0.5    %decrease in surftemp with height if longout meas.  surftemplapserate
 0    %direct radiation read from file = 1.  directfromfile
-/Users/luser/Documents/lemon_input/directLemon/    %Path for direct files.  pathdirectfile
+/Users/luser/Documents/example_data/directLemon/    %Path for direct files.  pathdirectfile
 0    %files only exist every number of days defined here.  daysdirect
 1.0    %0=slope at climate station is set to 0.  slopestation
 %******** 10.) TURBULENCE ***********************************************

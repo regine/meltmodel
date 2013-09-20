@@ -1,6 +1,6 @@
 ******** INPUT FILE FOR SHADING.C :  shading.par *****************************
-/Users/luser/Documents/lemon_input/
-/Users/luser/Documents/lemon_input/directLemon/
+/Users/luser/Documents/example_data/
+/Users/luser/Documents/example_data/directLemon/
 dav_dem.bin     %NAME OF INPUT DIGITAL ELEVATION MODEL
 dav_slope.bin   %NAME OF SLOPE FILE
 dav_aspect.bin      %NAME OF ASPECT FILE
