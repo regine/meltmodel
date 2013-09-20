@@ -1,16 +1,23 @@
+# Handy global variables
 MODEL_SRC = ./src
 MODEL_BUILD_TMP = ./build
 BINARY_DIR = ./bin
 
+# Compiler Flags
 CC=gcc
 CFLAGS = -Wall -O0 -g -m32
 LDFLAGS = -lm
 
+#### Model Building Stuff ####
+
+
+# Generic object file build rule
 $(MODEL_BUILD_TMP)/%.o: $(MODEL_SRC)/%.c
 	@echo "Building $@"
 	@mkdir -p $(MODEL_BUILD_TMP)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@ 
 
+## DETIM
 
 ## Source-files Required by DETIM
 DETIM_SOURCES = closeall.c \
