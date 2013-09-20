@@ -4,9 +4,7 @@ A Note on the Organization of DETIM and DEBaM
 What's in the Folders?
 ----------------------
 
-There are two sub-directories
-in the root folder of the project, one called ```src``` and the
-other ```util```. These two folders contain source code:
+There are two sub-directories in the root folder of the project, one called ```src``` and the other ```util```. These two folders contain source code:
 - ```src``` : Contains source code for the models.
 - ```util``` : Contains source code for utilities which users may
 find useful, such as
@@ -20,9 +18,7 @@ find useful, such as
     file for both programs ```inputreadgrid.m```
 
 There is a third subdirectory, ```example```, which contains a sample dataset
-and parameter file for running the model. Included are samples of all grid files that are necessary to
-run the models: digital elevation models of the entire domain, the watershed (area to be computed) and the glacier, 
-slope and aspect grids, firn and initial snow cover and skyview factor grids. 
+and parameter file for running the model. Included are samples of a climate data input file and all grid files that are necessary to run the models: digital elevation models of the entire domain, the watershed (area to be computed) and the glacier, slope and aspect grids, firn and initial snow cover and skyview factor grids. 
 Adjusted parameter files for the models, and shading tool are included
 as well:
 
