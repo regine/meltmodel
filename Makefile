@@ -40,10 +40,14 @@ DETIM_SOURCES = closeall.c \
 
 DETIM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.o))
 
-detim: $(DETIM_OBJECTS)
+$(BINARY_DIR)/detim: $(DETIM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building DETiM:"
 	$(CC) $(CFLAGS) $(DETIM_OBJECTS) -o  $(BINARY_DIR)/detim $(LDFLAGS)
+
+detim: $(BINARY_DIR)/detim
+
+## DEBAM
 
 ## Source-files requires by DEBaM
 DEBAM_SOURCES = closeall.c \
@@ -64,11 +68,12 @@ DEBAM_SOURCES = closeall.c \
 
 DEBAM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DEBAM_SOURCES:.c=.o))
 
-debam: $(DEBAM_OBJECTS)
+$(BINARY_DIR)/debam: $(DEBAM_OBJECTS)
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building DEBAM:"
 	$(CC) $(CFLAGS) $(DEBAM_OBJECTS) -o  $(BINARY_DIR)/debam $(LDFLAGS)
 
+debam: $(BINARY_DIR)/debam
 
 models: debam detim
 
@@ -76,30 +81,36 @@ models: debam detim
 #### Utility Programs ####
 
 # Grid tools
-ascigrid: ./util/grid_tools/ascigrid.c
+$(BINARY_DIR)/ascigrid: ./util/grid_tools/ascigrid.c
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building ascigrid"
-	$(CC) $(CFLAGS)  $< -o $(BINARY_DIR)/$@ $(LDFLAGS)
+	$(CC) $(CFLAGS)  $< -o $@ $(LDFLAGS)
 
-gridasci: util/grid_tools/gridasci.c
+ascigrid: $(BINARY_DIR)/ascigrid
+
+$(BINARY_DIR)/gridasci: util/grid_tools/gridasci.c
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building gridasci"
-	$(CC) $(CFLAGS)  $< -o $(BINARY_DIR)/$@ $(LDFLAGS)
+	$(CC) $(CFLAGS)  $< -o $@ $(LDFLAGS)
+
+gridasci: $(BINARY_DIR)/gridasci
 
 gridtools: ascigrid gridasci
 
 # Shading calculator
-
-shading: ./util/shading/shading.c
+$(BINARY_DIR)/shading: ./util/shading/shading.c
 	@mkdir -p $(BINARY_DIR)
 	@echo "Building shading"
-	$(CC) $(CFLAGS) $< -o $(BINARY_DIR)/$@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+shading: $(BINARY_DIR)/shading
 
 utils: gridtools shading
 
+
+#### Big/Std targets ####
+
 all: models utils
-
-
 
 clean:
 	-rm -r $(MODEL_BUILD_TMP)
