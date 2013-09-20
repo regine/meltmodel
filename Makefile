@@ -102,5 +102,5 @@ all: models utils
 
 
 clean:
-	rm -r $(MODEL_BUILD_TMP)
-	rm -r $(BINARY_DIR) 
+	-rm -r $(MODEL_BUILD_TMP)
+	-rm -r $(BINARY_DIR) 
