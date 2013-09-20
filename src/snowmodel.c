@@ -2253,8 +2253,10 @@ void subsurf() {
         RAIN[i][j] = RAIN[i][j] - sumrain;
     }
 
-    if (skin_or_inter == 0)
+    if (skin_or_inter == 0) {
         ICEHEAT[i][j] = -factG ;
+        energybalance();
+        }
     else
         ICEHEAT[i][j] = source + MELT[i][j]*Lf/deltat;
 

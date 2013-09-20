@@ -118,6 +118,7 @@ void surftempskin() {
         kspechum = 2;
         spechum();
 
+		surftemp[i][j] = tsurf;
         turbfluxes();
 
 //        tsurfenergybalance(tsurf);
