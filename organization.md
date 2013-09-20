@@ -28,7 +28,7 @@ __shading.txt__: A sample parameter file for the shading utility.
 
 Note that you need to adjust the input/output paths in the example parameter files and copy them to the
 folder of the executables. Then you should be able to run the example.
-Files are given in asci-format and binary format as required by the model. However, sometimes the asci-files
+Files are given in binary format as required by the model, but also in asci-file. Sometimes the asci-files
 need to be freshly converted into binary format (using ascigrid) on the platform you are working on for the model to run.
 
 
