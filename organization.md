@@ -22,7 +22,7 @@ and parameter file for running the model. Included are samples of a climate data
 Adjusted parameter files for the models, and shading tool are included
 as well:
 
-__input.txt__ : A sample parameter file for DEBaM and DETIM
+__input.txt__ : A sample parameter file for DEBaM and DETIM adjusted to the sample data
 
 __shading.txt__: A sample parameter file for the shading utility.
 
