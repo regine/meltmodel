@@ -39,7 +39,7 @@ MAJOR.MINOR.PATCH, which are incremented when
 3. PATCH: when backwards-compatible bug fixes are made.
 
 The upshot of which is that your parameter files for model version
-```1.0.3``` will not work with version ```3.6.4``` but will work
+ ``1.0.3`` will not work with version ```3.6.4``` but will work
 with ```1.2.0``` and ```1.0.4```.  If you are contributing, we
 highly recommend you read the [full SemVer specification](http://semver.org).
 
@@ -70,15 +70,15 @@ editing documentation etc.
   model.
   
   How to create a fork: 
-   - Got to the (model github page)[https://github.com/regine/meltmodel]
-   - click on 'Fork'
+   - Go to the [model github page](https://github.com/regine/meltmodel)
+   - Click on 'Fork'
    This makes your own fork and at the same time copies the entire github model repository
    (including all branches) to your fork on github.
    
 2. __Download a copy of your fork to your local computer__
    open terminal
    
-       $ git clone https://github.com/USERNAME/meltmodel.git
+         $ git clone https://github.com/USERNAME/meltmodel.git
    (Replace 'USERNAME' with your user name)
    Now you a local copy of your Github fork on your computer.
    
@@ -109,7 +109,7 @@ editing documentation etc.
   named the new branch anything, but we should give the branches
  descriptive names.
 
-4. __Make Changes to the source code__:
+4. __Make Changes to the Source Code__:
   Now that we're in a new branch on our local computer, we can make changes at will, by
   editing, adding or removing files.
   Git will recognize files in the directory as being in one of
@@ -133,7 +133,7 @@ editing documentation etc.
   to modified, but these changes will not be tracked by Git until we
   commit them to the repository. 
 
-5. __Commit your Changes__:
+5. __Commit Your Changes__:
   Once you're happy with your changes, it's time to assemble
   and commit your changes which means that you can browse the history of changes in the code
   as the changes become part of the version control. Because Git doesn't
@@ -186,7 +186,7 @@ editing documentation etc.
 
 6. __Make More Changes and Make More Commits__:
   We can now happily edit away, making more changes at will. Repeat
-  steps 2 and 3 as needed, making new commits as you go.
+  steps 4 and 5 as needed, making new commits as you go.
  
 7. __Push Branch to Github__:
   At some point you'll want to push the entire branch that contains your local changes 
@@ -199,7 +199,7 @@ editing documentation etc.
   where "longwave" is our example of the name of the branch and needs to be replaced
   by the name of the branch you are using.
   This tells git to push the changes you've made on the branch 
-  "longwave" to the remote server named "origin", which is by default the server you 
+  "longwave" to the remote server named "origin" which is, by default, the server you 
   cloned the model from.
 
   Until you are sure that you want to include the changes you've made
@@ -233,7 +233,7 @@ editing documentation etc.
         	$ git push origin :longwave
 
 
-9. __Submit a pull request__:
+9. __Submit a Pull Request__:
   A good way to let people know that you've been working on the model,
   and that your changes may be ready to be merged into the master version on github, is to
   submit a Pull Request through Github. Once you've submitted a Pull
