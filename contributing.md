@@ -249,15 +249,41 @@ editing documentation etc.
 
    This will notify the model administrators and create a page where people can discuss
    the proposed model changes.
+
+10. __Merging Branches__:
+  We've gone over making branches to isolate changes, and deleting branches when
+  those changes don't work out, so it remains to combine branches when changes
+  do work out. When there are no conflicts, merging with git is simple. Suppose
+  we've finished making changes on our ```longwave``` branch, are pleased with
+  the results, and want to include the code in the ```master``` branch of the code.
+  Assuming we're on the ```longwave``` branch we first checkout the ```master``` branch
+
+        $ git checkout master
+  And then merge the ```longwave``` branch into it:
+
+        $ git merge longwave
+  Assuming no conflicts were found, your master branch will now have 
+  new commits in it which incorporate the changes made on the ```longwave``` branch.
+  It's a good idea to look over the new code to make sure that the merge resulted
+  in the code you epected, and that nothing surprising broke.
+
+  If you are merging two branches and both have had commits made on them since the branch,
+  it's possible that git will have some trouble resolving the changes made, and you will
+  need to fix the offending lines by hand. Git's good about telling you this though
+  and about parking up your files to help you find points of contention.
+
+
+#### Repository Administration
+
  
-10. __Merge Into Master__:
+1. __Merge Pull Requests__:
   Once changes have been reviewed and approved, our final task is to
   merge them into the main code repository. This can be done in
   two ways:
   1. Using the Pull Request Merge Button: Github provides an automated
      way to pull in changes via the Pull Request. If Git detects conflicts
      in the merge, you will be presented with instructions on manually proceeding
-     with the merge.
+     with the merge. 
 
   2. Manually merging via the commandline:
      Following the example we have been working with, to merge
@@ -268,11 +294,11 @@ editing documentation etc.
             $ git checkout master 
             $ git merge longwave
 
-11. __Push to Github__:
-  Finally, to push the changes we've made up to Github, we would do the following
-  from the command line.
+  3. __Push to Github__:
+    Finally, to push the changes we've made up to Github, we would do the following
+    from the command line.
 
-        $ git push origin master
+            $ git push origin master
 
 ### A Concise version of the above
 
