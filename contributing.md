@@ -71,11 +71,11 @@ editing documentation etc.
   
   How to create a fork: 
    - Go to the [model github page](https://github.com/regine/meltmodel)
-   - Click on 'Fork'
-   This makes your own fork and at the same time copies the entire github model repository
+   - Click on 'Fork'. This makes your own fork and at the same time copies the entire github model repository
    (including all branches) to your fork on github.
    
 2. __Download a copy of your fork to your local computer__
+   
    open terminal
    
          $ git clone https://github.com/USERNAME/meltmodel.git
@@ -135,8 +135,10 @@ editing documentation etc.
 
 5. __Commit Your Changes__:
   Once you're happy with your changes, it's time to assemble
-  and commit your changes which means that you can browse the history of changes in the code
-  as the changes become part of the version control. Because Git doesn't
+  and commit your changes which means that it will allow you to browse 
+  the history of changes in the code
+  because by committing the changes they become part of the version control. 
+  Because Git doesn't
   force us to save all of the changes we've made at the same time,
   we can separate our edits into several commits. If we think 
   of a single commit as a snapshot of the project at a particular
@@ -189,8 +191,9 @@ editing documentation etc.
   steps 4 and 5 as needed, making new commits as you go.
  
 7. __Push Branch to Github__:
-  At some point you'll want to push the entire branch that contains your local changes 
-  to your own github repository which allows you to access the content from any other
+  At some point you'll want to push the entire branch that contains your the changes on 
+  local computer 
+  to your own github repository.  This will allow you to access the content from any other
   computer and also makes your changes visible to others. If you
   have pulled the source from your own fork on Github (see step 2 above) this is
   as easy as
@@ -206,34 +209,9 @@ editing documentation etc.
   in the master branch of your fork, it's wise to keep your edits isolated
   in the branch you've made. Continue this by repeating steps
   2 - 5. When your code is ready to be included in the model's
-  "official" code (master version), proceed to 9.
+  "official" code (master version), proceed to 8.
 
-8. __Deleting a Branch__:
-  Git's branches are easy to make, and easy to delete. If we decide that
-  the changes we've made on the branch aren't to your likeing, and
-  want to get rid of them entirely, we can delete the entire branch. 
-  Here we're going to delete the ```longwave``` branch.
-  
- 
- 	1. __Deleting a Branch Locally__:
- 	We should first make sure that we're on a different branch from the one
-    we're deleting. Also you have to commit all your changes or stash them 
-    before you can switch branches:
-        
-        	$ git checkout master
-  we can then delete the branch in our working copy
-
-        	$ git branch -D longwave
-        
-	2. __Deleting a Branch on Github__:
-  The above only deletes the local version of the branch. If this branch has 
-  been pushed to Github, we can delete it there too. This should be done
-  with caution. 
-
-        	$ git push origin :longwave
-
-
-9. __Submit a Pull Request__:
+8. __Submit a Pull Request__:
   A good way to let people know that you've been working on the model,
   and that your changes may be ready to be merged into the master version on github, is to
   submit a Pull Request through Github. Once you've submitted a Pull
@@ -248,12 +226,41 @@ editing documentation etc.
     click on 'submit pull request'.
 
    This will notify the model administrators and create a page where people can discuss
-   the proposed model changes.
+   the proposed model changes. Note that it is up to the administrator to merge your changes
+   into the 'official' master version. You don't have permission to do so and need to 
+   contact [R. Hock](mailto:regine@gi.alaska.edu).
 
-10. __Merging Branches__:
+###Other useful operations
+
+1. __Deleting a Branch__:
+  Git's branches are easy to make, and easy to delete. If we decide that
+  the changes we've made on the branch aren't to your likeing, and
+  want to get rid of them entirely, we can delete the entire branch. 
+  Here we're going to delete the ```longwave``` branch.
+ 
+ 	1. __Deleting a Branch Locally__:
+ 	We should first make sure that we're on a different branch from the one
+    we're deleting. Also you have to commit all your changes or stash them 
+    before you can switch branches:
+        
+        	$ git checkout master
+  we can then delete the branch in our working copy
+
+        	$ git branch -D longwave
+        
+	2. __Deleting a Branch on your fork on Github__:
+  The above only deletes the local version of the branch on your computer. If this branch has 
+  been pushed to your fork on Github, we can delete it there too. This should be done
+  with caution.
+
+        	$ git push origin :longwave
+
+2. __Merging Branches on your own fork__:
   We've gone over making branches to isolate changes, and deleting branches when
   those changes don't work out, so it remains to combine branches when changes
-  do work out. When there are no conflicts, merging with git is simple. Suppose
+  do work out. It is recommended to merge branches locally and then push the merged 
+  branch to github.
+  When there are no conflicts, merging with git is simple. Suppose
   we've finished making changes on our ```longwave``` branch, are pleased with
   the results, and want to include the code in the ```master``` branch of the code.
   Assuming we're on the ```longwave``` branch we first checkout the ```master``` branch
@@ -265,7 +272,7 @@ editing documentation etc.
   Assuming no conflicts were found, your master branch will now have 
   new commits in it which incorporate the changes made on the ```longwave``` branch.
   It's a good idea to look over the new code to make sure that the merge resulted
-  in the code you epected, and that nothing surprising broke.
+  in the code you expected, and that nothing surprising broke.
 
   If you are merging two branches and both have had commits made on them since the branch,
   it's possible that git will have some trouble resolving the changes made, and you will
@@ -274,12 +281,12 @@ editing documentation etc.
 
 
 #### Repository Administration
-
  
 1. __Merge Pull Requests__:
-  Once changes have been reviewed and approved, our final task is to
-  merge them into the main code repository. This can be done in
-  two ways:
+  In case you receive a pull request for any of your branches of your
+  fork on Github you can decide to merge them into your code repository (master or any
+  other branch you may have).
+  Two ways to do so:
   1. Using the Pull Request Merge Button: Github provides an automated
      way to pull in changes via the Pull Request. If Git detects conflicts
      in the merge, you will be presented with instructions on manually proceeding
@@ -294,7 +301,7 @@ editing documentation etc.
             $ git checkout master 
             $ git merge longwave
 
-  3. __Push to Github__:
+  	__Push to Github__:
     Finally, to push the changes we've made up to Github, we would do the following
     from the command line.
 
