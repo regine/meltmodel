@@ -46,17 +46,18 @@ highly recommend you read the [full SemVer specification](http://semver.org).
 The various versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
 and can be [reviewed on Github](https://github.com/regine/meltmodel/releases).
 
-Using Git
----------
+Using Git to contribute to model development
+--------------------------------------------
 Git's a flexible tool, which allows for a wide variety of
 work flows.  Here's one which serves well for working with DEBaM
-and DETIM.
+and DETIM, i.e. if you want to contribute to the model by adding a feature, fixing a bug, 
+editing documentation etc.
 
 ###Workflow:
 
 1. __Fork__:
-  Github allows you to create your own fork of the model code,
-  and host it on Github as well.  Think of your fork as your own version of
+  Create a fork: Github allows you to create your own fork of the model code,
+  and host it on Github as well. Think of your fork as your own version of
   the model, which you can modify, upload and share these modifications. Github also
   offers tools for combining changes from forks into the main project, as well
   as tools to discussing changes before they are merged. These tools make forking
@@ -70,19 +71,18 @@ and DETIM.
 
 
 1. __Branch__:
-  When making changes, i.e. adding a feature, fixing a bug,
-  or editing documentation, make a new branch off of
-  the **release_0.2** branch, and give it a descriptive name.
+  Once you have your fork, make a new branch off of
+  the **master** branch, and give it a descriptive name.
   Branches let you make changes and develop them separate
   from the main line of development. This way if your changes take
-  awhile or you need to work on a different part of the project
+  a while or you need to work on a different part of the project
   you can commit the changes you've made so far, and switch
-  back to the release branch. Or if your changes simply don't
+  back to the master branch for model application. Or if your changes don't
   work out, you can delete the changes you made by simply deleting the
   branch instead of having to track down every change made.
 
   Say we want to add a new parameterization to compute longwave radiation,
-  at the terminal just type:
+  at the terminal (in folder meltmodel) just type:
 
         $ git branch longwave
         $ git checkout longwave
@@ -138,7 +138,8 @@ and DETIM.
   to make commits at semi-regular intervals while you're working
   on the code; once you've finished a small task, make a commit.
   This way your commit history presents a history of how the code
-  has changed.
+  has changed. You may want to compile the model before committing your changes
+  (go to the meltmodel folder and type 'make models')
 
   So how do we make a commit? Assuming we've made some changes,
   we need to assemble a commit, by *staging* changes. Git requires
@@ -149,7 +150,7 @@ and DETIM.
     by staging them using the ```git add``` command.
 
             $ git add radiat.c radiat.h
-  * If we added a new source file, e.g. ```longwave.c```we add that file including the header file,     
+  * If we added a new source file, e.g. ```longwave.c``` we add that file including the header file,     
   * From here we can use ```git status``` to see the status of
     the repository, if we decide we'd like to undo some changes
     or add more changes we still can before we make our commit,
@@ -174,13 +175,14 @@ and DETIM.
   We can now happily edit away, making more changes at will. Repeat
   steps 2 and 3 as needed, making new commits as you go.
  
-4. __Push Branch to Github__:
+5. __Push Branch to Github__:
   At some point you'll want to share you changes with others. If you
   have pulled the source from your own fork on Github this is
   as easy as
 
         $ git push origin longwave
-  where "longwave" is our example of the name of the branch and needs to be replaced by the name of the branch you've been working on in case it is different.
+  where "longwave" is our example of the name of the branch and needs to be replaced
+  by the name of the branch you are using.
   This tells git to push the changes you've made on the branch 
   "longwave" to the remote server named "origin".
 
@@ -188,38 +190,39 @@ and DETIM.
   in the release of the model, it's wise to keep your edits isolated
   in the branch you've made. Continue this by repeating steps
   2 - 5. When your code is ready to be included in the model's
-  "official" code, proceed to 6.
+  "official" code (master version), proceed to 7.
 
-5. __Deleting a Branch__:
+6. __Deleting a Branch__:
   Git's branches are easy to make, and easy to delete. If we decide that
   the changes we've made on the branch aren't to our likeing, and
   want to get rid of them entirely, we can delete the entire branch. 
   Here we're going to delete the ```longwave``` branch.
-  We shoudld first make sure that we're on different branch from the one
-  we're deleting:
+  We should first make sure that we're on a different branch from the one
+  we're deleting. Also you have to commit all your changes or stash them 
+  before you can switch branches:
  
-        $ git checkout release_0.2
+        $ git checkout master
   we can then delete the branch in our working copy
 
         $ git branch -d longwave
 
-  This only deletes the local version of the branch; if this branch has 
+  This only deletes the local version of the branch. If this branch has 
   been pushed to Github, we can delete it there too. This should be done
   with caution. 
 
         $ git push origin :longwave
 
 
-6. __Submit a pull request__:
+7. __Submit a pull request__:
   A good way to let people know that you've been working on the model,
-  and that your changes may be ready to be merged into the model, is to
+  and that your changes may be ready to be merged into the master version, is to
   submit a Pull Request through Github. Once you've submitted a Pull
   request, people can review the changes, discuss modifications, and
   submit follow-up commits if need be.  Github's
   [help page](https://help.github.com/articles/using-pull-requests)
   on Pull Requests is a good place to learn more about Pull Requests.
  
-7. __Merge Into Master__:
+8. __Merge Into Master__:
   Once changes have been reviewed and approved, our final task is to
   merge them into the main code repository. This can be done in
   two ways:
@@ -231,21 +234,21 @@ and DETIM.
   2. Manually merging via the commandline:
      Following the example we have been working with, to merge
      the changes we've made on the ```longwave```
-     branch into the ```release_0.2``` branch we would do the following
+     branch into the ```master``` branch we would do the following
      from the command line:
 
-            $ git checkout release_0.2 
+            $ git checkout master 
             $ git merge longwave
 
-8. __Push to Github__:
+9. __Push to Github__:
   Finally, to push the changes we've made up to Github, we would do the following
   from the command line.
 
-        $ git push origin release_0.2
+        $ git push origin master
 
 ### A Concise version of the above
 
-__Making Changes___:
+__Making Model Changes__:
 
   1. Create a new branch:
 
@@ -254,22 +257,22 @@ __Making Changes___:
   2. Check out a branch:
       
         $ git checkout <branch_name>
-  2. Make Changes/ Add files
+  3. Make Changes/ Add files
 
         $ git add <new/changed_filename>
-  3. Check on what's added/changed/staged
+  4. Check on what's added/changed/staged
 
         $ git status
-  4. Commit changes
+  5. Commit changes
 
         $ git commit
-  5. Push to Github
+  6. Push to Github
 
         $ git push origin
-  6. Delete a local branch
+  7. Delete a local branch
 
         $ git branch -d <branch_name>
-  7. Merge one branch (source) into another (target)
+  8. Merge one branch (source) into another (target)
 
         $ git checkout <target_branch_name>
         $ git merge <source_branch_name>
