@@ -28,7 +28,7 @@ sign up and use Github to assist in collaboration.
 
 Versioning
 ----------
-As of version 1.0.0, we've begun using [Semantic Versioning](http://semver.org/)
+As of version 1.0.0 (Sep 2013), we've begun using [Semantic Versioning](http://semver.org/)
 to dictate model version numbers. Roughly speaking, version numbers consist of
 MAJOR.MINOR.PATCH, which are incremented when
 
@@ -56,7 +56,7 @@ editing documentation etc.
 ###Workflow:
 
 1. __Fork__:
-  Create a fork: Github allows you to create your own fork of the model code,
+  Github allows you to create your own fork of the model code,
   and host it on Github as well. Think of your fork as your own version of
   the model, which you can modify, upload and share these modifications. Github also
   offers tools for combining changes from forks into the main project, as well
@@ -68,21 +68,33 @@ editing documentation etc.
   model code; your fork will need to be updated occasionally to keep up
   to date with changes to the model, but you shouldn't need to re-fork the
   model.
-
-
-1. __Branch__:
-  Once you have your fork, make a new branch off of
-  the **master** branch, and give it a descriptive name.
+  
+  How to create a fork: 
+   - Got to the (model github page)[https://github.com/regine/meltmodel]
+   - click on 'Fork'
+   This makes your own fork and at the same time copies the entire github model repository
+   (including all branches) to your fork on github.
+   
+2. __Download a copy of your fork to your local computer__
+   open terminal
+   
+       $ git clone https://github.com/USERNAME/meltmodel.git
+   (Replace 'USERNAME' with your user name)
+   Now you a local copy of your Github fork on your computer.
+   
+3. __Branch__:
+  Make a new branch off of
+  the **master** branch of your local copy, and give it a descriptive name.
   Branches let you make changes and develop them separate
   from the main line of development. This way if your changes take
   a while or you need to work on a different part of the project
   you can commit the changes you've made so far, and switch
-  back to the master branch for model application. Or if your changes don't
+  back to your master branch for model application. Or if your changes don't
   work out, you can delete the changes you made by simply deleting the
   branch instead of having to track down every change made.
 
   Say we want to add a new parameterization to compute longwave radiation,
-  at the terminal (in folder meltmodel) just type:
+  at the terminal (in folder meltmodel) make a new branch by typing:
 
         $ git branch longwave
         $ git checkout longwave
@@ -93,12 +105,12 @@ editing documentation etc.
   and make that the active branch. Now, any changes which we commit to
   the repository will be made to the new branch only.
 
-  The title ```longwave``` is just an example, we could have
+  The title of the branch ```longwave``` is just an example, we could have
   named the new branch anything, but we should give the branches
  descriptive names.
 
-2. __Make Changes__:
-  Now that we're in a new branch, we can make changes at will, by
+4. __Make Changes to the source code__:
+  Now that we're in a new branch on our local computer, we can make changes at will, by
   editing, adding or removing files.
   Git will recognize files in the directory as being in one of
   four statuses:
@@ -121,9 +133,10 @@ editing documentation etc.
   to modified, but these changes will not be tracked by Git until we
   commit them to the repository. 
 
-3. __Commit your Changes__:
+5. __Commit your Changes__:
   Once you're happy with your changes, it's time to assemble
-  and commit your changes to the repository. Because Git doesn't
+  and commit your changes which means that you can browse the history of changes in the code
+  as the changes become part of the version control. Because Git doesn't
   force us to save all of the changes we've made at the same time,
   we can separate our edits into several commits. If we think 
   of a single commit as a snapshot of the project at a particular
@@ -152,7 +165,7 @@ editing documentation etc.
             $ git add radiat.c radiat.h
   * If we added a new source file, e.g. ```longwave.c``` we add that file including the header file,     
   * From here we can use ```git status``` to see the status of
-    the repository, if we decide we'd like to undo some changes
+    the local repository, if we decide we'd like to undo some changes
     or add more changes we still can before we make our commit,
     but we will need to stage these changes too, with another
     ```git add``` command.
@@ -167,62 +180,77 @@ editing documentation etc.
   command line, with the ```-m``` option:
 
             $ git commit -m "Added new longwave radiation parameterization."
-  Now, if we check the status of the repository using ```git status```
+  Now, if we check the status of the local repository using ```git status```
   we will see that the changes we committed are no longer marked
   as modified.
 
-4. __Make More Changes and Make More Commits__:
+6. __Make More Changes and Make More Commits__:
   We can now happily edit away, making more changes at will. Repeat
   steps 2 and 3 as needed, making new commits as you go.
  
-5. __Push Branch to Github__:
-  At some point you'll want to share you changes with others. If you
-  have pulled the source from your own fork on Github this is
+7. __Push Branch to Github__:
+  At some point you'll want to push the entire branch that contains your local changes 
+  to your own github repository which allows you to access the content from any other
+  computer and also makes your changes visible to others. If you
+  have pulled the source from your own fork on Github (see step 2 above) this is
   as easy as
 
         $ git push origin longwave
   where "longwave" is our example of the name of the branch and needs to be replaced
   by the name of the branch you are using.
   This tells git to push the changes you've made on the branch 
-  "longwave" to the remote server named "origin".
+  "longwave" to the remote server named "origin", which is by default the server you 
+  cloned the model from.
 
   Until you are sure that you want to include the changes you've made
-  in the release of the model, it's wise to keep your edits isolated
+  in the master branch of your fork, it's wise to keep your edits isolated
   in the branch you've made. Continue this by repeating steps
   2 - 5. When your code is ready to be included in the model's
-  "official" code (master version), proceed to 7.
+  "official" code (master version), proceed to 9.
 
-6. __Deleting a Branch__:
+8. __Deleting a Branch__:
   Git's branches are easy to make, and easy to delete. If we decide that
-  the changes we've made on the branch aren't to our likeing, and
+  the changes we've made on the branch aren't to your likeing, and
   want to get rid of them entirely, we can delete the entire branch. 
   Here we're going to delete the ```longwave``` branch.
-  We should first make sure that we're on a different branch from the one
-  we're deleting. Also you have to commit all your changes or stash them 
-  before you can switch branches:
+  
  
-        $ git checkout master
+ 	1. __Deleting a Branch Locally__:
+ 	We should first make sure that we're on a different branch from the one
+    we're deleting. Also you have to commit all your changes or stash them 
+    before you can switch branches:
+        
+        	$ git checkout master
   we can then delete the branch in our working copy
 
-        $ git branch -d longwave
-
-  This only deletes the local version of the branch. If this branch has 
+        	$ git branch -D longwave
+        
+	2. __Deleting a Branch on Github__:
+  The above only deletes the local version of the branch. If this branch has 
   been pushed to Github, we can delete it there too. This should be done
   with caution. 
 
-        $ git push origin :longwave
+        	$ git push origin :longwave
 
 
-7. __Submit a pull request__:
+9. __Submit a pull request__:
   A good way to let people know that you've been working on the model,
-  and that your changes may be ready to be merged into the master version, is to
+  and that your changes may be ready to be merged into the master version on github, is to
   submit a Pull Request through Github. Once you've submitted a Pull
   request, people can review the changes, discuss modifications, and
   submit follow-up commits if need be.  Github's
   [help page](https://help.github.com/articles/using-pull-requests)
   on Pull Requests is a good place to learn more about Pull Requests.
  
-8. __Merge Into Master__:
+   How to make a pull request:
+    Go to your fork on github and change into the branch that you want to merge with the 
+    'official' master version.
+    click on 'submit pull request'.
+
+   This will notify the model administrators and create a page where people can discuss
+   the proposed model changes.
+ 
+10. __Merge Into Master__:
   Once changes have been reviewed and approved, our final task is to
   merge them into the main code repository. This can be done in
   two ways:
@@ -240,7 +268,7 @@ editing documentation etc.
             $ git checkout master 
             $ git merge longwave
 
-9. __Push to Github__:
+11. __Push to Github__:
   Finally, to push the changes we've made up to Github, we would do the following
   from the command line.
 
