@@ -1,10 +1,10 @@
 Sample input.txt file for Lemon Glacier
 ***********************************************************
 100.0    %output to screen every X day.  daysscreenoutput.
-/Users/luser/Documents/example_data/    %Path for Inputfiles.  inpath
-/Users/luser/Documents/example_output/    %Path for Outputfiles.  outpath
+/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
+/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
 129  1999    %first julian day to be calculated.  jdbeg  yearbeg
-167  1999   %last julian day to be calculated.  jdend  yearend
+165  1999   %last julian day to be calculated.  jdend  yearend
 2    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS ****************************
@@ -63,7 +63,7 @@ dav_aspect.bin    %name of DTM aspect.  namedgmaspec
 dummy.bin    %name of DTM sky view factor.  namedgmskyview
 dav_firn.bin    %name of DTM firnarea.  namedgmfirn
 dav_snow0.bin   %name of DTM initial snow cover.  nameinitialsnow 
-climatedischargeinput1949-2011.txt    %name of climate data file.  nameklima
+dav_climate_data.txt    %name of climate data file.  nameklima
 %********* 5.) GRID INFORMATION***************************************
 -134.504799999999989    %geographical longitude [degree].  laenge
 58.511699999999998    %latitude.  breite

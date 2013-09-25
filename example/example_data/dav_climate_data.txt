@@ -1,5 +1,5 @@
-"Test climate data set for detim/debam glacier (radiation in W/m2, wind in m/s, precip in mm/h, Temp in degC, humidity in %)"									
-year	day	time	airtemp	rlhumidity	wind speed	winddir	global_rad	reflected	netradiation	longwave_in	Longwave_out	precip
+"Test climate data set for detim/debam glacier (radiation in W/m2, wind in m/s, precip in mm/h, Temp in degC, humidity in %); can only by run from JD 129-166"	
+year	day	time	airtemp	rlhumidity	wind speed	winddir	global_rad	reflected	netradiation	longwave_in	Longwave_out precip
 1999	128.83	20	-11.97	87.2	1.92	272.9	29.48	26.25	18.83	180.3	237.9	0
 1999	128.87	21	-11.64	85.95	1.99	275.05	12.38	10.93	12.91	181.2	236.57	0
 1999	128.92	22	-11.74	85.95	2.04	276	1.67	1.63	8.84	186.35	238.73	0
@@ -935,8 +935,3 @@ year	day	time	airtemp	rlhumidity	wind speed	winddir	global_rad	reflected	netradi
 1999	167.67	16	4.89	64.27	0.88	315.15	582.8	371.35	78.65	236.8	312.32	0
 1999	167.71	17	5.29	63	1.12	330.25	486.65	303.6	71.2	235.45	309.61	0
 1999	167.75	18	5.68	57.58	1.45	148.4	364.9	220.25	66.37	237.25	308.53	0
-1999	167.79	19	5.63	60.97	1.28	251.25	40.85	31.82	-44.08	238.35	304.83	0
-1999	167.83	20	5.71	64.6	1.49	319.3	47.01	34.51	-36.35	241.15	305.71	0
-1999	167.88	21	5.61	62.13	1.63	174.05	29	23.09	-44.72	241.7	305.44	0
-1999	167.92	22	6.06	59.17	1	297.5	25.99	19.01	-42.85	245.55	305.48	0
-1999	167.96	23	5.8	59.79	1.84	163.2	12
