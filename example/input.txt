@@ -3,8 +3,8 @@ Sample input.txt file for Lemon Glacier
 100.0    %output to screen every X day.  daysscreenoutput.
 /Users/luser/Documents/example_data/    %Path for Inputfiles.  inpath
 /Users/luser/Documents/example_output/    %Path for Outputfiles.  outpath
-244  2008    %first julian day to be calculated.  jdbeg  yearbeg
-300  2010    %last julian day to be calculated.  jdend  yearend
+129  1999    %first julian day to be calculated.  jdbeg  yearbeg
+167  1999   %last julian day to be calculated.  jdend  yearend
 2    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS ****************************
@@ -75,19 +75,19 @@ climatedischargeinput1949-2011.txt    %name of climate data file.  nameklima
 1    %time step in hours.  timestep
 %********* 6.) CLIMATE DATA ******************************************
 3    %1=midnight time is 0, 2=time is 24, 3=24 but previous day.  formatclimdata
-9    %number of columns in climate file.  maxcol
+13    %number of columns in climate file.  maxcol
 4    %columns in climate input file: temperature.  coltemp
-20    %column containing relative humidity.  colhum
-20    %column wind speed [m/s].  colwind
-20    %global radiation.  colglob
-20    %reflected shortwave radiation.  colref
-20    %net radiation.  colnet
-20    %longwave incoming radiation.  collongin
-20    %longwave outgoing radiation.  collongout
-5    %precipitation.  colprec
+5    %column containing relative humidity.  colhum
+6    %column wind speed [m/s].  colwind
+8    %global radiation.  colglob
+9    %reflected shortwave radiation.  colref
+10    %net radiation.  colnet
+11    %longwave incoming radiation.  collongin
+12    %longwave outgoing radiation.  collongout
+13    %precipitation.  colprec
 30    %cloud cover (number of eigths).  colcloud
 30    %time variant lapse rate (neg=decrease).  coltempgradvarying
-8    %column of discharge data.  coldis
+30    %column of discharge data.  coldis
 %********** CORRECTIONS TO INPUT ********************************
 0    %add this to ERA temp to get to elevationstation.  ERAtempshift
 0    %add this to ERA wind to get to elevationstation.  ERAwindshift
