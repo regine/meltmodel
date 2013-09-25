@@ -4,9 +4,7 @@ A Note on the Organization of DETIM and DEBaM
 What's in the Folders?
 ----------------------
 
-You've probably noticed that there are two sub-directories
-in the root folder of the project, one called ```src``` and the
-other ```util```. These two models contain source code:
+There are two sub-directories in the root folder of the project, one called ```src``` and the other ```util```. These two folders contain source code:
 - ```src``` : Contains source code for the models.
 - ```util``` : Contains source code for utilities which users may
 find useful, such as
@@ -16,16 +14,24 @@ find useful, such as
     * shading : generates grid files including shading and potential direct radiation
     based on your DEM.
     * ```visualization```: contains matlab files to visualize model input and
-    output (only grids) programs ```grid``` and ```grids2diff``` and parameter
-    file for both programs ```inputreadgrid.m```
+    output (only grids); programs ```grid``` (show grid) and ```grids2diff``` (show 2 grids and the difference)
+    and parameter file for both programs ```inputreadgrid.m``` (setting paths, file names etc)
 
 There is a third subdirectory, ```example```, which contains a sample dataset
-and configureation file for running the model. Included are sample digiral elevation
-models, firn, snow and ice coverage, aspect data for potential radiation calculation
-and discharge data. Configuration files for the models, and shading tool are included
+and parameter file for running the model. Included are samples of a climate data input file and all grid files that are necessary to run the models: digital elevation models of the entire domain, the watershed (area to be computed) and the glacier, slope and aspect grids, firn and initial snow cover and skyview factor grids. 
+Adjusted parameter files for the models, and shading tool are included
 as well:
-__input.txt__ : A sample configuration file for DEBaM and DETIM
-__shading.txt__: A sample config file for the shading utility.
+
+__input.txt__ : A sample parameter file for DEBaM and DETIM adjusted to the sample data
+
+__shading.txt__: A sample parameter file for the shading utility.
+
+Note that you need to adjust the input/output paths in the example parameter files and copy the parameter files to the
+folder of the executables (folder bin). Then you should be able to run the example.
+Grid files are given in binary format as required by the model, but also in asci-format. Sometimes the asci-files
+need to be freshly converted into binary format on the platform you are working on (using ascigrid) 
+for the model to run.
+
 
 ### After building the Model
 Building the model creates two new subdirectories:
