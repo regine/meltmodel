@@ -47,14 +47,14 @@ The various versions of the model are marked in git with [tags](http://git-scm.c
 and can be [reviewed on Github](https://github.com/regine/meltmodel/releases).
 Creating a new tag using git is straightforward, as is pushng the tag to a server:
 
-```shell
+```bash
 $ git tag <tag-name>
 $ git push <remote> <tag-name>
 ```
 For example, supose we wanted to tag version 1.2.5, and push this tag to
 Github. At the shell we would type:
 
-```shell
+```bash
 $ git tag v1.2.5
 $ git push origin v1.2.5
 ```
