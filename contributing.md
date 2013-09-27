@@ -46,12 +46,14 @@ highly recommend you read the [full SemVer specification](http://semver.org).
 The various versions of the model are marked in git with [tags](http://git-scm.com/book/en/Git-Basics-Tagging)
 and can be [reviewed on Github](https://github.com/regine/meltmodel/releases).
 Creating a new tag using git is straightforward, as is pushng the tag to a server:
+
 ```shell
 $ git tag <tag-name>
 $ git push <remote> <tag-name>
 ```
 For example, supose we wanted to tag version 1.2.5, and push this tag to
 Github. At the shell we would type:
+
 ```shell
 $ git tag v1.2.5
 $ git push origin v1.2.5
