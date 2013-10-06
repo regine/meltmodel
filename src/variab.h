@@ -19,7 +19,7 @@
 
 /*************************************************************/
 /*  variab.h                                                 */
-/*    update 21 June 2013 */
+/*    update 7 October 2013 */
 /*************************************************************/
 #ifndef MELT_MOD_VARIAB_H_
 #define MELT_MOD_VARIAB_H_
@@ -28,36 +28,39 @@
 #define PNAME_LEN 201
 #define PFNAME_LEN 281
 
-
 /*-------------------------------------------------------------*/
 /*** VARIABLES                                               ***/
 /*-------------------------------------------------------------*/
 
-/*HIDDEN OPTIONS TO ADJUST ========*/
+/* ========================================================================================*/
+/*        HIDDEN OPTIONS TO ADJUST                                                         */
+/*  e.g. if you run the subsurface model, or want to run the model only for the AWS location */
+/* if you adjust any of the variable values below, you need to recompile the code !========*/
+/* ========================================================================================*/
 
-float  surftempminimum = -40.;  /*surftemp cannot be lower than this*/
+float  surftempminimum = -30.;  /*surftemp cannot be lower than this*/
 int    dat_or_txt = 2;   /*1=dat, 2=txt, extension for areamean, grid asciifiles*/
 int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1, no=0;  April 2010*/
 /*only if methodsurtempglac=3 */
 int    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 float  z2=2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 float  emissivitysurf=1;   /*surface emissivity for calc of longwave out from surf temp and for computing longwave outgoing (radiat.c)*/
-int    snetfromobsyes = 1;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available*/
+int    snetfromobsyes = 0;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
 /*to force energy balance with shortwave measurements in case only climate station computed*/
 /*in order to exclude shortwave(albeodo) simulations from explaining deviations obs-simul*/
 int    allradiationfromfile=0;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if just climate station cell computed*/
 /*(calgridyes in input.dat = 2, and only if methodsurftempglac = 3*/
 /* also snetfromobsyes must be set to 1 in that case */
-float snowscenario = 0;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
+float snowscenario = 41;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
 
 /*=== SUBSURFACE SNOW MODEL ===*/
 /*----- NEEDS TO BE ADJUSTED BY USER TO EACH CASE (glacier and simulation start condition ----------------------------------*/
 /*----- choose default options for initialization of vertical profiles of temp and density*/
-int init_layertemperature=3;	/*1=default 3 gradients, (2=does not exist), 3=storglaciaren*/
-int init_snowlayerdensity=3;	/*1=default constant density, 2=default 3 gradients, 3=storglaciaren*/
-int init_firnlayerdensity=3;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
+int init_layertemperature=1;	/*1=default 3 gradients, (2=does not exist), 3=storglaciaren*/
+int init_snowlayerdensity=2;	/*1=default constant density, 2=default 3 gradients, 3=storglaciaren*/
+int init_firnlayerdensity=1;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
 /*int init_snowlayermsnow=1;*/		/*1=default constant density, 2= default 3 linear gradients,  3=storglaciaren*/
-int init_outputlines=3;		/*1=default,3=storglaciaren*/
+int init_outputlines=1;		/*1=default,3=storglaciaren*/
 
 /*============= INITIALIZATION OF SNOW TEMPERATURE PROFEILS - in case init_layertemperature = 2  ======================== */
 /*temperatures at the turning points, 3 gradients are defined by 4 temperatures at 4 depths
@@ -127,7 +130,11 @@ float pKonzel   = 2;       /* value in Konzelmann et al.  p=4 */
 
 /******************************************/
 int    readsnowalbedo=0;   /*1=snow albedo read from another climate station file, daily means*/
+
 /*========== END OF HIDDEN OPTIONS ==================================================*/
+/* NOTE: if you change anything above you need to recompile the code !!!
+/*================don't change anything below =======================================*/
+
 
 float  daysscreenoutput = 1;   /*output to screen every X day*/
 int  resoutlines=0;  /*number of times unrealistic values are generated*/
