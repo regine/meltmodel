@@ -154,11 +154,16 @@ int main()
                     topofatmosphere();   /*needed to determine cloudiness*/
             }
 
+puts("ok 1");
+
             switch(methodlonginstation) {  /*HOW IS LONGWAVE INCOMING AT STATION DETERMINED*/
             case 1:
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
                 break;
             case 2:
+            puts("ok 3");
+puts("ok 4");
+
                 break;                   /*LONGIN READ FROM CLIMATE DATA INPUT FILE*/
                 /*has been read into LWin in readclim*/
             case 3:
@@ -178,6 +183,8 @@ int main()
                 exit(3);
                 break;
             }  /*end switch*/
+
+puts("ok 2");
 
 
             /*REMOVE TOPOGRAPHIC INFLUENCE ON CLIMATE STATION LONGWAVE INCOMING
