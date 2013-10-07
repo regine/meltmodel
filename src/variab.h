@@ -24,9 +24,9 @@
 #ifndef MELT_MOD_VARIAB_H_
 #define MELT_MOD_VARIAB_H_
 
-#define FNAME_LEN 80
-#define PNAME_LEN 201
-#define PFNAME_LEN 281
+#define FNAME_LEN 80      /* length of file names*/
+#define PNAME_LEN 201     /* length of path names*/
+#define PFNAME_LEN 281    /* length of path+file names*/
 
 /*-------------------------------------------------------------*/
 /*** VARIABLES                                               ***/
@@ -51,7 +51,7 @@ int    snetfromobsyes = 0;     /*0=Shorwavenet from albedo, 1 = Snet from obs Si
 int    allradiationfromfile=0;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if just climate station cell computed*/
 /*(calgridyes in input.dat = 2, and only if methodsurftempglac = 3*/
 /* also snetfromobsyes must be set to 1 in that case */
-float snowscenario = 41;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
+float snowscenario = 0;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
 
 /*=== SUBSURFACE SNOW MODEL ===*/
 /*----- NEEDS TO BE ADJUSTED BY USER TO EACH CASE (glacier and simulation start condition ----------------------------------*/
