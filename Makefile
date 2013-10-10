@@ -6,7 +6,7 @@ df = $(MODEL_BUILD_TMP)/$(*F)
 
 # Compiler Flags
 CC=gcc
-CFLAGS = -Wall -O0 -g -m32
+CFLAGS = -Wall -O0 -m32
 LDFLAGS = -lm
 MAKEDEPEND = gcc -MM -MT '$(MODEL_BUILD_TMP)/$*.o' $(CPPFLAGS) -o $(MODEL_BUILD_TMP)/$*.d $<
 
