@@ -2,19 +2,36 @@
 MODEL_SRC = ./src
 MODEL_BUILD_TMP = ./build
 BINARY_DIR = ./bin
+df = $(MODEL_BUILD_TMP)/$(*F)
 
 # Compiler Flags
 CC=gcc
 CFLAGS = -Wall -O0 -g -m32
 LDFLAGS = -lm
+MAKEDEPEND = gcc -MM -MT '$(MODEL_BUILD_TMP)/$*.o' $(CPPFLAGS) -o $(MODEL_BUILD_TMP)/$*.d $<
+
+.PHONY: clean\
+	all\
+	debam\
+	detim\
+	models\
+	utils\
+	shading\
+	ascigrid\
+	gridasci\
+	gridtools\
+
 
 #### Model Building Stuff ####
-
-
 # Generic object file build rule
 $(MODEL_BUILD_TMP)/%.o: $(MODEL_SRC)/%.c
-	@echo "Building $@"
 	@mkdir -p $(MODEL_BUILD_TMP)
+	$(MAKEDEPEND)
+	@cp $(df).d $(df).P; \
+            sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+                -e '/^$$/ d' -e 's/$$/ :/' < $(df).d >> $(df).P; \
+            rm -f $(df).d
+	@echo "Building $@"
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@ 
 
 ## DETIM
@@ -37,6 +54,8 @@ DETIM_SOURCES = closeall.c \
 								writeout.c \
 								scaling.c \
 								detim.c
+
+-include $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.P))
 
 DETIM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.o))
 
@@ -65,6 +84,8 @@ DEBAM_SOURCES = closeall.c \
 								userfile.c \
 								writeout.c \
 								debam.c
+
+-include $(addprefix $(MODEL_BUILD_TMP)/, $(DEBAM_SOURCES:.c=.P))
 
 DEBAM_OBJECTS = $(addprefix $(MODEL_BUILD_TMP)/, $(DEBAM_SOURCES:.c=.o))
 
