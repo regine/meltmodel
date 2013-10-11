@@ -5,6 +5,7 @@ c) program technical improvements with no effect on results (TECHNICAL).
 The term in brackets is used to mark each change.
 
 
+
 ### 10/07/2013  (TECHNICAL, R. Hock)
 * v1.0.1
   Some values of the 'hidden options' in variab.h have been changed to reflect a more general case.
