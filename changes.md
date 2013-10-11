@@ -1,7 +1,7 @@
 Note: Changes in the code can be due to
-a) errors  (ERROR)
-b) new features that offer new options/functionality (NEW)
-c) program technical improvements with no effect on results (TECHNICAL).
+*a) errors  (ERROR)
+*b) new features that offer new options/functionality (NEW)
+*c) program technical improvements with no effect on results (TECHNICAL).
 The term in brackets is used to mark each change.
 
 
@@ -19,8 +19,8 @@ The term in brackets is used to mark each change.
 some bugs related to the sr50 output. Correspondence between mass balance output and sr50 has improved.
 - Made changes to functions subsurf and surftempskin to correct a bug resulting in wrong surface temperature to be used to calculate the sensible and latent heat flux. As a result energy balance was not 0 for T<0. This is fixed now.
 
-#### 09/18/2013
-* v1.0.0
+#### 09/18/2013 (L. Gillispie)
+* v1.0.0 Versioning started
 
 #### 09/11/2013  (TECHNICAL, L. Gillispie)
 * Switched build system from CMake to Makefile.
