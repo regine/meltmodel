@@ -10,7 +10,7 @@ The term in brackets is used to mark each change.
 * v1.0.1
   Some values of the 'hidden options' in variab.h have been changed to reflect a more general case.
 
-### 09/20/2013 (ERROR, C. Reijmer)
+#### 09/20/2013 (ERROR, C. Reijmer)
 
 * v1.0.1
    Bug fixed in the skin layer formulation responsible for the lack of closure of the surface energy balance as found in the output.
@@ -19,14 +19,14 @@ The term in brackets is used to mark each change.
 some bugs related to the sr50 output. Correspondence between mass balance output and sr50 has improved.
 - Made changes to functions subsurf and surftempskin to correct a bug resulting in wrong surface temperature to be used to calculate the sensible and latent heat flux. As a result energy balance was not 0 for T<0. This is fixed now.
 
-### 09/18/2013
+#### 09/18/2013
 * v1.0.0
 
-### 09/11/2013  (TECHNICAL, L. Gillispie)
+#### 09/11/2013  (TECHNICAL, L. Gillispie)
 * Switched build system from CMake to Makefile.
 
 
-### 08/26/2013  (TECHNICAL, L. Gillispie)
+#### 08/26/2013  (TECHNICAL, L. Gillispie)
 * File and path name-lengths have been made uniform. There are three preprocessor
   macros, located in 'variab.h' and 'variabex.h' called:
     - ```FNAME_LEN``` : Length of filenames. Set currently to 80.
@@ -41,7 +41,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
     char fullfilename[PFNAME_LEN];
   ```
 
-### 6/21/2013  (NEW, R. Hock)
+#### 6/21/2013  (NEW, R. Hock)
 * Added added glacierwide cumulative balances to areamean.txt; increase array sizes of names in variab.h
   Purpose: allow comparison e.g. with GRACE time series; no change in
   input.txt, column is added to areamean.txt;
@@ -49,24 +49,24 @@ some bugs related to the sr50 output. Correspondence between mass balance output
   (summerbalyes == 1)) || (maxmeltstakes > 0) ), NEW: if condition
   removed.
 
-### 5/23/2013  (NEW, C. Reijmer)
+#### 5/23/2013  (NEW, C. Reijmer)
 * Subsurface model: Added option to use skin-Temperature calculations in computing surface temperatures.
   Use of this option requires changing paramters in variab.h and recompile code ("hidden parameters").
 
-### 11/4/2012  (TECHNICAL, L. Gillispie)
+#### 11/4/2012  (TECHNICAL, L. Gillispie)
 * Fixed mismatching declarations in headers.
 
-### 8/31/2012
+#### 8/31/2012
 * Configuration filenmae changed from ```input.dat``` to ```input.txt```.
 * Added sample ```shading.txt``` shading configuration file.
 * Added Matlab visualization functions ```inputreadagrid.m``` and ```grids2diff.m```,
 * Updated Matlab vis tool ``grid.m```
 
-### 8/28/2012
+#### 8/28/2012
 * Added sample ```input.dat``
 * Added Matlab grid visualization tool.
 
-### Major changes since 11/2011 (L. Gillispie)
+#### Major changes since 11/2011 (L. Gillispie)
 
 * Github hosting!
 
