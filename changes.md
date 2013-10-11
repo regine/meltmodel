@@ -6,7 +6,7 @@ The term in brackets is used to mark each change.
 
 
 
-### 10/07/2013  (TECHNICAL, R. Hock)
+## 10/07/2013  (TECHNICAL, R. Hock)
 * v1.0.1
   Some values of the 'hidden options' in variab.h have been changed to reflect a more general case.
 
@@ -22,8 +22,8 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 ### 09/18/2013
 * v1.0.0
 
-### 09/11/2013  (TECHNICAL)
-* Switched build system from CMake to Makefile (L. Gillispie).
+### 09/11/2013  (TECHNICAL, L. Gillispie)
+* Switched build system from CMake to Makefile.
 
 
 ### 08/26/2013  (TECHNICAL, L. Gillispie)
