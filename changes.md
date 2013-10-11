@@ -1,7 +1,7 @@
 Note: Changes in the code can be due to
-*a) errors  (ERROR)
-*b) new features that offer new options/functionality (NEW)
-*c) program technical improvements with no effect on results (TECHNICAL).
+* a) errors  (_ERROR_)
+* b) new features that offer new options/functionality (NEW)
+* c) program technical improvements with no effect on results (TECHNICAL).
 The term in brackets is used to mark each change.
 
 
