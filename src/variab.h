@@ -45,13 +45,13 @@ int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1
 int    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 float  z2=2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 float  emissivitysurf=1;   /*surface emissivity for calc of longwave out from surf temp and for computing longwave outgoing (radiat.c)*/
-int    snetfromobsyes = 0;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
+int    snetfromobsyes = 1;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
 /*to force energy balance with shortwave measurements in case only climate station computed*/
 /*in order to exclude shortwave(albeodo) simulations from explaining deviations obs-simul*/
 int    allradiationfromfile=0;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if just climate station cell computed*/
 /*(calgridyes in input.dat = 2, and only if methodsurftempglac = 3*/
 /* also snetfromobsyes must be set to 1 in that case */
-float snowscenario = 0;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
+float snowscenario = 41;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
 
 /*=== SUBSURFACE SNOW MODEL ===*/
 /*----- NEEDS TO BE ADJUSTED BY USER TO EACH CASE (glacier and simulation start condition ----------------------------------*/
@@ -102,7 +102,7 @@ int  supericegrid=0;     /* 0 = all grids at normal vertical resolution, 1 = cho
 int  typealbedo=1;   /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
 int  typeconduc=2;      /*5 functions to compute ice conductivity*/
 int  typedens=3;		/*3 functions to compute densification of the dry snowpack*/
-int  skin_or_inter=0;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  skin_or_inter=1;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
 int  tsurfextrapolation=2;   /*extrapolation to surface temp 1 = upper layer and surf, 2 = upper 2 layers and surf*/
 int  resoutlinesmax = 50000;   /*exit program, if more lines written to res.out*/
 int  bs_eachday_yes = 0;   /*summer balance written to file every day - for Dyurgerov method, 1=yes, 0=no*/
