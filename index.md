@@ -140,7 +140,7 @@ please feel free to let up know via the Github Issues page for the models or via
 
 Model updates and changes
 -------------------------
-The model constantly evolves. All significant model changes and updates since 2012 are logged [here]({{page.repo}}/tree/release_0.2/changes.md).
+The model constantly evolves. All significant model changes and updates since 2012 are logged [here]({{page.repo}}/tree/master/changes.md).
 If you are interested in contributing to the model directly, for example, by adding new features, check our [contributing page](contributing.html). We use [git](http://git-scm.com/)
 and [Github](github.com) to manage our code.
 
