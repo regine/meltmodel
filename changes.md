@@ -1,6 +1,17 @@
-### 09/20/2013 
+Note: Changes in the code are due to
+a) errors  (ERROR)
+b) new feature that offer new options/functionality (NEW)
+c) program technical improvements with no effect on results (TECHNICAL).
+The term in brackets is used to mark each change.
+
+
+### 10/07/2013  (TECHNICAL, R. Hock)
 * v1.0.1
-   Error in code fixed  (by C. Reijmer)
+  Some values of the 'hidden options' in variab.h have been changed to reflect a more general case.
+
+### 09/20/2013 (ERROR, C. Reijmer)
+
+* v1.0.1
    Bug fixed in the skin layer formulation responsible for the lack of closure of the surface energy balance as found in the output.
 - Added MBsum in order to have mass balance output consistent with other mass balance parameters output.
 - Made changes (together with Torbjorn Ostby) to functions meltlayermice and resetgridwinter to remove 
@@ -10,11 +21,11 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 ### 09/18/2013
 * v1.0.0
 
-### 09/11/2013
+### 09/11/2013  (TECHNICAL)
 * Switched build system from CMake to Makefile (L. Gillispie).
 
 
-### 08/26/2013
+### 08/26/2013  (TECHNICAL, L. Gillispie)
 * File and path name-lengths have been made uniform. There are three preprocessor
   macros, located in 'variab.h' and 'variabex.h' called:
     - ```FNAME_LEN``` : Length of filenames. Set currently to 80.
@@ -29,7 +40,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
     char fullfilename[PFNAME_LEN];
   ```
 
-### 6/21/2013
+### 6/21/2013  (NEW, R. Hock))
 * Added added glacierwide cumulative balances to areamean.txt; increase array sizes of names in variab.h
   Purpose: allow comparison e.g. with GRACE time series; no change in
   input.txt, column is added to areamean.txt;
@@ -37,10 +48,10 @@ some bugs related to the sr50 output. Correspondence between mass balance output
   (summerbalyes == 1)) || (maxmeltstakes > 0) ), NEW: if condition
   removed.
 
-### 5/23/2013
+### 5/23/2013  (NEW, C. Reijmer)
 * Added Skin-Temperature calculations.
 
-### 11/4/2012
+### 11/4/2012  (TECHNICAL, L. Gillispie
 * Fixed mismatching declarations in headers.
 
 ### 8/31/2012
