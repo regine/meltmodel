@@ -133,6 +133,8 @@ int main()
             /******* INTERPOLATION OF AIR TEMPERATURE ******/
             tempinterpol(); /*** ELEVATION-DEPENDENT AIR TEMP INTERPOLATION ***/
 
+printf("methodlonginstation = %d\n", methodlonginstation);
+
             /****** RADIATION *****************************/
             if (directfromfile == 0)
                 schatten();      /*** CALCULATE SHADE, CORRECTION FACTOR, DIRECT GRIDs ***/
@@ -161,8 +163,8 @@ puts("ok 1");
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
                 break;
             case 2:
-            puts("ok 3");
-puts("ok 4");
+
+puts("ok 2");
 
                 break;                   /*LONGIN READ FROM CLIMATE DATA INPUT FILE*/
                 /*has been read into LWin in readclim*/
@@ -184,7 +186,7 @@ puts("ok 4");
                 break;
             }  /*end switch*/
 
-puts("ok 2");
+puts("ok 3");
 
 
             /*REMOVE TOPOGRAPHIC INFLUENCE ON CLIMATE STATION LONGWAVE INCOMING
