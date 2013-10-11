@@ -1,6 +1,6 @@
-Note: Changes in the code are due to
+Note: Changes in the code can be due to
 a) errors  (ERROR)
-b) new feature that offer new options/functionality (NEW)
+b) new features that offer new options/functionality (NEW)
 c) program technical improvements with no effect on results (TECHNICAL).
 The term in brackets is used to mark each change.
 
@@ -41,7 +41,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
     char fullfilename[PFNAME_LEN];
   ```
 
-### 6/21/2013  (NEW, R. Hock))
+### 6/21/2013  (NEW, R. Hock)
 * Added added glacierwide cumulative balances to areamean.txt; increase array sizes of names in variab.h
   Purpose: allow comparison e.g. with GRACE time series; no change in
   input.txt, column is added to areamean.txt;
@@ -50,9 +50,10 @@ some bugs related to the sr50 output. Correspondence between mass balance output
   removed.
 
 ### 5/23/2013  (NEW, C. Reijmer)
-* Added Skin-Temperature calculations.
+* Subsurface model: Added option to use skin-Temperature calculations in computing surface temperatures.
+  Use of this option requires changing paramters in variab.h and recompile code ("hidden parameters").
 
-### 11/4/2012  (TECHNICAL, L. Gillispie
+### 11/4/2012  (TECHNICAL, L. Gillispie)
 * Fixed mismatching declarations in headers.
 
 ### 8/31/2012
@@ -65,7 +66,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 * Added sample ```input.dat``
 * Added Matlab grid visualization tool.
 
-### Major changes since 11/2011
+### Major changes since 11/2011 (L. Gillispie)
 
 * Github hosting!
 
