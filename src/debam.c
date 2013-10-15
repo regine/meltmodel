@@ -22,7 +22,7 @@
 /* PROGRAM  debam.c, formerly meltmod.c                          */
 /*   DISTRIBUTED SNOW/ICE MELT MODEL BASED ON ENERGY BALANCE */
 /*   CALCULATIONS INCLUDING OPTIONAL DISCHARGE CALCULATIONS  */
-/*   5.3.1998, update 13 June 2013, renamed August, 2012         */
+/*   5.3.1998, update 7 October 2013, renamed August, 2012         */
 /*************************************************************/
 
 
@@ -159,6 +159,7 @@ int main()
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
                 break;
             case 2:
+
                 break;                   /*LONGIN READ FROM CLIMATE DATA INPUT FILE*/
                 /*has been read into LWin in readclim*/
             case 3:
@@ -178,7 +179,6 @@ int main()
                 exit(3);
                 break;
             }  /*end switch*/
-
 
             /*REMOVE TOPOGRAPHIC INFLUENCE ON CLIMATE STATION LONGWAVE INCOMING
               ONLY IF CLIMATE STATION NOT OUSIDE AREA TO BE CALCULATED*/
@@ -206,8 +206,14 @@ int main()
             }
 
            /********** PRECIPITATION *****needed before albedo in method 2*********/
-            precipinterpol();
-            precipenergy(); 
+              /* RH 10/2013: NOT SURE WHY NEEDED BUT, if so, it will only take the AWS location for albedo*/
+                if(methodprecipinterpol == 3)   /*read precipitation grids from file for each time step*/
+                    readprecipfromfile();
+                 
+                 i=rowclim;
+                 j=rowclim;
+                precipinterpol();    
+                precipenergy(); 
 
             /********* ALBEDO **********************/
              if(readsnowalbedo==0) { /*no use of albedo measurements*/
@@ -246,8 +252,7 @@ int main()
             } else
                 surftemp[rowclim][colclim] = 0.;
 
-            if(methodprecipinterpol == 3)   /*read precipitation grids from file for each time step*/
-                readprecipfromfile();
+            
 
             /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
             if(methodsurftempglac == 4) { /*CHR added option*/

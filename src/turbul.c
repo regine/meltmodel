@@ -21,7 +21,7 @@
 /*         SPATIAL INTERPOLATION OF METEOROLOGICAL INPUT FACTORS TO GRID    */
 /*          temperature, air pressure, vapour pressure, precipitation       */
 /*         CALCULATION TURBULENT HEAT FLUXES                                */
-/*  29.9.1997, last update 13 June 2013*/
+/*  29.9.1997, last update 7 October 2013*/
 /****************************************************************************/
 
 
@@ -617,7 +617,7 @@ void readprecipindexmap() {
     strcpy(dummy,inpath);
     strcat(dummy,"precipindexmap.bin");
     if ((inprecipindexgrid = fopen (dummy,"rt")) == NULL)  {
-        printf("\n ERROR : Climate data file not found !!!\n %s \n\n",dummy);
+        printf("\n ERROR : Precip index file not found !!! (turbul.c)\n %s \n\n",dummy);
         fclose(inprecipindexgrid);
         exit(4);
     }
@@ -660,16 +660,16 @@ void readprecipfromfile() {
 
     strcat(dummy,nameprecipgrid);
     if ((inprecipreadgrid = fopen (dummy,"rb")) == NULL)  {
-        printf("\n temperature grid file not found: %s\n\n",dummy);
+        printf("\n precipitation input grid file not found:  %s\n  (turbul.c, readprecipfromfile)\n\n",dummy);
         exit(4);
     }  /*ENDIF*/
 
     if ( (fread(&(x[1]),sizeof(float),12,inprecipreadgrid)) !=12 )  {            /*FIRST 12 ROWS*/
-        printf("\n ERROR in file %s \n",nameprecipgrid);
+        printf("\n ERROR in precipitation input file:  %s \n (turbul.c, readprecipfromfile)\n",nameprecipgrid);
         exit(9);
     }
     if ((fread(&(precipreadgrid[1][1]),sizeof(float),ncols*nrows,inprecipreadgrid)) != ncols*nrows)  {
-        printf("\n ERROR in reading temperature file %s  jd=%4.1f,zeit=%4.1f\n",nameprecipgrid,jd,zeit);
+        printf("\n ERROR in reading precipitation input file %s  jd=%4.1f,zeit=%4.1f\n",nameprecipgrid,jd,zeit);
         exit(10);
     }
     closefile(&inprecipreadgrid,nameprecipgrid);
@@ -684,12 +684,15 @@ void readprecipfromfile() {
 
 /***************************************************************************/
 /* FUNCTION   precipinterpol                                               */
-/*            INTERPOLATION OF PRECIPITIATION, DETERMINE RAIN OR SNOW      */
+/*    a) CORRECT MEASURED OR READ PRECIP FROM GRID FILE FOR UNDERCATCH     */
+/*    b) DISTRIBUTE OVER GRID (3 METHODS)                                  */
+/*    c) DETERMINE RAIN OR SNOW                                            */
 /*       snow is assumed below the threshold temperature minus 1 degree    */
-/*	 and rain above T0 plus 1 degree, inbetween there is a mixtures    */
-/*	 of snow and rain which is determined by linear interpolation      */
-/*   3 methods how to extrapolate precip over the area                  */
+/*	 and rain above T0 plus 1 degree, inbetween there is a mixtures        */
+/*	 of snow and rain which is determined by linear interpolation          */
 /*    called from main for every time step and for each grid               */
+/*    debam: also called every time step for climate station grid cell before albedo */
+/*  variable prec is read from climate file, precip is corrected value     */
 /***************************************************************************/
 
 void precipinterpol()
@@ -698,9 +701,19 @@ void precipinterpol()
     float halfrange=1;   /*mixed rain and snow in temp range of 2x halfrange*/
     /*here within a temperature range of 2 degrees*/
     float referenceelevation;  /*elevation of reference height*/
-
-
-    if(prec > 0) {    /*precipitation falls in timestep considered*/
+    int precipyes=0;
+    
+ /*=== DETERMINE IF CORRECTION, INTERPOLATION LOOP NEEDS TO BE RUN AT ALL*/
+     if((methodprecipinterpol == 1) || (methodprecipinterpol == 2))
+        if(prec >0)
+           precipyes = 1;    /*if 1 then run loop below*/
+     if(methodprecipinterpol == 3)
+        if(precipreadgrid[i][j] >0)
+           precipyes = 1;
+           
+ /* === DETERMINE ELEVATION OF REFERENCE STATION ============ */  
+    if((precipyes == 1) && (methodprecipinterpol <= 2))   /*not if precip read from grid files*/
+    {    /*and there is precipitation in timestep considered*/
         switch(climoutsideyes) {  /*climate station outside (1) or inside grid (0)*/
         case 0 :
             referenceelevation = griddgm[rowclim][colclim];    /*climate station elevation*/
@@ -712,12 +725,15 @@ void precipinterpol()
             referenceelevation = griddgm[rowclim][colclim];
             break;       /*use this for precip, but temp from fixed height*/
         }
-
+     }   /*endif*/
 
         /*&&&&&&&& ------ FOR ANNALS OF GLACIOLOGY CAMBRIDGE PAPER -------- &&&&&&*/
         /*   referenceelevation = 1280;    */
         /*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&6*/
 
+    if(precipyes == 1)      /*only if there is precipitation*/
+    {
+/*==== CORRECT FOR UNDERCATCH AND DISTRIBUTE ACROSS GRID =========*/
 
         switch(methodprecipinterpol) {    /*NEW APRIL 2010*/
         case 1:   /*precipitation gradient*/
@@ -733,7 +749,6 @@ void precipinterpol()
                 /*then apply new gradient from this elevation*/
                 precip = precip - ( (precgradelev-griddgm[i][j])*precip*precgradhigh/100/100);
             }
-
             break;
 
         case 2:   /*multiply precip read from AWS file (corrected by undercatch) by value from index map*/
@@ -745,41 +760,45 @@ void precipinterpol()
             precip = precipreadgrid[i][j]; 
             precip = precip+precip*preccorr/100.0;  /*ADD % CORRECTION*/
             break;
+            
+        if(precip < 0)
+          precip = 0;     /*avoid negative precipitation due to interpolation*/
 
         }  /*end switch methodprecipinterpol*/
 
-        /*DETERMINATION IF RAIN OR SNOW - IMPORTANT FOR WATER FOR DISCHARGE AND ALBEDO*/
+ /* ====== DETERMINATION IF RAIN OR SNOW - IMPORTANT FOR WATER FOR DISCHARGE AND ALBEDO ==== */
         if(tempint[i][j] <= (T0-halfrange)) {  /*ONLY SNOW*/
             rainprec = 0.0;           /* NO RAIN */
             snowprec = precip;        /* ALL PRECIP FALLS AS SNOW */
-        } else { /*RAIN OR MIXTURE*/
-            if (tempint[i][j] >= (T0+halfrange)) {  /* ONLY RAIN */
+        } else   /*RAIN OR MIXTURE*/
+          {    
+              if (tempint[i][j] >= (T0+halfrange)) {  /* ONLY RAIN */
                 rainprec = precip;
                 snowprec = 0;       /* NO SNOW */
-            } else { /*MIXTURE OF RAIN AND SNOW*/
+              } else { /*MIXTURE OF RAIN AND SNOW*/
                 snowprec = ((T0+halfrange)-tempint[i][j])/2 * precip;
                 rainprec = precip - snowprec;
-            }
-        } /*endelse*/
+              }
+          } /*endelse*/
 
         if (rainprec < 0)     /*can happen when interpolating grid cells below station*/
             rainprec = 0;
         if (snowprec < 0)
             snowprec = 0;
-
+            
+ /* ===== ADJUST SNOW PRECIPITATION FOR ADDITIONAL UNDERCATCH ========== */
         /*add more snow: snow assumed to have larger error; different factors for glacier and outside glacier possible*/
         if (griddgmdrain[i][j] == griddgmglac[i][j])      /*on glacier*/
             snowprec = snowprec*snowmultiplierglacier;
         else
             snowprec = snowprec*snowmultiplierrock;    /*grid cell outside glacier but in drainage basin*/
 
-
         RAIN[i][j] = rainprec;   /*in mm as in climate input file*/
         /*RAIN is stored in array because it is needed for discharge routines*/
         /*snow prec not needed unless simulation with initial snow cover, then it is
           added to SNOW array in function snowcover*/
 
-    } /*end if precip*/
+    } /*end if precip > 0*/
     else {   /*no precipitation*/
         RAIN[i][j] = 0;
         snowprec = 0;
