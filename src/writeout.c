@@ -1961,11 +1961,6 @@ void stationoutput()
         {
             fprintf(outgrid[ii],"%.0f %6.2f %6.1f ",year,jd2,zeit);
 
-            if(methodlongin == 1)    /*LONGWAVE INCOMING RADIATION CONSTANT IN SPACE*/
-                lwincoming = LWin;
-            else                     /*VARIABLE IN SPACE, THEREFORE ARRAY*/
-                lwincoming = LONGIN[r][c];
-
             if(methodsurftempglac == 1)   /*LONGWAVE OUTCOMING RADIATION CONSTANT IN SPACE*/
                 lwoutgoing = LWout;
             else                     /*VARIABLE IN SPACE, THEREFORE ARRAY*/
@@ -2003,9 +1998,9 @@ void stationoutput()
             fprintf(outgrid[ii],"%8.5f",ALBEDO[r][c]);
             fprintf(outgrid[ii],"%10.4f",SWBAL[r][c]);
 
-            fprintf(outgrid[ii],"%10.4f",lwincoming);
+            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]);
             fprintf(outgrid[ii],"%10.4f",lwoutgoing);
-            fprintf(outgrid[ii],"%10.4f",lwincoming-lwoutgoing);
+            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]-lwoutgoing);
 
             fprintf(outgrid[ii],"%10.4f",NETRAD[r][c]);     /*column 17*/
             fprintf(outgrid[ii],"%10.4f",SENSIBLE[r][c]);

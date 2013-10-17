@@ -79,6 +79,9 @@ float  templapserate1 = -0.0;  /* lapse rate for spatial extrapolation of surfac
 float  templapserate2 = -0.0;  /* lapse rate for spatial extrapolation of temp of 1. turning point */
 /*next turning point is assumed spatially constant*/
 
+int  skin_or_inter = 0;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  tsurfextrapolation = 2;  /*extrapolation to surface temp: 1=upper layer and surf, 2=upper 2 layers and surf*/
+
 /*============= INITIALIZATION OF SNOW DENSITY PROFEILS - in case init_snowlayerdensity = 2   =============*/
 /*compute 3 density gradients between surface and depth of lowest firn layer*/
 float  denssurface=150;     /*density at surface,  kg/m3 */
@@ -102,8 +105,7 @@ int  supericegrid=0;     /* 0 = all grids at normal vertical resolution, 1 = cho
 int  typealbedo=1;   /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
 int  typeconduc=2;      /*5 functions to compute ice conductivity*/
 int  typedens=3;		/*3 functions to compute densification of the dry snowpack*/
-int  skin_or_inter=0;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
-int  tsurfextrapolation=2;   /*extrapolation to surface temp 1 = upper layer and surf, 2 = upper 2 layers and surf*/
+
 int  resoutlinesmax = 50000;   /*exit program, if more lines written to res.out*/
 int  bs_eachday_yes = 0;   /*summer balance written to file every day - for Dyurgerov method, 1=yes, 0=no*/
 
