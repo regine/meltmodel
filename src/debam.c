@@ -614,11 +614,9 @@ int main()
         if (outgridnumber > 0)     /*output file requested by user*/
             stationoutput();
 
-
         /*** WRITE MELT FOR SEVERAL LOCATIONS TO ONE FILE ***/
         if(maxmeltstakes > 0)
             writemeltstakes();
-
 
         /*** WRITE GRID FILES ***/
         switch(do_out)   /*** WRITE ENERGY BALANCE GRID-OUTPUT-FILES ***/
@@ -720,16 +718,16 @@ int main()
         meanmassbalprofile();
 
     /******************************************************************/
-
     /********** COMPUTE R2 FOR DISCHARGE ******************************/
     if (disyes == 1) {    /*only if discharge data available*/
         r2calc();
         r2calcln();
+
         if (disyesopt == 1)   /*optimization run*/
             write2matriz();    /*write r2 matriz to file*/
     }
+    
     writeperformance();   /*write model performance (r2 etc) to text-file*/
-
     closeall();     /* CLOSE FILES, FREE STORAGE */
 
     printf("\n\n number of glacier grid cells         %d\n\n",nglac);
