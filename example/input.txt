@@ -1,13 +1,13 @@
-Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE MODEL SHOULD WORK !!!
-***********************************************************
+%Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE MODEL SHOULD WORK !!!
+%***********************************************************
 1    %output to screen every X day.  daysscreenoutput.
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
 129  1999    %first julian day to be calculated.  jdbeg  yearbeg
-166  1999   %last julian day to be calculated.  jdend  yearend
-    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
+130  1999   %last julian day to be calculated.  jdend  yearend
+1    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
-%********* 1.) MODEL OUTPUT PARAMETERS ****************************
+%********* 1.) MODEL OUTPUT PARAMETERS: DEFINE WHAT IS WRITTEN TO FILE ***************
 5    %number of stakes for melt output.  maxmeltstakes
 1    %cum massbal multiplied by this factor in melting.dat.  plusminus
 3    %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
@@ -20,7 +20,7 @@ Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 
 1    %snow or surface written to file if jd dividable by this value.  daysnow
 2    %number of jd for output of surface type/snow cover.  numbersnowdaysout
 190 210
-%----------- 2.) MASS BALANCE -------------------
+%******************************** 2.) MASS BALANCE OUTPUT ********************************
 1    %gridout winter mass balance yes=1, no=0.  winterbalyes
 244  135    %julian day winter starts and ends.  winterjdbeg  winterjdend
 1    %gridout summer mass balance yes=1, no=0.  summerbalyes
@@ -50,11 +50,11 @@ pointoutput.txt        50                50       0
 1    %1=z0T/z0w fixed ratio 2=according to Andreas (1987).  method_z0Te
 1    %1=no ice heat flux 2=ice heat flux.  methodiceheat
 1    %1=neglected 2=neg energy balance stored to retard melt.  methodnegbal
-%********* SCALING ********************************
+%********* SCALING ************************************************
 0    %V-A scaling yes=1, no=0.  scalingyes
 1.375    %gamma in V-A scaling.  gamma
 0.6    %coefficient in V-A scaling.  c_coefficient
-%********* 4.) NAMES OF INPUT FILES ********************************
+%********* 4.) NAMES OF INPUT FILES *********************************************
 dav_dem.bin    %name of Digital Terrain Model.  namedgm
 dav_watershed.bin    %name of DTM with drainage basin.  namedgmdrain
 dav_glacier.bin    %name of DTM glacier.  namedgmglac
@@ -64,7 +64,7 @@ dummy.bin    %name of DTM sky view factor.  namedgmskyview
 dav_firn.bin    %name of DTM firnarea.  namedgmfirn
 dav_snow0.bin   %name of DTM initial snow cover.  nameinitialsnow 
 dav_climate_data.txt    %name of climate data file.  nameklima
-%********* 5.) GRID INFORMATION***************************************
+%********* 5.) GRID INFORMATION**************************************************
 -134.50479    %geographical longitude [degree].  laenge
 58.51169    %latitude.  breite
 -120.0    %longitude time refers to.  reflongitude
@@ -73,7 +73,7 @@ dav_climate_data.txt    %name of climate data file.  nameklima
 1  7    %take this elevation for AWS yes/no.  climoutsideyes  heightclim
 100    %gridsize in m.  gridsize
 1    %time step in hours.  timestep
-%********* 6.) CLIMATE DATA ******************************************
+%********* 6.) CLIMATE DATA *****************************************************
 1    %1=midnight time is 0, 2=time is 24, 3=24 but previous day.  formatclimdata
 14    %number of columns in climate file.  maxcol
 4    %columns in climate input file: temperature.  coltemp
@@ -88,18 +88,18 @@ dav_climate_data.txt    %name of climate data file.  nameklima
 30    %cloud cover (number of eigths).  colcloud
 30    %time variant lapse rate (neg=decrease).  coltempgradvarying
 14    %column of discharge data.  coldis
-%********** CORRECTIONS TO INPUT ********************************
-0    %add this to ERA temp to get to elevationstation.  ERAtempshift
-0    %add this to ERA wind to get to elevationstation.  ERAwindshift
+%********** (BIAS) CORRECTIONS TO INPUT DATA (TEMP, WIND) ********************************
+0    %add this to air temp (e.g., to get to elevationstation).  ERAtempshift
+0    %add this to wind speed (e.g., to get to elevationstation).  ERAwindshift
 %********** 7.) LAPSE RATE / SCENARIOS ********************************
 1    %1=const lapse rate 2=variable 2AWS 3=grid.  methodtempinterpol
 -0.6    %temperature change with elevation [degree/100m].  tempgrad
 0    %climate perturbation: temp + this amount.  tempscenario
 0    %climate perturbation: precip + this amount in percent.  precscenario
 %on/off Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-0    0.0 0.0 0.0 0.0 -0.432 -0.308 -0.388 -0.322 -0.362 -0.362 0.0 0.0    %monthtempgrad(yes)
-0    0.5 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0    %monthtempscen(yes)
-0    10.0 10.0 10.0 10.0 10.0 10.0 10.0 10.0 10.0 10.0 10.0 10.0    %monthprecipscen(yes)
+0      0.0    0.0  0.0   0.0 -0.432 -0.308 -0.388 -0.322 -0.362 -0.362 0.0 0.0    %monthtempgrad(yes)
+0      0.5    1.0  1.0   1.0  1.0     1.0   1.0   1.0   1.0   1.0  1.0   1.0    %monthtempscen(yes)
+0     10.0   10.0  10.0  10.0 10.0   10.0   10.0  10.0  10.0  10.0 10.0 10.0    %monthprecipscen(yes)
 %******** 8.) SURFACE TYPE / ALBEDO ***********************************
 0    %number of transient surface type files
 0.875    %albedo for snow and firn (fixed value).  albsnow
@@ -183,7 +183,7 @@ matriz.dat    %name of r2-outputfile.  namematrix
 1    %factor for subsurf output, 1=every hour, 24=once per day at midnight.  factsubsurfout
 12    %offfsetfactor for subsurf output to make print at noon possible.  offsetsubsurfout
 %runoffyes superyes   wateryes   surfwateryes slushyes   coldsnowyes   coldtotyes.      for grid output
-1 1 1 1 1 1 1
+     1       1	 	 1		 1		     1		   1		    1
 %========================================================
 %   17.) TEMPERATURE INDEX METHOD
 %========================================================
