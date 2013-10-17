@@ -159,7 +159,6 @@ int main()
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
                 break;
             case 2:
-
                 break;                   /*LONGIN READ FROM CLIMATE DATA INPUT FILE*/
                 /*has been read into LWin in readclim*/
             case 3:
@@ -242,7 +241,7 @@ int main()
                  albedosnowmeas();   /*use measured daily means of snow albedo - Storglac*/
 
              shortwavebalance();    /*SHORTWAVE RADIATION BALANCE*/
-             }/*end extra actions to create correct input for skin layer formulation
+             }/*end extra actions to create correct input for skin layer formulation*/
 
             /*LONGWAVE OUT RADIATION AT CLIMATE STATION FROM MEAS*/
             if(methodsurftempglac == 3) { /*use longwave outgoing measurements at climate station*/
@@ -252,18 +251,18 @@ int main()
             } else
                 surftemp[rowclim][colclim] = 0.;
 
-            
-
             /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
             if(methodsurftempglac == 4) { /*CHR added option*/
                 i=rowclim;
                 j=colclim;
                 surftempfrommodel();  /*CALCULATE SURFACE TEMP AT CLIMATE STATION FROM T OF 2 UPPER LAYERS*/
                 /* in case of skin layer formulation extrapolation used as first guess*/
+                
                 if (skin_or_inter == 0) {
                 LONGIN[i][j] = LWin;
                 surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
                 }
+
                 surftempstationalt=surftemp[rowclim][colclim];
                 if (((int)jd2 == (int)summerjdend+1) && ((int)zeit == 1) && (inter == 1)) {
                     resetgridwinter();
@@ -566,7 +565,6 @@ int main()
 
         /***------------------ NEXT GRID --------------------------------------------- ***/
 
-
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
         /*set back timestep to original value to be used in temporal mean calculations
           and in discharge functions; it was manipulated in interpolate()*/
@@ -701,7 +699,6 @@ int main()
     }  while (stoploop != 1);
     /*====================== NEXT TIME STEP =======================================*/
 
-
     /*OUTPUT OF MEAN COMPONENTS OF ENERGY BALANCE FOR WHOLE PERIOD OF CALCULATION*/
 
     if ((do_out == 3) || (do_out == 4)) {   /*mean of whole period*/
@@ -717,16 +714,18 @@ int main()
 
     /******************************************************************/
 
+    /********** COMPUTE R2 FOR DISCHARGE ******************************/
     if (disyes == 1) {    /*only if discharge data available*/
         r2calc();
         r2calcln();
         if (disyesopt == 1)   /*optimization run*/
             write2matriz();    /*write r2 matriz to file*/
     }
+    writeperformance();   /*write model performance (r2 etc) to text-file*/
 
     closeall();     /* CLOSE FILES, FREE STORAGE */
 
-    printf("\n\n number of glacier grids         %d\n\n",nglac);
+    printf("\n\n number of glacier grid cells         %d\n\n",nglac);
     printf(" number of calculated time steps               %d\n",nsteps);
     printf(" number of timesteps of discharge data available  %d\n\n",nstepsdis);
     printf(" output written to   %s\n\n",outpath);

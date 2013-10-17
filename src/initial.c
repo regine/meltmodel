@@ -950,6 +950,22 @@ void startoutascii()
         }  /*for  next file*/
 
     } /*if outgridnumber*/
+    
+    
+    /*------------------------------------------------------------------------------*/
+    /***OPEN ASCII-OUTPUTFILE WITH MODEL PERFORMANCE STATISTICS                     */
+    /*    new 10/2013 R. Hock */
+    /*------------------------------------------------------------------------------*/
+
+     strcpy(dummy,outpath);
+     strcat(dummy,"modelperformance.txt");
+
+        if ((outperformance = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening model performance file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+
+        fprintf(outperformance," discharge_r2 discharge_lnr2 stakes_r2 stakesRMSE totalmasschange  ");
 
     return;
 }

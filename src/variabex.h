@@ -176,7 +176,7 @@ extern  FILE   *outmassbalprofile;
 extern  FILE   *intempgrid;   /*temperature grid read from file*/
 extern  FILE   *inprecipindexgrid;   /*precipitation index map read from file*/
 extern  FILE   *inprecipreadgrid;   /*precipitation grid read from file*/
-
+extern  FILE   *outperformance;     /*model performance (r2 etc) written to file*/
 
 /* ********* ARRAYS **************************** */
 extern  float  **griddgm, **griddgmdrain, **griddgmglac;  /* 2 dim. Arrays grid data */
