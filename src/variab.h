@@ -45,13 +45,13 @@ int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1
 int    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 float  z2=2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 float  emissivitysurf=1;   /*surface emissivity for calc of longwave out from surf temp and for computing longwave outgoing (radiat.c)*/
-int    snetfromobsyes = 1;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
+int    snetfromobsyes = 0;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
 /*to force energy balance with shortwave measurements in case only climate station computed*/
 /*in order to exclude shortwave(albeodo) simulations from explaining deviations obs-simul*/
 int    allradiationfromfile=0;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if just climate station cell computed*/
 /*(calgridyes in input.dat = 2, and only if methodsurftempglac = 3*/
 /* also snetfromobsyes must be set to 1 in that case */
-float snowscenario = 41;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
+float snowscenario = 0;  /*default should be 0; this amount is added to each grid cell of the initial snow cover*/
 
 /*=== SUBSURFACE SNOW MODEL ===*/
 /*----- NEEDS TO BE ADJUSTED BY USER TO EACH CASE (glacier and simulation start condition ----------------------------------*/

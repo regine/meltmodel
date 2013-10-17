@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  update 13 June 2013 */
+/*  update 18 October 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -1799,9 +1799,7 @@ void areasum()
         areaglobal   += GLOBAL[i][j];
         areareflect  += GLOBAL[i][j]*ALBEDO[i][j];
         areaswbal    += SWBAL[i][j];
-
-        if(methodlongin == 2)     /*ONLY IF VARIABLE, OTHERWISE VALUE OF CLIMATE STATION*/
-            arealongin   += LONGIN[i][j];
+        arealongin   += LONGIN[i][j];
 
         if(methodsurftempglac >= 2)    /*ONLY IF VARIABLE, OTHERWISE VALUE OF CLIMATE STATION*/
             arealongout   += LONGOUT[i][j];
