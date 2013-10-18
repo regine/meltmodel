@@ -963,7 +963,7 @@ void startoutascii()
             exit(4);
         }  /*ENDIF*/
 
-        fprintf(outperformance," discharge_r2 discharge_lnr2 stakes_r2 stakesRMSE totalmasschange\n  ");
+        fprintf(outperformance,"Model Quality Metrics:\n");
 
     return;
 }
