@@ -2205,7 +2205,8 @@ void writeperformance()
        r2[1][1] = -9999;  /*to write out to output file even if r2 does not exist*/
        r2ln[1][1] = -9999;
     }  
-    fprintf(outperformance,"%.3f %.3f \n",r2[1][1],r2ln[1][1]); 
+    fprintf(outperformance,"discharge_r2\t%.6f\n",r2[1][1]); 
+    fprintf(outperformance,"discharge_r2ln\t%.6f",r2ln[1][1]);
    }
     return;
 }
