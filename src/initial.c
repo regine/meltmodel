@@ -721,8 +721,6 @@ void startinputdata()
             printf("reading climate data to find start row: year = %.2f day %.2f time %.2f\n",year,jd,zeit);
 
 
-
-
         if((timestep == 1) && (formatclimdata == 3) && ( zeit == 24))
             timeok = 1;   /*midnight value found*/
 
@@ -950,6 +948,22 @@ void startoutascii()
         }  /*for  next file*/
 
     } /*if outgridnumber*/
+    
+    
+    /*------------------------------------------------------------------------------*/
+    /***OPEN ASCII-OUTPUTFILE WITH MODEL PERFORMANCE STATISTICS                     */
+    /*    new 10/2013 R. Hock */
+    /*------------------------------------------------------------------------------*/
+
+     strcpy(dummy,outpath);
+     strcat(dummy,"modelperformance.txt");
+
+        if ((outperformance = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening model performance file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+
+        fprintf(outperformance," discharge_r2 discharge_lnr2 stakes_r2 stakesRMSE totalmasschange\n  ");
 
     return;
 }
@@ -1147,6 +1161,7 @@ void startarrayreserve()
     if(energymethod == 1) {  /*not needed if degree day method used*/
         GLOBAL   = matrixreserv(1,nrows,1,ncols);    /*GLOBAL RADIATION  */
         SWBAL    = matrixreserv(1,nrows,1,ncols);    /*SHORT-WAVE BALANCE*/
+        LONGIN   = matrixreserv(1,nrows,1,ncols);
         NETRAD   = matrixreserv(1,nrows,1,ncols);    /*NET RADIATION     */
         SENSIBLE = matrixreserv(1,nrows,1,ncols);
         LATENT   = matrixreserv(1,nrows,1,ncols);
@@ -1169,9 +1184,6 @@ void startarrayreserve()
             ndbefsnow  = matrixreserv(1,nrows,1,ncols);
             ALBBEFSNOW = matrixreserv(1,nrows,1,ncols);
         }
-
-        if(methodlongin==2)      /*longwave incoming radiation variable in space*/
-            LONGIN   = matrixreserv(1,nrows,1,ncols);
 
         /*Surface temperature is iterated, surface not assumed melting, affects
          longwave outgoing radiation, is variable in space*/
@@ -1226,6 +1238,7 @@ void startarrayreserve()
             if(energymethod ==1) {
                 GLOBAL[i][j]  = nodata;
                 SWBAL[i][j]   = nodata;
+				LONGIN[i][j]  = nodata;
                 NETRAD[i][j]  = nodata;
                 SENSIBLE[i][j]= nodata;
                 LATENT[i][j]  = nodata;
@@ -1262,9 +1275,6 @@ void startarrayreserve()
                         }
                     }
                 }
-
-                if(methodlongin == 2)      /*longwave radiation variable in space*/
-                    LONGIN[i][j] = nodata;
 
                 if(methodsurftempglac>=2) {  /*surface temp computed for each grid cell*/
                     if (griddgmdrain[i][j] != nodata)    /*CHR to have nodata outside*/

@@ -22,7 +22,7 @@
 /* PROGRAM  debam.c, formerly meltmod.c                          */
 /*   DISTRIBUTED SNOW/ICE MELT MODEL BASED ON ENERGY BALANCE */
 /*   CALCULATIONS INCLUDING OPTIONAL DISCHARGE CALCULATIONS  */
-/*   5.3.1998, update 7 October 2013, renamed August, 2012         */
+/*   5.3.1998, update 18 October 2013, renamed August, 2012         */
 /*************************************************************/
 
 
@@ -108,6 +108,7 @@ int main()
         factinter = 1;
     /*============================================================*/
 
+
     /*=============FOR EVERY TIME STEP ===============================================*/
 
     do {
@@ -154,12 +155,12 @@ int main()
                     topofatmosphere();   /*needed to determine cloudiness*/
             }
 
+
             switch(methodlonginstation) {  /*HOW IS LONGWAVE INCOMING AT STATION DETERMINED*/
             case 1:
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
                 break;
             case 2:
-
                 break;                   /*LONGIN READ FROM CLIMATE DATA INPUT FILE*/
                 /*has been read into LWin in readclim*/
             case 3:
@@ -179,6 +180,7 @@ int main()
                 exit(3);
                 break;
             }  /*end switch*/
+
 
             /*REMOVE TOPOGRAPHIC INFLUENCE ON CLIMATE STATION LONGWAVE INCOMING
               ONLY IF CLIMATE STATION NOT OUSIDE AREA TO BE CALCULATED*/
@@ -205,13 +207,15 @@ int main()
                 adddirectdiffus();
             }
 
+
            /********** PRECIPITATION *****needed before albedo in method 2*********/
               /* RH 10/2013: NOT SURE WHY NEEDED BUT, if so, it will only take the AWS location for albedo*/
+              /*Skin layer formulation needs all energy terms, also energy from rain*/
                 if(methodprecipinterpol == 3)   /*read precipitation grids from file for each time step*/
                     readprecipfromfile();
                  
                  i=rowclim;
-                 j=rowclim;
+                 j=colclim;
                 precipinterpol();    
                 precipenergy(); 
 
@@ -242,7 +246,7 @@ int main()
                  albedosnowmeas();   /*use measured daily means of snow albedo - Storglac*/
 
              shortwavebalance();    /*SHORTWAVE RADIATION BALANCE*/
-             }/*end extra actions to create correct input for skin layer formulation
+             }/*end extra actions to create correct input for skin layer formulation*/
 
             /*LONGWAVE OUT RADIATION AT CLIMATE STATION FROM MEAS*/
             if(methodsurftempglac == 3) { /*use longwave outgoing measurements at climate station*/
@@ -252,18 +256,18 @@ int main()
             } else
                 surftemp[rowclim][colclim] = 0.;
 
-            
-
             /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
             if(methodsurftempglac == 4) { /*CHR added option*/
                 i=rowclim;
                 j=colclim;
                 surftempfrommodel();  /*CALCULATE SURFACE TEMP AT CLIMATE STATION FROM T OF 2 UPPER LAYERS*/
                 /* in case of skin layer formulation extrapolation used as first guess*/
+                
                 if (skin_or_inter == 0) {
-                LONGIN[i][j] = LWin;
-                surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
+                 LONGIN[i][j] = LWin;
+                 surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
                 }
+
                 surftempstationalt=surftemp[rowclim][colclim];
                 if (((int)jd2 == (int)summerjdend+1) && ((int)zeit == 1) && (inter == 1)) {
                     resetgridwinter();
@@ -297,9 +301,9 @@ int main()
             }  /*endif*/
 
 
-            /*================================================================================*/
-            /*------- FOR EACH GRID POINT - only for grid cells defined by dgmdrain ----------*/
-            /*================================================================================*/
+    /*================================================================================*/
+    /*------- FOR EACH GRID POINT - only for grid cells defined by dgmdrain ----------*/
+    /*================================================================================*/
 
             if(calcgridyes == 2) {    /*computation only for climate station grid cell*/
                 firstrow = rowclim;
@@ -316,6 +320,9 @@ int main()
                             printf(" row  %d  col  %d      (in main) \n\n",i,j);
                             exit(12);
                         }
+				/*New Oct 2013: initialize here and not further down because needed to insert several times otherwise*/
+					   if(methodlongin == 1)     /*LWin assumed constant in space*/
+					      LONGIN[i][j] = LWin;
 
                         if(((methodsurftempglac == 2) || (methodsurftempglac == 4)) && (i==rowclim) && (j==colclim))
                             notcalc = 1;    /*ENERGY BALANCE FOR STATION GRID CELL ALREADY CALCULATED*/
@@ -331,6 +338,7 @@ int main()
                                 interpoldiffus();
                                 adddirectdiffus();
                             }
+
 
                             /********** PRECIPITATION *****needed before albedo in method 2*********/
                             precipinterpol();
@@ -364,6 +372,7 @@ int main()
 
                             shortwavebalance();    /*SHORTWAVE RADIATION BALANCE*/
 
+
                             /********* ROCK SURFACE TEMPERATURE **********************/
                             /*  if(methodlongin == 2)    LONGWAVE ASSUMED VARIABLE, BASED ON PLUESS, 1997*/
                             /*    tempsurfacerock();     SURFACE TEMPERATURE OF ROCK OUTSIDE GLACIER*/
@@ -391,15 +400,13 @@ int main()
                                 surftempfrommodel();   /*surftemp from interpolation of T of upper 2 layers*/
                                  /* in case of skin layer formulation extrapolation used as first guess*/
                                 if (skin_or_inter == 0) {
-                                if(methodlongin == 2) {     /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
-                                    longinpluess();   }        /*NEEDS SURFACE TEMPERATURE in this case from previous time step*/
-                                else
-                                { LONGIN[i][j] = LWin;}
-                                surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
+                                  if(methodlongin == 2) {     /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
+                                     longinpluess();   }        /*NEEDS SURFACE TEMPERATURE in this case from previous time step*/
+                                
+                                  surftempskin(); /*CALCULATE SURFACE TEMP BASED ON SKIN LAYER FORMULATION*/
                                 }
                                 break;
                             }
-
 
                             airpress();    /*** CALCULATION AIR PRESSURE AT GRID POINT FOR TURB FLUXES ***/
                             vappress();    /*** CALCULATION VAPOUR PRESSURE FROM REL. HUMIDITY  ***/
@@ -431,13 +438,12 @@ int main()
                                     break;
                                 }
 
-
                                 /********* LONGWAVE RADIATION **********************/
                                 if(methodlongin == 2) {     /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
-                                   if ((methodsurftempglac != 4) || (skin_or_inter == 1))
+                                   if ((methodsurftempglac != 4) || (skin_or_inter == 1))  /*in other cases it has bee computed already above*/
                                     longinpluess();           /*NEEDS SURFACE TEMPERATURE*/
                                 }
-
+       
                                 if(methodsurftempglac >= 2)     /*LONGWAVE OUTGOING RAD VARIABLE IN SPACE OR FROM LONGOUT MEAS*/
                                     longoutcalc();    /*if melting surface: LWout is initialized to melting conditions*/
 
@@ -566,7 +572,6 @@ int main()
 
         /***------------------ NEXT GRID --------------------------------------------- ***/
 
-
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
         /*set back timestep to original value to be used in temporal mean calculations
           and in discharge functions; it was manipulated in interpolate()*/
@@ -609,11 +614,9 @@ int main()
         if (outgridnumber > 0)     /*output file requested by user*/
             stationoutput();
 
-
         /*** WRITE MELT FOR SEVERAL LOCATIONS TO ONE FILE ***/
         if(maxmeltstakes > 0)
             writemeltstakes();
-
 
         /*** WRITE GRID FILES ***/
         switch(do_out)   /*** WRITE ENERGY BALANCE GRID-OUTPUT-FILES ***/
@@ -701,7 +704,6 @@ int main()
     }  while (stoploop != 1);
     /*====================== NEXT TIME STEP =======================================*/
 
-
     /*OUTPUT OF MEAN COMPONENTS OF ENERGY BALANCE FOR WHOLE PERIOD OF CALCULATION*/
 
     if ((do_out == 3) || (do_out == 4)) {   /*mean of whole period*/
@@ -716,17 +718,19 @@ int main()
         meanmassbalprofile();
 
     /******************************************************************/
-
+    /********** COMPUTE R2 FOR DISCHARGE ******************************/
     if (disyes == 1) {    /*only if discharge data available*/
         r2calc();
         r2calcln();
+
         if (disyesopt == 1)   /*optimization run*/
             write2matriz();    /*write r2 matriz to file*/
     }
-
+    
+    writeperformance();   /*write model performance (r2 etc) to text-file*/
     closeall();     /* CLOSE FILES, FREE STORAGE */
 
-    printf("\n\n number of glacier grids         %d\n\n",nglac);
+    printf("\n\n number of glacier grid cells         %d\n\n",nglac);
     printf(" number of calculated time steps               %d\n",nsteps);
     printf(" number of timesteps of discharge data available  %d\n\n",nstepsdis);
     printf(" output written to   %s\n\n",outpath);
