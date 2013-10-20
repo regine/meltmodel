@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  update 13 June 2013 */
+/*  update 18 October 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -1799,9 +1799,7 @@ void areasum()
         areaglobal   += GLOBAL[i][j];
         areareflect  += GLOBAL[i][j]*ALBEDO[i][j];
         areaswbal    += SWBAL[i][j];
-
-        if(methodlongin == 2)     /*ONLY IF VARIABLE, OTHERWISE VALUE OF CLIMATE STATION*/
-            arealongin   += LONGIN[i][j];
+        arealongin   += LONGIN[i][j];
 
         if(methodsurftempglac >= 2)    /*ONLY IF VARIABLE, OTHERWISE VALUE OF CLIMATE STATION*/
             arealongout   += LONGOUT[i][j];
@@ -1897,13 +1895,13 @@ void areameanwrite()
                 year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areadirect2);
         fprintf(outarea,"%8.2f %8.2f %8.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f",areadiffus,
                 areaglobal,areareflect,areaalbedo,areaswbal,arealongin,arealongout,arealongbal,areanetrad);
-        fprintf(outarea,"%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f",
+        fprintf(outarea,"%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f %8.2f",
                 areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areacummassbal);
         fprintf(outarea,"%7.2f\n",areasurftemp);
     } /*endif*/
 
     if(degreedaymethod == 1)
-        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f %8.2f %8.2f %8.2f\n",
+        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f %8.2f %8.2f %8.2f %8.2f\n",
                 year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areacummassbal);
 
     return;
@@ -1961,11 +1959,6 @@ void stationoutput()
         {
             fprintf(outgrid[ii],"%.0f %6.2f %6.1f ",year,jd2,zeit);
 
-            if(methodlongin == 1)    /*LONGWAVE INCOMING RADIATION CONSTANT IN SPACE*/
-                lwincoming = LWin;
-            else                     /*VARIABLE IN SPACE, THEREFORE ARRAY*/
-                lwincoming = LONGIN[r][c];
-
             if(methodsurftempglac == 1)   /*LONGWAVE OUTCOMING RADIATION CONSTANT IN SPACE*/
                 lwoutgoing = LWout;
             else                     /*VARIABLE IN SPACE, THEREFORE ARRAY*/
@@ -2003,9 +1996,9 @@ void stationoutput()
             fprintf(outgrid[ii],"%8.5f",ALBEDO[r][c]);
             fprintf(outgrid[ii],"%10.4f",SWBAL[r][c]);
 
-            fprintf(outgrid[ii],"%10.4f",lwincoming);
+            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]);
             fprintf(outgrid[ii],"%10.4f",lwoutgoing);
-            fprintf(outgrid[ii],"%10.4f",lwincoming-lwoutgoing);
+            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]-lwoutgoing);
 
             fprintf(outgrid[ii],"%10.4f",NETRAD[r][c]);     /*column 17*/
             fprintf(outgrid[ii],"%10.4f",SENSIBLE[r][c]);
@@ -2196,3 +2189,24 @@ void percentsnowfree() {
     return;
 }
 
+
+/************************************************************************/
+/*  FUNCTION:  writeperformance                                         */
+/*     computes and writes model performance to file                    */
+/*     one line with various r2 values                                  */
+/*     called once at the end of main                                   */
+/*     New 10/2013                                                      */
+/************************************************************************/
+
+void writeperformance() 
+{
+   if(calcgridyes == 1)  /*only if entire grid is calculated, not if only AWS station computed*/ 
+    { if (disyes != 1) {    /*if discharge r2 not computed, set to no value*/
+       r2[1][1] = -9999;  /*to write out to output file even if r2 does not exist*/
+       r2ln[1][1] = -9999;
+    }  
+    fprintf(outperformance,"discharge_r2\t%.6f\n",r2[1][1]); 
+    fprintf(outperformance,"discharge_r2ln\t%.6f",r2ln[1][1]);
+   }
+    return;
+}

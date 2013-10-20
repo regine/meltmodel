@@ -137,6 +137,7 @@ void closeall()
     if(energymethod == 1) {
         freematrix(GLOBAL,1,nrows,1,ncols);
         freematrix(SWBAL,1,nrows,1,ncols);           /*SHORTWAVE RADIATION BALANCE*/
+        freematrix(LONGIN,1,nrows,1,ncols);
         freematrix(NETRAD,1,nrows,1,ncols);          /*NET RADIATION*/
         freematrix(SENSIBLE,1,nrows,1,ncols);
         freematrix(LATENT,1,nrows,1,ncols);
@@ -175,8 +176,6 @@ void closeall()
             freematrix(ALBBEFSNOW,1,nrows,1,ncols);
         }
 
-        if(methodlongin == 2)    /*longwave incoming spatially variable*/
-            freematrix(LONGIN,1,nrows,1,ncols);
         if(methodsurftempglac >= 2)     /*surface temperature iterated*/
             freematrix(LONGOUT,1,nrows,1,ncols);  /*longwave outcoming spatially variable*/
 

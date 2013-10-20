@@ -168,7 +168,8 @@ void bisection() {
     ff = balancetsurf;
 
     if ((ff*fmid) >= 0.0) {
-        printf("\n Error: Root must be bracketed for bisection! %f %f %f %f %f\n",jd2,tsurf1,tsurf2,ff,fmid);
+        printf("\n Error: Root must be bracketed for bisection! day: %f T1: %f T2:%f Bal1: %f Bal2: %f\n",
+                jd2,tsurf1,tsurf2,ff,fmid);
         exit(4);
     }
 

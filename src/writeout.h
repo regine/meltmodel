@@ -199,4 +199,15 @@ void writemeltstakes();
 void percentsnowfree();
 
 
+/************************************************************************/
+/*  FUNCTION:  writeperformance                                         */
+/*     computes and writes model performance to file                    */
+/*     one line with various r2 values                                  */
+/*     called once at the end of main                                   */
+/*     New 10/2013                                                      */
+/************************************************************************/
+
+void writeperformance();
+
+
 #endif /* WRITEOUT_H_ */

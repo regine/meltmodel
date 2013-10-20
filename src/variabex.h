@@ -45,6 +45,9 @@ extern  int  snetfromobsyes;  /*0=Snet from albedo model*/
 extern  int    allradiationfromfile;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if only climate station cell computed*/
 extern  float snowscenario;  /*this amount is added to each grid cell of the initial snow cover*/
 
+extern  int  skin_or_inter;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+extern  int  tsurfextrapolation;   /*extrapolation to surface temp 1 = upper layer and surf, 2 = upper 2 layers and surf*/
+
 /*=== SUBSURFACE SNOW MODEL ===*/
 extern  int init_layertemperature;	/*1=default,3=storglaciaren*/
 extern  int init_snowlayerdensity;	/*1=default,3=storglaciaren*/
@@ -89,8 +92,6 @@ extern  int  supericegrid;     /* 0 = all grids at normal vertical resolution, 1
 extern  int  typealbedo;   /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
 extern  int  typeconduc;   /*5 functions to compute ice conductivity*/
 extern  int  typedens;		/*3 functions to compute densification of the dry snowpack*/
-extern  int  skin_or_inter;	/*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
-extern  int  tsurfextrapolation;   /*extrapolation to surface temp 1 = upper layer and surf, 2 = upper 2 layers and surf*/
 extern  int  resoutlinesmax;   /*exit program, if more lines written to res.out*/
 extern  int   bs_eachday_yes;   /*summer balance written to file every day - for
  Dyurgerov method*/
@@ -176,7 +177,7 @@ extern  FILE   *outmassbalprofile;
 extern  FILE   *intempgrid;   /*temperature grid read from file*/
 extern  FILE   *inprecipindexgrid;   /*precipitation index map read from file*/
 extern  FILE   *inprecipreadgrid;   /*precipitation grid read from file*/
-
+extern  FILE   *outperformance;     /*model performance (r2 etc) written to file*/
 
 /* ********* ARRAYS **************************** */
 extern  float  **griddgm, **griddgmdrain, **griddgmglac;  /* 2 dim. Arrays grid data */

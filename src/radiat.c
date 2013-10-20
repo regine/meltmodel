@@ -962,7 +962,9 @@ void longinstationnetradmeas()
     LWin = net - glob + ref + LWout;
 
     if(LWin < 150) {
-        fprintf(outcontrol,"Longin < 150:  %.2f  jd=%.2f \n",LWin,jd);
+        fprintf(outcontrol,"Longin (computed from Net,glob,ref,LWout) < 150:  %.2f  jd=%.2f \n",LWin,jd);
+        fprintf(outcontrol,"  LWin set to 150 in longinstationnetradmeas()\n\n");
+
         LWin = 150;   /*avoid unrealistic value*/
     }
 
@@ -1156,18 +1158,11 @@ void longoutcalc()
 
 {
     float  sigma=0.0000000567;
-    float  longwave_in;
-    /*extra variable because it can be array if spatially variable or not (if invariable)*/
-
-    if(methodlongin == 1)       /*LONGWAVE INCOMING RADIATION CONSTANT IN SPACE*/
-        longwave_in = LWin;
-    else     /*2= LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
-        longwave_in = LONGIN[i][j];
 
     /*emissivity defined in variab.h*/
     /*      LONGOUT[i][j] = sigma*pow((surftemp[i][j]+273.15),4);   */
 
-    LONGOUT[i][j] = sigma*emissivitysurf*pow((surftemp[i][j]+273.15),4)+(1-emissivitysurf)*longwave_in;
+    LONGOUT[i][j] = sigma*emissivitysurf*pow((surftemp[i][j]+273.15),4)+(1-emissivitysurf)*LONGIN[i][j];
 
     return;
 }
@@ -1184,18 +1179,11 @@ void  surftempfromlongout()
 
 {
     float  sigma=0.0000000567;
-    float  longwave_in;
-    /*extra variable because it can be array if spatially variable or not (if invariable)*/
-
-    if(methodlongin == 1)       /*LONGWAVE INCOMING RADIATION CONSTANT IN SPACE*/
-        longwave_in = LWin;
-    else   /*2= LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
-        longwave_in = LONGIN[rowclim][colclim];
 
     /*-273.15 --> convert surface temperature to Celcius*/
     /****** surftemp[rowclim][colclim] = pow((LWout/sigma),0.25) -273.15;     only valid if emissivity=1*/
 
-    surftemp[rowclim][colclim] = pow(((LWout-(1-emissivitysurf)*longwave_in)/(sigma*emissivitysurf)),0.25) -273.15;
+    surftemp[rowclim][colclim] = pow(((LWout-(1-emissivitysurf)*LONGIN[rowclim][colclim])/(sigma*emissivitysurf)),0.25) -273.15;
 
     if(surftemp[rowclim][colclim] > 0)
         surftemp[rowclim][colclim] = 0;
@@ -1220,18 +1208,11 @@ void radiationbalance()
     /* different equations because longwave variable is 1-dem or 2-dimensional
        depending on whether it is constant or variable in space */
 
-    if(methodlongin == 1) {     /*LONGWAVE INCOMING RADIATION CONSTANT IN SPACE*/
-        if(methodsurftempglac == 1)   /*LONGWAVE OUTGOING RAD CONSTANT IN SPACE = MELTING*/
-            NETRAD[i][j] = SWBAL[i][j] + LWin - LWout;
-        else                /*LONGWAVE OUTGOING RADIATION VARIABLE IN SPACE*/
-            NETRAD[i][j] = SWBAL[i][j] + LWin - LONGOUT[i][j];
-    } else {         /*LONGWAVE INCOMING RADIATION VARIABLE IN SPACE*/
         if(methodsurftempglac == 1)   /*LONGWAVE OUTGOING RAD CONSTANT IN SPACE = MELTING*/
             NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LWout;
         else                /*LONG OUT VARIABLE IN SPACE OR TAKEN FROM MEASUREMENTS*/
             NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
-    }
-
+    
     /*take all radiation data from file, only if only station grid cell computed*/
     if((allradiationfromfile == 1) && (methodsurftempglac == 3) && (calcgridyes == 2))
         NETRAD[i][j] = glob - ref + LWin - LWout;
