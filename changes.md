@@ -5,7 +5,10 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
-
+#### 10/20/2013 
+* v1.1.0
+- Added "model performance" output file which records discharge r^2 and r^2 (ln) values
+to the text file "model_performance.txt"
 
 #### 10/07/2013  (TECHNICAL, R. Hock)
 * v1.0.1
