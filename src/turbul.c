@@ -1126,7 +1126,7 @@ void massbalance()
             if ((SNOW[i][j] >= 0.)  && (SNOWswitch[i][j] == 0.))
                 MASSBALcumstake[i][j] = -(SNOWinit[i][j] - SNOW[i][j]);
             else
-                MASSBALcumstake[i][j] += massbal;
+                MASSBALcumstake[i][j] += massbal;     /*in cm*/
 
             if (SNOW[i][j] == 0.) SNOWswitch[i][j] = 1.;
         }

@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  update 18 October 2013 */
+/*  Last update 29 October 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -2104,7 +2104,7 @@ void stationoutput()
 /*******************************************************************/
 /* FUNCTION  writemeltstakes                                       */
 /*           WRITE 2 FILES: CUMULATIVE MELTING AND                 */
-/*           CUMULATIVE ASSBALANCE OF SEVERAL LOCATIONS INTO ONE FILE  */
+/*           CUMULATIVE MASS BALANCE OF SEVERAL LOCATIONS INTO ONE FILE  */
 /*           called from main every time step after grid loop      */
 /*******************************************************************/
 
@@ -2159,6 +2159,8 @@ void writemeltstakes()
 }
 
 
+
+
 /************************************************************************/
 /*  FUNCTION:  percentsnowfree                                          */
 /*     goes through snow cover file and counts how may pixels snow free */
@@ -2193,19 +2195,234 @@ void percentsnowfree() {
 /************************************************************************/
 /*  FUNCTION:  writeperformance                                         */
 /*     computes and writes model performance to file                    */
-/*     one line with various r2 values                                  */
+/*     one line with various performance values, missing values if a value does not exist */
 /*     called once at the end of main                                   */
 /*     New 10/2013                                                      */
 /************************************************************************/
 
 void writeperformance() 
-{
+{  float missvalQ  =-9999;   /*missing value in case discharge matrix is not computed */
+   float diffvolume=-9999;
+   float r2value,r2lnvalue;   /*new variables because array only exists if discharge data is available*/
+
    if(calcgridyes == 1)  /*only if entire grid is calculated, not if only AWS station computed*/ 
-    { if (disyes != 1) {    /*if discharge r2 not computed, set to no value*/
-       r2[1][1] = -9999;  /*to write out to output file even if r2 does not exist*/
-       r2ln[1][1] = -9999;
-    }  
-    fprintf(outperformance,"%.3f %.3f \n",r2[1][1],r2ln[1][1]); 
-   }
+    { 
+     strcpy(dummy,outpath);
+     strcat(dummy,"modelperformance.txt");
+
+        if ((outperformance = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening output model performance file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+
+        fprintf(outperformance,"discharge_r2 discharge_lnr2 Qvolumesim  Qvolumemeas  Difference(sim-meas)  nsteps  nstepsdis\n");
+        fprintf(outperformance,"Model performance with respect to discharge, r2 is Nash-Sutcliffe efficiency criterion (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
+        fprintf(outperformance,"nsteps is number of modeled time steps, nstepsdis is number of time steps with valid discharge data - must be the same for the difference to make sense\n");
+
+      if (disyes != 1) {    /*if discharge r2 not computed, set to missing value*/
+         r2value    = missvalQ;   r2lnvalue  = missvalQ;
+         volumesim  = missvalQ;   volumemeas = missvalQ;
+         diffvolume = missvalQ;   nstepsdis  = missvalQ;
+      }
+      else     /*discharge data exists and r2 could be calculated*/
+      {  diffvolume=volumesim-volumemeas;    /*differenct between total discharge volume over entire period*/
+         r2value   = r2[1][1];     /*array only exists if discharge data is available*/
+         r2lnvalue = r2ln[1][1];
+      }
+     fprintf(outperformance,"%.3f\t %.3f\t  %.3f\t %.3f\t %.3f   %d  %d\n",r2value,r2lnvalue,volumesim,volumemeas,diffvolume,nsteps,nstepsdis);
+     fclose(outperformance);
+    }  /*endif*/
+    
     return;
+}
+
+
+/********************************************************************/
+/*  FUNCTION  writemodelmeaspointbalances                           */
+/*       makes file with measured and modeled point balances (in m) */
+/*          called from main once at the end                        */
+/*   A file with measured point balances is read and a new file created which
+     is identical but adds another column with the modeled balances for each
+     stake observation. Modeled balances are computed from cumulated
+     balance file "cummassbal.txt" which has the cumulated time series*/
+/* New October 2013, R. Hock*/
+/********************************************************************/
+
+void writemodelmeaspointbalances() 
+{
+   int write_output_yes = 1;    /*controls whether or not output file with comparison is generated*/
+      /*avoids another row in input.txt, if file exists compute performance, if not don't do anything*/
+   FILE *outpointbal=NULL;   /*output file with modeled-measured point balances to be created here*/
+   FILE *modelcummassbal=NULL;  /*model output file with modeled cumulative point balances*/
+   FILE *measpointbal=NULL;     /*file with measured point balances */
+
+   float **cummassbal;   /*array to read all data of model cummassbal file*/
+   float **measuredpointbal;  /*array to read measured point balance file*/
+   float readvalue;    /*for reading numbers from file and put into array*/
+   int numberdatapoints = 5000;   /*max number of rows in measured point balance file*/
+   int n_col_meas=8;   /*number of columns in measured stake data file (measuredpointbalances.txt)*/
+   int n_meas=0;    /*number of rows (stake locations) in measured file*/
+   int rowmeas,rowmod,nnn;     /*indices to go through arrays*/
+   float massbal_mod_start,massbal_mod_end;   /*modeled cumulative values for start and end date of corresponding measurements*/
+   float datediff;   /*difference between start and end date, to check for errors in measured point balance file*/
+   int startfound_yes=0,endfound_yes=0;
+   int status;
+   int getoutfunctionyes=0;
+
+/*===================================================================*/
+/*==== OPEN MEASURED POINT BALANCE FILE AND READ FILE INTO ARRAY ====*/
+  /* Format: x,y-coord,elevation,B,startyear,startday,endyear,endday */
+    strcpy(dummy,inpath);
+    strcat(dummy,"measuredpointbalances.txt");   /*Mass balance output is in m*/
+    if ((measpointbal = fopen(dummy,"rt")) == NULL)
+     { write_output_yes = 0;
+       printf("\n\n No point measurements to compare to modeled point balances\n");
+       printf("    measuredpointbalances.txt could not be opened (function writemodelmeaspointbalances)\n");
+     }
+
+    if(maxmeltstakes == 0)
+      write_output_yes = 0;   
+  	 	 
+ if(write_output_yes == 1)   /*only if measured point balance file exists, make output file*/   
+ {	 	
+/*=======================================================*/
+/*===== OPEN OUTPUT FILE ================================*/
+    strcpy(dummy,outpath);
+    strcat(dummy,"pointbalances.txt");
+        if ((outpointbal = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening output file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+    fprintf(outpointbal,"X-coord \t Y-coord\t Elevation(m) MeasMassbal(m)  StartYear StartDay EndYear  EndDay \t ModeledMassbal(m)\n");
+    fprintf(outpointbal,"First 8 columns are same as read from measuredpointbalances.txt, last columnn is computed from model output cummassbal.txt\n");
+
+
+/*==============================================================*/
+/*====== READ MEASURED POINT BALANCE FILE INTO ARRAY ===========*/ 
+      readrestofline(&measpointbal);   /*read over 2 header lines*/
+      readrestofline(&measpointbal);
+           /*define 2-D array to read all measured data*/  
+ /*---- INITIALIZE ARRAY WITH MEASURED DATA---------*/ 
+      measuredpointbal = matrixreserv(1,numberdatapoints,1,n_col_meas);   /*file has n_col_meas columns*/
+      for(i=1;i<=numberdatapoints;i++)    /*initialize array to zero*/
+      {  for(j=1;j<=n_col_meas;j++)
+			measuredpointbal[i][j] = -9999;
+	  }		
+			
+ /*read measured data into array*/
+      i=1; j=1; n_meas=0;     /*i=row, j=column, n_meas=number of rows (stakes)*/      
+	  while((status=fscanf(measpointbal, "%f", &readvalue)) != EOF)   /*read one number after another*/
+      {         
+        measuredpointbal[i][j]=readvalue;   /*put numbers in array as they are*/
+        if(j==n_col_meas)   /*make new line, start with col 1 again, measured file has n_col_meas columns*/
+        { j=0;
+          i=i+1;   /*next line*/
+          n_meas+=1;    /*find total number of rows (data points) in measured file*/ 
+          if(status!=EOF) readrestofline(&measpointbal);     /* READ LINE BREAK */
+        }     
+        j=j+1;   /*next column same row*/
+      }  /*endwhile*/
+       	 
+ /* ---- check in measured stake file for each row if end date is  after start date -----------*/
+     for(i=1;i<=numberdatapoints;i++)    /*for each row in measured file*/
+      {  if((measuredpointbal[i][5] != -9999) && (measuredpointbal[i][7] !=-9999))    /*possible since array has 5000 lines*/  
+         { datediff = (measuredpointbal[i][7]*365+measuredpointbal[i][8]) - (measuredpointbal[i][5]*365+measuredpointbal[i][6]);
+           if(datediff <=0)     /*datediff is differences in days*/
+           { printf("\n\n  ERROR in file measuredpointbalances.txt in row %d\n",i);
+             printf("   The end date must be after the start date of the balance observations. No point balance file written to output.\n\n");
+             getoutfunctionyes=1;     /*avoid exist but just don't do anything anymore in this function*/
+           }
+         }  /*endif*/
+      }   /*endfor*/
+ 
+    if(n_meas != maxmeltstakes)
+     { printf("\n Number of stakes in measuredpointbalances.txt is larger/lower (=%d) than number of stakes computed in model run (%d)",n_meas,maxmeltstakes);
+       printf(" (maxmeltstakes in input.txt). It must be equal. No point balance file written to output.\n\n");
+       getoutfunctionyes=1;     /*avoid exist but just don't do anything anymore in this function*/
+     }
+     
+  if(getoutfunctionyes==0)  /*only if number of stakes in measured file is equal to number of stakes written to output and no date errors*/
+  {    
+    printf("\nModeled POINT BALANCES written to file (pointbalances.txt):\n   Number of stakes in measured file = %d\n",n_meas);
+    printf("   Number of point locations written to output (maxmeltstakes) = %d\n",maxmeltstakes);
+
+/*===================================================================================================*/
+/*====== OPEN MODELED CUMULATIVE MASS BALANCE FILE CREATED BY THE MODEL AND PUT DATA INTO ARRAY======*/
+   strcpy(dummy,outpath);
+        strcat(dummy,"cummassbal.txt");        
+
+        if ((modelcummassbal = fopen(dummy,"rt")) == NULL) {
+            printf("\n Error in opening output file 'cummassbal.txt'\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+   		readrestofline(&modelcummassbal);   /*read 2 header lines*/
+   		readrestofline(&modelcummassbal);
+
+  /*---- CREATE ARRAY FOR DATA OF MODELED CUMULATIVE POINT BALANCE FILES AND READ ALL DATA-----------*/
+     /*nstep is number of time steps, i.e. rows for array, col+3 because of year, day, time columns*/
+       cummassbal = matrixreserv(1,nsteps,1,maxmeltstakes+3);
+    
+ 	    for(i=1;i<=nsteps;i++)   /*for each row*/
+ 		{  for(j=1;j<=maxmeltstakes+3;j++)     /*plus 3 because of 3 date columns*/
+ 		   {  fscanf(modelcummassbal, "%f", &readvalue);
+              cummassbal[i][j]=readvalue;   /*put numbers in array as they are*/
+           }  /*endfor*/   	
+        }   /*end for each row*/
+        
+/*======================================================================================*/
+/* ====== COMPUTE MODELED POINT BALANCE FOR TIME PERIOD OF MEASURED BALANCE ============*/
+  /* go through each measured stake (row) and check the corresponding time series of modeled stake (column) for start and end date*/
+  /* Note that each measured stake is in one row, while each modeled stake is a column*/
+ 
+      for(rowmeas=1;rowmeas<=n_meas;rowmeas++)   /*for each row (stake) of the measured file, column 5 is start year, 6 start day*/
+      { startfound_yes = 0; endfound_yes = 0;  /*set to zero for each stake (row of measured file)*/
+        massbal_mod_start=-9999;  massbal_mod_end = -9999;  /*initialize in case dates do not exist in modeled file*/
+    /*go through whole modeled time series of that stake and find start/end data of stakes point measurement*/
+        for(rowmod=1;rowmod<=nsteps;rowmod++)    /*for each modeled time step (column) of that stake*/
+        {  
+          if(startfound_yes==0)   /*start date not found yet*/
+          { 
+           if((measuredpointbal[rowmeas][5] == cummassbal[rowmod][1]) && (measuredpointbal[rowmeas][6] == cummassbal[rowmod][2]))
+             { massbal_mod_start = cummassbal[rowmod][rowmeas+3]/100;   /*Note: rowmeas corresponds to the column in the modeled file*/
+                   /*divide by 100 to convert cm into m*/
+      		   startfound_yes = 1;	   
+   /*printf(" dates found: massbal start= %.2f stake number (rowmeas)= %d  %.0f %.0f\n",massbal_mod_start,rowmeas,cummassbal[rowmod][1],cummassbal[rowmod][2]);*/   		   
+      		 }  /*endif*/
+		  }  /*start day not found yet*/
+		  
+		  if(endfound_yes==0)   /*start date not found yet; col 7 (8) = end year (day) in measured file, in cummassbal.txt col 1 is always year*/
+		  {	 if((measuredpointbal[rowmeas][7] == cummassbal[rowmod][1]) && (measuredpointbal[rowmeas][8] == cummassbal[rowmod][2]))
+             { massbal_mod_end = cummassbal[rowmod][rowmeas+3]/100;   /*Note: rowmeas corresponds to the column in the modeled file*/
+      		   endfound_yes = 1;
+  /*printf("    massbal end = %.2f stake number (rowmeas)= %d %.0f %.0f\n",massbal_mod_end,rowmeas,cummassbal[rowmod][1],cummassbal[rowmod][2]);*/
+             }  /*endif*/
+  		  }  /*end day not found yet*/    
+	    }  /*for rowmod: each modeled time step of same stake*/
+	    
+  /* ------ write to new output file, each stake is one row -------- */
+        for(nnn=1;nnn<=n_col_meas;nnn++)    /*print all columns that were in measured data file*/
+         { fprintf(outpointbal,"%.3f\t",measuredpointbal[rowmeas][nnn]);
+         }      /*print the corresponding modeled balance*/
+         fprintf(outpointbal,"  %.4f\n",massbal_mod_end-massbal_mod_start);
+
+      }  /*end for rowmeas: each stake (row) of measured file*/
+    
+ /* ------ free maxtrices and close files ---------*/
+      freematrix(cummassbal,1,nsteps,1,maxmeltstakes+3);
+      if(modelcummassbal) {
+        fclose(modelcummassbal);
+        modelcummassbal = NULL;
+      }
+    
+    }  /*endif getoutfunctionyes*/
+    /*has been reserved even if no output created, therefore outside loop above*/
+     freematrix(measuredpointbal,1,numberdatapoints,1,n_col_meas);
+      if(outpointbal) {
+        fclose(outpointbal);
+        outpointbal = NULL;
+      }
+   
+   }  /* if write_output_yes = 1 */
+   
+ return;
 }

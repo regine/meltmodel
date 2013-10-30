@@ -3,8 +3,8 @@
 1    %output to screen every X day.  daysscreenoutput.
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
-129  1999    %first julian day to be calculated.  jdbeg  yearbeg
-130  1999   %last julian day to be calculated.  jdend  yearend
+129  1999  %first julian day to be calculated.  jdbeg  yearbeg
+166  1999   %last julian day to be calculated.  jdend  yearend
 1    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS: DEFINE WHAT IS WRITTEN TO FILE ***************

@@ -322,7 +322,7 @@ int    do_out_area;      /*if time series of spatial mean to file*/
 int    disyes;                   /*=1 if discharge to be calculated */
 int    nsteps=0;       /*number of time steps of whole period of calculations*/
 int    outgridnumber;          /*number of grid outputfiles*/
-int    stnrow[201],stncol[201];    /*row and column of grid to be written to output*/
+int    stnrow[301],stncol[301];    /*row and column of grid to be written to output*/
 int    firnreadyes;     /*if firn file has been read*/
 float  p,e;                           /*air pressure, vapour pressure */
 float  z0w,z0wice;          /*roughness length for ice*/
@@ -548,8 +548,8 @@ int    ddfoptyes=0;      /*optimization of melt parameter*/
 float  debrisfactor;     /*melt reduction factor for debris cover on glacier*/
 
 int  maxmeltstakes;       /*number of locations to be written to melt file*/
-int  meltoutrow[101];      /*row of location*/
-int  meltoutcol[101];      /*column of location*/
+int  meltoutrow[301];      /*row of location*/
+int  meltoutcol[301];      /*column of location*/
 float  melt_xcoordinate[301];      /*x-coordinate of stake location*/
 float  melt_ycoordinate[301];      /*y-coordinate of stake location*/
 float  stn_xcoordinate[301];      /*x-coordinate of output station*/

@@ -53,7 +53,7 @@ void readrestofline(FILE **infile) {
         countchar+=1;
         if(countchar == maxcount) {
             printf("\n\n ERROR in function readrestofline (initial.c):\n Too many character (%d), check if line breaks missing\n",maxcount);
-            printf("  *** PROGRAM EXITED - CHECK input.dat AND CLIMATE DATA INPUT ***\n\n");
+            printf("  *** PROGRAM EXITED - CHECK input.txt AND CLIMATE DATA INPUT ***\n\n");
             exit(20);
         }
     }
@@ -482,7 +482,7 @@ void startinputdata()
     printf("    Gridfile %s opened and read \n",namedgm);
 
     if((rowclim > nrows)|| (colclim > ncols)) {
-        printf("\n ERROR in input.dat\n");
+        printf("\n ERROR in input.txt\n");
         printf("  climate station grid cell is outside model domain !\n");
         printf("  adjust parameter rowclim (=%d) or/and colclim (=%d) !\n\n",rowclim,colclim);
         exit(6);
@@ -709,7 +709,7 @@ void startinputdata()
         status = fscanf(inklima,"%f%f%f",&year,&jd,&zeit);   /*READ JULIAN DAY*/
         if (status == EOF) {
             printf("\n\n start julian day not found on climate file\n");
-            printf(" check control file 'input.dat'\n (File initial.c)\n\n");
+            printf(" check control file 'input.txt'\n (File initial.c)\n\n");
             fclose(inklima);
             exit(1);
         }  /*endif*/
@@ -756,7 +756,7 @@ void startinputdata()
             meltoutcol[i] = (int)( (xcoorddummy - xll)/cs ) + 1;
 
             if((meltoutrow[i] > nrows) || (meltoutcol[i] > ncols) || (meltoutrow[i] < 1) || (meltoutcol[i] < 1)) {
-                printf("\nERROR: Coordinates for ablation stakes (see end of input.dat) are not compatible with DEM coordinates\n");
+                printf("\nERROR: Coordinates for ablation stakes (see end of input.txt) are not compatible with DEM coordinates\n");
                 printf("Make sure that they are from your study sites or turn off the option 'maxmeltstakes' (set to 0)\n");
                 printf(" y-coord=%.3f x-coord=%.3f read from input.dat \n nrows=%d ncols=%d \n meltoutrow[i]=%d  meltoutcol[i]=%d  --> values must be between 1 and nrows/ncols\n\n",
                        melt_ycoordinate[i],melt_xcoordinate[i],nrows,ncols,meltoutrow[i],meltoutcol[i]);
@@ -796,9 +796,9 @@ void startinputdata()
                 stncol[i] = (int)( (xcoorddummy - xll)/cs ) + 1;
 
                 if((stnrow[i] > nrows) || (stncol[i] > ncols) || (stnrow[i] < 1) || (stncol[i] < 1)) {
-                    printf("\nERROR: Coordinates for station output locations (see outgridnumber in input.dat) are not compatible with DEM coordinates\n");
-                    printf("Make sure that they are from your study sites and in the coordinate system as given by variable 'coordinatesyes' in input.dat\n");
-                    printf(" y-coord=%.3f x-coord=%.3f read from input.dat \n nrows=%d ncols=%d \n stnrow[i]=%d  stncol[i]=%d  --> values must be between 1 and nrows/ncols\n\n",
+                    printf("\nERROR: Coordinates for station output locations (see outgridnumber in input.txt) are not compatible with DEM coordinates\n");
+                    printf("Make sure that they are from your study sites and in the coordinate system as given by variable 'coordinatesyes' in input.txt\n");
+                    printf(" y-coord=%.3f x-coord=%.3f read from input.txt \n nrows=%d ncols=%d \n stnrow[i]=%d  stncol[i]=%d  --> values must be between 1 and nrows/ncols\n\n",
                            stn_ycoordinate[i],stn_xcoordinate[i],nrows,ncols,stnrow[i],stncol[i]);
                     exit(20);
                 }
@@ -811,7 +811,6 @@ void startinputdata()
         }  /*end if, write grid cell output to file*/
 
     }  /*endif coordinatesyes*/
-
 
     return;
 }
@@ -853,7 +852,7 @@ void startoutascii()
         if(dat_or_txt == 2)     /*first file name and variable in second line*/
             fprintf(outarea,"%s\n",outareaname);
 
-        if(energymethod == 1) {   /*is set in meltmod.c, not in input.dat*/
+        if(energymethod == 1) {   /*is set in meltmod.c, not in input.txt*/
             fprintf(outarea," year jd    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
             fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ");
             fprintf(outarea," rain    enbal     melt  abla  cummassbal surftemp\n");
@@ -874,7 +873,7 @@ void startoutascii()
     /***OPEN ASCII-OUTPUTFILES FOR SNOW MODEL RESULTS OF INDIVUAL GRTDPOINTS, WRITE HEAD */
     /*------------------------------------------------------------------------------*/
     /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
-    /*filenames consist of path+subsurf+name for individual model output given in input.dat*/
+    /*filenames consist of path+subsurf+name for individual model output given in input.txt*/
     if ((methodsurftempglac == 4) && (outgridnumber > 0)) {
         int k;
         strcpy(dummysubsurf,"subsurf");   /*add in front of outgridname*/
@@ -949,25 +948,8 @@ void startoutascii()
 
     } /*if outgridnumber*/
     
-    
-    /*------------------------------------------------------------------------------*/
-    /***OPEN ASCII-OUTPUTFILE WITH MODEL PERFORMANCE STATISTICS                     */
-    /*    new 10/2013 R. Hock */
-    /*------------------------------------------------------------------------------*/
-
-     strcpy(dummy,outpath);
-     strcat(dummy,"modelperformance.txt");
-
-        if ((outperformance = fopen(dummy,"wt")) == NULL)  {
-            printf("\n Error in opening model performance file\n (File initial.c): %s\n\n",dummy);
-            exit(4);
-        }  /*ENDIF*/
-
-        fprintf(outperformance," discharge_r2 discharge_lnr2 stakes_r2 stakesRMSE totalmasschange\n  ");
-
     return;
 }
-
 
 
 /*******************************************************************************/
@@ -981,9 +963,9 @@ void startmeltstakes()
 {
     /********** OUTPUT CUMULATIVE MELTING **********/
     if(dat_or_txt == 1)
-        strcpy(outmeltstakename,"melting.dat");
+        strcpy(outmeltstakename,"cumablation.dat");
     else
-        strcpy(outmeltstakename,"melting.txt");  /*for GMT visualization, Carleen*/
+        strcpy(outmeltstakename,"cumablation.txt");  /*for GMT visualization, Carleen*/
 
     strcpy(dummy,outpath);
     strcat(dummy,outmeltstakename);
@@ -993,9 +975,8 @@ void startmeltstakes()
         exit(4);
     }  /*ENDIF*/
 
-    fprintf(outmeltstakes,"Values in cm \n");      /*WRITE FIRST ROW*/
+    fprintf(outmeltstakes,"Cumulative ablation in cm, S=stake number (S1 has coordinates of first row at end of input.txt, S2 the second etc) \n");      /*WRITE FIRST ROW*/
     fprintf(outmeltstakes,"Year  JD time ");      /*WRITE SECOND ROW*/
-    /*    fprintf(outmeltstakes,"Year  JD time (cm)"); */     /*WRITE SECOND ROW*/
     for(i=1; i<=maxmeltstakes; i++)     /*WRITE NUMBER FOR ALL STAKES*/
         fprintf(outmeltstakes,"        s%d",i);
     fprintf(outmeltstakes,"\n");
@@ -1014,7 +995,7 @@ void startmeltstakes()
         exit(4);
     }  /*ENDIF*/
 
-    fprintf(outmassbalstakes,"Values in cm \n");      /*WRITE FIRST ROW*/
+    fprintf(outmassbalstakes,"Cumulative mass balance in cm, S=stake number (S1 has coordinates of first row at end of input.txt, S2 the second etc) \n");      /*WRITE FIRST ROW*/
     fprintf(outmassbalstakes,"Year  JD time ");      /*WRITE SECOND ROW*/
     /*    fprintf(outmassbalstakes,"Year  JD time (cm)");  */    /*WRITE FIRST ROW*/
     for(i=1; i<=maxmeltstakes; i++)     /*WRITE NUMBER FOR ALL STAKES*/
@@ -1059,9 +1040,9 @@ void startspecificmassbalance()
 
 {
     if(dat_or_txt == 1)
-        strcpy(outspecificmassbalname,"specificmassbal.dat");
+        strcpy(outspecificmassbalname,"seasonalmassbal.dat");
     else    /*for GMT visualization, Carleen*/
-        strcpy(outspecificmassbalname,"specificmassbal.txt");
+        strcpy(outspecificmassbalname,"seasonalmassbal.txt");
 
     strcpy(dummy,outpath);
     strcat(dummy,outspecificmassbalname);
@@ -1399,7 +1380,6 @@ void glacierrowcol()
 }
 
 
-
 /**************************************************************/
 /*  FUNCTION  readclim                                        */
 /*        READ ONE LINE OF CLIMATE DATA FROM FILE             */
@@ -1616,7 +1596,7 @@ void readclim()
 void  exitclimread() {
     printf("\n  input climate/discharge data beyond logical limits\n");
     printf("  wrong column may have been assigned to climate variable in question\n");
-    printf("  check in input.dat\n\n");
+    printf("  check in input.txt\n\n");
     fclose(inklima);
     inklima = NULL;
     fclose(outcontrol);
@@ -1640,7 +1620,7 @@ void  readdatesmassbal() {
     strcpy(dummy,inpath);
     strcat(dummy,namedatesmassbal);
     if ((indatesmassbal = fopen(dummy,"rt")) == NULL)  {
-        printf("\n ERROR : file datesmassbal not found !!!\n\n");
+        printf("\n ERROR : file datesmassbal not found: %s !!!\n\n",dummy);
         exit(2);
         fclose(indatesmassbal);
     }  /*ENDIF*/
@@ -1695,7 +1675,7 @@ void areaelevationbelts()
             if (griddgmglac[i][j] != nodata) {
                 elevationfound = 0;
                 numberloop = 0;
-                elevbelt = elevbeltmin;   /*start loop with lowest elevation, defined input.dat*/
+                elevbelt = elevbeltmin;   /*start loop with lowest elevation, defined input.txt*/
                 jj = 1;     /*index for each elevation belt profile data*/
                 numbergridcells += 1;
 
@@ -1712,7 +1692,7 @@ void areaelevationbelts()
                     }
 
                     if(numberloop >= 2000) {
-                        printf("\n\n exit function computemassbalprofile: check input.dat if defined elevation belts exit\n\n");
+                        printf("\n\n exit function computemassbalprofile: check input.txt if defined elevation belts exit\n\n");
                         exit(2);
                     }
                 }  /*endwhile, elevation belt for grid cell elevation found*/

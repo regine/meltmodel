@@ -20,7 +20,7 @@
 /* PROGRAM  detim.c, formerly degree.c                               */
 /*  DISTRIBUTED SNOW/ICE MELT MODEL BASED ON TEMPERATURE INDEX       */
 /*  METHODS ENERGY BALANCE INCLUDING OPTIONAL DISCHARGE CALCULATIONS */
-/*   5.3.1998, last update 13 June 2013, renamed August 2012         */
+/*   5.3.1998, last update 30 October 2013, renamed August 2012         */
 /*********************************************************************/
 
 
@@ -318,7 +318,9 @@ int main()
             write2matriz();    /*write r2 matriz to file*/
     }
 
+	writeperformance();   /*write model performance (r2 etc) to text-file, added 10/2013*/
     closeall();     /* CLOSE FILES, SPEICHERFREIGABE */
+    writemodelmeaspointbalances();    /*must be after closeall because it opens cummassbal.txt, added 10/2013*/
 
     printf("\n\n number of glacier grids         %d\n",nglac);
     printf(" number of calculated time steps   %d\n\n",nsteps);
