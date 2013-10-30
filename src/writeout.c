@@ -2219,9 +2219,12 @@ void writeperformance()
         fprintf(outperformance,"nsteps is number of modeled time steps, nstepsdis is number of time steps with valid discharge data - must be the same for the difference to make sense\n");
 
       if (disyes != 1) {    /*if discharge r2 not computed, set to missing value*/
-         r2value    = missvalQ;   r2lnvalue  = missvalQ;
-         volumesim  = missvalQ;   volumemeas = missvalQ;
-         diffvolume = missvalQ;   nstepsdis  = missvalQ;
+         r2value    = missvalQ;
+         r2lnvalue  = missvalQ;
+         volumesim  = missvalQ;
+         volumemeas = missvalQ;
+         diffvolume = missvalQ;
+         nstepsdis  = missvalQ;
       }
       else     /*discharge data exists and r2 could be calculated*/
       {  diffvolume=volumesim-volumemeas;    /*differenct between total discharge volume over entire period*/
