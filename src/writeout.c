@@ -2215,7 +2215,6 @@ void writeperformance()
             exit(4);
         }  /*ENDIF*/
 
-        fprintf(outperformance,"discharge_r2 discharge_lnr2 Qvolumesim  Qvolumemeas  Difference(sim-meas)  nsteps  nstepsdis\n");
         fprintf(outperformance,"Model performance with respect to discharge, r2 is Nash-Sutcliffe efficiency criterion (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
         fprintf(outperformance,"nsteps is number of modeled time steps, nstepsdis is number of time steps with valid discharge data - must be the same for the difference to make sense\n");
 
@@ -2229,7 +2228,13 @@ void writeperformance()
          r2value   = r2[1][1];     /*array only exists if discharge data is available*/
          r2lnvalue = r2ln[1][1];
       }
-     fprintf(outperformance,"%.3f\t %.3f\t  %.3f\t %.3f\t %.3f   %d  %d\n",r2value,r2lnvalue,volumesim,volumemeas,diffvolume,nsteps,nstepsdis);
+     fprintf(outperformance,"discharge_r2\t%.6f\n", r2value);
+     fprintf(outperformance,"discharge_lnr2\t%.6f\n", r2lnvalue);
+     fprintf(outperformance,"Qvolumesim\t%.6f\n", volumesim);
+     fprintf(outperformance,"Qvolumemeas\t%.6f\n", volumemeas);
+     fprintf(outperformance,"Difference(sim-meas)\t%.6f\n", diffvolume);
+     fprintf(outperformance,"nsteps\t%i\n", nsteps);
+     fprintf(outperformance,"nstepsdis\t%i", nstepsdis);
      fclose(outperformance);
     }  /*endif*/
     
