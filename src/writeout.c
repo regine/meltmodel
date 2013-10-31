@@ -1487,9 +1487,9 @@ void writemassbalgrid()
                 computemassbalprofile(MASSBALcum,massbalprofile);
                 massbalprofile_yes = 1;
 
-                initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
+                initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);   /*cum annual balance grid*/
 
-                /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
+            /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
                 printf(" Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 fprintf(outcontrol," Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 cumnetbal += x[11]/factorcm;    /*x[11] is mean, output from statist*/
@@ -1733,7 +1733,8 @@ void meanmassbalprofile()
 /*****************************************************************/
 /* FUNCTION  areameannull
              SPATIAL MEAN OVER WHOLE GLACIER SET TO ZERO
-             Time series Ascii-file                             */
+             Time series Ascii-file                             
+             called from main for each time step at beginning   */
 /*****************************************************************/
 
 void areameannull()
@@ -1764,10 +1765,9 @@ void areameannull()
         areaddf = 0.;
     }
     
-    areamelt     = 0.;
-    areacummassbal = 0;
+    areamelt = 0.;
 
-    return;
+  return;
 }
 
 
@@ -1775,7 +1775,8 @@ void areameannull()
 /*****************************************************************/
 /* FUNCTION  areasum
              SPATIAL MEAN OVER WHOLE GLACIER                     */
-/*           called from main within grid loop for each grid     */
+/*  called from main before end of grid loop (for each grid cell)*/
+/*  summing up values of all grid cells for each times step      */
 /*****************************************************************/
 
 void areasum()
@@ -1819,55 +1820,59 @@ void areasum()
         areaddf += DDFCALC[i][j];
     }
 
-    areamelt += MELT[i][j];       /*only melt is calculated for both cases*/
-    areacummassbal += MASSBALcum[i][j];
+    areamelt += MELT[i][j];     /*only melt is calculated for both cases (detim/debam), not ABLA*/
+    
+    if(griddgmglac[i][j] != nodata)     /*New 10/2013: sum up only over glacier not possibly larger drainage basin*/
+        areamassbal += MASSBALgrid[i][j];    /*massbal in cm*/
 
     return;
 }
 
 
-
 /* ======= TEMPORAL SERIES : ASCII-FILES ==============================*/
 /******************************************************************/
 /* FUNCTION  areameanwrite
-             SPATIAL MEAN OVER WHOLE CALCULATED AREA areamean.dat */
-/*NOTE: nglac is number pixels over drainage basin area*/
+             SPATIAL MEAN OVER WHOLE CALCULATED AREA areamean.txt,
+             in case of mass balance only over glacier area       */
+/*NOTE: ndrain is number pixels over drainage basin area*/
+/*      nglac is number pixels over glacier area*/
+/*  called from main for each time step after grid loop           */
+/*  sum of grid cell values is done in grid cell loop (areasum)   */
 /******************************************************************/
 
 void areameanwrite()
-
 {
     float arealongbal=0;
 
     if(energymethod == 1) {
         if (directfromfile != 1) {
-            areashade    = areashade/nglac;      /*CALCULATION OF SPATIAL MEAN*/
-            areaexkorr   = areaexkorr/nglac;
-            areasolhor   = areasolhor/nglac;
+            areashade    = areashade/ndrain;      /*CALCULATION OF SPATIAL MEAN*/
+            areaexkorr   = areaexkorr/ndrain;
+            areasolhor   = areasolhor/ndrain;
         }
 
         /*spatial means over all calculated grids*/
-        areadirect   = areadirect/nglac;  /*spatial mean of clear-sky direct radiation*/
-        areadirect2  = areadirect2/nglac;
-        areadiffus   = areadiffus/nglac;
-        areaalbedo   = areaalbedo/nglac;
-        areaglobal   = areaglobal/nglac;
-        areareflect  = areareflect/nglac;
-        areaswbal    = areaswbal/nglac;
+        areadirect   = areadirect/ndrain;  /*spatial mean of clear-sky direct radiation*/
+        areadirect2  = areadirect2/ndrain;
+        areadiffus   = areadiffus/ndrain;
+        areaalbedo   = areaalbedo/ndrain;
+        areaglobal   = areaglobal/ndrain;
+        areareflect  = areareflect/ndrain;
+        areaswbal    = areaswbal/ndrain;
 
         if(methodlongin == 1)      /*longwave incoming radiation spatially constant*/
             arealongin = LWin;      /*LWin calculated once every time step*/
         else
-            arealongin   = arealongin/nglac;
+            arealongin   = arealongin/ndrain;
 
-        arealongout  = arealongout/nglac;
-        areanetrad   = areanetrad/nglac;
-        areasensible = areasensible/nglac;
-        arealatent   = arealatent/nglac;
-        arearain     = arearain/nglac;
-        areaenbal    = areaenbal/nglac;
-        areaabla     = areaabla/nglac;
-        areasurftemp = areasurftemp/nglac;
+        arealongout  = arealongout/ndrain;
+        areanetrad   = areanetrad/ndrain;
+        areasensible = areasensible/ndrain;
+        arealatent   = arealatent/ndrain;
+        arearain     = arearain/ndrain;
+        areaenbal    = areaenbal/ndrain;
+        areaabla     = areaabla/ndrain;
+        areasurftemp = areasurftemp/ndrain;
 
         if(methodsurftempglac == 1) {
             arealongbal = arealongin - LWout;
@@ -1878,13 +1883,14 @@ void areameanwrite()
     } /*if energy*/
 
     if(degreedaymethod == 1) {
-        areapos     = areapos/nglac;
-        areaddf     = areaddf/nglac;    /*refering to one day:  mm/day */
+        areapos     = areapos/ndrain;
+        areaddf     = areaddf/ndrain;    /*refering to one day:  mm/day */
     }
 
-    areamelt = areamelt/nglac;
-    areacummassbal = areacummassbal/nglac;
-
+    areamelt = areamelt/ndrain;   /*melt is integrated over drainage DEM*/
+    areamassbal = areamassbal/nglac;  /*New 10/2013: glacierwide mass balance in cm for each time step*/
+    areamassbalcum += areamassbal;    /*cumulated glacierwide balances in cm for e.g. GRACE comparison*/
+        
     /*midnight, must be next day for continous series of real numbers for grapher plot*/
     jd2 = jd;
     if(timestep != 24)     /*not for daily timesteps*/
@@ -1893,16 +1899,18 @@ void areameanwrite()
     if(energymethod == 1) {
         fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f",
                 year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areadirect2);
-        fprintf(outarea,"%8.2f %8.2f %8.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f",areadiffus,
+        fprintf(outarea,"%9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f",areadiffus,
                 areaglobal,areareflect,areaalbedo,areaswbal,arealongin,arealongout,arealongbal,areanetrad);
-        fprintf(outarea,"%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f %8.2f",
-                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areacummassbal);
-        fprintf(outarea,"%7.2f\n",areasurftemp);
+        fprintf(outarea,"%9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %12.3f %9.2f",
+                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areamassbal,areamassbalcum);
+        fprintf(outarea,"%9.2f\n",areasurftemp);
     } /*endif*/
 
     if(degreedaymethod == 1)
-        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f %8.2f %8.2f %8.2f %8.2f\n",
-                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areacummassbal);
+        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %12.3f %9.2f\n",
+                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areamassbal,areamassbalcum);
+
+    areamassbal  = 0.;   /*glacierwide mass balance for each time step, must be set to 0*/
 
     return;
 }
@@ -1972,48 +1980,51 @@ void stationoutput()
             } else  /*DIRECT READ FROM FILES, ARRAYS DO NOT EXIT, WRITE 0 */
                 fprintf(outgrid[ii],"%6.2f %6.2f %8.2f",notexist,notexist,notexist);
 
-            fprintf(outgrid[ii],"%10.4f",DIRECT[r][c]);
+            fprintf(outgrid[ii],"%11.4f",DIRECT[r][c]);
 
             if(methodglobal == 1)      /*GLOBAL RADIATION INTERPOLATED*/
                 fprintf(outgrid[ii],"%8.2f %8.2f",notexist,notexist);
             else {                     /*DIRECT AND DIFFUSE RAD SEPARATED*/
-                fprintf(outgrid[ii],"%10.4f",DIRECT2[r][c]);
-                fprintf(outgrid[ii],"%10.4f",DIFFUS[r][c]);
+                fprintf(outgrid[ii],"%11.4f",DIRECT2[r][c]);
+                fprintf(outgrid[ii],"%11.4f",DIFFUS[r][c]);
             }
 
             if ((snetfromobsyes == 1) && (calcgridyes == 2)) /*2011: added, if only climate station calculated and obs available*/
-                fprintf(outgrid[ii],"%10.4f",glob);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",glob);  /*reflected radiation*/
             else
-                fprintf(outgrid[ii],"%10.4f",GLOBAL[r][c]);     /*column 10*/
+                fprintf(outgrid[ii],"%11.4f",GLOBAL[r][c]);     /*column 10*/
 
 
             if ((snetfromobsyes == 1) && (calcgridyes == 2))   /*CHR added, if only climate station calculated and meas available then possible*/
                 /*second condition added 1/2011*/
-                fprintf(outgrid[ii],"%10.4f",ref);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",ref);  /*reflected radiation*/
             else
-                fprintf(outgrid[ii],"%10.4f",GLOBAL[r][c]*ALBEDO[r][c]);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",GLOBAL[r][c]*ALBEDO[r][c]);  /*reflected radiation*/
 
             fprintf(outgrid[ii],"%8.5f",ALBEDO[r][c]);
-            fprintf(outgrid[ii],"%10.4f",SWBAL[r][c]);
+            fprintf(outgrid[ii],"%11.4f",SWBAL[r][c]);
 
-            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]);
-            fprintf(outgrid[ii],"%10.4f",lwoutgoing);
-            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]-lwoutgoing);
+            fprintf(outgrid[ii],"%11.4f",LONGIN[r][c]);
+            fprintf(outgrid[ii],"%11.4f",lwoutgoing);
+            fprintf(outgrid[ii],"%11.4f",LONGIN[r][c]-lwoutgoing);
 
-            fprintf(outgrid[ii],"%10.4f",NETRAD[r][c]);     /*column 17*/
-            fprintf(outgrid[ii],"%10.4f",SENSIBLE[r][c]);
-            fprintf(outgrid[ii],"%10.4f",LATENT[r][c]);
+            fprintf(outgrid[ii],"%11.4f",NETRAD[r][c]);     /*column 17*/
+            fprintf(outgrid[ii],"%11.4f",SENSIBLE[r][c]);
+            fprintf(outgrid[ii],"%11.4f",LATENT[r][c]);
 
 
             /*compute ice heat flux in case subsurface model is run,  2/2011*/
             /*convert Runoff in mm into energy*/
             /*        ICEHEAT[r][c] = RUNOFF[r][c]*Lf/(60*60*timestep) - rainenergy[r][c];  */
 
-            fprintf(outgrid[ii],"%10.4f",ICEHEAT[r][c]);
-            fprintf(outgrid[ii],"%9.4f",rainenergy[r][c]);
-            fprintf(outgrid[ii],"%10.4f",ENBAL[r][c]);
-            fprintf(outgrid[ii],"%10.5f",MELT[r][c]);
-            fprintf(outgrid[ii],"%10.5f",ABLA[r][c]);       /*column 24*/
+            fprintf(outgrid[ii],"%11.4f",ICEHEAT[r][c]);
+            fprintf(outgrid[ii],"%11.4f",rainenergy[r][c]);
+            fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
+            fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
+            fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
+            fprintf(outgrid[ii],"%11.2f",MASSBALgrid[r][c]);       /*NEW 10/2013*/
+            fprintf(outgrid[ii],"%11.2f",MASSBALcum_all[r][c]);       /*NEW 10/2013*/
+
             fprintf(outgrid[ii],"%9.4f",surftemp[r][c]);   /*column 25*/
 
             /* Other variable*/
@@ -2048,7 +2059,7 @@ void stationoutput()
                 snowlayermsnow(i, j, -1);
                 meltlayermice(-1.);
             }
-            fprintf(outgrid[ii],"%10.5f",snowlayer[r][c]);
+            fprintf(outgrid[ii],"%11.5f",snowlayer[r][c]);
 
             /*output mass balance per time step*/
             if (methodsurftempglac != 4) {
@@ -2086,19 +2097,18 @@ void stationoutput()
 
         if(degreedaymethod == 1) {   /*TEMPERATURE INDEX METHOD*/
             if(directfromfile != 1) {  /*CLEAR-SKY RADIATION IS CALCLULATED*/
-                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f%7.2f\n",
+                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f%7.2f  %10.3f  %12.3f\n",
                         year,jd2,zeit,SHADE[r][c],EXKORR[r][c],strlsumme[r][c]/timestep,
-                        DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c]);
+                        DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c],MASSBALgrid[r][c],MASSBALcum_all[r][c]);
             } else   /*CLEAR-SKY RADIATION IS READ FROM FILES*/
-                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %5.2f %8.2f %7.2f %7.2f %7.2f%7.2f\n",
-                        year,jd2,zeit,notexist,notexist,notexist,DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c]);
+                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %5.2f %8.2f %8.2f %8.2f %8.2f %9.3f %10.3f %12.3f\n",
+                        year,jd2,zeit,notexist,notexist,notexist,DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c],MASSBALgrid[r][c],MASSBALcum_all[r][c]);
         }  /*endif degreeday*/
 
     }  /*for*/
 
     return;
 }
-
 
 
 /*******************************************************************/
@@ -2125,7 +2135,8 @@ void writemeltstakes()
         fprintf(outmassbalstakes2,"%.0f %7.2f %5.1f",year,jd2,zeit);    /*first 3 columns*/
     for(i=1; i<=maxmeltstakes; i++) {
         /*if (methodsurftempglac != 4)*/
-        fprintf(outmassbalstakes,"%10.3f",plusminus*MASSBALcum[meltoutrow[i]][meltoutcol[i]]);
+              /*10/2013: changed from MASSBALcum to MASSBALcum_all, because was wrong*/
+        fprintf(outmassbalstakes,"%10.3f",plusminus*MASSBALcum_all[meltoutrow[i]][meltoutcol[i]]);
         if (methodsurftempglac == 4)
             fprintf(outmassbalstakes2,"%10.3f",plusminus*MASSBALcumstake[meltoutrow[i]][meltoutcol[i]]);
     }
@@ -2157,8 +2168,6 @@ void writemeltstakes()
 
     return;
 }
-
-
 
 
 /************************************************************************/
@@ -2215,9 +2224,9 @@ void writeperformance()
             exit(4);
         }  /*ENDIF*/
 
-        fprintf(outperformance,"discharge_r2 discharge_lnr2 Qvolumesim  Qvolumemeas  Difference(sim-meas)  nsteps  nstepsdis\n");
-        fprintf(outperformance,"Model performance with respect to discharge, r2 is Nash-Sutcliffe efficiency criterion (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
-        fprintf(outperformance,"nsteps is number of modeled time steps, nstepsdis is number of time steps with valid discharge data - must be the same for the difference to make sense\n");
+        fprintf(outperformance,"Q_r2 Q_lnr2 Qvolumesim  Qvolumemeas  Difference(sim-meas)  nsteps  nstepsdis totalglacierwidemassbalance(m)\n");
+        fprintf(outperformance,"r2 is Nash-Sutcliffe efficiency criterion for discharge Q (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
+        fprintf(outperformance,"nsteps = number modeled time steps, nstepsdis = number of time steps with valid discharge data - must be the same for the volume difference to make sense\n");
 
       if (disyes != 1) {    /*if discharge r2 not computed, set to missing value*/
          r2value    = missvalQ;   r2lnvalue  = missvalQ;
@@ -2229,7 +2238,9 @@ void writeperformance()
          r2value   = r2[1][1];     /*array only exists if discharge data is available*/
          r2lnvalue = r2ln[1][1];
       }
-     fprintf(outperformance,"%.3f\t %.3f\t  %.3f\t %.3f\t %.3f   %d  %d\n",r2value,r2lnvalue,volumesim,volumemeas,diffvolume,nsteps,nstepsdis);
+
+      /*cumulative mass balance over entire modeling period written to output for comparison with geodetic longer-term balance, converted to m*/
+     fprintf(outperformance,"%.3f\t %.3f\t  %.3f\t %.3f\t %.3f   %d  %d  %10.3f\n",r2value,r2lnvalue,volumesim,volumemeas,diffvolume,nsteps,nstepsdis,areamassbalcum/100);
      fclose(outperformance);
     }  /*endif*/
     
@@ -2256,7 +2267,7 @@ void writemodelmeaspointbalances()
    FILE *modelcummassbal=NULL;  /*model output file with modeled cumulative point balances*/
    FILE *measpointbal=NULL;     /*file with measured point balances */
 
-   float **cummassbal;   /*array to read all data of model cummassbal file*/
+   float **cummassbal;   /*array to read all data of modeled cummassbal.txt file*/
    float **measuredpointbal;  /*array to read measured point balance file*/
    float readvalue;    /*for reading numbers from file and put into array*/
    int numberdatapoints = 5000;   /*max number of rows in measured point balance file*/
@@ -2343,7 +2354,7 @@ void writemodelmeaspointbalances()
      
   if(getoutfunctionyes==0)  /*only if number of stakes in measured file is equal to number of stakes written to output and no date errors*/
   {    
-    printf("\nModeled POINT BALANCES written to file (pointbalances.txt):\n   Number of stakes in measured file = %d\n",n_meas);
+    printf("\n\nModeled POINT BALANCES written to file (pointbalances.txt):\n   Number of stakes in measured file = %d\n",n_meas);
     printf("   Number of point locations written to output (maxmeltstakes) = %d\n",maxmeltstakes);
 
 /*===================================================================================================*/

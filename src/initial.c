@@ -24,7 +24,7 @@
        OPEN AND READ GRID FILES, RESERVE STORAGE OF ALL 2D-ARRAYS
        OPEN FILE WITH CLIMATE DATA and READ UNTIL START
        OPEN OUTPUT-FILES                                           */
-/*  1.12.1997, last update 13 June 2013*/
+/*  1.12.1997, last update 30 October 2013*/
 /*******************************************************************/
 
 #include "initial.h"
@@ -850,21 +850,21 @@ void startoutascii()
 
         /*in txt-file header lines are in different order than in .dat files*/
         if(dat_or_txt == 2)     /*first file name and variable in second line*/
-            fprintf(outarea,"%s\n",outareaname);
+            fprintf(outarea,"%s (Time series of spatial means integrated over area of DEM 2, and for mass balance DEM 3 (glacier)\n",outareaname);
 
         if(energymethod == 1) {   /*is set in meltmod.c, not in input.txt*/
             fprintf(outarea," year jd    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
             fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ");
-            fprintf(outarea," rain    enbal     melt  abla  cummassbal surftemp\n");
+            fprintf(outarea," rain    enbal     melt  abla  massbal(cm) massbalcum(cm) surftemp\n");
         }
 
         if(degreedaymethod == 1) { /*is set in degree.c*/
             fprintf(outarea," year jd     time  shade exkorr  solhor dirclearsky");
-            fprintf(outarea,"  melt  meantemp tempstation DDFcalc cummassbal\n");
+            fprintf(outarea,"  melt  meantemp tempstation DDFcalc massbal(cm) massbalcum(cm)\n");
         }
 
         if(dat_or_txt == 1)    /*variables first line, filename in second line*/
-            fprintf(outarea,"%s\n",outareaname);
+            fprintf(outarea,"%s (Time series of spatial means integrated over area of DEM 2, and for mass balance DEM 3 (glacier)\n",outareaname);
 
     } /*endif output areamean*/
 
@@ -908,7 +908,7 @@ void startoutascii()
             }  /*ENDIF*/
 
             if(dat_or_txt == 2) {  /*for .txt GMT-file, Carleen*/
-                fprintf(outgrid[i],"%s   elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",
+                fprintf(outgrid[i],"%s  Output time series for one grid cell: elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",
                         outgridname[i],
                         (griddgm[stnrow[i]][stncol[i]]),
                         (SLOPE[stnrow[i]][stncol[i]]),
@@ -920,7 +920,7 @@ void startoutascii()
                 fprintf(outgrid[i],"year JD   time shade exkorr solhor dirclearsky direct2 ");
                 fprintf(outgrid[i],"  diffus global reflect albedo  SWbal longin Lout LWbal ");
                 fprintf(outgrid[i],"  netrad sensible latent ground rain    enbal   melt  abla ");
-                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod massbal ");
+                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod massbal(cm) massbalcum(cm)");
 
                 /******** FOLLOWING COLUMNS ONLY IN CERTAIN CASES ****/
                 if (methodsurftempglac == 4)
@@ -934,12 +934,12 @@ void startoutascii()
             /* TEMPERATURE INDEX METHODS*/
             if(degreedaymethod ==1) {
                 fprintf(outgrid[i]," year JD    time shade exkorr solhor dirclearsky melt");
-                fprintf(outgrid[i]," tempint tempstation DDFcalc\n ");
+                fprintf(outgrid[i]," tempinterpol tempstation DDFcalc massbal(cm) massbalcum(cm)\n ");
             }  /*endif degreedaymethod*/
 
             /*WRITE SECOND ROW FOR BOTH ENERGY OR DEGREE DAY FILES*/
             if(dat_or_txt == 1) {  /*not for .txt GMT-file, Carleen*/
-                fprintf(outgrid[i],"%s   elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",outgridname[i],
+                fprintf(outgrid[i],"%s Output time series for one grid cell:  elevation = %5.0f m   slope = %5.1f  aspect = %5.1f",outgridname[i],
                         (griddgm[stnrow[i]][stncol[i]]),(SLOPE[stnrow[i]][stncol[i]]),(ASP[stnrow[i]][stncol[i]]));
                 fprintf(outgrid[i],"   row = %5d  col = %5d\n",stnrow[i],stncol[i]);
             } /*endif*/
@@ -1177,17 +1177,21 @@ void startarrayreserve()
 
     if(winterbalyes == 1) {
         WINTERBAL  = matrixreserv(1,nrows,1,ncols);
-        initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);
+        initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);   /*function is in grid.c*/
     }
     if(summerbalyes == 1) {
         SUMMERBAL  = matrixreserv(1,nrows,1,ncols);
         initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);
     }
 
-    MASSBALcum = matrixreserv(1,nrows,1,ncols);
+    MASSBALcum = matrixreserv(1,nrows,1,ncols);    /*cum mass balance only over one mass-balance year*/
     initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
     
+    MASSBALcum_all = matrixreserv(1,nrows,1,ncols);    /*cum mass bal over entire simulation period*/
+    initializeglacier2zero_nodata(nrows, ncols, MASSBALcum_all);
 
+    MASSBALgrid = matrixreserv(1,nrows,1,ncols);     /*New 10/2013: mass balance grid for each time step*/
+    initializeglacier2zero_nodata(nrows, ncols, MASSBALgrid);
 
     if(degreedaymethod == 1) {
         TEMPOS  = matrixreserv(1,nrows,1,ncols);
@@ -1306,6 +1310,8 @@ void startarrayreserve()
 /*    FIND THE FIRST AND LAST ROW WITH NO MISSING VALUES IN THE DRAINAGE GRID  */
 /*    AND FIND FOR EACH ROW WITH DRAINAGE BASIN GRIDS THE FIRST AND LAST COLUMN*/
 /* to speed up the program, calculations are only done for basin grid cells    */
+/* also count number of grid cell of DEM 2 and 3                               */
+/* called once from main at the beginning before time loop                     */
 /*******************************************************************************/
 
 void glacierrowcol()
@@ -1316,7 +1322,7 @@ void glacierrowcol()
     firstcol = (int*)calloc(nrows+1,sizeof(int));   /*dynamisch Speicher reserv.*/
     lastcol  = (int*)calloc(nrows+1,sizeof(int));
 
-    nglac = 0;                  /* auf Null initialisieren*/
+    ndrain = 0;   nglac = 0;
     firstrow=0;
     lastrow=0;
     for (i=1; i<=nrows; i++) {
@@ -1331,7 +1337,11 @@ void glacierrowcol()
 
         for (j=1; j<=ncols; j++) {
             if ((griddgmdrain[i][j]) != nodata) {   /*grid of drainage basin*/
-                nglac = nglac + 1;              /*count number of drainage basin grid cells*/
+                 ndrain += 1;              /*count number of drainage basin grid cells*/
+                 
+                 if ((griddgmglac[i][j]) != nodata)   /*grid of glacier*/
+                   nglac += 1;      /*count number of glacierized cells for mass balance calculation, 10/2013*/
+                   
                 if (firstcolfound == 0) {       /*no drainage cell found before in this row*/
                     firstcol[i] = j;             /*first grid cell found for this row*/
                     firstcolfound = 1;           /*now find last columns*/

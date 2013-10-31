@@ -20,7 +20,7 @@
 /*   FUNCTION      input_read                     ********/
 /*   READ INPUT FROM CONTROLING INPUT FILE : 'input.txt' */
 /*   FILE NAMES, GRIDSIZE ETC.                      ******/
-/***  31.3.1997, update 22 July 2010,  18 November 2011  */
+/***  31.3.1997, Last update 29 October 2013  */
 /*********************************************************/
 
 

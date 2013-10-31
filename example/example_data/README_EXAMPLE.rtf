@@ -1,24 +1,28 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf510
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\margl1440\margr1440\vieww16040\viewh11340\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 README EXAMPLE\
 \
 How to get the example running on your computer:\
 \
-1.) Copy the input.txt under the example folder into the model's bin folder where the 2 model's executables (denim, debam) are.\
+1.) Copy the input.txt in the example folder into the model's bin folder where the 2 model's executables (detim, debam) are.\
 \
 2.) Make an output folder anywhere (for example, output_data under the example folder.\
 \
 3.) Adjust input.txt: adjust the name of the path where the example_data is and the name of the output folder that you created\
 (both at the very top of input.txt)\
 \
-4.) Go back to the bin-folder and run detim or debam\
+4.) Go back to the bin-folder and run detim or debam at a terminal\
 \
 That's it. The model should work now with the parameters given.\
 All model output files should be in the output folder that you created and specified in input.txt.\
 \
 \
-Note, that if you experiment with other parameters in input.txt  it may not work. For example there is no sky view grid file and therefore some of the energy balance options won't work.}
+NOTE:\
+\
+1.) that if you experiment with other parameters in input.txt  it may not work. For example there is no sky view grid file and therefore some of the energy balance options won't work.\
+\
+2.) that the example mixes data from different applications (regions). It gives you an idea how output files look like but the numbers are not necessarily realistic. For example, the file cummassbal.txt contains zero for a long period, simply because it is too cold to produce any melt and there is no precipitation. The balances over the modeled period are positive.}
