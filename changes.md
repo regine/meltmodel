@@ -5,9 +5,23 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
+#### 10/31/2013 (NEW, ERROR, R. Hock)
+* v2.0.0
+- CHANGE IN input.txt: all parameters removed that had to do with parameter optimization (between discharge and snow model parameters)
+- NEW OUTPUT: time series of glacierwide ice heat flux, mass balance and cumulative mass balance added to 'areamean.txt'
+- NEW OUTPUT: file with modeled and measured point balances ('pointbalances.txt'). A file with measured balances (measuredpointbalances.txt) is read and the program computes the pointbalances for the same locations and periods each stake's mass balance refers to.
+- ERROR FIXED: cumulative mass balances for stakes (cummassbal.txt) was reset to 0 at end of mass balance year. Fixed so that it is continuous.
+- ERROR FIXED: precipitation correction factor was not applied when precipitation was read from file for energy balance model.
+- TECHNICAL: filenames of default output files changes:
+     melting.txt        → cumablation.txt
+     cummassbal.txt     → cummassbal.txt
+     specificmassbal.txt → seasonalmassbal.txt
+     res.out  	        → modellog.txt
+- TECHNICAL: NEW: Longwave incoming radiation grid array is used even if LWin is spatially constant
+
 #### 10/20/2013 
 * v1.1.0
-- Added "model performance" output file which records discharge r^2 and r^2 (ln) values
+- Added "model performance" output file which records one line of discharge r^2 and r^2 (ln) values and other parameters
 to the text file "model_performance.txt"
 
 #### 10/07/2013  (TECHNICAL, R. Hock)
