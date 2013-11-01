@@ -13,13 +13,12 @@ The term in brackets is used to mark each change.
 - ERROR FIXED: cumulative mass balances for stakes (cummassbal.txt) was reset to 0 at end of mass balance year. Fixed so that it is continuous.
 - ERROR FIXED: precipitation correction factor was not applied when precipitation was read from file for energy balance model.
 - TECHNICAL: filenames of default output files changes:
-     melting.txt        → cumablation.txt
-     cummassbal.txt     → cummassbal.txt
-     specificmassbal.txt → seasonalmassbal.txt
+     melting.txt        → cumablation.txt, 
+     specificmassbal.txt → seasonalmassbal.txt, 
      res.out  	        → modellog.txt
 - TECHNICAL: NEW: Longwave incoming radiation grid array is used even if LWin is spatially constant
 
-#### 10/20/2013 
+#### 10/20/2013 (NEW, R. Hock)
 * v1.1.0
 - Added "model performance" output file which records one line of discharge r^2 and r^2 (ln) values and other parameters
 to the text file "model_performance.txt"
