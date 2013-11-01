@@ -45,8 +45,6 @@ void closeall()
 
     fclose(inklima);
     inklima = NULL;
-    fclose(outcontrol);
-    outcontrol = NULL;
     if(outmeltstakes) {
         fclose(outmeltstakes);
         outmeltstakes = NULL;

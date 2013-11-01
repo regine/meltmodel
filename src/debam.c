@@ -732,7 +732,9 @@ int main()
     
     /*compute point balances for period of data and write the measured and modeled balances to new file*/
     writemodelmeaspointbalances();    /*must be after closeall because it opens cummassbal.txt*/
-
+    fclose(outcontrol);    /*can not be in closeall.c because used in writemodelmeaspointbalances()*/
+    outcontrol = NULL;
+    
     printf("\n number of calculated grid cells (DEM2)  = %d\n",ndrain);
 	printf(" number of glacier grid cells (DEM3)     =  %d\n",nglac);
 	printf("   number of calculated time steps       = %d\n",nsteps);

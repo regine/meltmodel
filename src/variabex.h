@@ -349,7 +349,7 @@ extern float  daysnow;     /*snow cover written to file if jd dividable by this 
 extern double areashade,areaexkorr;    /*spatial means over whole glacier*/
 extern double areasolhor,areadirect,areadirect2,areadiffus;
 extern double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
-extern double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
+extern double areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla;
 extern double areasurftemp;
 extern double areamassbal;    /*New 10/2013: glacierwide balance for each time step for time series output*/
 extern double areamassbalcum;   /*New 10/2013: cumulated glacierwide balance e.g.for GRACE comparison*/

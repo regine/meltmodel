@@ -318,6 +318,8 @@ int main()
 	writeperformance();   /*write model performance (r2 etc) to text-file, added 10/2013*/
     closeall();     /* CLOSE FILES, SPEICHERFREIGABE */
     writemodelmeaspointbalances();    /*must be after closeall because it opens cummassbal.txt, added 10/2013*/
+    fclose(outcontrol);    /*can not be in closeall.c because used in writemodelmeaspointbalances()*/
+    outcontrol = NULL;
 
     printf("\n number of calculated grid cells (DEM2)  = %d\n",ndrain);
 	printf(" number of glacier grid cells (DEM3)     =  %d\n",nglac);

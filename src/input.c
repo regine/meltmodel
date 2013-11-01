@@ -20,7 +20,7 @@
 /*   FUNCTION      input_read                     ********/
 /*   READ INPUT FROM CONTROLING INPUT FILE : 'input.txt' */
 /*   FILE NAMES, GRIDSIZE ETC.                      ******/
-/***  31.3.1997, Last update 29 October 2013  */
+/***  31.3.1997, Last update 31 October 2013  */
 /*********************************************************/
 
 
@@ -76,7 +76,7 @@ void input_read()
         exit(1);
     }
 
-    /*output path must be read before file res.out is opened */
+    /*output path must be read before file modellog.txt is opened */
     fscanf(in,"%s",inpath);
     readrestofline(&in);
     fscanf(in,"%s",outpath);
@@ -84,12 +84,12 @@ void input_read()
     printf("Input-Path  : %s\nOutput-Path : %s\n",inpath,outpath);
 
     /* --------------------------------------------------------------*/
-    /* OPEN CONTROL OUTPUT-FILE:   res.out
+    /* OPEN CONTROL OUTPUT-FILE:   modellog.txt
          OUTPUT OF READ DATA AND INTERMEDIATE RESULTS IN ORDER TO CONTROL RUNS*/
     /* --------------------------------------------------------------*/
 
     strcpy(outcontrolname,outpath);
-    strcpy(dummy,"res.txt");
+    strcpy(dummy,"modellog.txt");
     strcat(outcontrolname,dummy);
     printf("%s\n",outcontrolname);
 
@@ -1017,7 +1017,12 @@ void input_read()
     fscanf(in,"%f",&glacierpart);
     readrestofline(&in);
     printf("percentage of glaciation = %8.2f\n",glacierpart);
-
+    
+      if((glacierpart < 0) || (glacierpart >100)) {
+        printf(" \n variable glacierpart wrong in input.txt = %.0f\n",glacierpart);
+        printf("    percentage glacierization must 0-100 (function input.c)\n\n");
+        exit(4);
+    }
 
     /**************** DISCHARGE *********************/
 
@@ -1025,7 +1030,7 @@ void input_read()
 
     fscanf(in,"%s",nameqcalc);
     readrestofline(&in);
-    fscanf(in,"%f",&nodis);
+    fscanf(in,"%f",&nodis);    /*missing value in discharge file*/
     readrestofline(&in);
 
     /**************** DISCHARGE STORGAE CONSTANTS*********************/
@@ -1042,6 +1047,12 @@ void input_read()
     if(disyes >= 1)
         printf("   recession constants firn: %4.1f snow: %4.1f ice: %4.1f\n",
                firnkons,snowkons,icekons);
+               
+    if((firnkons <= 0) || (firnkons >2000)) {
+        printf(" \n variable firnkons wrong in input.txt = %.0f\n",firnkons);
+        printf("    must > 0 or <2000 (function input.c)\n\n");
+        exit(4);
+    }
 
     readrestofline(&in);                /*STORAGE CONSTANTS*/
     fscanf(in,"%f",&qfirnstart);
@@ -1056,128 +1067,9 @@ void input_read()
     readrestofline(&in);
     fscanf(in,"%f",&jdstartr2diff);
     readrestofline(&in);
-    readrestofline(&in);
-
-    fscanf(in,"%d",&disyesopt);
-    readrestofline(&in);
-    printf("discharge optimized ? 1=yes : %5d",disyesopt);
-
-    if((disyes == 0) && (disyesopt == 1))
-        disyesopt = 0;
-    if (disyesopt == 1)
-        printf("Opti=%d  DISCHARGE OPTIMIZATION : YES",disyesopt);
-
-    fscanf(in,"%s",optkA);
-    readrestofline(&in);
-    fscanf(in,"%f",&startopt1);
-    readrestofline(&in);
-    fscanf(in,"%f",&stepopt1);
-    readrestofline(&in);
-    fscanf(in,"%d",&anzahlopt1);
-    readrestofline(&in);
-    fscanf(in,"%s",optkB);
-    readrestofline(&in);
-
-    fscanf(in,"%f",&startopt2);
-    readrestofline(&in);
-    fscanf(in,"%f",&stepopt2);
-    readrestofline(&in);
-    fscanf(in,"%d",&anzahlopt2);
-    readrestofline(&in);
-    fscanf(in,"%s",namematrix);
-    readrestofline(&in);
-
-    /*if optimization of discharge/precip parameters (i.e. program
-          meltmod or degree.c) only these parameters are allowed*/
-    if((ddfoptyes == 0) && (disyesopt == 1)) {
-        if (strcmp(optkA, "firnk3") != 0)
-            if (strcmp(optkA, "snowk2") != 0)
-                if (strcmp(optkA, "icek1") != 0)
-                    if (strcmp(optkA, "qground") != 0)
-                        if (strcmp(optkA, "T0") != 0)
-                            if (strcmp(optkA, "preccorr") != 0)
-                                if (strcmp(optkA, "precgrad") != 0) {
-                                    printf("\n\n First parameter to be optimized is wrong\n");
-                                    printf(" not possible to optimize :  %s \n\n",optkA);
-                                    exit(4);
-                                }
-
-        if (strcmp(optkB, "firnk3") != 0)
-            if (strcmp(optkB, "snowk2") != 0)
-                if (strcmp(optkB, "icek1") != 0)
-                    if (strcmp(optkB, "qground") != 0)
-                        if (strcmp(optkB, "T0") != 0)
-                            if (strcmp(optkB, "preccorr") != 0)
-                                if (strcmp(optkB, "precgrad") != 0) {
-                                    printf("\n\n Second parameter to be optimized is wrong\n");
-                                    printf(" not possible to optimize :  %s \n\n",optkB);
-                                    exit(4);
-                                }
-        /*No Output if optimization mode*/
-        {
-            do_out=0;
-            snowyes=0;
-            surfyes=0;
-            snowfreeyes=0;
-            do_out_area=0;
-            outgridnumber=0;
-            fprintf(outcontrol,"optimization mode --> several output options set to 0\n");
-            fprintf(outcontrol,"do_out,snowyes,surfyes,snowfreeyes,do_out_area,outgridnumber\n\n");
-        }
-
-    }  /*endif*/
-
-    /*if optimization of melt parameters (program ddfopt.c)
-      only these parameters are allowed*/
-    if(ddfoptyes == 1) {
-        if (strcmp(optkA, "DDFice") != 0)
-            if (strcmp(optkA, "DDFsnow") != 0)
-                if (strcmp(optkA, "meltfactor") != 0)
-                    if (strcmp(optkA, "radfactorice") != 0)
-                        if (strcmp(optkA, "radfactorsnow") != 0)
-                            if (strcmp(optkA, "debrisfactor") != 0)
-                                if (strcmp(optkA, "T0") != 0)
-                                    if (strcmp(optkA, "preccorr") != 0)
-                                        if (strcmp(optkA, "precgrad") != 0) {
-                                            printf("\n\n First parameter to be optimized is wrong\n");
-                                            printf(" not possible to optimize :  %s \n",optkA);
-                                            printf("   function input.c\n\n");
-                                            exit(4);
-                                        }
-        if (strcmp(optkB, "DDFice") != 0)
-            if (strcmp(optkB, "DDFsnow") != 0)
-                if (strcmp(optkB, "meltfactor") != 0)
-                    if (strcmp(optkB, "radfactorice") != 0)
-                        if (strcmp(optkB, "radfactorsnow") != 0)
-                            if (strcmp(optkB, "debrisfactor") != 0)
-                                if (strcmp(optkB, "T0") != 0)
-                                    if (strcmp(optkB, "preccorr") != 0)
-                                        if (strcmp(optkB, "precgrad") != 0)
-
-                                        {
-                                            printf("\n\n Second parameter to be optimized is wrong\n");
-                                            printf(" not possible to optimize :  %s \n\n",optkB);
-                                            printf("   function input.c\n\n");
-                                            exit(4);
-                                        }
-
-    }  /*endif ddfoptyes=1*/
-
-    if ((disyesopt == 1) && (disyes == 1)) {
-        printf(" OPTIMIZATION RUN :  %s  -  %s\n  ",optkA,optkB);
-        printf(" r2-file = %s\n",namematrix);
-        printf("start optA=%4.1f    step optA =%4.1f  number optA = %3d\n",
-               startopt1,stepopt1,anzahlopt1);
-        printf("start optB=%4.1f    step optB =%4.1f   number optB= %3d\n\n",
-               startopt2,stepopt2,anzahlopt2);
-
-    }  /*endif*/
-
-    if ((disyesopt == 0) && (disyes >= 1))
-        printf("     SIMULATION RUN \n");
 
     /*=====================================================================*/
-    /*   16.) read variables of SNOW MODEL by C. Tijm-Reijmer 2/2005       */
+    /*   15.) read variables of SNOW MODEL by C. Tijm-Reijmer 2/2005       */
     /*=====================================================================*/
     readrestofline(&in);
     fscanf(in,"%d",&percolationyes);
@@ -1369,7 +1261,7 @@ void input_read()
             }
         }  /*endfor*/
 
-        /**** RESET VARIABLES IN CASE SELECTED COMBINATIONS ARE NOT POSSIBLE - WRITE TO res.out*/
+        /**** RESET VARIABLES IN CASE SELECTED COMBINATIONS ARE NOT POSSIBLE - WRITE TO modellog.txt*/
 
         if((do_out) < 2) {
             do_out = 3;   /*compute period mean of whole grid*/
@@ -1439,7 +1331,7 @@ void input_read()
     fprintf(outcontrol,"---- END OF LIST OF SUCH CHANGES ---- \n");
     fprintf(outcontrol,"--------------------------------------------------- \n\n");
 
-    /*write entire input.txt as it is to control output file res.out*/
+    /*write entire input.txt as it is to control output file modellog.txt*/
     rewind(in);    /*go back to beginning of input.txt file*/
     while((c=getc(in)) != EOF)
         putc(c,outcontrol);

@@ -88,7 +88,7 @@ void checkgridinputdata_ok() {
 
 
 /************************************************************/
-/* EXIT PROGRAM IF TOO MANY LINES WRITTEN TO OUTPUT res.out */
+/* EXIT PROGRAM IF TOO MANY LINES WRITTEN TO OUTPUT modellog.txt */
 /*  to avoid that harddisk is filled to limit               */
 /*  called from mainly subsurf()                            */
 /*  resoutlines are added every time a variable exceeds preset limits */
@@ -97,8 +97,8 @@ void checkgridinputdata_ok() {
 
 void toobig_resout() {
     if(resoutlines > resoutlinesmax) {
-        printf("\n res.out too big, unrealistic values reached > %d times\n",resoutlinesmax);
-        printf("  check output file res.out\n\n");
+        printf("\n modellog.txt too big, unrealistic values reached > %d times\n",resoutlinesmax);
+        printf("  check output file modellog.txt\n\n");
         fclose(outcontrol);
         exit(3);
     }
@@ -854,13 +854,13 @@ void startoutascii()
 
         if(energymethod == 1) {   /*is set in meltmod.c, not in input.txt*/
             fprintf(outarea," year jd    time   shade exkorr solhor dirclearsky direct2 diffus  global ");
-            fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ");
-            fprintf(outarea," rain    enbal     melt  abla  massbal(cm) massbalcum(cm) surftemp\n");
+            fprintf(outarea," reflect albedo SWbal longin Lout LWbal netrad sensible  latent ground");
+            fprintf(outarea," rain    enbal        melt  abla     massbal(cm) massbalcum(cm) surftemp\n");
         }
 
         if(degreedaymethod == 1) { /*is set in degree.c*/
             fprintf(outarea," year jd     time  shade exkorr  solhor dirclearsky");
-            fprintf(outarea,"  melt  meantemp tempstation DDFcalc massbal(cm) massbalcum(cm)\n");
+            fprintf(outarea,"      melt  meantemp tempstation DDFcalc     massbal(cm) massbalcum(cm)\n");
         }
 
         if(dat_or_txt == 1)    /*variables first line, filename in second line*/
@@ -919,8 +919,8 @@ void startoutascii()
             if(energymethod == 1) {
                 fprintf(outgrid[i],"year JD   time shade exkorr solhor dirclearsky direct2 ");
                 fprintf(outgrid[i],"  diffus global reflect albedo  SWbal longin Lout LWbal ");
-                fprintf(outgrid[i],"  netrad sensible latent ground rain    enbal   melt  abla ");
-                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod massbal(cm) massbalcum(cm)");
+                fprintf(outgrid[i],"  netrad sensible latent ground rain    enbal   melt(mm)  abla(mm) massbal(cm) massbalcum(cm)  ");
+                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod  MBsum(m)");
 
                 /******** FOLLOWING COLUMNS ONLY IN CERTAIN CASES ****/
                 if (methodsurftempglac == 4)
@@ -1371,7 +1371,7 @@ void glacierrowcol()
     } /*for*/
 
 
-    /* OUTPUT TO CONTROLLING OUTPUT FILE res.out ******/
+    /* OUTPUT TO CONTROLLING OUTPUT FILE modellog.txt ******/
 
     fprintf(outcontrol,"\n--- FUNCTION glacierrowcol, in initial.c : ---\n");
     fprintf(outcontrol,"first row containing grid cell to be calculated :%5d\n",firstrow);

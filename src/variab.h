@@ -275,7 +275,7 @@ int    methodturbul,methodiceheat,methodnegbal;
 double areashade,areaexkorr;    /*spatial means over whole glacier*/
 double areasolhor,areadirect,areadirect2,areadiffus;
 double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
-double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
+double areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla;
 double areasurftemp;
 double areamassbal;    /*New 10/2013: glacierwide balance for each time step for time series output*/
 double areamassbalcum;    /*New 10/2013: cumulated glacierwide balance e.g.for GRACE comparison*/

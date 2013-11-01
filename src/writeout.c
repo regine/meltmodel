@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  Last update 29 October 2013 */
+/*  Last update 31 October 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -1755,6 +1755,7 @@ void areameannull()
       areanetrad   = 0.;
       areasensible = 0.;
       arealatent   = 0.;
+      areaiceheat  = 0.;
       arearain     = 0.;
       areaenbal    = 0.;
       areaabla     = 0.;
@@ -1808,6 +1809,7 @@ void areasum()
         areanetrad   += NETRAD[i][j];
         areasensible += SENSIBLE[i][j];
         arealatent   += LATENT[i][j];
+    	areaiceheat  += ICEHEAT[i][j];
         arearain     += rainenergy[i][j];
         areaenbal    += ENBAL[i][j];
         areaabla     += ABLA[i][j];
@@ -1869,6 +1871,7 @@ void areameanwrite()
         areanetrad   = areanetrad/ndrain;
         areasensible = areasensible/ndrain;
         arealatent   = arealatent/ndrain;
+        areaiceheat  = areaiceheat/ndrain;
         arearain     = arearain/ndrain;
         areaenbal    = areaenbal/ndrain;
         areaabla     = areaabla/ndrain;
@@ -1901,8 +1904,8 @@ void areameanwrite()
                 year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areadirect2);
         fprintf(outarea,"%9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f",areadiffus,
                 areaglobal,areareflect,areaalbedo,areaswbal,arealongin,arealongout,arealongbal,areanetrad);
-        fprintf(outarea,"%9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %12.3f %9.2f",
-                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areamassbal,areamassbalcum);
+        fprintf(outarea,"%9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %10.3f %12.3f %9.2f",
+                areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla,areamassbal,areamassbalcum);
         fprintf(outarea,"%9.2f\n",areasurftemp);
     } /*endif*/
 
@@ -2011,7 +2014,6 @@ void stationoutput()
             fprintf(outgrid[ii],"%11.4f",NETRAD[r][c]);     /*column 17*/
             fprintf(outgrid[ii],"%11.4f",SENSIBLE[r][c]);
             fprintf(outgrid[ii],"%11.4f",LATENT[r][c]);
-
 
             /*compute ice heat flux in case subsurface model is run,  2/2011*/
             /*convert Runoff in mm into energy*/
@@ -2333,14 +2335,46 @@ void writemodelmeaspointbalances()
         }     
         j=j+1;   /*next column same row*/
       }  /*endwhile*/
+
+
+    puts("ok 1");
+
+ /* ---- check for each measured point balance if it is outside simulation period ----- */
+ /*      if so, program does not exit but put a warning on screen and into modellog.txt */
+     for(i=1;i<=n_meas;i++)    /*for each row of measured file, col5=startyear*/
+     {  if(((measuredpointbal[i][5]*365+measuredpointbal[i][6]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][5]*365+measuredpointbal[i][6]) > (yearend*365+jdend)))
+        {  printf("\n==================== !!!! WARNING !!!!!=======================================================");
+          printf("\n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+    puts("ok 2");
+      
+          fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+ 
+     puts("ok 3");
+
+        } 
+        if(((measuredpointbal[i][7]*365+measuredpointbal[i][8]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][7]*365+measuredpointbal[i][8]) > (yearend*365+jdend)))
+        {  printf("\n==================== !!!! WARNING   !!!!!=====================================================");     
+
+    puts("ok 1");
+
+          printf("\n --- WARNING: end date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+
+    puts("ok 1");
+
+          fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+        }
+     }
+      
        	 
- /* ---- check in measured stake file for each row if end date is  after start date -----------*/
-     for(i=1;i<=numberdatapoints;i++)    /*for each row in measured file*/
+ /* ---- check in measured stake file for each row if end date is after start date -----------*/
+     for(i=1;i<=numberdatapoints;i++)    /*for each row in measured file; col 5=startyear, col 6=startday*/
       {  if((measuredpointbal[i][5] != -9999) && (measuredpointbal[i][7] !=-9999))    /*possible since array has 5000 lines*/  
          { datediff = (measuredpointbal[i][7]*365+measuredpointbal[i][8]) - (measuredpointbal[i][5]*365+measuredpointbal[i][6]);
            if(datediff <=0)     /*datediff is differences in days*/
-           { printf("\n\n  ERROR in file measuredpointbalances.txt in row %d\n",i);
-             printf("   The end date must be after the start date of the balance observations. No point balance file written to output.\n\n");
+           { printf("\n\n ==================== !!!!!!!!!============================\n");
+             printf("  ERROR in file measuredpointbalances.txt in row %d\n",i);
+             printf("   The end date must be after the start date of the balance observations.\n   No point balance file written to output.\n");
+ 			 printf("==================== !!!!!!!!! ============================\n\n");
              getoutfunctionyes=1;     /*avoid exist but just don't do anything anymore in this function*/
            }
          }  /*endif*/

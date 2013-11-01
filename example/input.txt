@@ -1,5 +1,5 @@
-%Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE MODEL SHOULD WORK !!!
-%***********************************************************
+%Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE EXAMPLE SHOULD WORK !!!
+%************************************************************************************
 1    %output to screen every X day.  daysscreenoutput.
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
 /reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
@@ -36,8 +36,8 @@ dummydates.dat    %file containing the dates of massbal meas.  namedatesmassbal
 1    %time series of spatial mean to output (yes=1 no=0).  do_out_area
 1    %number of individual grid points for which model result output.  outgridnumber
 %***====read if number > 0============================***
-%***Outputfilename ** row/x-coord ***column/y-coord *** glob and net data included from input data
-pointoutput.txt        100                100       0
+%***Outputfilename ** row/x-coord **colu/y-coord ** glob and net data included from input data
+pointoutput.txt        100            100           0    %outgridname[][], stn_xcoordinate[i], stn_ycoordinate[i], &outglobnet[i]
 %******** 3.) METHODS ENERGY BALANCE COMPONENTS ********************************
 2    %1=surface maps 2=start with initial snow cover.  methodinisnow
 1    %1=constant for surface types, >2=alb generated.  methodsnowalbedo, 6=zongo
@@ -146,26 +146,15 @@ discharge.txt     %name of discharge output file.  nameqcalc
 350    %storage constant k for firn.  firnkons
 50    %storage constant k for snow.  snowkons
 5    %storage constant k for ice.  icekons
-30    %storage constant k for rock(outside glacier non-snowcovered.  icekons
-%************* 13.) DISCHARGE STARTING VALUES**********************
+30    %storage constant k for rock(outside glacier non-snowcovered.  rockkons
+%************* 14.) DISCHARGE STARTING VALUES**********************
 5.0    %start value for firn discharge (previous time step).  qfirnstart
 0.0    %start value for snow discharge (m3/s).  qsnowstart
 5.0    %start value for ice discharge.  qicestart
 5.0    %start value for rock discharge (outside glacier non-snowcovered).  qicestart
 0.0    %groundwater discharge[m3].  qground
 0.0    %difference between start of calculation and start r2.  jdstartr2diff
-%%%%%%%%%%%% 15.) OPTIMIZATION %%%%%%%%%%%%%%%%%%%%%
-0    %optimization run for k-values = 1; simulation=0.  disyesopt
-radfactorsnow    %1. parameter to optimize.  optkA
-0.4    %startvalue of 1. parameter to optimize.  startopt1
-0.2    %step length.  stepopt1
-7    %number of steps no.1  anzahlopt1
-radfactorice    %2. parameter to optimize.  optkB
-0.4    %startvalue of 2. parameter.  startopt2
-0.2    %steplength no.2 of optimal r2.  stepopt2
-8    %number of steps no.2.  anzahlopt2
-matriz.dat    %name of r2-outputfile.  namematrix
-%============ 16.) SNOW MODEL by C. Tijm-Reijmer 2/2005 ========================
+%============ 15.) SNOW MODEL by C. Tijm-Reijmer 2/2005 ========================
 1    %0=no percolation, 1=percolation+refreezing in snowlayer.  percolationyes
 1    %0=no slush, 1=meltwater accumulation in snowlayer.  slushformationyes
 1    %0=no densification, 1=densific. of dry snow due to aging.  densificationyes
@@ -185,7 +174,7 @@ matriz.dat    %name of r2-outputfile.  namematrix
 %runoffyes superyes   wateryes   surfwateryes slushyes   coldsnowyes   coldtotyes.      for grid output
      1       1	 	 1		 1		     1		   1		    1
 %========================================================
-%   17.) TEMPERATURE INDEX METHOD
+%   16.) TEMPERATURE INDEX METHOD
 %========================================================
 1    %which temp index method (1,2 or 3).  ddmethod
 8.0    %degree day factor for ice (only simple DDF method 1).  DDFice
