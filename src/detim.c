@@ -20,7 +20,7 @@
 /* PROGRAM  detim.c, formerly degree.c                               */
 /*  DISTRIBUTED SNOW/ICE MELT MODEL BASED ON TEMPERATURE INDEX       */
 /*  METHODS ENERGY BALANCE INCLUDING OPTIONAL DISCHARGE CALCULATIONS */
-/*   5.3.1998, last update 13 June 2013, renamed August 2012         */
+/*   5.3.1998, last update 30 October 2013, renamed from degree.c August 2012 */
 /*********************************************************************/
 
 
@@ -60,13 +60,11 @@ int main()
 
     input_read();      /*** READ INPUT DATA ***/
     degreestart();
-
     startinputdata();  /***OPEN AND READ GRID FILES AND CLIMATE DATA until start***/
     checkgridinputdata_ok(); /*check if grid input data ok*/
     startoutascii();   /***OPEN ASCII-OUTPUT FILES AND WRITE HEADS***/
     startspecificmassbalance(); /*OPEN FILE FOR SPECIFIC MASS BAL, MULTI-YEAR RUNS*/
     startarrayreserve();   /*RESERVE STORAGE FOR GRID-ARRAYS*/
-
     glacierrowcol();  /*FIND FIRST, LAST ROW AND COLUMN WHICH IS GLACIERIZED IN DTM*/
     readclim();       /*** READ CLIMATE INPUT FIRST ROW = ONE TIME STEP ****/
 
@@ -126,8 +124,7 @@ int main()
             readprecipfromfile();
 
 
-
-        /*------- FOR EACH GRID POINT - only for drainage basin grids (defining the area to be computed)--*/
+/*------- FOR EACH GRID POINT - only for drainage basin grid (DEM 2 defines the area to be computed)--*/
 
         for (i=firstrow; i<=lastrow; i++)           /*for all rows with area to be calculated*/
             for (j=firstcol[i]; j<=lastcol[i]; j++) {  /*for all columns*/
@@ -185,7 +182,7 @@ int main()
             }  /*endfor next grid*/
 
 
-        /***------------------ NEXT GRID CELL-------------------- ***/
+/***------------------ NEXT GRID CELL--------------------------------------------- ***/
 
         /*WHOLE GRIDS ARE CALCULATED FOR ONE TIME STEP -
            NOW CACULATE DISCHARGE AND WRITE TO OUTPUTFILE*/
@@ -202,7 +199,7 @@ int main()
             if (disyesopt == 1)     /*optimization run, disyes set to 1 in input.c*/
                 dischargeopt();       /*calculated discharg, with optimal r2-criterium*/
         }
-
+ 
         /*** WRITE MODEL RESULTS TO FILE FOR INDIVIDUAL GRIDPOINTS FOR EVERY TIME STEP ***/
         if (outgridnumber > 0)     /*output file requested by user*/
             stationoutput();
@@ -318,15 +315,22 @@ int main()
             write2matriz();    /*write r2 matriz to file*/
     }
 
+	writeperformance();   /*write model performance (r2 etc) to text-file, added 10/2013*/
     closeall();     /* CLOSE FILES, SPEICHERFREIGABE */
+    writemodelmeaspointbalances();    /*must be after closeall because it opens cummassbal.txt, added 10/2013*/
+    fclose(outcontrol);    /*can not be in closeall.c because used in writemodelmeaspointbalances()*/
+    outcontrol = NULL;
 
-    printf("\n\n number of glacier grids         %d\n",nglac);
-    printf(" number of calculated time steps   %d\n\n",nsteps);
-    printf(" number of timesteps of dischargedata  %d\n\n",nstepsdis);
+    printf("\n number of calculated grid cells (DEM2)  = %d\n",ndrain);
+	printf(" number of glacier grid cells (DEM3)     =  %d\n",nglac);
+	printf("   number of calculated time steps       = %d\n",nsteps);
+    printf("   number of timesteps of discharge data = %d\n",nstepsdis);
     if(disyes ==1) {
-        printf("  simulated discharge volume (100 000 m3) = %8.2f\n",volumesim);
-        printf("  measured discharge volume               = %8.2f\n",volumemeas);
+        printf(" Simulated discharge volume (100 000 m3) = %8.2f\n",volumesim);
+        printf(" Measured discharge volume               = %8.2f\n",volumemeas);
     }
+    printf(" Mass balance over entire simulation period (m) = %.3f\n",areamassbalcum/100);
+
     printf("\n output written to   %s\n\n",outpath);
     printf("********* PROGRAM RUN COMPLETED ************\n\n");
 

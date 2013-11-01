@@ -22,7 +22,7 @@
 /* PROGRAM  debam.c, formerly meltmod.c                          */
 /*   DISTRIBUTED SNOW/ICE MELT MODEL BASED ON ENERGY BALANCE */
 /*   CALCULATIONS INCLUDING OPTIONAL DISCHARGE CALCULATIONS  */
-/*   5.3.1998, update 18 October 2013, renamed August, 2012         */
+/*   5.3.1998, update 29 October 2013, renamed from meltmod.c August, 2012 */
 /*************************************************************/
 
 
@@ -729,10 +729,21 @@ int main()
     
     writeperformance();   /*write model performance (r2 etc) to text-file*/
     closeall();     /* CLOSE FILES, FREE STORAGE */
-
-    printf("\n\n number of glacier grid cells         %d\n\n",nglac);
-    printf(" number of calculated time steps               %d\n",nsteps);
-    printf(" number of timesteps of discharge data available  %d\n\n",nstepsdis);
+    
+    /*compute point balances for period of data and write the measured and modeled balances to new file*/
+    writemodelmeaspointbalances();    /*must be after closeall because it opens cummassbal.txt*/
+    fclose(outcontrol);    /*can not be in closeall.c because used in writemodelmeaspointbalances()*/
+    outcontrol = NULL;
+    
+    printf("\n number of calculated grid cells (DEM2)  = %d\n",ndrain);
+	printf(" number of glacier grid cells (DEM3)     =  %d\n",nglac);
+	printf("   number of calculated time steps       = %d\n",nsteps);
+    printf("   number of timesteps of discharge data = %d\n",nstepsdis);
+    if(disyes ==1) {
+        printf(" Simulated discharge volume (100 000 m3) = %8.2f\n",volumesim);
+        printf(" Measured discharge volume               = %8.2f\n",volumemeas);
+    }
+	printf(" Mass balance over entire simulation period (m) = %.3f\n",areamassbalcum/100);
     printf(" output written to   %s\n\n",outpath);
     if((methodsurftempglac == 3) || (methodsurftempglac == 4))
         printf("\n unrealistic values reached = %d times (resoutlines) \n\n",resoutlines);

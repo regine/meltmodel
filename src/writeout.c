@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  update 18 October 2013 */
+/*  Last update 31 October 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -1487,9 +1487,9 @@ void writemassbalgrid()
                 computemassbalprofile(MASSBALcum,massbalprofile);
                 massbalprofile_yes = 1;
 
-                initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);
+                initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);   /*cum annual balance grid*/
 
-                /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
+            /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
                 printf(" Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 fprintf(outcontrol," Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 cumnetbal += x[11]/factorcm;    /*x[11] is mean, output from statist*/
@@ -1733,7 +1733,8 @@ void meanmassbalprofile()
 /*****************************************************************/
 /* FUNCTION  areameannull
              SPATIAL MEAN OVER WHOLE GLACIER SET TO ZERO
-             Time series Ascii-file                             */
+             Time series Ascii-file                             
+             called from main for each time step at beginning   */
 /*****************************************************************/
 
 void areameannull()
@@ -1754,6 +1755,7 @@ void areameannull()
       areanetrad   = 0.;
       areasensible = 0.;
       arealatent   = 0.;
+      areaiceheat  = 0.;
       arearain     = 0.;
       areaenbal    = 0.;
       areaabla     = 0.;
@@ -1764,10 +1766,9 @@ void areameannull()
         areaddf = 0.;
     }
     
-    areamelt     = 0.;
-    areacummassbal = 0;
+    areamelt = 0.;
 
-    return;
+  return;
 }
 
 
@@ -1775,7 +1776,8 @@ void areameannull()
 /*****************************************************************/
 /* FUNCTION  areasum
              SPATIAL MEAN OVER WHOLE GLACIER                     */
-/*           called from main within grid loop for each grid     */
+/*  called from main before end of grid loop (for each grid cell)*/
+/*  summing up values of all grid cells for each times step      */
 /*****************************************************************/
 
 void areasum()
@@ -1807,6 +1809,7 @@ void areasum()
         areanetrad   += NETRAD[i][j];
         areasensible += SENSIBLE[i][j];
         arealatent   += LATENT[i][j];
+    	areaiceheat  += ICEHEAT[i][j];
         arearain     += rainenergy[i][j];
         areaenbal    += ENBAL[i][j];
         areaabla     += ABLA[i][j];
@@ -1819,55 +1822,60 @@ void areasum()
         areaddf += DDFCALC[i][j];
     }
 
-    areamelt += MELT[i][j];       /*only melt is calculated for both cases*/
-    areacummassbal += MASSBALcum[i][j];
+    areamelt += MELT[i][j];     /*only melt is calculated for both cases (detim/debam), not ABLA*/
+    
+    if(griddgmglac[i][j] != nodata)     /*New 10/2013: sum up only over glacier not possibly larger drainage basin*/
+        areamassbal += MASSBALgrid[i][j];    /*massbal in cm*/
 
     return;
 }
 
 
-
 /* ======= TEMPORAL SERIES : ASCII-FILES ==============================*/
 /******************************************************************/
 /* FUNCTION  areameanwrite
-             SPATIAL MEAN OVER WHOLE CALCULATED AREA areamean.dat */
-/*NOTE: nglac is number pixels over drainage basin area*/
+             SPATIAL MEAN OVER WHOLE CALCULATED AREA areamean.txt,
+             in case of mass balance only over glacier area       */
+/*NOTE: ndrain is number pixels over drainage basin area*/
+/*      nglac is number pixels over glacier area*/
+/*  called from main for each time step after grid loop           */
+/*  sum of grid cell values is done in grid cell loop (areasum)   */
 /******************************************************************/
 
 void areameanwrite()
-
 {
     float arealongbal=0;
 
     if(energymethod == 1) {
         if (directfromfile != 1) {
-            areashade    = areashade/nglac;      /*CALCULATION OF SPATIAL MEAN*/
-            areaexkorr   = areaexkorr/nglac;
-            areasolhor   = areasolhor/nglac;
+            areashade    = areashade/ndrain;      /*CALCULATION OF SPATIAL MEAN*/
+            areaexkorr   = areaexkorr/ndrain;
+            areasolhor   = areasolhor/ndrain;
         }
 
         /*spatial means over all calculated grids*/
-        areadirect   = areadirect/nglac;  /*spatial mean of clear-sky direct radiation*/
-        areadirect2  = areadirect2/nglac;
-        areadiffus   = areadiffus/nglac;
-        areaalbedo   = areaalbedo/nglac;
-        areaglobal   = areaglobal/nglac;
-        areareflect  = areareflect/nglac;
-        areaswbal    = areaswbal/nglac;
+        areadirect   = areadirect/ndrain;  /*spatial mean of clear-sky direct radiation*/
+        areadirect2  = areadirect2/ndrain;
+        areadiffus   = areadiffus/ndrain;
+        areaalbedo   = areaalbedo/ndrain;
+        areaglobal   = areaglobal/ndrain;
+        areareflect  = areareflect/ndrain;
+        areaswbal    = areaswbal/ndrain;
 
         if(methodlongin == 1)      /*longwave incoming radiation spatially constant*/
             arealongin = LWin;      /*LWin calculated once every time step*/
         else
-            arealongin   = arealongin/nglac;
+            arealongin   = arealongin/ndrain;
 
-        arealongout  = arealongout/nglac;
-        areanetrad   = areanetrad/nglac;
-        areasensible = areasensible/nglac;
-        arealatent   = arealatent/nglac;
-        arearain     = arearain/nglac;
-        areaenbal    = areaenbal/nglac;
-        areaabla     = areaabla/nglac;
-        areasurftemp = areasurftemp/nglac;
+        arealongout  = arealongout/ndrain;
+        areanetrad   = areanetrad/ndrain;
+        areasensible = areasensible/ndrain;
+        arealatent   = arealatent/ndrain;
+        areaiceheat  = areaiceheat/ndrain;
+        arearain     = arearain/ndrain;
+        areaenbal    = areaenbal/ndrain;
+        areaabla     = areaabla/ndrain;
+        areasurftemp = areasurftemp/ndrain;
 
         if(methodsurftempglac == 1) {
             arealongbal = arealongin - LWout;
@@ -1878,13 +1886,14 @@ void areameanwrite()
     } /*if energy*/
 
     if(degreedaymethod == 1) {
-        areapos     = areapos/nglac;
-        areaddf     = areaddf/nglac;    /*refering to one day:  mm/day */
+        areapos     = areapos/ndrain;
+        areaddf     = areaddf/ndrain;    /*refering to one day:  mm/day */
     }
 
-    areamelt = areamelt/nglac;
-    areacummassbal = areacummassbal/nglac;
-
+    areamelt = areamelt/ndrain;   /*melt is integrated over drainage DEM*/
+    areamassbal = areamassbal/nglac;  /*New 10/2013: glacierwide mass balance in cm for each time step*/
+    areamassbalcum += areamassbal;    /*cumulated glacierwide balances in cm for e.g. GRACE comparison*/
+        
     /*midnight, must be next day for continous series of real numbers for grapher plot*/
     jd2 = jd;
     if(timestep != 24)     /*not for daily timesteps*/
@@ -1893,16 +1902,18 @@ void areameanwrite()
     if(energymethod == 1) {
         fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f",
                 year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areadirect2);
-        fprintf(outarea,"%8.2f %8.2f %8.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f",areadiffus,
+        fprintf(outarea,"%9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f %9.2f",areadiffus,
                 areaglobal,areareflect,areaalbedo,areaswbal,arealongin,arealongout,arealongbal,areanetrad);
-        fprintf(outarea,"%8.2f %8.2f %8.2f %8.2f %8.2f %8.2f %8.2f",
-                areasensible,arealatent,arearain,areaenbal,areamelt,areaabla,areacummassbal);
-        fprintf(outarea,"%7.2f\n",areasurftemp);
+        fprintf(outarea,"%9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %10.3f %12.3f %9.2f",
+                areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla,areamassbal,areamassbalcum);
+        fprintf(outarea,"%9.2f\n",areasurftemp);
     } /*endif*/
 
     if(degreedaymethod == 1)
-        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %8.2f %9.2f %8.2f %8.2f %8.2f %8.2f %8.2f\n",
-                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areacummassbal);
+        fprintf(outarea,"%5.0f %6.2f %6.1f %5.2f %5.2f %9.2f %9.2f %9.2f %10.3f %10.3f %10.3f %12.3f %9.2f\n",
+                year,jd2,zeit,areashade,areaexkorr,areasolhor,areadirect,areamelt,areapos,temp,areaddf,areamassbal,areamassbalcum);
+
+    areamassbal  = 0.;   /*glacierwide mass balance for each time step, must be set to 0*/
 
     return;
 }
@@ -1972,48 +1983,50 @@ void stationoutput()
             } else  /*DIRECT READ FROM FILES, ARRAYS DO NOT EXIT, WRITE 0 */
                 fprintf(outgrid[ii],"%6.2f %6.2f %8.2f",notexist,notexist,notexist);
 
-            fprintf(outgrid[ii],"%10.4f",DIRECT[r][c]);
+            fprintf(outgrid[ii],"%11.4f",DIRECT[r][c]);
 
             if(methodglobal == 1)      /*GLOBAL RADIATION INTERPOLATED*/
                 fprintf(outgrid[ii],"%8.2f %8.2f",notexist,notexist);
             else {                     /*DIRECT AND DIFFUSE RAD SEPARATED*/
-                fprintf(outgrid[ii],"%10.4f",DIRECT2[r][c]);
-                fprintf(outgrid[ii],"%10.4f",DIFFUS[r][c]);
+                fprintf(outgrid[ii],"%11.4f",DIRECT2[r][c]);
+                fprintf(outgrid[ii],"%11.4f",DIFFUS[r][c]);
             }
 
             if ((snetfromobsyes == 1) && (calcgridyes == 2)) /*2011: added, if only climate station calculated and obs available*/
-                fprintf(outgrid[ii],"%10.4f",glob);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",glob);  /*reflected radiation*/
             else
-                fprintf(outgrid[ii],"%10.4f",GLOBAL[r][c]);     /*column 10*/
+                fprintf(outgrid[ii],"%11.4f",GLOBAL[r][c]);     /*column 10*/
 
 
             if ((snetfromobsyes == 1) && (calcgridyes == 2))   /*CHR added, if only climate station calculated and meas available then possible*/
                 /*second condition added 1/2011*/
-                fprintf(outgrid[ii],"%10.4f",ref);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",ref);  /*reflected radiation*/
             else
-                fprintf(outgrid[ii],"%10.4f",GLOBAL[r][c]*ALBEDO[r][c]);  /*reflected radiation*/
+                fprintf(outgrid[ii],"%11.4f",GLOBAL[r][c]*ALBEDO[r][c]);  /*reflected radiation*/
 
             fprintf(outgrid[ii],"%8.5f",ALBEDO[r][c]);
-            fprintf(outgrid[ii],"%10.4f",SWBAL[r][c]);
+            fprintf(outgrid[ii],"%11.4f",SWBAL[r][c]);
 
-            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]);
-            fprintf(outgrid[ii],"%10.4f",lwoutgoing);
-            fprintf(outgrid[ii],"%10.4f",LONGIN[r][c]-lwoutgoing);
+            fprintf(outgrid[ii],"%11.4f",LONGIN[r][c]);
+            fprintf(outgrid[ii],"%11.4f",lwoutgoing);
+            fprintf(outgrid[ii],"%11.4f",LONGIN[r][c]-lwoutgoing);
 
-            fprintf(outgrid[ii],"%10.4f",NETRAD[r][c]);     /*column 17*/
-            fprintf(outgrid[ii],"%10.4f",SENSIBLE[r][c]);
-            fprintf(outgrid[ii],"%10.4f",LATENT[r][c]);
-
+            fprintf(outgrid[ii],"%11.4f",NETRAD[r][c]);     /*column 17*/
+            fprintf(outgrid[ii],"%11.4f",SENSIBLE[r][c]);
+            fprintf(outgrid[ii],"%11.4f",LATENT[r][c]);
 
             /*compute ice heat flux in case subsurface model is run,  2/2011*/
             /*convert Runoff in mm into energy*/
             /*        ICEHEAT[r][c] = RUNOFF[r][c]*Lf/(60*60*timestep) - rainenergy[r][c];  */
 
-            fprintf(outgrid[ii],"%10.4f",ICEHEAT[r][c]);
-            fprintf(outgrid[ii],"%9.4f",rainenergy[r][c]);
-            fprintf(outgrid[ii],"%10.4f",ENBAL[r][c]);
-            fprintf(outgrid[ii],"%10.5f",MELT[r][c]);
-            fprintf(outgrid[ii],"%10.5f",ABLA[r][c]);       /*column 24*/
+            fprintf(outgrid[ii],"%11.4f",ICEHEAT[r][c]);
+            fprintf(outgrid[ii],"%11.4f",rainenergy[r][c]);
+            fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
+            fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
+            fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
+            fprintf(outgrid[ii],"%11.2f",MASSBALgrid[r][c]);       /*NEW 10/2013*/
+            fprintf(outgrid[ii],"%11.2f",MASSBALcum_all[r][c]);       /*NEW 10/2013*/
+
             fprintf(outgrid[ii],"%9.4f",surftemp[r][c]);   /*column 25*/
 
             /* Other variable*/
@@ -2048,7 +2061,7 @@ void stationoutput()
                 snowlayermsnow(i, j, -1);
                 meltlayermice(-1.);
             }
-            fprintf(outgrid[ii],"%10.5f",snowlayer[r][c]);
+            fprintf(outgrid[ii],"%11.5f",snowlayer[r][c]);
 
             /*output mass balance per time step*/
             if (methodsurftempglac != 4) {
@@ -2086,12 +2099,12 @@ void stationoutput()
 
         if(degreedaymethod == 1) {   /*TEMPERATURE INDEX METHOD*/
             if(directfromfile != 1) {  /*CLEAR-SKY RADIATION IS CALCLULATED*/
-                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f%7.2f\n",
+                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %8.2f %8.2f %7.2f %7.2f %7.2f%7.2f  %10.3f  %12.3f\n",
                         year,jd2,zeit,SHADE[r][c],EXKORR[r][c],strlsumme[r][c]/timestep,
-                        DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c]);
+                        DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c],MASSBALgrid[r][c],MASSBALcum_all[r][c]);
             } else   /*CLEAR-SKY RADIATION IS READ FROM FILES*/
-                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %5.2f %8.2f %7.2f %7.2f %7.2f%7.2f\n",
-                        year,jd2,zeit,notexist,notexist,notexist,DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c]);
+                fprintf(outgrid[ii],"%.0f %6.2f%6.1f %5.2f %5.2f %5.2f %8.2f %8.2f %8.2f %8.2f %9.3f %10.3f %12.3f\n",
+                        year,jd2,zeit,notexist,notexist,notexist,DIRECT[r][c],MELT[r][c],TEMPOS[r][c],temp,DDFCALC[r][c],MASSBALgrid[r][c],MASSBALcum_all[r][c]);
         }  /*endif degreeday*/
 
     }  /*for*/
@@ -2100,11 +2113,10 @@ void stationoutput()
 }
 
 
-
 /*******************************************************************/
 /* FUNCTION  writemeltstakes                                       */
 /*           WRITE 2 FILES: CUMULATIVE MELTING AND                 */
-/*           CUMULATIVE ASSBALANCE OF SEVERAL LOCATIONS INTO ONE FILE  */
+/*           CUMULATIVE MASS BALANCE OF SEVERAL LOCATIONS INTO ONE FILE  */
 /*           called from main every time step after grid loop      */
 /*******************************************************************/
 
@@ -2125,7 +2137,8 @@ void writemeltstakes()
         fprintf(outmassbalstakes2,"%.0f %7.2f %5.1f",year,jd2,zeit);    /*first 3 columns*/
     for(i=1; i<=maxmeltstakes; i++) {
         /*if (methodsurftempglac != 4)*/
-        fprintf(outmassbalstakes,"%10.3f",plusminus*MASSBALcum[meltoutrow[i]][meltoutcol[i]]);
+              /*10/2013: changed from MASSBALcum to MASSBALcum_all, because was wrong*/
+        fprintf(outmassbalstakes,"%10.3f",plusminus*MASSBALcum_all[meltoutrow[i]][meltoutcol[i]]);
         if (methodsurftempglac == 4)
             fprintf(outmassbalstakes2,"%10.3f",plusminus*MASSBALcumstake[meltoutrow[i]][meltoutcol[i]]);
     }
@@ -2193,20 +2206,268 @@ void percentsnowfree() {
 /************************************************************************/
 /*  FUNCTION:  writeperformance                                         */
 /*     computes and writes model performance to file                    */
-/*     one line with various r2 values                                  */
+/*     one line with various performance values, missing values if a value does not exist */
 /*     called once at the end of main                                   */
 /*     New 10/2013                                                      */
 /************************************************************************/
 
 void writeperformance() 
-{
+{  float missvalQ  =-9999;   /*missing value in case discharge matrix is not computed */
+   float diffvolume=-9999;
+   float r2value,r2lnvalue;   /*new variables because array only exists if discharge data is available*/
+
    if(calcgridyes == 1)  /*only if entire grid is calculated, not if only AWS station computed*/ 
-    { if (disyes != 1) {    /*if discharge r2 not computed, set to no value*/
-       r2[1][1] = -9999;  /*to write out to output file even if r2 does not exist*/
-       r2ln[1][1] = -9999;
-    }  
-    fprintf(outperformance,"discharge_r2\t%.6f\n",r2[1][1]); 
-    fprintf(outperformance,"discharge_r2ln\t%.6f",r2ln[1][1]);
-   }
+    { 
+     strcpy(dummy,outpath);
+     strcat(dummy,"modelperformance.txt");
+
+        if ((outperformance = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening output model performance file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+
+        fprintf(outperformance,"Q_r2 Q_lnr2 Qvolumesim  Qvolumemeas  Difference(sim-meas)  nsteps  nstepsdis totalglacierwidemassbalance(m)\n");
+        fprintf(outperformance,"r2 is Nash-Sutcliffe efficiency criterion for discharge Q (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
+        fprintf(outperformance,"nsteps = number modeled time steps, nstepsdis = number of time steps with valid discharge data - must be the same for the volume difference to make sense\n");
+
+      if (disyes != 1) {    /*if discharge r2 not computed, set to missing value*/
+         r2value    = missvalQ;   r2lnvalue  = missvalQ;
+         volumesim  = missvalQ;   volumemeas = missvalQ;
+         diffvolume = missvalQ;   nstepsdis  = missvalQ;
+      }
+      else     /*discharge data exists and r2 could be calculated*/
+      {  diffvolume=volumesim-volumemeas;    /*differenct between total discharge volume over entire period*/
+         r2value   = r2[1][1];     /*array only exists if discharge data is available*/
+         r2lnvalue = r2ln[1][1];
+      }
+
+      /*cumulative mass balance over entire modeling period written to output for comparison with geodetic longer-term balance, converted to m*/
+     fprintf(outperformance,"%.3f\t %.3f\t  %.3f\t %.3f\t %.3f   %d  %d  %10.3f\n",r2value,r2lnvalue,volumesim,volumemeas,diffvolume,nsteps,nstepsdis,areamassbalcum/100);
+     fclose(outperformance);
+    }  /*endif*/
+    
     return;
+}
+
+
+/********************************************************************/
+/*  FUNCTION  writemodelmeaspointbalances                           */
+/*       makes file with measured and modeled point balances (in m) */
+/*          called from main once at the end                        */
+/*   A file with measured point balances is read and a new file created which
+     is identical but adds another column with the modeled balances for each
+     stake observation. Modeled balances are computed from cumulated
+     balance file "cummassbal.txt" which has the cumulated time series*/
+/* New October 2013, R. Hock*/
+/********************************************************************/
+
+void writemodelmeaspointbalances() 
+{
+   int write_output_yes = 1;    /*controls whether or not output file with comparison is generated*/
+      /*avoids another row in input.txt, if file exists compute performance, if not don't do anything*/
+   FILE *outpointbal=NULL;   /*output file with modeled-measured point balances to be created here*/
+   FILE *modelcummassbal=NULL;  /*model output file with modeled cumulative point balances*/
+   FILE *measpointbal=NULL;     /*file with measured point balances */
+
+   float **cummassbal;   /*array to read all data of modeled cummassbal.txt file*/
+   float **measuredpointbal;  /*array to read measured point balance file*/
+   float readvalue;    /*for reading numbers from file and put into array*/
+   int numberdatapoints = 5000;   /*max number of rows in measured point balance file*/
+   int n_col_meas=8;   /*number of columns in measured stake data file (measuredpointbalances.txt)*/
+   int n_meas=0;    /*number of rows (stake locations) in measured file*/
+   int rowmeas,rowmod,nnn;     /*indices to go through arrays*/
+   float massbal_mod_start,massbal_mod_end;   /*modeled cumulative values for start and end date of corresponding measurements*/
+   float datediff;   /*difference between start and end date, to check for errors in measured point balance file*/
+   int startfound_yes=0,endfound_yes=0;
+   int status;
+   int getoutfunctionyes=0;
+
+/*===================================================================*/
+/*==== OPEN MEASURED POINT BALANCE FILE AND READ FILE INTO ARRAY ====*/
+  /* Format: x,y-coord,elevation,B,startyear,startday,endyear,endday */
+    strcpy(dummy,inpath);
+    strcat(dummy,"measuredpointbalances.txt");   /*Mass balance output is in m*/
+    if ((measpointbal = fopen(dummy,"rt")) == NULL)
+     { write_output_yes = 0;
+       printf("\n\n No point measurements to compare to modeled point balances\n");
+       printf("    measuredpointbalances.txt could not be opened (function writemodelmeaspointbalances)\n");
+     }
+
+    if(maxmeltstakes == 0)
+      write_output_yes = 0;   
+  	 	 
+ if(write_output_yes == 1)   /*only if measured point balance file exists, make output file*/   
+ {	 	
+/*=======================================================*/
+/*===== OPEN OUTPUT FILE ================================*/
+    strcpy(dummy,outpath);
+    strcat(dummy,"pointbalances.txt");
+        if ((outpointbal = fopen(dummy,"wt")) == NULL)  {
+            printf("\n Error in opening output file\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+    fprintf(outpointbal,"X-coord \t Y-coord\t Elevation(m) MeasMassbal(m)  StartYear StartDay EndYear  EndDay \t ModeledMassbal(m)\n");
+    fprintf(outpointbal,"First 8 columns are same as read from measuredpointbalances.txt, last columnn is computed from model output cummassbal.txt\n");
+
+
+/*==============================================================*/
+/*====== READ MEASURED POINT BALANCE FILE INTO ARRAY ===========*/ 
+      readrestofline(&measpointbal);   /*read over 2 header lines*/
+      readrestofline(&measpointbal);
+           /*define 2-D array to read all measured data*/  
+ /*---- INITIALIZE ARRAY WITH MEASURED DATA---------*/ 
+      measuredpointbal = matrixreserv(1,numberdatapoints,1,n_col_meas);   /*file has n_col_meas columns*/
+      for(i=1;i<=numberdatapoints;i++)    /*initialize array to zero*/
+      {  for(j=1;j<=n_col_meas;j++)
+			measuredpointbal[i][j] = -9999;
+	  }		
+			
+ /*read measured data into array*/
+      i=1; j=1; n_meas=0;     /*i=row, j=column, n_meas=number of rows (stakes)*/      
+	  while((status=fscanf(measpointbal, "%f", &readvalue)) != EOF)   /*read one number after another*/
+      {         
+        measuredpointbal[i][j]=readvalue;   /*put numbers in array as they are*/
+        if(j==n_col_meas)   /*make new line, start with col 1 again, measured file has n_col_meas columns*/
+        { j=0;
+          i=i+1;   /*next line*/
+          n_meas+=1;    /*find total number of rows (data points) in measured file*/ 
+          if(status!=EOF) readrestofline(&measpointbal);     /* READ LINE BREAK */
+        }     
+        j=j+1;   /*next column same row*/
+      }  /*endwhile*/
+
+
+    puts("ok 1");
+
+ /* ---- check for each measured point balance if it is outside simulation period ----- */
+ /*      if so, program does not exit but put a warning on screen and into modellog.txt */
+     for(i=1;i<=n_meas;i++)    /*for each row of measured file, col5=startyear*/
+     {  if(((measuredpointbal[i][5]*365+measuredpointbal[i][6]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][5]*365+measuredpointbal[i][6]) > (yearend*365+jdend)))
+        {  printf("\n==================== !!!! WARNING !!!!!=======================================================");
+          printf("\n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+    puts("ok 2");
+      
+          fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+ 
+     puts("ok 3");
+
+        } 
+        if(((measuredpointbal[i][7]*365+measuredpointbal[i][8]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][7]*365+measuredpointbal[i][8]) > (yearend*365+jdend)))
+        {  printf("\n==================== !!!! WARNING   !!!!!=====================================================");     
+
+    puts("ok 1");
+
+          printf("\n --- WARNING: end date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+
+    puts("ok 1");
+
+          fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
+        }
+     }
+      
+       	 
+ /* ---- check in measured stake file for each row if end date is after start date -----------*/
+     for(i=1;i<=numberdatapoints;i++)    /*for each row in measured file; col 5=startyear, col 6=startday*/
+      {  if((measuredpointbal[i][5] != -9999) && (measuredpointbal[i][7] !=-9999))    /*possible since array has 5000 lines*/  
+         { datediff = (measuredpointbal[i][7]*365+measuredpointbal[i][8]) - (measuredpointbal[i][5]*365+measuredpointbal[i][6]);
+           if(datediff <=0)     /*datediff is differences in days*/
+           { printf("\n\n ==================== !!!!!!!!!============================\n");
+             printf("  ERROR in file measuredpointbalances.txt in row %d\n",i);
+             printf("   The end date must be after the start date of the balance observations.\n   No point balance file written to output.\n");
+ 			 printf("==================== !!!!!!!!! ============================\n\n");
+             getoutfunctionyes=1;     /*avoid exist but just don't do anything anymore in this function*/
+           }
+         }  /*endif*/
+      }   /*endfor*/
+ 
+    if(n_meas != maxmeltstakes)
+     { printf("\n Number of stakes in measuredpointbalances.txt is larger/lower (=%d) than number of stakes computed in model run (%d)",n_meas,maxmeltstakes);
+       printf(" (maxmeltstakes in input.txt). It must be equal. No point balance file written to output.\n\n");
+       getoutfunctionyes=1;     /*avoid exist but just don't do anything anymore in this function*/
+     }
+     
+  if(getoutfunctionyes==0)  /*only if number of stakes in measured file is equal to number of stakes written to output and no date errors*/
+  {    
+    printf("\n\nModeled POINT BALANCES written to file (pointbalances.txt):\n   Number of stakes in measured file = %d\n",n_meas);
+    printf("   Number of point locations written to output (maxmeltstakes) = %d\n",maxmeltstakes);
+
+/*===================================================================================================*/
+/*====== OPEN MODELED CUMULATIVE MASS BALANCE FILE CREATED BY THE MODEL AND PUT DATA INTO ARRAY======*/
+   strcpy(dummy,outpath);
+        strcat(dummy,"cummassbal.txt");        
+
+        if ((modelcummassbal = fopen(dummy,"rt")) == NULL) {
+            printf("\n Error in opening output file 'cummassbal.txt'\n (File initial.c): %s\n\n",dummy);
+            exit(4);
+        }  /*ENDIF*/
+   		readrestofline(&modelcummassbal);   /*read 2 header lines*/
+   		readrestofline(&modelcummassbal);
+
+  /*---- CREATE ARRAY FOR DATA OF MODELED CUMULATIVE POINT BALANCE FILES AND READ ALL DATA-----------*/
+     /*nstep is number of time steps, i.e. rows for array, col+3 because of year, day, time columns*/
+       cummassbal = matrixreserv(1,nsteps,1,maxmeltstakes+3);
+    
+ 	    for(i=1;i<=nsteps;i++)   /*for each row*/
+ 		{  for(j=1;j<=maxmeltstakes+3;j++)     /*plus 3 because of 3 date columns*/
+ 		   {  fscanf(modelcummassbal, "%f", &readvalue);
+              cummassbal[i][j]=readvalue;   /*put numbers in array as they are*/
+           }  /*endfor*/   	
+        }   /*end for each row*/
+        
+/*======================================================================================*/
+/* ====== COMPUTE MODELED POINT BALANCE FOR TIME PERIOD OF MEASURED BALANCE ============*/
+  /* go through each measured stake (row) and check the corresponding time series of modeled stake (column) for start and end date*/
+  /* Note that each measured stake is in one row, while each modeled stake is a column*/
+ 
+      for(rowmeas=1;rowmeas<=n_meas;rowmeas++)   /*for each row (stake) of the measured file, column 5 is start year, 6 start day*/
+      { startfound_yes = 0; endfound_yes = 0;  /*set to zero for each stake (row of measured file)*/
+        massbal_mod_start=-9999;  massbal_mod_end = -9999;  /*initialize in case dates do not exist in modeled file*/
+    /*go through whole modeled time series of that stake and find start/end data of stakes point measurement*/
+        for(rowmod=1;rowmod<=nsteps;rowmod++)    /*for each modeled time step (column) of that stake*/
+        {  
+          if(startfound_yes==0)   /*start date not found yet*/
+          { 
+           if((measuredpointbal[rowmeas][5] == cummassbal[rowmod][1]) && (measuredpointbal[rowmeas][6] == cummassbal[rowmod][2]))
+             { massbal_mod_start = cummassbal[rowmod][rowmeas+3]/100;   /*Note: rowmeas corresponds to the column in the modeled file*/
+                   /*divide by 100 to convert cm into m*/
+      		   startfound_yes = 1;	   
+   /*printf(" dates found: massbal start= %.2f stake number (rowmeas)= %d  %.0f %.0f\n",massbal_mod_start,rowmeas,cummassbal[rowmod][1],cummassbal[rowmod][2]);*/   		   
+      		 }  /*endif*/
+		  }  /*start day not found yet*/
+		  
+		  if(endfound_yes==0)   /*start date not found yet; col 7 (8) = end year (day) in measured file, in cummassbal.txt col 1 is always year*/
+		  {	 if((measuredpointbal[rowmeas][7] == cummassbal[rowmod][1]) && (measuredpointbal[rowmeas][8] == cummassbal[rowmod][2]))
+             { massbal_mod_end = cummassbal[rowmod][rowmeas+3]/100;   /*Note: rowmeas corresponds to the column in the modeled file*/
+      		   endfound_yes = 1;
+  /*printf("    massbal end = %.2f stake number (rowmeas)= %d %.0f %.0f\n",massbal_mod_end,rowmeas,cummassbal[rowmod][1],cummassbal[rowmod][2]);*/
+             }  /*endif*/
+  		  }  /*end day not found yet*/    
+	    }  /*for rowmod: each modeled time step of same stake*/
+	    
+  /* ------ write to new output file, each stake is one row -------- */
+        for(nnn=1;nnn<=n_col_meas;nnn++)    /*print all columns that were in measured data file*/
+         { fprintf(outpointbal,"%.3f\t",measuredpointbal[rowmeas][nnn]);
+         }      /*print the corresponding modeled balance*/
+         fprintf(outpointbal,"  %.4f\n",massbal_mod_end-massbal_mod_start);
+
+      }  /*end for rowmeas: each stake (row) of measured file*/
+    
+ /* ------ free maxtrices and close files ---------*/
+      freematrix(cummassbal,1,nsteps,1,maxmeltstakes+3);
+      if(modelcummassbal) {
+        fclose(modelcummassbal);
+        modelcummassbal = NULL;
+      }
+    
+    }  /*endif getoutfunctionyes*/
+    /*has been reserved even if no output created, therefore outside loop above*/
+     freematrix(measuredpointbal,1,numberdatapoints,1,n_col_meas);
+      if(outpointbal) {
+        fclose(outpointbal);
+        outpointbal = NULL;
+      }
+   
+   }  /* if write_output_yes = 1 */
+   
+ return;
 }

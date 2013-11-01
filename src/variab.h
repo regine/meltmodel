@@ -19,7 +19,7 @@
 
 /*************************************************************/
 /*  variab.h                                                 */
-/*    update 7 October 2013 */
+/*    Last update 30 October 2013 */
 /*************************************************************/
 #ifndef MELT_MOD_VARIAB_H_  /*guard variable: prevents overwriting of variab.h with h-file with same name is imported*/
 #define MELT_MOD_VARIAB_H_
@@ -134,7 +134,7 @@ float pKonzel   = 2;       /* value in Konzelmann et al.  p=4 */
 int    readsnowalbedo=0;   /*1=snow albedo read from another climate station file, daily means*/
 
 /*========== END OF HIDDEN OPTIONS ==================================================*/
-/* NOTE: if you change anything above you need to recompile the code !!!
+/*  NOTE: if you change anything above you need to recompile the code !!!            */
 /*================don't change anything below =======================================*/
 
 
@@ -222,7 +222,10 @@ float  **snowtofirn;   /*boolean to decide if albedo drop, if snow has melted on
 float  **numbdays;     /*number of day since snow fall, for snow albedo*/
 float  **ndbefsnow;    /*number of days before snow fall*/
 float  **ALBBEFSNOW;   /*snow albedo before snow fall*/
-float  **WINTERBAL,**SUMMERBAL,**MASSBALcum;   /*mass balance*/
+float  **WINTERBAL,**SUMMERBAL;  /*winter, summer mass balance*/
+float  **MASSBALcum;   /*(cumulative) mass balance over one year*/
+float  **MASSBALcum_all;   /*(cumulative) mass balance over whole calculation period*/
+float  **MASSBALgrid;   /*grid with mass balance for each time step*/
 float  plusminus;
 
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
@@ -272,8 +275,10 @@ int    methodturbul,methodiceheat,methodnegbal;
 double areashade,areaexkorr;    /*spatial means over whole glacier*/
 double areasolhor,areadirect,areadirect2,areadiffus;
 double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
-double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
-double areasurftemp,areacummassbal;
+double areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla;
+double areasurftemp;
+double areamassbal;    /*New 10/2013: glacierwide balance for each time step for time series output*/
+double areamassbalcum;    /*New 10/2013: cumulated glacierwide balance e.g.for GRACE comparison*/
 
 double laenge, breite;                    /*longitude, latitude deg */
 double reflongitude;              /*longitude time refers to*/
@@ -287,10 +292,9 @@ float  jdlasttimestep = -1;   /*needed for albedocloud function*/
 float  winterjdbeg,winterjdend,summerjdbeg,summerjdend;
 float  yearmeasmassbal;     /*year in file with measured mass balances*/
 int    readdatesmassbalyes=1;   /*boolean variable to avoid allocating dates more than once*/
-float  cumwinterbal=0.0;    /*cumulative annual area-averaged mass balances*/
+float  cumwinterbal=0.0;    /*cumulative annual area-averaged seasonal/annual mass balances*/
 float  cumsummerbal=0.0;
 float  cumnetbal=0.0;
-
 
 float  yearbeg, yearend;
 int    formatclimdata;    /*format of climate data, meaning of midnight time*/
@@ -322,7 +326,7 @@ int    do_out_area;      /*if time series of spatial mean to file*/
 int    disyes;                   /*=1 if discharge to be calculated */
 int    nsteps=0;       /*number of time steps of whole period of calculations*/
 int    outgridnumber;          /*number of grid outputfiles*/
-int    stnrow[201],stncol[201];    /*row and column of grid to be written to output*/
+int    stnrow[301],stncol[301];    /*row and column of grid to be written to output*/
 int    firnreadyes;     /*if firn file has been read*/
 float  p,e;                           /*air pressure, vapour pressure */
 float  z0w,z0wice;          /*roughness length for ice*/
@@ -364,7 +368,9 @@ float  ndstart;             /*number of days after snow fall, for snow albedo*/
 float  albiceproz;          /*decrease of ice alb with elevation in % */
 float  daysnow=1;       /*snow cover written to file if jd dividable by this value*/
 
-int    nglac;                  /*number of drainage basin grid cells*/
+int    ndrain=0;                  /*number of drainage basin grid cells: area that is computed*/
+int    nglac =0;                  /*number of glacier grid cells, needed for mass balance*/
+
 float  albedosnow[1000];        /*measured snow albedo - daily means*/
 float  directstationhoriz;     /*direct radiation if climate station grid horizontal*/
 int    shadefromfile=0;        /*1=shading is read from files*/
@@ -548,8 +554,8 @@ int    ddfoptyes=0;      /*optimization of melt parameter*/
 float  debrisfactor;     /*melt reduction factor for debris cover on glacier*/
 
 int  maxmeltstakes;       /*number of locations to be written to melt file*/
-int  meltoutrow[101];      /*row of location*/
-int  meltoutcol[101];      /*column of location*/
+int  meltoutrow[301];      /*row of location*/
+int  meltoutcol[301];      /*column of location*/
 float  melt_xcoordinate[301];      /*x-coordinate of stake location*/
 float  melt_ycoordinate[301];      /*y-coordinate of stake location*/
 float  stn_xcoordinate[301];      /*x-coordinate of output station*/

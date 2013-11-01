@@ -1,0 +1,7 @@
+Example data: Measured data for stake locations. Model reads file and outputs a file with an additional column with corresponding modeled data. 
+X-coord          Y-coord     Elevation(m)    MassBalance  Startyear   StartDay  EndYear  EndDay   (Mass balance is mass change between given start and end dates)
+502312.45   6496010.15     1200             0.11           1999    145     1999   150
+502313.42   6496011.15     2020             0.2          1999    150     1999   165
+502312.18   6496012.15     2000             0.3           1999    131     1999   166
+502310.80   6496013.15     1500             0.13           1999    150     1999   163
+502310.85   6496013.45     2100             0.03           1999    160     1999   165

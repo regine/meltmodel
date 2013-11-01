@@ -17,8 +17,8 @@
  **********************************************************************/
 
 /*************************************************************/
-/*  variabex.h                                                 */
-/*    update 22 July 2010 */
+/*  variabex.h                                               */
+/*    Last update 30 October 2013 */
 /*************************************************************/
 
 #ifndef MELT_MOD_VARIAB_H_
@@ -204,7 +204,13 @@ extern  float  **snowtofirn;     /*for snow albedo parameterization*/
 extern  float  **numbdays;     /*number of day since snow fall, for snow albedo*/
 extern  float  **ndbefsnow;    /*number of days before snow fall*/
 extern  float  **ALBBEFSNOW;   /*snow albedo before snow fall*/
+
+extern float  **MASSBALcum;   /*(cumulative) mass balance over one year*/
+extern float  **MASSBALcum_all;   /*(cumulative) mass balance over whole calculation period*/
+extern float  **MASSBALgrid;   /*grid with mass balance for each time step*/
+
 extern  float  **WINTERBAL,**SUMMERBAL,**MASSBALcum;   /*mass balance*/
+extern float  **MASSBALgrid;   /*grid with mass balance for each time step*/
 extern  float  plusminus;
 
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
@@ -343,10 +349,14 @@ extern float  daysnow;     /*snow cover written to file if jd dividable by this 
 extern double areashade,areaexkorr;    /*spatial means over whole glacier*/
 extern double areasolhor,areadirect,areadirect2,areadiffus;
 extern double areaalbedo,areaglobal,areareflect,areaswbal,arealongin,arealongout,areanetrad;
-extern double areasensible,arealatent,arearain,areaenbal,areamelt,areaabla;
-extern double areasurftemp,areacummassbal;
+extern double areasensible,arealatent,areaiceheat,arearain,areaenbal,areamelt,areaabla;
+extern double areasurftemp;
+extern double areamassbal;    /*New 10/2013: glacierwide balance for each time step for time series output*/
+extern double areamassbalcum;   /*New 10/2013: cumulated glacierwide balance e.g.for GRACE comparison*/
 
-extern int    nglac;                  /*number of glacier grids*/
+extern int    ndrain;                  /*number of drainage basin grid cells: area that is computed*/
+extern int    nglac;                /*number of glacier grid cells, needed for mass balance*/
+
 extern float  albedosnow[1000];        /*measured snow albedo - daily means*/
 extern float  directstationhoriz;     /*direct radiation if climate station grid horizontal*/
 extern int    shadefromfile;        /*1=shading is read from files*/

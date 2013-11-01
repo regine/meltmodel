@@ -22,6 +22,7 @@
 /*        Part of the Hock Melt Model                                       */
 /*  Author: Lyman Gillispie                                                 */
 /*  Created on: May 25, 2012                                                */
+/*  Last update: October 2013*/
 /****************************************************************************/
 
 #ifndef MELT_MOD_WRITEOUT_H_
@@ -208,6 +209,22 @@ void percentsnowfree();
 /************************************************************************/
 
 void writeperformance();
+
+
+
+/********************************************************************/
+/*  FUNCTION  writemodelmeaspointbalances                           */
+/*       makes file with measured and modeled point balances        */
+/*          called from main once at the end                        */
+/*   A file with measured point balances is read and a new file created which
+ is identical but adds another column with the modeled balances for each
+ stake observation. Modeled balances are computed from cumulated
+ balance file "cummassbal.txt" which has the cumulated time series*/
+/* New October 2013*/
+/********************************************************************/
+
+void  writemodelmeaspointbalances();
+
 
 
 #endif /* WRITEOUT_H_ */

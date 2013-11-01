@@ -45,8 +45,6 @@ void closeall()
 
     fclose(inklima);
     inklima = NULL;
-    fclose(outcontrol);
-    outcontrol = NULL;
     if(outmeltstakes) {
         fclose(outmeltstakes);
         outmeltstakes = NULL;
@@ -317,11 +315,13 @@ void closeall()
 
         if(winterbalyes == 1)   freematrix(WINTERBAL,1,nrows,1,ncols);
         if(summerbalyes == 1)   freematrix(SUMMERBAL,1,nrows,1,ncols);
-        
-        freematrix(MASSBALcum,1,nrows,1,ncols);
 
     }  /*if*/
 
+        freematrix(MASSBALcum,1,nrows,1,ncols);
+        freematrix(MASSBALcum_all,1,nrows,1,ncols);
+        freematrix(MASSBALgrid,1,nrows,1,ncols);
+        
     free(namedgm);
     free(namedgmdrain);
     free(namedgmglac);

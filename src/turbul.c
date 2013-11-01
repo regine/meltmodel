@@ -21,7 +21,7 @@
 /*         SPATIAL INTERPOLATION OF METEOROLOGICAL INPUT FACTORS TO GRID    */
 /*          temperature, air pressure, vapour pressure, precipitation       */
 /*         CALCULATION TURBULENT HEAT FLUXES                                */
-/*  29.9.1997, last update 7 October 2013*/
+/*  29.9.1997, last update 30 October 2013*/
 /****************************************************************************/
 
 
@@ -931,14 +931,13 @@ void negenergybalance()
 /***************************************************************************/
 
 void waterequivalentmelt()
-
 {
     float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
 
     if(surface[i][j] != 4) {   /*only melt if no rock surface*/
         if(ENBAL[i][j] > 0)
             /*-------------------------------------------------------------------*/
-            MELT[i][j]  = (ENBAL[i][j]+lessmelt)/Lf * 60*60*timestep;
+            MELT[i][j]  = (ENBAL[i][j]+lessmelt)/Lf * 60*60*timestep;   /*in mm*/
         /*-------------------------------------------------------------------*/
         else     /*no energy available for melt*/
             MELT[i][j] = 0;
@@ -1008,7 +1007,7 @@ void waterequivalentabla()
 void snowcover()
 
 {
-    /* SNOW is in cm !!!  ABLA and snowprec in mm !!! */
+    /* SNOW is in cm !!!  ABLA, MELT and snowprec in mm !!! */
 
     if(ABLA[i][j] > 0)     /*ablation*/
         SNOW[i][j] = SNOW[i][j] - (ABLA[i][j]/10) + (snowprec/10);
@@ -1084,18 +1083,24 @@ void massbalance()
     /* massbal is in cm !!!  ABLA and snowprec in mm !!! */
     /* massbal is grid cell mass balance, will be overriden for next grid cell*/
 
+/* ======= COMPUTE MASS BALANCE OF CURRENT TIMESTEP FOR ONE GRID CELL =======*/
     if(energymethod == 1)     /*array ablation only exists for energy balance*/
-        massbal = snowprec/10 - ABLA[i][j]/10;
+        massbal = snowprec/10 - ABLA[i][j]/10;    /*convert to cm*/
     if(degreedaymethod == 1)
         massbal = snowprec/10 - MELT[i][j]/10;
     if (methodsurftempglac == 4)
         massbal += sumrain/10;
       
-  /* massbalance is cumulated mass balance over whole period of computation, i.e.
-       not necessarily balance year if jdbeg is before start day winterbalance
-       used to calculate time series output of areamean (glacierwide balances*/
-        MASSBALcum[i][j] +=  massbal;   /*grid of cumulative mass balance*/
-  
+
+ /* --- cumulate mass balance grid over summer/winter/annual seasons ---- */   
+ /*    massbalance is cumulated mass balance for seasonal/annual balances but
+       not necessarily the balance year if jdbeg is before start day winterbalance */
+        MASSBALcum[i][j]     +=  massbal;   /*grid of cumulative mass balance for annual balance*/
+        MASSBALcum_all[i][j] +=  massbal;   /*NEW 10/2013:: rid of cumulative mass balance for total period*/
+
+  /*New 10/2013: make grid for mass balance for each time step, for computing areamean time series*/
+	 	MASSBALgrid[i][j] = massbal;     /*in cm*/
+ 		
     if((itswinter == 1) && (winterbalyes == 1))
         WINTERBAL[i][j] +=  massbal;
 
@@ -1126,7 +1131,7 @@ void massbalance()
             if ((SNOW[i][j] >= 0.)  && (SNOWswitch[i][j] == 0.))
                 MASSBALcumstake[i][j] = -(SNOWinit[i][j] - SNOW[i][j]);
             else
-                MASSBALcumstake[i][j] += massbal;
+                MASSBALcumstake[i][j] += massbal;     /*in cm*/
 
             if (SNOW[i][j] == 0.) SNOWswitch[i][j] = 1.;
         }
@@ -1144,7 +1149,6 @@ void massbalance()
 /***************************************************************************/
 
 void iterationstation()
-
 {
     int    iternumberstation=0;
 
@@ -1344,7 +1348,7 @@ void iterationstation()
         /*  if (percolationyes == 1)*/
         {
             ABLAsum[i][j] += ABLA[i][j];
-            MELTsum[i][j] += MELT[i][j];
+            MELTsum[i][j] += MELT[i][j];    /*in mm*/
             RUNOFFsum[i][j] += RUNOFF[i][j];
             SNOWsum[i][j] += snowprec;
             MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
@@ -1369,7 +1373,6 @@ void iterationstation()
     }
     /*============================================================*/
 
-    if( (winterbalyes == 1) || (summerbalyes == 1) || (maxmeltstakes > 0))
         if (griddgmglac[i][j] != nodata)   /*only for glacier, no matter if dgmdrain is larger*/
             massbalance();
 
