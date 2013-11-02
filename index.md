@@ -8,7 +8,7 @@ repo: http://github.com/regine/meltmodel
 Overview
 --------
 Welcome to the homepage of two open source glacier surface mass-balance and discharge 
-models:
+models (Version 2.0.0):
 
 - __D__istributed __E__nergy __Ba__lance __M__odel (DEBaM)
 - __D__istributed __E__nhanced __T__emperature __I__ndex __M__odel (DETIM)
@@ -59,7 +59,6 @@ found at [git-scm](http://git-scm.com/) or at
 
 The download will always include both DETIM and DEBaM. Most files are needed for both models. 
 Note that the ___master version___ is always the most up-to-date model version. 
-The current version is 1.0.
 
 Installation
 ------------
