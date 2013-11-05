@@ -8,7 +8,7 @@ The term in brackets is used to mark each change.
 
 
 #### 5 November 2013: (ERROR, R. Hock)
-* v2.0.0
+* v2.0.1
  - ERROR fixed in computing number of valid time steps of discharge data. Affects r2 slightly and cumulative measured discharge volume in discharge output. (Version number not changed).
 
 
