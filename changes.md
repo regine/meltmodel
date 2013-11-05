@@ -5,6 +5,13 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
+
+
+#### 5 November 2013: (ERROR, R. Hock)
+* v2.0.0
+ - ERROR fixed in computing number of valid time steps of discharge data. Affects r2 slightly and cumulative measured discharge volume in discharge output. (Version number not changed).
+
+
 #### 10/31/2013 (NEW, ERROR, R. Hock)
 * v2.0.0
 - CHANGE IN input.txt: all parameters removed that had to do with parameter optimization (between discharge and snow model parameters)
