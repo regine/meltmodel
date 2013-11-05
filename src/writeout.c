@@ -2236,8 +2236,9 @@ void writeperformance()
          diffvolume = missvalQ;   nstepsdis  = missvalQ;
       }
       else     /*discharge data exists and r2 could be calculated*/
-      {  diffvolume=volumesim-volumemeas;    /*differenct between total discharge volume over entire period*/
-         r2value   = r2[1][1];     /*array only exists if discharge data is available*/
+      {  if(nsteps == nstepsdis)   /*volume difference only makes sense if number of time steps are the same*/
+            diffvolume=volumesim-volumemeas;    /*differenct between total discharge volume over entire period*/
+         r2value   = r2[1][1];     /*array only exists if discharge data is available, r2 computed even if nstepsdis < nsteps*/
          r2lnvalue = r2ln[1][1];
       }
 

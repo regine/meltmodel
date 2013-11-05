@@ -1096,7 +1096,7 @@ void massbalance()
  /*    massbalance is cumulated mass balance for seasonal/annual balances but
        not necessarily the balance year if jdbeg is before start day winterbalance */
         MASSBALcum[i][j]     +=  massbal;   /*grid of cumulative mass balance for annual balance*/
-        MASSBALcum_all[i][j] +=  massbal;   /*NEW 10/2013:: rid of cumulative mass balance for total period*/
+        MASSBALcum_all[i][j] +=  massbal;   /*NEW 10/2013: grid of cumulative mass balance for total period*/
 
   /*New 10/2013: make grid for mass balance for each time step, for computing areamean time series*/
 	 	MASSBALgrid[i][j] = massbal;     /*in cm*/
