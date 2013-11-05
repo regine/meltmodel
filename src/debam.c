@@ -115,7 +115,7 @@ int main()
 
         nsteps += 1;         /*number of time steps of period calculated*/
         if((zeit==24) && ((int)jd/daysscreenoutput == floor((int)jd/daysscreenoutput)))
-            printf("\n  yr= %4.0f  jd = %4.2f   time =%3.0f",year,jd,zeit);   /*SCREEN OUTPUT*/
+            printf("\n  yr= %4.0f  jd = %4.2f   time =%3.0f  number of time steps=%d",year,jd,zeit,nsteps);
 
         if(do_out_area == 1)
             areameannull();  /* SPATIAL MEANS OF MODEL OUTPUT SET TO ZERO */

@@ -543,6 +543,14 @@ void discharge()                  /*called each time step from main */
         sumr2(1, 1);
         sumr2ln(1, 1);
     }
+    
+    /******* COMPUTE MEASURED DISCHARGE VOLUMES*********/
+    /*FOR R2 ONLY USE VALID DISCHARGE DATA, nodis=missing values*/
+    if ((disyes == 1) && (qdischgem != nodis))     /*measured discharge in m3/s*/
+     {  nstepsdis += 1;     /*sum up number of time steps of discharge data, need for r2*/
+        volumemeas = volumemeas + qdischgem*timestep*3600/100000;
+     }       /*SUMMATION OF MEASURED DISCHARGE [m3*100000] for writing to output file*/
+
     writedisoutput();   /*write data of one time step to output file*/
 
     /*-------------------------------------------------------------------------------*/

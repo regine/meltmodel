@@ -24,7 +24,7 @@
        OPEN AND READ GRID FILES, RESERVE STORAGE OF ALL 2D-ARRAYS
        OPEN FILE WITH CLIMATE DATA and READ UNTIL START
        OPEN OUTPUT-FILES                                           */
-/*  1.12.1997, last update 30 October 2013*/
+/*  1.12.1997, last update 4 November 2013*/
 /*******************************************************************/
 
 #include "initial.h"
@@ -1583,15 +1583,6 @@ void readclim()
         }
     } else  /*in case of daily time steps time must always be 24*/
         zeit = 24;
-
-    /******* COMPUTE MEASURED DISCHARGE VOLUMES*********/
-
-    if(qdischgem != nodis)    /*FOR R2 ONLY USE VALID DISCHARGE DATA, nodis=missing values*/
-        nstepsdis += 1;     /*sum up number of time steps of discharge data, need for r2*/
-
-    if ((disyes == 1) && (qdischgem != nodis))
-        volumemeas = volumemeas + qdischgem*timestep*3600/100000;
-    /*SUMMATION OF MEASURED DISCHARGE [m3*100000] for writing to output file*/
 
     return;
 }

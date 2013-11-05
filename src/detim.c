@@ -96,7 +96,7 @@ int main()
         /******* ADJUST BY USER, HOW OFTEN OUTPUT JD-TIME TO SCREEN *******/
 
         if((zeit==24) && ((int)jd/daysscreenoutput == floor((int)jd/daysscreenoutput)))
-            printf("\n  yr= %4.0f  jd = %4.2f   time =%3.0f",year,jd,zeit);
+            printf("\n  yr= %4.0f  jd = %4.2f   time =%3.0f  number of time steps=%d",year,jd,zeit,nsteps);
 
         /******* TEMPERATURE INTERPOLATION ******/
         tempinterpol(); /*** ELEVATION-DEPENDENT AIR TEMP INTERPOLATION ***/

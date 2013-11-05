@@ -2336,30 +2336,18 @@ void writemodelmeaspointbalances()
         j=j+1;   /*next column same row*/
       }  /*endwhile*/
 
-
-    puts("ok 1");
-
  /* ---- check for each measured point balance if it is outside simulation period ----- */
  /*      if so, program does not exit but put a warning on screen and into modellog.txt */
      for(i=1;i<=n_meas;i++)    /*for each row of measured file, col5=startyear*/
      {  if(((measuredpointbal[i][5]*365+measuredpointbal[i][6]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][5]*365+measuredpointbal[i][6]) > (yearend*365+jdend)))
         {  printf("\n==================== !!!! WARNING !!!!!=======================================================");
-          printf("\n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
-    puts("ok 2");
-      
+          printf("\n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);   
           fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
  
-     puts("ok 3");
-
         } 
         if(((measuredpointbal[i][7]*365+measuredpointbal[i][8]) < (yearbeg*365+jdbeg)) || ((measuredpointbal[i][7]*365+measuredpointbal[i][8]) > (yearend*365+jdend)))
         {  printf("\n==================== !!!! WARNING   !!!!!=====================================================");     
-
-    puts("ok 1");
-
-          printf("\n --- WARNING: end date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
-
-    puts("ok 1");
+           printf("\n --- WARNING: end date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
 
           fprintf(outcontrol," \n --- WARNING: start date of stake (row) %d in measuredpointbalance.txt is outside simulation period",i);
         }
