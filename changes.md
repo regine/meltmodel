@@ -1,11 +1,14 @@
 NOTE: Changes in the code can be due to
 * a) errors  (_ERROR_)
-* b) new features that offer new options/functionality (_NEW_)
+* b) new features that offer major new options/functionality (_NEW_)
 * c) program technical improvements with no effect on results (_TECHNICAL_).
 
 The term in brackets is used to mark each change.
 
 
+#### 6 November 2013: (NEW, R. Hock)
+* v2.0.2
+ - change in output file "modelperformance.txt", discharge volume discharge is set to -9999 if discharge measurements contain missing values during simulation period (if nstepsdis < nsteps)
 
 #### 5 November 2013: (ERROR, R. Hock)
 * v2.0.1
