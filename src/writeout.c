@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE ENERGY BALANCE OUTPUT FOR EACH GRID TO OUTPUT-FILES       */
-/*  Last update 31 October 2013 */
+/*  Last update 16 November 2013 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -2226,8 +2226,8 @@ void writeperformance()
             exit(4);
         }  /*ENDIF*/
 
-        fprintf(outperformance,"r2 is Nash-Sutcliffe efficiency criterion for discharge Q (-infinity to 1), discharge volumes are in 100,000 m3\n"); 
-        fprintf(outperformance,"nsteps = number modeled time steps, nstepsdis = number of time steps with valid discharge data - must be the same for the volume difference to make sense\n");
+        fprintf(outperformance,"R2 is Nash-Sutcliffe efficiency criterion for discharge Q (-infinity to 1); discharge volumes are in 100,000 m3\n"); 
+        fprintf(outperformance,"nsteps = number modeled time steps, nstepsdis = number of time steps with valid discharge data - must be the same for using the volume difference as criterion for calibration\n");
 
       if (disyes != 1) {    /*if discharge r2 not computed, set to missing value*/
          r2value    = missvalQ;   r2lnvalue  = missvalQ;
@@ -2242,8 +2242,8 @@ void writeperformance()
       }
 
       /*cumulative mass balance over entire modeling period written to output for comparison with geodetic longer-term balance, converted to m*/
-     fprintf(outperformance,"Q_r2\t%.6f\n", r2value);
-     fprintf(outperformance,"Q_lnr2\t%.6f\n", r2lnvalue);
+     fprintf(outperformance,"Q_R2\t%.6f\n", r2value);
+     fprintf(outperformance,"Q_lnR2\t%.6f\n", r2lnvalue);
      fprintf(outperformance,"Qvolumesim\t%.6f\n", volumesim);
      fprintf(outperformance,"Qvolumemeas\t%.6f\n", volumemeas);
      fprintf(outperformance,"Difference(sim-meas)\t%.6f\n", diffvolume);
