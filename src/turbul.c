@@ -21,7 +21,7 @@
 /*         SPATIAL INTERPOLATION OF METEOROLOGICAL INPUT FACTORS TO GRID    */
 /*          temperature, air pressure, vapour pressure, precipitation       */
 /*         CALCULATION TURBULENT HEAT FLUXES                                */
-/*  29.9.1997, last update 30 October 2013*/
+/*  29.9.1997, last update 17 Nov 2013*/
 /****************************************************************************/
 
 
@@ -1099,8 +1099,11 @@ void massbalance()
         MASSBALcum_all[i][j] +=  massbal;   /*NEW 10/2013: grid of cumulative mass balance for total period*/
 
   /*New 10/2013: make grid for mass balance for each time step, for computing areamean time series*/
-	 	MASSBALgrid[i][j] = massbal;     /*in cm*/
- 		
+	 	if(methodsurftempglac == 4)
+ 	 		MASSBALgrid[i][j] = MBsum[i][j]/10;     /*convert mm to cm*/
+ 		else
+ 	 		MASSBALgrid[i][j] = massbal;     /*in cm*/
+
     if((itswinter == 1) && (winterbalyes == 1))
         WINTERBAL[i][j] +=  massbal;
 

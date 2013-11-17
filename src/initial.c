@@ -920,7 +920,7 @@ void startoutascii()
                 fprintf(outgrid[i],"year JD   time shade exkorr solhor dirclearsky direct2 ");
                 fprintf(outgrid[i],"  diffus global reflect albedo  SWbal longin Lout LWbal ");
                 fprintf(outgrid[i],"  netrad sensible latent ground rain    enbal   melt(mm)  abla(mm) massbal(cm) massbalcum(cm)  ");
-                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod  MBsum(m)");
+                fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod  MBsum(cm)");
 
                 /******** FOLLOWING COLUMNS ONLY IN CERTAIN CASES ****/
                 if (methodsurftempglac == 4)

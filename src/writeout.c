@@ -2024,8 +2024,8 @@ void stationoutput()
             fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
             fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
             fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
-            fprintf(outgrid[ii],"%11.2f",MASSBALgrid[r][c]);       /*NEW 10/2013*/
-            fprintf(outgrid[ii],"%11.2f",MASSBALcum_all[r][c]);       /*NEW 10/2013*/
+            fprintf(outgrid[ii],"%11.3f",MASSBALgrid[r][c]);       /*NEW 10/2013*/
+            fprintf(outgrid[ii],"%11.3f",MASSBALcum_all[r][c]);       /*NEW 10/2013*/
 
             fprintf(outgrid[ii],"%9.4f",surftemp[r][c]);   /*column 25*/
 
@@ -2073,7 +2073,7 @@ void stationoutput()
                 fprintf(outgrid[ii],"%10.5f",snowprec-ABLA[r][c]); /*CHR mass bal added*/
             }
             if (methodsurftempglac == 4) { /*CHR mass bal added*/
-                fprintf(outgrid[ii],"%10.5f",MBsum[r][c]); /*CHR mass bal added*/
+                fprintf(outgrid[ii],"%10.5f",MBsum[r][c]/10); /*CHR mass bal added, convert mm to cm*/
               }
 
             /*only if snow model is run*/
