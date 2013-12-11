@@ -616,8 +616,7 @@ int main()
                             	rainenergy[i][j] = rainenergysum[i][j]/factinter;
     							meltenergy[i][j] = meltenergysum[i][j]/factinter;
                             	NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
-                            	ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + 
-                                              rainenergy[i][j] - ICEHEAT[i][j];
+                            	ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + rainenergy[i][j];
                             }
 
                             /********* OUTPUT ****/
