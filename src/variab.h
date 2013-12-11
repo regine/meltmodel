@@ -45,7 +45,7 @@ int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1
 int    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 float  z2=2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 float  emissivitysurf=1;   /*surface emissivity for calc of longwave out from surf temp and for computing longwave outgoing (radiat.c)*/
-int    snetfromobsyes = 0;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
+int    snetfromobsyes = 1;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
 /*to force energy balance with shortwave measurements in case only climate station computed*/
 /*in order to exclude shortwave(albeodo) simulations from explaining deviations obs-simul*/
 int    allradiationfromfile=0;  /*0=No, 1=Yes, take glob, refl, longin, longout from file, only if just climate station cell computed*/
@@ -79,7 +79,7 @@ float  templapserate1 = -0.0;  /* lapse rate for spatial extrapolation of surfac
 float  templapserate2 = -0.0;  /* lapse rate for spatial extrapolation of temp of 1. turning point */
 /*next turning point is assumed spatially constant*/
 
-int  skin_or_inter = 0;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  skin_or_inter = 1;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
 int  tsurfextrapolation = 2;  /*extrapolation to surface temp: 1=upper layer and surf, 2=upper 2 layers and surf*/
 
 /*============= INITIALIZATION OF SNOW DENSITY PROFEILS - in case init_snowlayerdensity = 2   =============*/
@@ -596,6 +596,13 @@ float  **sumSNOWprec;       /*sum of snow precipitation */
 float  **sumRAINprec;       /*sum of rain precipitation */
 float  **sumMASS;           /*sum of mass snow/firn/ice layer */
 float  **DIRECTold;         /*direct radiation previous time step in case of time interpolation*/
+float  **DIRECTsum,**DIRECT2sum;      /*sumclear-sky, direct separated from global rad*/
+float  **DIFFUSsum,**LONGINsum,**LONGOUTsum;
+float  **GLOBALsum;		/* 2-D-Arrays for radiation */
+float  **SENSIBLEsum,**LATENTsum;        /* 2-D-Array for turbulent fluxes */
+float  **rainenergysum;
+float  **ICEHEATsum;
+float  **REFLECTsum;		/*Reflected solar radiation, used for averaging over subtime step*/
 float  **superice;          /*layer thickness superimposed ice in m ice*/
 float  **tmpsuperice;       /*layer thickness superimposed ice in m ice*/
 float  **watercontent;      /*total water content layer in kg*/
@@ -606,6 +613,7 @@ float  **slushthickness;    /*thickness of slush layer in m snow*/
 double **surfacewater;      /*water amount on top snow/ice surface*/
 float  **coldcontentsnow;   /*cold content snow layer, measure of temperate or not*/
 float  **coldcontentice;    /*cold content total layer, measure of temperate or not*/
+float  **meltenergy,**meltenergysum;    	/*total amount of energy put into melt*/
 double *conduc;             /*layer conductivity*/
 double *conducdtdz;         /*layer conductivitytimes temperature lapserate*/
 double *layerenergy;    /*layer available energy to refreeze*/
@@ -639,7 +647,8 @@ int klinesmax;					/* number of profile lines defined in snowinput*/
 float iline1[10],iline2[10],jline1[10],jline2[10];      /* start (1) and end (2) coordinates profile lines*/
 
 double jdold,tempold,humold,globold,refold,netold,LWinold,LWoutold;
-double gradtemp,gradhum,gradglob,graddirect,gradref,gradnet,gradLWin,gradLWout;
+double gradtemp,gradhum,gradglob,gradref,gradnet,gradLWin,gradLWout;
+double **graddirect;
 float  timesteporig;
 double sumrunoff,sumpercolation,summelt,sumrain;
 float  **accyear;

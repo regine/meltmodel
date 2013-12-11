@@ -1269,7 +1269,6 @@ void iterationstation()
         if(methodiceheat == 2)      /*if 1 no heat flux*/
             iceheatStorglac();
 
-
         /********* ENERGY BALANCE *************************/
         if ((methodsurftempglac == 4) && (skin_or_inter == 1))
             ICEHEAT[i][j] = 0.;
@@ -1345,6 +1344,20 @@ void iterationstation()
             RUNOFFsum[i][j] = 0.;
             SNOWsum[i][j] = 0.;
             MBsum[i][j] = 0.;
+            DIRECTsum[i][j] = 0.;
+            if (methodglobal == 2) {
+      			DIRECT2sum[i][j] = 0.;
+      			DIFFUSsum[i][j] = 0.;
+    		}
+    		GLOBALsum[i][j] = 0.;
+    		REFLECTsum[i][j] = 0.;
+    		LONGINsum[i][j] = 0.;
+    		LONGOUTsum[i][j] = 0.;
+    		SENSIBLEsum[i][j] = 0.;
+    		LATENTsum[i][j] = 0.;
+    		ICEHEATsum[i][j] = 0.;
+    		rainenergysum[i][j] = 0.;
+    		meltenergysum[i][j] = 0.;
         }
         subsurf(); /*chr calculate new surface temperature field*/
         waterequivalentabla();
@@ -1357,6 +1370,25 @@ void iterationstation()
             MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
             sumSNOWprec[i][j] += snowprec;
             sumRAINprec[i][j] += rainprec;
+            DIRECTsum[i][j] += DIRECT[i][j];
+            if (methodglobal == 2) {
+      			DIRECT2sum[i][j] += DIRECT2[i][j];
+      			DIFFUSsum[i][j] += DIFFUS[i][j];
+    		}
+    		if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+    		   GLOBALsum[i][j] += glob;
+    		   REFLECTsum[i][j] += ref;
+    		} else {
+    		   GLOBALsum[i][j] += GLOBAL[i][j];
+    		   REFLECTsum[i][j] += GLOBAL[i][j]*ALBEDO[i][j];
+    		}
+    		LONGINsum[i][j] += LONGIN[i][j];
+    		LONGOUTsum[i][j] += LONGOUT[i][j];
+    		SENSIBLEsum[i][j] += SENSIBLE[i][j];
+    		LATENTsum[i][j] += LATENT[i][j];
+    		ICEHEATsum[i][j] += ICEHEAT[i][j];
+    		rainenergysum[i][j] += rainenergy[i][j];
+    		meltenergysum[i][j] += meltenergy[i][j];
         }
     }
     /*============================================================*/
@@ -1386,6 +1418,31 @@ void iterationstation()
         MELT[i][j] = MELTsum[i][j];
         ABLA[i][j] = ABLAsum[i][j];
         RUNOFF[i][j] = RUNOFFsum[i][j];
+        DIRECT[i][j] = DIRECTsum[i][j]/factinter;	/* is ok here, in old DIRECT is stored in DIRECTold, new is read at start next timestep*/
+        if (methodglobal == 2) {
+      		DIRECT2[i][j] = DIRECT2sum[i][j]/factinter;
+      		DIFFUS[i][j] = DIFFUSsum[i][j]/factinter;
+    	}
+	   	if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+    		glob = GLOBALsum[i][j]/factinter;	/* is ok here, in old glob is stored in globold, new is read at start next timestep*/
+    		ref = REFLECTsum[i][j]/factinter;	/* is ok here, in old ref is stored in refold, new is read at start next timestep*/
+	//		ALBEDO[i][j] = ref / glob ; 
+    		SWBAL[i][j] = glob - ref ;  
+    	} else {
+    		GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
+    		ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
+    		SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
+    	}
+    	LONGIN[i][j] = LONGINsum[i][j]/factinter;
+    	LONGOUT[i][j] = LONGOUTsum[i][j]/factinter;
+    	SENSIBLE[i][j] = SENSIBLEsum[i][j]/factinter;
+    	LATENT[i][j] = LATENTsum[i][j]/factinter;
+    	ICEHEAT[i][j] = ICEHEATsum[i][j]/factinter;
+    	rainenergy[i][j] = rainenergysum[i][j]/factinter;
+    	meltenergy[i][j] = meltenergysum[i][j]/factinter;
+    	NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
+    	ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + rainenergy[i][j]
+                  - ICEHEAT[i][j];
     }
 
     /********* OUTPUT ****/

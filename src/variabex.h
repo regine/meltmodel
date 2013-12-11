@@ -576,6 +576,13 @@ extern float  **sumSNOWprec;       /*sum of snow precipitation */
 extern float  **sumRAINprec;       /*sum of rain precipitation */
 extern float  **sumMASS;           /*sum of mass snow/firn/ice layer */
 extern float  **DIRECTold;         /*direct radiation previous time step in case of time interpolation*/
+extern float  **DIRECTsum,**DIRECT2sum;      /*sumclear-sky, direct separated from global rad*/
+extern float  **DIFFUSsum,**LONGINsum,**LONGOUTsum;
+extern float  **GLOBALsum;		/* 2-D-Arrays for radiation */
+extern float  **SENSIBLEsum,**LATENTsum;        /* 2-D-Array for turbulent fluxes */
+extern float  **rainenergysum;
+extern float  **ICEHEATsum;
+extern float  **REFLECTsum;		/*Reflected solar radiation, used for averaging over subtime step*/
 extern float  **superice;          /*layer thickness superimposed ice in m ice*/
 extern float  **tmpsuperice;          /*layer thickness superimposed ice in m ice*/
 extern float  **watercontent;      /*total water content layer in kg*/
@@ -586,6 +593,7 @@ extern float  **slushthickness;    /*thickness of slush layer in m snow*/
 extern double **surfacewater;      /*water amount on top snow/ice surface*/
 extern float  **coldcontentsnow;   /*cold content snow layer, measure of temperate or not*/
 extern float  **coldcontentice;    /*cold content total layer, measure of temperate or not*/
+extern float  **meltenergy,**meltenergysum;    		/*total amount of energy put into melt*/
 extern double *conduc;             /*layer conductivity*/
 extern double *conducdtdz;         /*layer conductivitytimes temperature lapserate*/
 extern double *layerenergy;    /*layer available energy to refreeze*/
@@ -619,7 +627,8 @@ extern int klinesmax;					/* number of profile lines defined in snowinput*/
 extern float iline1[10],iline2[10],jline1[10],jline2[10];      /* start (1) and end (2) coordinates profile lines*/
 
 extern double jdold,tempold,humold,globold,refold,netold,LWinold,LWoutold;
-extern double gradtemp,gradhum,gradglob,graddirect,gradref,gradnet,gradLWin,gradLWout;
+extern double gradtemp,gradhum,gradglob,gradref,gradnet,gradLWin,gradLWout;
+extern double **graddirect;
 extern float  timesteporig;
 extern double sumrunoff,sumpercolation,summelt,sumrain;
 extern float  **accyear;
