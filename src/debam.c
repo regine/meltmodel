@@ -127,9 +127,6 @@ int main()
 
         for (inter=1; inter <= factinter; inter++) { /*CHR added: for each subinterval */
             /* start interpolation between two time steps in case of use of subsurface model*/
-            if (factinter > 1)
-                interpolate();     /*linearly interpolate climate data for subintervals*/
-            /*============================================================*/
 
             /******* INTERPOLATION OF AIR TEMPERATURE ******/
             tempinterpol(); /*** ELEVATION-DEPENDENT AIR TEMP INTERPOLATION ***/
@@ -137,8 +134,13 @@ int main()
             /****** RADIATION *****************************/
             if (directfromfile == 0)
                 schatten();      /*** CALCULATE SHADE, CORRECTION FACTOR, DIRECT GRIDs ***/
-            else
-                readdirect();    /* READ DIRECT RADIATION (slope corrected) FROM FILE */
+            else 
+              if (inter == 1) readdirect();    /* READ DIRECT RADIATION (slope corrected) FROM FILE */
+
+            /*============================================================*/
+            if (factinter > 1)
+                interpolate();     /*linearly interpolate climate data for subintervals*/
+            /*============================================================*/
 
             if(methodglobal==1)     /*no separation into direct and diffus at climate station*/
                 ratioglobal();        /*CORRECTION RATIO FOR GLOBAL RADIATION DUE TO CLOUDS */
@@ -320,9 +322,6 @@ int main()
                             printf(" row  %d  col  %d      (in main) \n\n",i,j);
                             exit(12);
                         }
-				/*New Oct 2013: initialize here and not further down because needed to insert several times otherwise*/
-					   if(methodlongin == 1)     /*LWin assumed constant in space*/
-					      LONGIN[i][j] = LWin;
 
                         if(((methodsurftempglac == 2) || (methodsurftempglac == 4)) && (i==rowclim) && (j==colclim))
                             notcalc = 1;    /*ENERGY BALANCE FOR STATION GRID CELL ALREADY CALCULATED*/
@@ -330,6 +329,9 @@ int main()
                             notcalc = 0;
 
                         if(notcalc==0) {    /*COMPUTE ENERGY BALANCE ONLY IF NOT YET CALCULATED*/
+				/*New Oct 2013: initialize here and not further down because needed to insert several times otherwise*/
+					        if(methodlongin == 1)     /*LWin assumed constant in space*/
+					          LONGIN[i][j] = LWin;
                             /********* GLOBAL RADIATION **********************/
                             if(methodglobal==1)     /*no separation into direct and diffus*/
                                 globradratio();           /*calculation of global radiation*/
@@ -517,7 +519,21 @@ int main()
                                     RUNOFFsum[i][j] = 0.;
                                     SNOWsum[i][j] = 0.;
                                     MBsum[i][j] = 0.;
-                                }
+						            DIRECTsum[i][j] = 0.;
+						            if (methodglobal == 2) {
+						            	DIRECT2sum[i][j] = 0.;
+						            	DIFFUSsum[i][j] = 0.;
+						            }
+						            GLOBALsum[i][j] = 0.;
+						            REFLECTsum[i][j] = 0.;
+						            LONGINsum[i][j] = 0.;
+						            LONGOUTsum[i][j] = 0.;
+						            SENSIBLEsum[i][j] = 0.;
+						            LATENTsum[i][j] = 0.;
+						            ICEHEATsum[i][j] = 0.;
+						            rainenergysum[i][j] = 0.;
+    								meltenergysum[i][j] = 0.;
+                               }
                                 subsurf(); /*chr calculate new surface temperature field*/
                                 waterequivalentabla();     /*** WATER EQUIVALENT ABLATION ***/
                                 /* if (percolationyes == 1)*/
@@ -529,6 +545,25 @@ int main()
                                     MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
                                     sumSNOWprec[i][j] += snowprec;
                                     sumRAINprec[i][j] += rainprec;
+                                    DIRECTsum[i][j] += DIRECT[i][j];
+                                    if (methodglobal == 2) {
+                              			DIRECT2sum[i][j] += DIRECT2[i][j];
+                              			DIFFUSsum[i][j] += DIFFUS[i][j];
+                            		}
+                            		if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+                            		   GLOBALsum[i][j] += glob;
+                            		   REFLECTsum[i][j] += ref;
+                            		} else {
+                            		   GLOBALsum[i][j] += GLOBAL[i][j];
+                            		   REFLECTsum[i][j] += GLOBAL[i][j]*ALBEDO[i][j];
+                            		}
+                            		LONGINsum[i][j] += LONGIN[i][j];
+                            		LONGOUTsum[i][j] += LONGOUT[i][j];
+						    		SENSIBLEsum[i][j] += SENSIBLE[i][j];
+						    		LATENTsum[i][j] += LATENT[i][j];
+						    		ICEHEATsum[i][j] += ICEHEAT[i][j];
+						    		rainenergysum[i][j] += rainenergy[i][j];
+    								meltenergysum[i][j] += meltenergy[i][j];
                                 }
                             }  /*endif method*/
                             /*============================================================*/
@@ -558,6 +593,30 @@ int main()
                                 MELT[i][j] = MELTsum[i][j];
                                 ABLA[i][j] = ABLAsum[i][j];
                                 RUNOFF[i][j] = RUNOFFsum[i][j];
+                                DIRECT[i][j] = DIRECTsum[i][j]/factinter;	/* is ok here, in old DIRECT is stored in DIRECTold, new is read at start next timestep*/
+                                if (methodglobal == 2) {
+                              		DIRECT2[i][j] = DIRECT2sum[i][j]/factinter;
+                              		DIFFUS[i][j] = DIFFUSsum[i][j]/factinter;
+                            	}
+                        	   	if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+                            		glob = GLOBALsum[i][j]/factinter;	/* is ok here, in old glob is stored in globold, new is read at start next timestep*/
+                            		ref = REFLECTsum[i][j]/factinter;	/* is ok here, in old ref is stored in refold, new is read at start next timestep*/
+                        	//		ALBEDO[i][j] = ref / glob ; 
+                            		SWBAL[i][j] = glob - ref ;  
+                            	} else {
+                            		GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
+                            		ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
+                            		SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
+                            	}
+                            	LONGIN[i][j] = LONGINsum[i][j]/factinter;
+                            	LONGOUT[i][j] = LONGOUTsum[i][j]/factinter;
+                            	SENSIBLE[i][j] = SENSIBLEsum[i][j]/factinter;
+                            	LATENT[i][j] = LATENTsum[i][j]/factinter;
+                            	ICEHEAT[i][j] = ICEHEATsum[i][j]/factinter;
+                            	rainenergy[i][j] = rainenergysum[i][j]/factinter;
+    							meltenergy[i][j] = meltenergysum[i][j]/factinter;
+                            	NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
+                            	ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + rainenergy[i][j];
                             }
 
                             /********* OUTPUT ****/

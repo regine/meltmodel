@@ -385,8 +385,25 @@ void initgrid() {
     surfacewater=matrixreservdouble(1,nrows,1,ncols);
     coldcontentsnow=matrixreserv(1,nrows,1,ncols);
     coldcontentice=matrixreserv(1,nrows,1,ncols);
+    meltenergy=matrixreserv(1,nrows,1,ncols);
+    meltenergysum=matrixreserv(1,nrows,1,ncols);
 
     accyear=matrixreserv(1,nrows,1,ncols);
+    
+    graddirect=matrixreservdouble(1,nrows,1,ncols);
+    DIRECTsum=matrixreserv(1,nrows,1,ncols);
+    if (methodglobal == 2) {
+      DIRECT2sum=matrixreserv(1,nrows,1,ncols);
+      DIFFUSsum=matrixreserv(1,nrows,1,ncols);
+    }
+    GLOBALsum=matrixreserv(1,nrows,1,ncols);
+    REFLECTsum=matrixreserv(1,nrows,1,ncols);
+    LONGINsum=matrixreserv(1,nrows,1,ncols);
+    LONGOUTsum=matrixreserv(1,nrows,1,ncols);
+    SENSIBLEsum=matrixreserv(1,nrows,1,ncols);
+    LATENTsum=matrixreserv(1,nrows,1,ncols);
+    ICEHEATsum=matrixreserv(1,nrows,1,ncols);
+    rainenergysum=matrixreserv(1,nrows,1,ncols);
 
     /*new daily / period mean grid output*/
     if(runoffyes == 1) {
@@ -1640,6 +1657,7 @@ void snowmelt(int i, int j, int k) {
     if (layertemperature[i][j][k] > 0.) meltedlayer = layerenergy[k]/Lf;
 /*    meltedlayer = layertemperature[i][j][k]*layermass[i][j][k]*cpice/Lf + meltedsurflayer;*/
     meltedlayer = meltedlayer + meltedsurflayer;
+    meltenergy[i][j] = meltenergy[i][j] + meltedlayer*Lf/deltat;
 
     layerwatercont[i][j][k] = layerwatercont[i][j][k] + meltedlayer;
 
@@ -1989,7 +2007,7 @@ void subsurf() {
     double  dzl;
     double  factG,factGa,factGb,term1,term2;
     int     factsource=1;   /*fraction of enbal heating/cooling the first layer was 0.65 */
-    float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
+//    float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     int k;
 
     jd2=jd;
@@ -2023,7 +2041,7 @@ void subsurf() {
 
     }  /*endfor next layer*/
 
-    if (skin_or_inter == 0) {
+//    if (skin_or_inter == 0) {
       if (tsurfextrapolation == 1) {
         factG = conducdtdz[1];  }
       else if (tsurfextrapolation == 2) {
@@ -2036,7 +2054,7 @@ void subsurf() {
         factG = -(layerthickness[i][j][1]*(2.*factGa - factGb) + layerthickness[i][j][2]*factGa)/
                 (layerthickness[i][j][1]+layerthickness[i][j][2]);
       }
-    }
+//    }
 
     /*boundary condition, no heat flux to or from lower layers*/
 /*    conducdtdz[(int)layeramount[i][j]] = 0.0; */ /* with above formulation now redundant new boundary condition set below*/
@@ -2093,6 +2111,7 @@ void subsurf() {
                 freshsnowlayer = snowprec;
                 sumrain = rainprec;
                 layerwatercont[i][j][k] = layerwatercont[i][j][k] + sumrain;
+                meltenergy[i][j] = 0.;
             }
             if (skin_or_inter == 0) {/* skin layer formulation*/
               if ((k == 1 && surftemp[i][j] >= 0.) || (layertemperature[i][j][k] > 0.0))
@@ -2257,8 +2276,14 @@ void subsurf() {
         ICEHEAT[i][j] = -factG ;
         energybalance();
         }
-    else
-        ICEHEAT[i][j] = source + MELT[i][j]*Lf/deltat;
+    else {
+       if (meltenergy[i][j] > 0.) {
+          ICEHEAT[i][j] = -factG ;
+       } else {
+          ICEHEAT[i][j] = ENBAL[i][j] - meltenergy[i][j];//source - MELT[i][j]*Lf/deltat;
+       }
+        energybalance();
+    }
 
 
     /* Check stability of the solution with criterium: D*dt/dx2 < 0.25 */
@@ -2301,8 +2326,8 @@ void interpolate() {
                 if ((nsteps == 1) && (inter == 1))
                     DIRECTold[i][j] = DIRECT[i][j];
                 if (inter == 1)
-                    graddirect = (DIRECT[i][j] - DIRECTold[i][j])/factinter;
-                DIRECT[i][j] = DIRECTold[i][j] + inter*graddirect;
+                    graddirect[i][j] = (DIRECT[i][j] - DIRECTold[i][j])/factinter;
+                DIRECT[i][j] = DIRECTold[i][j] + inter*graddirect[i][j];
                 if (inter == factinter)
                     DIRECTold[i][j] = DIRECT[i][j];
             }
@@ -2349,8 +2374,10 @@ void interpolate() {
     ref  = refold + inter*gradref;
     if(methodlonginstation == 1)
         net = netold + inter*gradnet;
-    if(methodlonginstation == 2)  /*longwave incoming radiation measurements used*/
+    if(methodlonginstation == 2) { /*longwave incoming radiation measurements used*/
         LWin = LWinold + inter*gradLWin;
+        LONGIN[rowclim][colclim] = LWin;
+    }
     if (wind < 0.1) wind = 0.1;
 
     if (inter == factinter) {  /*last sub timestep*/

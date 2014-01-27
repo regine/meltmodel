@@ -1949,6 +1949,8 @@ void stationoutput()
         if(timestep != 24)     /*not for daily timesteps*/
             if (jd == (int)jd)   jd2 = jd + 1;
 
+		if(methodsurftempglac == 4) jd2 = jd2-((0.5*timestep)/24.);
+		/*CHR shifts time with half a full time step since the values represent the average over previous timestep*/
         /*--------------------------------------------------------------------------------------*/
         /*depending on whether direct radiation (DIRECT) is calculated by the program or
           read from existing files, in case of the climate station grid it refers to the
@@ -2022,6 +2024,7 @@ void stationoutput()
             fprintf(outgrid[ii],"%11.4f",ICEHEAT[r][c]);
             fprintf(outgrid[ii],"%11.4f",rainenergy[r][c]);
             fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
+            fprintf(outgrid[ii],"%11.4f",meltenergy[r][c]);
             fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
             fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
             fprintf(outgrid[ii],"%11.3f",MASSBALgrid[r][c]);       /*NEW 10/2013*/

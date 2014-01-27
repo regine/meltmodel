@@ -202,6 +202,8 @@ void closeall()
         freematrix(slushthickness,1,nrows,1,ncols);
         freematrix(coldcontentsnow,1,nrows,1,ncols);
         freematrix(coldcontentice,1,nrows,1,ncols);
+        freematrix(meltenergy,1,nrows,1,ncols);
+        freematrix(meltenergysum,1,nrows,1,ncols);
         freematrixdouble(surfacewater,1,nrows,1,ncols);
 
         freearraydouble(conduc,1,ndepths);
@@ -224,6 +226,21 @@ void closeall()
         freematrix(slwatercontent,1,nrows,1,ncols);
 
         freematrix(accyear,1,nrows,1,ncols);
+
+		freematrix(graddirect,1,nrows,1,ncols);
+		freematrix(DIRECTsum,1,nrows,1,ncols);
+    	if (methodglobal == 2) {
+			freematrix(DIRECT2sum,1,nrows,1,ncols);
+			freematrix(DIFFUSsum,1,nrows,1,ncols);
+    	}
+		freematrix(GLOBALsum,1,nrows,1,ncols);
+		freematrix(REFLECTsum,1,nrows,1,ncols);
+		freematrix(LONGINsum,1,nrows,1,ncols);
+		freematrix(LONGOUTsum,1,nrows,1,ncols);
+		freematrix(SENSIBLEsum,1,nrows,1,ncols);
+		freematrix(LATENTsum,1,nrows,1,ncols);
+		freematrix(ICEHEATsum,1,nrows,1,ncols);
+		freematrix(rainenergysum,1,nrows,1,ncols);
 
         if(runoffyes == 1) {
             freematrixdouble(meanrunoffday,1,nrows,1,ncols);
