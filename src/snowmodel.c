@@ -152,12 +152,12 @@ void albedocalcdepth() {
 /****************************************************************************/
 /* FUNCTION  albedosnowdepth                                                */
 /*   this function calculates snow albedo according to                      */
-/*   either: Oerlemans and Knap, 1998, J. Glaciol.                          */
-/*   or: Douville et al 1995.                                               */
-/*   or: combination of Oerlemans and Knap, 1998, J. Glaciol. and           */
+/*   either: (0) Oerlemans and Knap, 1998, J. Glaciol.                      */
+/*   or: (2) Douville et al 1995.                                           */
+/*   or: (1) combination of Oerlemans and Knap, 1998, J. Glaciol. and       */
 /*   Zuo and Oerlemans, 1996, J. Glaciol. taken from Bougamont et al 2005   */
 /*   including a dependence on snowdepth following                          */
-/*   Oerlemans and Knap, 1998  							    */
+/*   Oerlemans and Knap, 1998  							                    */
 /*   including solar zenith angle dependency:                               */
 /*   Segal et al., 1991 J. Atm. Sci., 48(8), 1024-1042.                     */
 /****************************************************************************/
@@ -184,7 +184,10 @@ void albedosnowdepth() {
 
     albmax = albsnow;
     deltat = timestep*3600.;
-    if (typealbedo == 1) constant = (timestardry10-timestardry0)/10.;
+    minalb=albmin;
+
+    if (typealbedo == 1) constant = (timestardry10-timestardry0)/10.; /*gradient for time scale albedo decay between -10 and 0 C*/
+
     if ((methodsurftempglac != 4) || (percolationyes == 0)) {
         snowrest = SNOW[i][j]*10./firndens;
         if ((FIRN[i][j] > 0.) && (snowrest == 0.)) {
@@ -199,7 +202,8 @@ void albedosnowdepth() {
         /*  if (MELT[i][j] > 0.) surfwet = 5.;*/	/*10 mm water on ice if melt occurs*/
         surfice = 0.;
         /* surfdens = 100.;*/
-    } else {
+    } 
+    else {
         snowrest = snowlayer[i][j];
         if (snowlayer[i][j] <= 0.0) snowrest= (snowlayersum[i][j]/denssnow);
         /*snowrest = snowrest - superice[i][j]/densice;*/ //LG: what's going on here?
@@ -352,7 +356,9 @@ void initgrid() {
     layertemperature=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
     layerrhocp=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
     layerwatercont=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerdeltawatercont=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
     layerrefreeze=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
+    layerdeltarefreeze=tensorreservdouble(1,nrows,1,ncols,1,ndepths);
 
     layerid=tensorreserv(1,nrows,1,ncols,1,ndepths);
     layeramount=matrixreserv(1,nrows,1,ncols);
@@ -361,8 +367,12 @@ void initgrid() {
     MELTsum=matrixreservdouble(1,nrows,1,ncols);
     ABLAsum=matrixreservdouble(1,nrows,1,ncols);
     RUNOFFsum=matrixreserv(1,nrows,1,ncols);
-    SNOWsum=matrixreserv(1,nrows,1,ncols);
     MBsum=matrixreserv(1,nrows,1,ncols);
+    deltaWATER=matrixreservdouble(1,nrows,1,ncols);
+    deltaREFREEZE=matrixreservdouble(1,nrows,1,ncols);
+    deltaWATERsum=matrixreservdouble(1,nrows,1,ncols);
+    deltaREFREEZEsum=matrixreservdouble(1,nrows,1,ncols);
+
     SNOWinit=matrixreserv(1,nrows,1,ncols);
     MASSBALcumstake=matrixreserv(1,nrows,1,ncols);
     SUMMERBALST=matrixreserv(1,nrows,1,ncols);
@@ -379,7 +389,8 @@ void initgrid() {
     snowlayersum=matrixreservdouble(1,nrows,1,ncols);
     superice=matrixreserv(1,nrows,1,ncols);
     tmpsuperice=matrixreserv(1,nrows,1,ncols);
-    watercontent=matrixreserv(1,nrows,1,ncols);
+    watercontent=matrixreservdouble(1,nrows,1,ncols);
+    watercontentsum=matrixreservdouble(1,nrows,1,ncols);
     slushdepth=matrixreserv(1,nrows,1,ncols);
     slushthickness=matrixreserv(1,nrows,1,ncols);
     surfacewater=matrixreservdouble(1,nrows,1,ncols);
@@ -404,6 +415,9 @@ void initgrid() {
     LATENTsum=matrixreserv(1,nrows,1,ncols);
     ICEHEATsum=matrixreserv(1,nrows,1,ncols);
     rainenergysum=matrixreserv(1,nrows,1,ncols);
+
+    SUBLIMATION=matrixreservdouble(1,nrows,1,ncols);
+    SUBLIMATIONsum=matrixreservdouble(1,nrows,1,ncols);
 
     /*new daily / period mean grid output*/
     if(runoffyes == 1) {
@@ -448,7 +462,7 @@ void initgrid() {
 
     if(methodinisnow == 2)
         whichsurface();    /*for each surface (snow,firn,ice,rock) integer allocated*/
-
+    sumrunoff = 0.;
 
     krows = nrows;
     kcols = ncols;
@@ -661,7 +675,7 @@ void changegrid() {
     double testabla, dummyabla;
     double *thicknessnew,*massnew,*depthnew;
     double *temperaturenew,*densitynew,*watercontnew;
-    double *refreezenew;
+    double *refreezenew,*deltarefreezenew,*deltawatercontnew;
     float  *idnew;
     int k;
     int    newk,newklast;
@@ -684,10 +698,12 @@ void changegrid() {
     thicknessnew=arrayreservdouble(1,ndepths);
     massnew=arrayreservdouble(1,ndepths);
     refreezenew=arrayreservdouble(1,ndepths);
+    deltarefreezenew=arrayreservdouble(1,ndepths);
     depthnew=arrayreservdouble(1,ndepths);
     temperaturenew=arrayreservdouble(1,ndepths);
     densitynew=arrayreservdouble(1,ndepths);
     watercontnew=arrayreservdouble(1,ndepths);
+    deltawatercontnew=arrayreservdouble(1,ndepths);
 
     jd2=jd;
     if ((zeit == 24) && (inter == factinter))
@@ -707,14 +723,14 @@ void changegrid() {
     newk = 0;
     testabla = 1;
     densfirst = layerdensity[i][j][1];
-
+    
     /*if ((ABLA[i][j] >= 0.0) && (percolationyes == 1))*/ /*MELT already taken into account in the layer size only sublimation to correct for*/
     if (percolationyes == 1) {
         testabla=0;
-        dummyabla = ABLA[i][j]-MELT[i][j];
+        dummyabla = -SUBLIMATION[i][j];	/*ABLA[i][j]-MELT[i][j];*/
     }  /*note NO factor 1000 necessary because density is in g/kg*/
     if (percolationyes == 0) {
-        freshsnowlayer = snowprec - MELT[i][j];
+        freshsnowlayer = snowprec - sumrunoff; /*MELT[i][j];*/
         testabla = 0;
         /*if ((ABLA[i][j] >= 0.0) && (freshsnowlayer >= 0.))
         { dummyabla = ABLA[i][j] - MELT[i][j];}
@@ -727,10 +743,10 @@ void changegrid() {
         { dummyabla = MELT[i][j] - (MELT[i][j] + freshsnowlayer);
          freshsnowlayer = 0.;}*/
         if (freshsnowlayer >= 0.) {
-            dummyabla = ABLA[i][j] - MELT[i][j];
+            dummyabla = -SUBLIMATION[i][j];	/*ABLA[i][j]-MELT[i][j];*/
         }
         if (freshsnowlayer < 0.) {
-            dummyabla = ABLA[i][j] - (MELT[i][j] + freshsnowlayer);
+            dummyabla = -SUBLIMATION[i][j]-freshsnowlayer;  /*ABLA[i][j] - (MELT[i][j] + freshsnowlayer);*/
             freshsnowlayer = 0.;
         }
     }
@@ -807,8 +823,12 @@ void changegrid() {
                 massnew[newk] = layermass[i][j][k] + layermass[i][j][k+1] - massnew[newk+1];
                 refreezenew[newk+1] = (thicknessnew[newk+1]/layerthickness[i][j][k+1])*layerrefreeze[i][j][k+1];
                 refreezenew[newk] = layerrefreeze[i][j][k] + layerrefreeze[i][j][k+1] - refreezenew[newk+1];
+                deltarefreezenew[newk+1] = (thicknessnew[newk+1]/layerthickness[i][j][k+1])*layerdeltarefreeze[i][j][k+1];
+                deltarefreezenew[newk] = layerdeltarefreeze[i][j][k] + layerdeltarefreeze[i][j][k+1] - deltarefreezenew[newk+1];
                 watercontnew[newk+1] = (thicknessnew[newk+1]/layerthickness[i][j][k+1])*layerwatercont[i][j][k+1];
                 watercontnew[newk] = layerwatercont[i][j][k] + layerwatercont[i][j][k+1] - watercontnew[newk+1];
+                deltawatercontnew[newk+1] = (thicknessnew[newk+1]/layerthickness[i][j][k+1])*layerdeltawatercont[i][j][k+1];
+                deltawatercontnew[newk] = layerdeltawatercont[i][j][k] + layerdeltawatercont[i][j][k+1] - deltawatercontnew[newk+1];
                 if (watercontnew[newk] < 0) watercontnew[newk] = 0.; /*Precision problem*/
                 densitynew[newk] = massnew[newk]/thicknessnew[newk];
                 densitynew[newk+1] = massnew[newk+1]/thicknessnew[newk+1];
@@ -824,6 +844,9 @@ void changegrid() {
                     masschangelayer = energy/Lf;
                     energytemperatureold = temperaturenew[newk+1]*cpice*massnew[newk+1];
                     watercontnew[newk+1] = watercontnew[newk+1] - masschangelayer;
+                    deltawatercontnew[newk+1] = deltawatercontnew[newk+1] - masschangelayer;
+                    refreezenew[newk+1] = refreezenew[newk+1] + masschangelayer;
+                    deltarefreezenew[newk+1] = deltarefreezenew[newk+1] + masschangelayer;
                     if (watercontnew[newk+1] < 0) watercontnew[newk+1] = 0.; /*Precision problem*/
                     massnew[newk+1] = massnew[newk+1] + masschangelayer;
                     densitynew[newk+1] = massnew[newk+1]/thicknessnew[newk+1];
@@ -860,7 +883,9 @@ void changegrid() {
             } else {
                 massnew[newk] = layermass[i][j][k] + layermass[i][j][k+1];
                 refreezenew[newk] = layerrefreeze[i][j][k] + layerrefreeze[i][j][k+1];
+                deltarefreezenew[newk] = layerdeltarefreeze[i][j][k] + layerdeltarefreeze[i][j][k+1];
                 watercontnew[newk] = layerwatercont[i][j][k] + layerwatercont[i][j][k+1];
+                deltawatercontnew[newk] = layerdeltawatercont[i][j][k] + layerdeltawatercont[i][j][k+1];
                 densitynew[newk] = massnew[newk]/thicknessnew[newk];
                 temperaturenew[newk] = (layertemperature[i][j][k]*layermass[i][j][k] +
                                         layertemperature[i][j][k+1]*layermass[i][j][k+1]) /
@@ -885,7 +910,9 @@ void changegrid() {
             thicknessnew[newk-1] = layerthickness[i][j][k] + thicknessnew[newk-1];
             massnew[newk-1] = layermass[i][j][k] + massnew[newk-1];
             refreezenew[newk-1] = layerrefreeze[i][j][k] + refreezenew[newk-1];
+            deltarefreezenew[newk-1] = layerdeltarefreeze[i][j][k] + deltarefreezenew[newk-1];
             watercontnew[newk-1] = layerwatercont[i][j][k] + watercontnew[newk-1];
+            deltawatercontnew[newk-1] = layerdeltawatercont[i][j][k] + deltawatercontnew[newk-1];
             densitynew[newk-1] = massnew[newk-1]/thicknessnew[newk-1];
             temperaturenew[newk-1] = (layertemperature[i][j][k]*layermass[i][j][k] +
                                       temperaturenew[newk-1]*massnew[newk-1]) /
@@ -903,11 +930,14 @@ void changegrid() {
         }
 
         if (fusion2yes != 0) {
+
             if (fusion2yes == 1) {
                 thicknessnew[newk-1] = layerthickness[i][j][k] + thicknessnew[newk-1];
                 massnew[newk-1] = layermass[i][j][k] + massnew[newk-1];
                 refreezenew[newk-1] = layerrefreeze[i][j][k] + refreezenew[newk-1];
+                deltarefreezenew[newk-1] = layerdeltarefreeze[i][j][k] + deltarefreezenew[newk-1];
                 watercontnew[newk-1] = layerwatercont[i][j][k] + watercontnew[newk-1];
+                deltawatercontnew[newk-1] = layerdeltawatercont[i][j][k] + deltawatercontnew[newk-1];
                 densitynew[newk-1] = massnew[newk-1]/thicknessnew[newk-1];
                 temperaturenew[newk-1] = (layertemperature[i][j][k]*layermass[i][j][k] +
                                           temperaturenew[newk-1]*massnew[newk-1]) /
@@ -928,7 +958,9 @@ void changegrid() {
                 thicknessnew[newk-2] = thicknessnew[newk-2] + thicknessnew[newk-1];
                 massnew[newk-2] = massnew[newk-2] + massnew[newk-1];
                 refreezenew[newk-2] = refreezenew[newk-2] + refreezenew[newk-1];
+                deltarefreezenew[newk-2] = deltarefreezenew[newk-2] + deltarefreezenew[newk-1];
                 watercontnew[newk-2] = watercontnew[newk-2] + watercontnew[newk-1];
+                deltawatercontnew[newk-2] = deltawatercontnew[newk-2] + deltawatercontnew[newk-1];
                 densitynew[newk-2] = massnew[newk-2]/thicknessnew[newk-2];
                 temperaturenew[newk-2] = (temperaturenew[newk-2]*massnew[newk-2] +
                                           temperaturenew[newk-1]*massnew[newk-1]) /
@@ -947,8 +979,10 @@ void changegrid() {
                 thicknessnew[newk-1] = layerthickness[i][j][k];
                 massnew[newk-1] = layermass[i][j][k];
                 refreezenew[newk-1] = layerrefreeze[i][j][k];
+                deltarefreezenew[newk-1] = layerdeltarefreeze[i][j][k];
                 if (massnew[newk-1] < 0.) massnew[newk-1] = 0.; /*precision problem*/
                 watercontnew[newk-1] = layerwatercont[i][j][k-1];
+                deltawatercontnew[newk-1] = layerdeltawatercont[i][j][k-1];
                 if (watercontnew[newk-1] < 0.) watercontnew[newk-1] = 0.; /*precision problem*/
                 temperaturenew[newk-1] = layertemperature[i][j][k];
                 densitynew[newk-1] = layerdensity[i][j][k];
@@ -1003,21 +1037,23 @@ void changegrid() {
                     densitynew[2] = oldtoplayerdensity;
                     massnew[2] = thicknessnew[2] * densitynew[2];
                     massnew[1] = layermass[i][j][1] - massnew[2];
-                    refreezenew[1]= ((oldtoplayermass-massnew[2])/oldtoplayermass)*layerrefreeze[i][j][1];
-                    refreezenew[2]= layerrefreeze[i][j][1] - refreezenew[1];
                     densitynew[1] = massnew[1] / thicknessnew[1];
                 } else {
                     thicknessnew[2] = bounl;
                     thicknessnew[1] = layerthickness[i][j][1] + extrathickness - thicknessnew[2];
                     massnew[1] = thicknessnew[1] * denssnow;
                     massnew[2] = layermass[i][j][1] - massnew[1];
-                    refreezenew[1]= ((oldtoplayermass-massnew[2])/oldtoplayermass)*layerrefreeze[i][j][1];
-                    refreezenew[2]= layerrefreeze[i][j][1] - refreezenew[1];
                     densitynew[1] = denssnow;
                     densitynew[2] = massnew[2]/thicknessnew[2];
                 }
+                refreezenew[1]= ((oldtoplayermass-massnew[2])/oldtoplayermass)*layerrefreeze[i][j][1];
+                refreezenew[2]= layerrefreeze[i][j][1] - refreezenew[1];
+                deltarefreezenew[1]= ((oldtoplayermass-massnew[2])/oldtoplayermass)*layerdeltarefreeze[i][j][1];
+                deltarefreezenew[2]= layerdeltarefreeze[i][j][1] - deltarefreezenew[1];
                 watercontnew[1] = (thicknessnew[1]/(layerthickness[i][j][1]+extrathickness))*layerwatercont[i][j][1];
                 watercontnew[2] = (thicknessnew[2]/(layerthickness[i][j][1]+extrathickness))*layerwatercont[i][j][1];
+                deltawatercontnew[1] = (thicknessnew[1]/(layerthickness[i][j][1]+extrathickness))*layerdeltawatercont[i][j][1];
+                deltawatercontnew[2] = (thicknessnew[2]/(layerthickness[i][j][1]+extrathickness))*layerdeltawatercont[i][j][1];
                 temperaturenew[1] = layertemperature[i][j][1];
                 temperaturenew[2] = layertemperature[i][j][1];
 
@@ -1055,7 +1091,9 @@ void changegrid() {
                 thicknessnew[newk] = 0.5 * layerthickness[i][j][k];
                 massnew[newk] = 0.5 * layermass[i][j][k];
                 refreezenew[newk] = 0.5 * layerrefreeze[i][j][k];
+                deltarefreezenew[newk] = 0.5 * layerdeltarefreeze[i][j][k];
                 watercontnew[newk] = 0.5 * layerwatercont[i][j][k];
+                deltawatercontnew[newk] = 0.5 * layerdeltawatercont[i][j][k];
                 temperaturenew[newk] = layertemperature[i][j][k];
                 densitynew[newk] = layerdensity[i][j][k];
                 if ((massnew[newk] > 20000.) || (massnew[newk] < 0.) ||
@@ -1072,7 +1110,9 @@ void changegrid() {
                 thicknessnew[newk] = 0.5 * layerthickness[i][j][k];
                 massnew[newk] = 0.5 * layermass[i][j][k];
                 refreezenew[newk] = 0.5 * layerrefreeze[i][j][k];
+                deltarefreezenew[newk] = 0.5 * layerdeltarefreeze[i][j][k];
                 watercontnew[newk] = 0.5 * layerwatercont[i][j][k];
+                deltawatercontnew[newk] = 0.5 * layerdeltawatercont[i][j][k];
                 temperaturenew[newk] = layertemperature[i][j][k];
                 densitynew[newk] = layerdensity[i][j][k];
                 if ((massnew[newk] > 20000.) || (massnew[newk] < 0.) ||
@@ -1097,8 +1137,10 @@ void changegrid() {
             thicknessnew[newk] = layerthickness[i][j][k];
             massnew[newk] = layermass[i][j][k];
             refreezenew[newk] = layerrefreeze[i][j][k];
+            deltarefreezenew[newk] = layerdeltarefreeze[i][j][k];
             if (massnew[newk] < 0.) massnew[newk] = 0.; /*precision problem*/
             watercontnew[newk] = layerwatercont[i][j][k];
+            deltawatercontnew[newk] = layerdeltawatercont[i][j][k];
             if (watercontnew[newk] < 0.) watercontnew[newk] = 0.; /*precision problem*/
             temperaturenew[newk] = layertemperature[i][j][k];
             densitynew[newk] = layerdensity[i][j][k];
@@ -1144,8 +1186,10 @@ void changegrid() {
         layerthickness[i][j][k] = thicknessnew[k];
         layermass[i][j][k] = massnew[k];
         layerrefreeze[i][j][k] = refreezenew[k];
+        layerdeltarefreeze[i][j][k] = deltarefreezenew[k];
         if (layerrefreeze[i][j][k] < 0.) layerrefreeze[i][j][k] = 0.;
         layerwatercont[i][j][k] = watercontnew[k];
+        layerdeltawatercont[i][j][k] = deltawatercontnew[k];
         layerdensity[i][j][k] = densitynew[k];
         layerdepth[i][j][k] = depthnew[k];
         layertemperature[i][j][k] = temperaturenew[k];
@@ -1169,8 +1213,9 @@ void changegrid() {
             if (fabs(diff) > 0.000001) {
                 fprintf(outcontrol,"jd %.3f int %d i %d j %d k %d Diff %.8f snow %f sumt %f \n",
                         jd2,inter,i,j,k-1,diff,SNOW[i][j]*10.,(sum+sumwater+surfacewater[i][j]));
-                fprintf(outcontrol,"melt %f abla %f runoff %f sumsn %f sumw %f surfw %f \n corrmelt+ %f corrpercol- %f corrain+ %f \n precsn %f precwat %f frsn %f \n mass %f thick %f dens %f water %f id %f T %f id %f\n",
-                        MELT[i][j],ABLA[i][j],RUNOFF[i][j],sum,sumwater,surfacewater[i][j],summelt,sumpercolation,sumrain,
+                fprintf(outcontrol,"melt %f abla %f runoff %f subl %f sumsn %f sumw %f surfw %f \n corrmelt+ %f corrpercol- %f corrain+ %f meltrunoff %f \n precsn %f precwat %f frsn %f \n mass %f thick %f dens %f water %f id %f T %f id %f\n",
+                        MELT[i][j],ABLA[i][j],RUNOFF[i][j],SUBLIMATION[i][j],sum,sumwater,surfacewater[i][j],
+                        summelt,sumpercolation,sumrain,sumrunoff,
                         snowprec,rainprec,freshsnowlayer,layermass[i][j][k-1],layerthickness[i][j][k-1],
                         layerdensity[i][j][k-1],layerwatercont[i][j][k-1],layerid[i][j][k-1],layertemperature[i][j][k-1],layerid[i][j][k-1]);
 
@@ -1186,6 +1231,7 @@ void changegrid() {
     }
     k=1;
     meltlayermice(densfirst);
+    
 
     if (dummydepth < depthdeep) {
         newk = newk + 1;
@@ -1193,7 +1239,9 @@ void changegrid() {
             layerthickness[i][j][newk] = layerthickness[i][j][newklast];
             layermass[i][j][newk] = layermass[i][j][newklast];
             layerrefreeze[i][j][newk] = 0.0;
+            layerdeltarefreeze[i][j][newk] = 0.0;
             layerwatercont[i][j][newk] = 0.0;
+            layerdeltawatercont[i][j][newk] = 0.0;
             layerdensity[i][j][newk] = layerdensity[i][j][newklast];
             layerdepth[i][j][newk] = layerdepth[i][j][newklast] + 0.5*(layerthickness[i][j][newklast] + layerthickness[i][j][newklast]);
             layertemperature[i][j][newk] = layertemperature[i][j][newklast];
@@ -1253,10 +1301,12 @@ void changegrid() {
     freearraydouble(thicknessnew,1,ndepths);
     freearraydouble(massnew,1,ndepths);
     freearraydouble(refreezenew,1,ndepths);
+    freearraydouble(deltarefreezenew,1,ndepths);
     freearraydouble(depthnew,1,ndepths);
     freearraydouble(temperaturenew,1,ndepths);
     freearraydouble(densitynew,1,ndepths);
     freearraydouble(watercontnew,1,ndepths);
+    freearraydouble(deltawatercontnew,1,ndepths);
 
     return;
 }
@@ -1727,6 +1777,7 @@ void refreezing(int i, int j, int k) {
 
     /*if (FIRN[i][j] > 0.) superice[i][j] = 0.;*/
 
+    layerdeltarefreeze[i][j][k] = 0.;
     if (layerdensity[i][j][k] < densice-diffdensice) {
         energywater = layerwatercont[i][j][k]*Lf;
   /*      energytemperature = fabs(layertemperature[i][j][k])*layermass[i][j][k]*cpice; */
@@ -1740,6 +1791,7 @@ void refreezing(int i, int j, int k) {
         if (layerwatercont[i][j][k] < 0) layerwatercont[i][j][k] = 0.; /*precision problem*/
         layermass[i][j][k] = layermass[i][j][k] + masschangelayer;
         layerrefreeze[i][j][k] += masschangelayer;
+        layerdeltarefreeze[i][j][k] = masschangelayer;
         /*if (layerid[i][j][k] == 2) sumMASS[i][j] += masschangelayer;*/
 
         if ((slushdepth[i][j] > 0.) && (slushdepth[i][j] < (layerdepth[i][j][k]+0.5*layerthickness[i][j][k]))) {
@@ -1773,6 +1825,8 @@ void refreezing(int i, int j, int k) {
          layertemperature[i][j][k] = layertemperature[i][j][k] + Lf*energy/(layermass[i][j][k]*cpice); 
          if (layertemperature[i][j][k] > 0.) layertemperature[i][j][k] = 0.;
         superice[i][j] = superice[i][j]+masschangelayer;
+        layerdeltarefreeze[i][j][k] += masschangelayer;
+        surfacewater[i][j] = 0.;
     }
 
     return;
@@ -1827,7 +1881,8 @@ void percolation(int i, int j, int k) {
 /****************************************************************************/
 
 void slushformation() {
-    int     kmax,kk;
+//    int     kmax,kk;
+    int     kk;
     /*  double  timec1,timec2,timec3,factc4; */
     double  tanslope;
     double  c1wat,c2wat,c3wat;
@@ -1835,7 +1890,9 @@ void slushformation() {
     double  timefactsurf,timefactint;
     double  slushlayer,watersurplus;
     double  airvolumeice,maxwatercont;
-    double  watercontold,layerwet;
+    double  watercontold, refreezeold;
+//    double  watercontold,layerwet;
+    double  layerwet;
     double  depth;
     int k;
 
@@ -1854,9 +1911,12 @@ void slushformation() {
 
     slushlayer = 0.0;
     depth = layerdepth[i][j][(int)layeramount[i][j]] + 0.5*layerthickness[i][j][(int)layeramount[i][j]];
+    
+    surfacewater[i][j] = 0.;
+//    printf("\n %f %f %f ",jd2,surfacewaterold,sumrunoff);
 
     if (sumrunoff >= 0.) {
-        kmax = (int)layeramount[i][j];
+//        kmax = (int)layeramount[i][j];
         watersurplus = sumrunoff*(1-timefactint);
         sumrunoff = sumrunoff*timefactint;
         if (sumrunoff <= summelt) summelt = sumrunoff;
@@ -1879,7 +1939,10 @@ void slushformation() {
             }
 
             if ((layertemperature[i][j][k] < 0.) && (maxwatercont > 0.)) { /*maxwatercont = 0.0;*/
+                refreezeold = layerdeltarefreeze[i][j][k];
                 refreezing(i, j, k);
+                layerdeltarefreeze[i][j][k] = layerdeltarefreeze[i][j][k] + refreezeold;
+                deltaREFREEZE[i][j] = deltaREFREEZE[i][j] + layerdeltarefreeze[i][j][k];
                 /* fprintf(outcontrol,"\n extra refreezing %f %d %d %d %f",jd2,i,j,k,layerid[i][j][k]);*/
             }
             kk = k;
@@ -1918,6 +1981,8 @@ void slushformation() {
                 slushdepth[i][j] = depth + (layerthickness[i][j][k] - layerwet);
                 kk = 0;
             }
+            layerdeltawatercont[i][j][k] = layerdeltawatercont[i][j][k] + layerwatercont[i][j][k] - watercontold;
+            deltaWATER[i][j] = deltaWATER[i][j] + layerwatercont[i][j][k] - watercontold;
             k = kk;
         }/*END layerloop*/
     }
@@ -2006,9 +2071,14 @@ void subsurf() {
     float   stcrit;
     double  dzl;
     double  factG,factGa,factGb,term1,term2;
+//    double  watercontold;
     int     factsource=1;   /*fraction of enbal heating/cooling the first layer was 0.65 */
-//    float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
+    float   Lf = 334000.0;     /*latent heat of fusion  [J/kg] */
     int k;
+    double *layerwatercontold;
+    double  surfacewaterold;  
+    
+    layerwatercontold=arrayreservdouble(1,ndepths);
 
     jd2=jd;
     if ((zeit == 24) && (inter == factinter))
@@ -2019,11 +2089,13 @@ void subsurf() {
     /* Assume no radiation penetration*/
 /*    source = 0.;*/
     tsurfenergybalance(surftemp[i][j]);
-    source = balancetsurf;
-    if (skin_or_inter == 1) source = -1.*ENBAL[i][j]; /*this includes energy from rain */
+    source = balancetsurf;		/*this includes all fluxes and is based on Tsurf of this time step*/
+    if (skin_or_inter == 1) source = -1.*ENBAL[i][j]; /*this includes energy from rain excludes ICEHEAT*/
 
     /*printf(" recalculate subsurface temperatures. row  %d  col  %d  \n\n",i,j);*/
+    surfacewaterold = surfacewater[i][j];
     for (k=1; k <= (int)layeramount[i][j]; k++) {   /*for each layer first temperature calculation*/
+        layerwatercontold[k] = layerwatercont[i][j][k];
         iceconductivity(i, j, k);
         layerenergy[k] = 0.;
         if (k == 1) {
@@ -2142,8 +2214,8 @@ void subsurf() {
             /*Define some output gridded fields*/
             if (k == 1) {
                 layerwatercont[i][j][1] = layerwatercont[i][j][1] + surfacewater[i][j];
-                surfacewater[i][j] = 0.;
             }
+            layerdeltarefreeze[i][j][k] = 0.;
             if ((layerwatercont[i][j][k] > 0.0) && (layertemperature[i][j][k] < 0.)) {
               refreezing(i, j, k);
                 if ((layermass[i][j][k] > 20000.) || (layermass[i][j][k] < 0.) ||
@@ -2188,13 +2260,22 @@ void subsurf() {
 
         /*Define some output gridded fields*/
         if (k == 1) {
+//            watercontold = watercontent[i][j];
             watercontent[i][j] = 0.;
+            deltaWATER[i][j] = 0.;
+            deltaREFREEZE[i][j] = 0.;
             capwatercontent[i][j] = 0.;
             slwatercontent[i][j] = 0.;
             coldcontentsnow[i][j] = 0.;
             coldcontentice[i][j] = 0.;
         }
         watercontent[i][j] += layerwatercont[i][j][k];
+        layerdeltawatercont[i][j][k] = layerwatercont[i][j][k] - layerwatercontold[k]; /*pos = gain of water*/
+        deltaWATER[i][j] += layerdeltawatercont[i][j][k];
+//        if (k == (int)layeramount[i][j])
+//        printf("\n %f %d %f %f %f %f %f %f %f ",jd2,k,deltaWATER[i][j],watercontent[i][j],watercontold,watercontold2,layerdeltawatercont[i][j][k],layerwatercont[i][j][k],layerwatercontold[k]);
+        
+        deltaREFREEZE[i][j] += layerdeltarefreeze[i][j][k];
         if ((k <= layeramountcold[i][j]) && (layerid[i][j][k] != 1)) {
             capwatercontent[i][j] += layerwatercont[i][j][k];
             slwatercontent[i][j] += layerwatercont[i][j][k];
@@ -2232,14 +2313,15 @@ void subsurf() {
 
     }/* END layer loop */
 
-
     /*possibility of slush formation, amount depends on slope, no lateral movement possible*/
     /*   if ((slushformationyes == 1) && (layerdensity[i][j][(int)layeramount[i][j]]))*/
     slushdepth[i][j] = -99.;
     slushthickness[i][j] = 0.;
-    if ((slushformationyes == 1) && (/*watercontent[i][j] +*/ sumrunoff > 0.) /* &&
-       (layerdensity[i][j][(int)layeramount[i][j]] >= densice-diffdensice)*/ )
-        /*Allways allow slush to build up, even if lowest layer has density smaller than ice */
+//    printf("\n A %f %f %f %f %f %f ",jd2,surfacewater[i][j],layerwatercont[i][j][1],layerdensity[i][j][1],sumrunoff,watercontent[i][j]);
+//    if ((slushformationyes == 1) && (/*watercontent[i][j] +*/ sumrunoff > 0.) /* &&
+//       (layerdensity[i][j][(int)layeramount[i][j]] >= densice-diffdensice)*/ )
+//        /*Allways allow slush to build up, even if lowest layer has density smaller than ice */
+    if (slushformationyes == 1)
     {
         watercontent[i][j] = watercontent[i][j] + sumrunoff;
         slwatercontent[i][j] = slwatercontent[i][j] + sumrunoff;
@@ -2247,6 +2329,7 @@ void subsurf() {
         watercontent[i][j] = watercontent[i][j] - sumrunoff;
         slwatercontent[i][j] = slwatercontent[i][j] - sumrunoff;
     }
+    deltaWATER[i][j] = deltaWATER[i][j] + surfacewater[i][j] - surfacewaterold;
 
     /* sumpercolation is melted snow that percolates into firn layer*/
     /* not mass in SNOW layer any more but not lost through melt either*/
@@ -2254,6 +2337,7 @@ void subsurf() {
     /* summelt is melted ice, does contribute to melt but is not allowed to impact SNOW*/
     /* sumrain is rain water added to the water content of the snow/firn layer*/
     /* must also be added to SNOW*/
+    /* sumrunoff at this point is all water leaving the snowpack */
     if (percolationyes == 1) {
         RUNOFF[i][j] = sumrunoff;
         if (sumrain > 0.) {
@@ -2265,23 +2349,23 @@ void subsurf() {
                 sumrunoff = 0.;
             }
         }
-        MELT[i][j] = sumrunoff;
+//        MELT[i][j] = sumrunoff;	/* = meltwater partition in RUNOFF */
+        MELT[i][j] = meltenergy[i][j]*deltat/Lf;
         /*     if (SNOW[i][j] > 0.) fprintf(outcontrol," %f %d %d %f %f %f %f %f %f %f \n",
                        jd2,i,j,SNOW[i][j],RUNOFF[i][j],sumrunoff,sumrain,rainprec,summelt,sumpercolation);*/
         SNOW[i][j] = SNOW[i][j] + summelt/10. - sumpercolation/10. + sumrain/10.;
-        RAIN[i][j] = RAIN[i][j] - sumrain;
+//        RAIN[i][j] = RAIN[i][j] - sumrain;
     }
+    /* RUNOFF = all water leaving the snowpack -- Keep as is*/
+    /* MELT = water leaving the snow pack due to melt not rain -- change into actual amount of melt taken place*/
+    /* RAIN = water in the snow pack that was original rain -- change into actual amount of water entering column*/
 
     if (skin_or_inter == 0) {
         ICEHEAT[i][j] = -factG ;
         energybalance();
         }
     else {
-       if (meltenergy[i][j] > 0.) {
-          ICEHEAT[i][j] = -factG ;
-       } else {
-          ICEHEAT[i][j] = ENBAL[i][j] - meltenergy[i][j];//source - MELT[i][j]*Lf/deltat;
-       }
+        ICEHEAT[i][j] = ENBAL[i][j] - meltenergy[i][j];//source - MELT[i][j]*Lf/deltat;
         energybalance();
     }
 
@@ -2293,7 +2377,8 @@ void subsurf() {
         printf("%f %f %f \n",conduc[1],layerrhocp[i][j][1],layerthickness[i][j][1]);
         /*fprintf(outcontrol,"\n Numerical instability in subsurface %f %f %f \n",stcrit,0.25*deltat/stcrit,deltat);*/
     }
-
+    freearraydouble(layerwatercontold,1,ndepths);
+    
     return;
 }
 
@@ -2399,6 +2484,116 @@ void interpolate() {
 }
 
 /****************************************************************************/
+/* FUNCTION  subtimestepsummation                                           */
+/*   this function summates the mass and energy balance components          */
+/*   for the subtime steps in the subsurface model runs                     */
+/****************************************************************************/
+
+void subtimestepsummation() {
+
+   if (inter == 1) { /*only first subtime step, initialise to zero*/
+       MELTsum[i][j] = 0.;
+       ABLAsum[i][j] = 0.;
+       SUBLIMATIONsum[i][j] = 0.;
+       RUNOFFsum[i][j] = 0.;
+//       watercontentsum[i][j] = 0.;
+       deltaWATERsum[i][j] = 0.;
+       deltaREFREEZEsum[i][j] = 0.;
+       sumSNOWprec[i][j] = 0.;
+       MBsum[i][j] = 0.;
+	   sumRAINprec[i][j] = 0.;
+       DIRECTsum[i][j] = 0.;
+       if (methodglobal == 2) {
+       	  DIRECT2sum[i][j] = 0.;
+       	  DIFFUSsum[i][j] = 0.;
+       }
+       GLOBALsum[i][j] = 0.;
+       REFLECTsum[i][j] = 0.;
+       LONGINsum[i][j] = 0.;
+       LONGOUTsum[i][j] = 0.;
+       SENSIBLEsum[i][j] = 0.;
+       LATENTsum[i][j] = 0.;
+       ICEHEATsum[i][j] = 0.;
+       rainenergysum[i][j] = 0.;
+	   meltenergysum[i][j] = 0.;
+   }
+
+/*Sum over subtime steps*/
+   MELTsum[i][j] += MELT[i][j]; /* in mm*/
+   ABLAsum[i][j] += ABLA[i][j];
+   SUBLIMATIONsum[i][j] += SUBLIMATION[i][j];
+   RUNOFFsum[i][j] += RUNOFF[i][j];
+//   watercontentsum[i][j] += watercontent[i][j];
+   deltaWATERsum[i][j] += deltaWATER[i][j];
+   deltaREFREEZEsum[i][j] += deltaREFREEZE[i][j];
+   MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
+   sumSNOWprec[i][j] += snowprec;
+   sumRAINprec[i][j] += RAIN[i][j];
+   DIRECTsum[i][j] += DIRECT[i][j];
+   if (methodglobal == 2) {
+      DIRECT2sum[i][j] += DIRECT2[i][j];
+	  DIFFUSsum[i][j] += DIFFUS[i][j];
+   }
+   if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+      GLOBALsum[i][j] += glob;
+      REFLECTsum[i][j] += ref;
+   } else {
+      GLOBALsum[i][j] += GLOBAL[i][j];
+      REFLECTsum[i][j] += GLOBAL[i][j]*ALBEDO[i][j];
+   }
+   LONGINsum[i][j] += LONGIN[i][j];
+   LONGOUTsum[i][j] += LONGOUT[i][j];
+   SENSIBLEsum[i][j] += SENSIBLE[i][j];
+   LATENTsum[i][j] += LATENT[i][j];
+   ICEHEATsum[i][j] += ICEHEAT[i][j];
+   rainenergysum[i][j] += rainenergy[i][j];
+   meltenergysum[i][j] += meltenergy[i][j];
+   
+/*final step put back in original array*/
+   if (inter == factinter) {
+      MELT[i][j] = MELTsum[i][j];
+      ABLA[i][j] = ABLAsum[i][j];
+      SUBLIMATION[i][j] = SUBLIMATIONsum[i][j];
+      RUNOFF[i][j] = RUNOFFsum[i][j];
+//      watercontent[i][j] = watercontentsum[i][j]/factinter;
+      deltaWATER[i][j] = deltaWATERsum[i][j];
+      deltaREFREEZE[i][j] = deltaREFREEZEsum[i][j];
+	  RAIN[i][j] = sumRAINprec[i][j];
+      DIRECT[i][j] = DIRECTsum[i][j]/factinter;	/* is ok here, in old DIRECT is stored in DIRECTold, new is read at start next timestep*/
+      if (methodglobal == 2) {
+         DIRECT2[i][j] = DIRECT2sum[i][j]/factinter;
+     	 DIFFUS[i][j] = DIFFUSsum[i][j]/factinter;
+   	  }
+	  if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
+   		 glob = GLOBALsum[i][j]/factinter;	/* is ok here, in old glob is stored in globold, new is read at start next timestep*/
+   		 ref = REFLECTsum[i][j]/factinter;	/* is ok here, in old ref is stored in refold, new is read at start next timestep*/
+//		 ALBEDO[i][j] = ref / glob ; 
+   		 SWBAL[i][j] = glob - ref ;  
+   	  } else {
+   		 GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
+   		 ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
+   		 SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
+   	  }
+   	  LONGIN[i][j] = LONGINsum[i][j]/factinter;
+   	  LONGOUT[i][j] = LONGOUTsum[i][j]/factinter;
+   	  SENSIBLE[i][j] = SENSIBLEsum[i][j]/factinter;
+   	  LATENT[i][j] = LATENTsum[i][j]/factinter;
+   	  ICEHEAT[i][j] = ICEHEATsum[i][j]/factinter;
+   	  rainenergy[i][j] = rainenergysum[i][j]/factinter;
+	  meltenergy[i][j] = meltenergysum[i][j]/factinter;
+   	  NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
+   	  ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + rainenergy[i][j] - ICEHEAT[i][j];
+
+//   tmp = RAIN[i][j] + MELT[i][j] - RUNOFF[i][j] - deltaREFREEZE[i][j];
+//   tmp = RAIN[i][j] + MELT[i][j] - ABLA[i][j] - deltaREFREEZE[i][j] + SUBLIMATION[i][j];
+//   if ( deltaWATER[i][j]-tmp > 0.) printf("\n %f %f %f %f ",jd2,deltaWATER[i][j],tmp,deltaWATER[i][j]-tmp);
+
+   }
+
+   return;
+}
+
+/****************************************************************************/
 /* FUNCTION  outputsubsurf                                                  */
 /*   this function prints out subsurf conditions for given location         */
 /*   for each time step one row for each layer                              */
@@ -2420,7 +2615,8 @@ void outputsubsurf() {
             j = stncol[kk];
 
             fprintf(outsubsurf[kk]," Site i=%d j=%d height=%.2f \n",i,j,griddgm[i][j]);
-            fprintf(outsubsurf[kk]," time nr depth(m) thickness(m) temp(C) dens(g/kg) mass(kg/m2) water(kg/m2) refreeze(kg/m2) dsnow(msnow) dsnow(mmwe) id irrwc \n");
+            fprintf(outsubsurf[kk]," year time nr depth(m) thickness(m) temp(C) dens(g/kg) mass(kg/m2) "); 
+            fprintf(outsubsurf[kk]," water(kg/m2) deltarewater(kg/m2/dt) refreeze(kg/m2) deltarefreeze(kg/m2/dt) dsnow(msnow) dsnow(mmwe) id irrwc \n");
 
             fprintf(outcontrol,"Writing subsurface profiles of location i %d j %d \n",i,j);
         }  /*endif*/
@@ -2430,30 +2626,34 @@ void outputsubsurf() {
                 if (irrwatercontyes == 1) irreducible_schneider(i, j, k);
                 if (irrwatercontyes == 2) irreducible_coleou(i, j, k);
 
-                if ((k == 1) && (nsteps == 0)) {
+/* Plot the initial state*/
+                if ((k == 1) && (nsteps == 0) && (subsurf_print_surf == 1)) {
                     surftempfrommodel();
-                    fprintf(outsubsurf[kk]," %d.000000 %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
-                            (int)jd2,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
+                    fprintf(outsubsurf[kk]," %.0f %d.000000 %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f 0.000000 %.4f 0.000000 %.4f %.4f %.0f %.3f \n",
+                            year,(int)jd2,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
                             layerwatercont[i][j][1],layerrefreeze[i][j][1],snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][1],irrwatercont);
                 }
 
                 if (nsteps == 0) {
-                    fprintf(outsubsurf[kk]," %d.000000 %2d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
-                            (int)jd2,k,layerdepth[i][j][k],layerthickness[i][j][k],layertemperature[i][j][k],
-                            layerdensity[i][j][k],layermass[i][j][k],layerwatercont[i][j][k],layerrefreeze[i][j][k],
+                    fprintf(outsubsurf[kk]," %.0f %d.000000 %2d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
+                            year,(int)jd2,k,layerdepth[i][j][k],layerthickness[i][j][k],layertemperature[i][j][k],
+                            layerdensity[i][j][k],layermass[i][j][k],layerwatercont[i][j][k],layerdeltawatercont[i][j][k],
+                            layerrefreeze[i][j][k],layerdeltarefreeze[i][j][k],
                             snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][k],irrwatercont);
                 }
-                if ((k == 1) && (nsteps > 0)) {
+/* Plot the modeled profiles other time steps*/
+                if ((k == 1) && (nsteps > 0)  && (subsurf_print_surf == 1)) {
                     surftempfrommodel();
-                    fprintf(outsubsurf[kk]," %f %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
-                            jd2,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
+                    fprintf(outsubsurf[kk]," %.0f %f %2d 0.000000 0.000000 %.4f %.4f %.4f %.4f 0.000000 %.4f 0.000000 %.4f %.4f %.0f %.3f \n",
+                            year,jd2,k,surftemp[i][j],layerdensity[i][j][1],layermass[i][j][1],
                             layerwatercont[i][j][1],layerrefreeze[i][j][1],snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][1],irrwatercont);
                 }
 
                 if (nsteps > 0) {
-                    fprintf(outsubsurf[kk]," %f %2d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
-                            jd2,k,layerdepth[i][j][k],layerthickness[i][j][k],layertemperature[i][j][k],
-                            layerdensity[i][j][k],layermass[i][j][k],layerwatercont[i][j][k],layerrefreeze[i][j][k],
+                    fprintf(outsubsurf[kk]," %.0f %f %2d %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.0f %.3f \n",
+                            year,jd2,k,layerdepth[i][j][k],layerthickness[i][j][k],layertemperature[i][j][k],
+                            layerdensity[i][j][k],layermass[i][j][k],layerwatercont[i][j][k],layerdeltawatercont[i][j][k],
+                            layerrefreeze[i][j][k],layerdeltarefreeze[i][j][k],
                             snowlayer[i][j],SNOW[i][j]*10.,layerid[i][j][k],irrwatercont);
                 }
             }   /*endfor  each layer*/

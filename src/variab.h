@@ -79,8 +79,9 @@ float  templapserate1 = -0.0;  /* lapse rate for spatial extrapolation of surfac
 float  templapserate2 = -0.0;  /* lapse rate for spatial extrapolation of temp of 1. turning point */
 /*next turning point is assumed spatially constant*/
 
-int  skin_or_inter = 1;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  skin_or_inter = 0;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
 int  tsurfextrapolation = 2;  /*extrapolation to surface temp: 1=upper layer and surf, 2=upper 2 layers and surf*/
+int  subsurf_print_surf = 1;	/*surface properties if available yes (1) or not (1) printed in outputsubsurf*/
 
 /*============= INITIALIZATION OF SNOW DENSITY PROFEILS - in case init_snowlayerdensity = 2   =============*/
 /*compute 3 density gradients between surface and depth of lowest firn layer*/
@@ -576,7 +577,9 @@ double ***layermass;        /*3D matrix mass (density*thickness) of the snow lay
 double ***layertemperature; /*3D matrix temperature of the snow layer*/
 double ***layerrhocp;       /*3D matrix dens*cp of the snow layer*/
 double ***layerwatercont;   /*3D matrix watercontent layer*/
-double ***layerrefreeze;    /*3D matrix total refrozen mass layer*/
+double ***layerdeltawatercont;   /*3D matrix change in watercontent layer per time step*/
+double ***layerrefreeze;    /*3D matrix total refrozen mass per layer since start mb year*/
+double ***layerdeltarefreeze;    /*3D matrix per time step refrozen mass per layer*/
 float  ***layerid;          /*3D matrix defines snow layer=1, firnlayer=2 icelayer=3*/
 float  **layeramount;       /*number of layers*/
 float  **layeramountcold;   /*number of layers used to calculate the cold content*/
@@ -586,8 +589,11 @@ double **meltlayer;         /*melted layer in m ice*/
 double **MELTsum;           /*sum of melted snow on interpolated time steps*/
 double **ABLAsum;           /*sum of ablation on interpolated time steps*/
 float  **RUNOFFsum;         /*sum of melted snow + rain on interpolated time steps*/
-float  **SNOWsum;           /*sum of snow precipitation on interpolated time steps*/
 float  **MBsum;             /*sum of massbalance on interpolated time steps*/
+double **deltaREFREEZE;     /*refrozen mass per (sub)time step*/
+double **deltaREFREEZEsum;  /*refrozen mass summated over sub time steps*/
+double **deltaWATER;        /*change in water content per (sub)time step*/
+double **deltaWATERsum;     /*change in water content summated over sub time steps*/
 float  **SNOWinit;          /*initial snow height*/
 float  **MASSBALcumstake;   /*sum of lost snow height for stakes*/
 float  **SUMMERBALST;   	/*sum of lost snow height over summer for stakes*/
@@ -602,10 +608,13 @@ float  **GLOBALsum;		/* 2-D-Arrays for radiation */
 float  **SENSIBLEsum,**LATENTsum;        /* 2-D-Array for turbulent fluxes */
 float  **rainenergysum;
 float  **ICEHEATsum;
+double **SUBLIMATIONsum;  /*sum of mass condensated or sublimated*/ 
+double **SUBLIMATION;		/*mass sublimated or condensated*/
 float  **REFLECTsum;		/*Reflected solar radiation, used for averaging over subtime step*/
 float  **superice;          /*layer thickness superimposed ice in m ice*/
 float  **tmpsuperice;       /*layer thickness superimposed ice in m ice*/
-float  **watercontent;      /*total water content layer in kg*/
+double **watercontent;      /*total water content in kg*/
+double **watercontentsum;   /*total water content in kg summed over subtimesteps*/
 float  **capwatercontent;   /*total capilary water firn content layer in kg*/
 float  **slwatercontent;    /*total water content firn layer in kg*/
 float  **slushdepth;        /*depth of top slush layer in m snow*/

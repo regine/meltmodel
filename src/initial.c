@@ -920,12 +920,12 @@ void startoutascii()
                 fprintf(outgrid[i],"year JD   time shade exkorr solhor dirclearsky direct2 ");
                 fprintf(outgrid[i],"  diffus global reflect albedo  SWbal longin Lout LWbal ");
                 fprintf(outgrid[i],"  netrad sensible latent ground rain    enbal   melten ");
-                fprintf(outgrid[i],"  melt(mm)  abla(mm) massbal(cm) massbalcum(cm)  ");
+                fprintf(outgrid[i],"  rain(mm) melt(mm) abla(mm) massbal(cm) massbalcum(cm)  ");
                 fprintf(outgrid[i],"  surftemp exkhor ratio dirhor snow SR50mod  MBsum(cm)");
 
                 /******** FOLLOWING COLUMNS ONLY IN CERTAIN CASES ****/
                 if (methodsurftempglac == 4)
-                    fprintf(outgrid[i]," runoff  super water slush surfwat coldsn coldtot ");
+                    fprintf(outgrid[i]," snowfall subl runoff water deltawater deltarefreeze super slush surfwat coldsn coldtot ");
 
                 if (outglobnet[i] == 1)  /*output with measured climate data of climate station */
                     fprintf(outgrid[i],"globmeas SWbmeas netmeas");

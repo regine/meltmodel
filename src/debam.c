@@ -157,7 +157,6 @@ int main()
                     topofatmosphere();   /*needed to determine cloudiness*/
             }
 
-
             switch(methodlonginstation) {  /*HOW IS LONGWAVE INCOMING AT STATION DETERMINED*/
             case 1:
                 longinstationnetradmeas();     /*FROM MEAS NET, GLOB, REF*/
@@ -182,7 +181,6 @@ int main()
                 exit(3);
                 break;
             }  /*end switch*/
-
 
             /*REMOVE TOPOGRAPHIC INFLUENCE ON CLIMATE STATION LONGWAVE INCOMING
               ONLY IF CLIMATE STATION NOT OUSIDE AREA TO BE CALCULATED*/
@@ -513,58 +511,8 @@ int main()
                                 MELT[i][j] = 0.0;
 
                             if (methodsurftempglac == 4) {
-                                if (/*(percolationyes == 1) &&*/ (inter == 1)) { /*only first subtime step*/
-                                    MELTsum[i][j] = 0.;
-                                    ABLAsum[i][j] = 0.;
-                                    RUNOFFsum[i][j] = 0.;
-                                    SNOWsum[i][j] = 0.;
-                                    MBsum[i][j] = 0.;
-						            DIRECTsum[i][j] = 0.;
-						            if (methodglobal == 2) {
-						            	DIRECT2sum[i][j] = 0.;
-						            	DIFFUSsum[i][j] = 0.;
-						            }
-						            GLOBALsum[i][j] = 0.;
-						            REFLECTsum[i][j] = 0.;
-						            LONGINsum[i][j] = 0.;
-						            LONGOUTsum[i][j] = 0.;
-						            SENSIBLEsum[i][j] = 0.;
-						            LATENTsum[i][j] = 0.;
-						            ICEHEATsum[i][j] = 0.;
-						            rainenergysum[i][j] = 0.;
-    								meltenergysum[i][j] = 0.;
-                               }
                                 subsurf(); /*chr calculate new surface temperature field*/
                                 waterequivalentabla();     /*** WATER EQUIVALENT ABLATION ***/
-                                /* if (percolationyes == 1)*/
-                                {
-                                    ABLAsum[i][j] += ABLA[i][j];
-                                    MELTsum[i][j] += MELT[i][j];
-                                    RUNOFFsum[i][j] += RUNOFF[i][j];
-                                    SNOWsum[i][j] += snowprec;
-                                    MBsum[i][j] += snowprec-ABLA[i][j]+sumrain;
-                                    sumSNOWprec[i][j] += snowprec;
-                                    sumRAINprec[i][j] += rainprec;
-                                    DIRECTsum[i][j] += DIRECT[i][j];
-                                    if (methodglobal == 2) {
-                              			DIRECT2sum[i][j] += DIRECT2[i][j];
-                              			DIFFUSsum[i][j] += DIFFUS[i][j];
-                            		}
-                            		if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
-                            		   GLOBALsum[i][j] += glob;
-                            		   REFLECTsum[i][j] += ref;
-                            		} else {
-                            		   GLOBALsum[i][j] += GLOBAL[i][j];
-                            		   REFLECTsum[i][j] += GLOBAL[i][j]*ALBEDO[i][j];
-                            		}
-                            		LONGINsum[i][j] += LONGIN[i][j];
-                            		LONGOUTsum[i][j] += LONGOUT[i][j];
-						    		SENSIBLEsum[i][j] += SENSIBLE[i][j];
-						    		LATENTsum[i][j] += LATENT[i][j];
-						    		ICEHEATsum[i][j] += ICEHEAT[i][j];
-						    		rainenergysum[i][j] += rainenergy[i][j];
-    								meltenergysum[i][j] += meltenergy[i][j];
-                                }
                             }  /*endif method*/
                             /*============================================================*/
 
@@ -588,35 +536,8 @@ int main()
 
                             /*============================================================*/
 
-                            /*      if ((methodsurftempglac == 4) && (percolationyes == 1) && (inter == factinter)) */
-                            if ((methodsurftempglac == 4) && (inter == factinter)) {
-                                MELT[i][j] = MELTsum[i][j];
-                                ABLA[i][j] = ABLAsum[i][j];
-                                RUNOFF[i][j] = RUNOFFsum[i][j];
-                                DIRECT[i][j] = DIRECTsum[i][j]/factinter;	/* is ok here, in old DIRECT is stored in DIRECTold, new is read at start next timestep*/
-                                if (methodglobal == 2) {
-                              		DIRECT2[i][j] = DIRECT2sum[i][j]/factinter;
-                              		DIFFUS[i][j] = DIFFUSsum[i][j]/factinter;
-                            	}
-                        	   	if ((snetfromobsyes == 1) && (calcgridyes == 2)) {
-                            		glob = GLOBALsum[i][j]/factinter;	/* is ok here, in old glob is stored in globold, new is read at start next timestep*/
-                            		ref = REFLECTsum[i][j]/factinter;	/* is ok here, in old ref is stored in refold, new is read at start next timestep*/
-                        	//		ALBEDO[i][j] = ref / glob ; 
-                            		SWBAL[i][j] = glob - ref ;  
-                            	} else {
-                            		GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
-                            		ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
-                            		SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
-                            	}
-                            	LONGIN[i][j] = LONGINsum[i][j]/factinter;
-                            	LONGOUT[i][j] = LONGOUTsum[i][j]/factinter;
-                            	SENSIBLE[i][j] = SENSIBLEsum[i][j]/factinter;
-                            	LATENT[i][j] = LATENTsum[i][j]/factinter;
-                            	ICEHEAT[i][j] = ICEHEATsum[i][j]/factinter;
-                            	rainenergy[i][j] = rainenergysum[i][j]/factinter;
-    							meltenergy[i][j] = meltenergysum[i][j]/factinter;
-                            	NETRAD[i][j] = SWBAL[i][j] + LONGIN[i][j] - LONGOUT[i][j];
-                            	ENBAL[i][j] = NETRAD[i][j] + SENSIBLE[i][j] + LATENT[i][j] + rainenergy[i][j];
+                            if (methodsurftempglac == 4) {
+                                subtimestepsummation();		/* summation on the subtimesteps for output*/
                             }
 
                             /********* OUTPUT ****/

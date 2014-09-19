@@ -167,6 +167,13 @@ void subsurf();
 void interpolate();
 
 /****************************************************************************/
+/* FUNCTION  interpolate                                                    */
+/*   this function summates the mass and energy balance components          */
+/*   for the subtime steps in the subsurface model runs                     */
+/****************************************************************************/
+void subtimestepsummation();
+
+/****************************************************************************/
 /* FUNCTION  outputsubsurf                                                  */
 /*   this function prints out subsurf conditions for given location         */
 /*   for each time step one row for each layer                              */
