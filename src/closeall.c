@@ -190,14 +190,19 @@ void closeall()
         freetensordouble(layertemperature,1,nrows,1,ncols,1,ndepths);
         freetensordouble(layerrhocp,1,nrows,1,ncols,1,ndepths);
         freetensordouble(layerwatercont,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerdeltawatercont,1,nrows,1,ncols,1,ndepths);
         freetensordouble(layerrefreeze,1,nrows,1,ncols,1,ndepths);
+        freetensordouble(layerdeltarefreeze,1,nrows,1,ncols,1,ndepths);
 
         freetensor(layerid,1,nrows,1,ncols,1,ndepths);
         freematrix(layeramount,1,nrows,1,ncols);
         freematrix(layeramountcold,1,nrows,1,ncols);
         freematrix(superice,1,nrows,1,ncols);
         freematrix(tmpsuperice,1,nrows,1,ncols);
-        freematrix(watercontent,1,nrows,1,ncols);
+        freematrixdouble(watercontent,1,nrows,1,ncols);
+        freematrixdouble(watercontentsum,1,nrows,1,ncols);
+        freematrixdouble(deltaWATER,1,nrows,1,ncols);
+        freematrixdouble(deltaREFREEZE,1,nrows,1,ncols);
         freematrix(slushdepth,1,nrows,1,ncols);
         freematrix(slushthickness,1,nrows,1,ncols);
         freematrix(coldcontentsnow,1,nrows,1,ncols);
@@ -213,7 +218,8 @@ void closeall()
         freematrixdouble(snowlayersum,1,nrows,1,ncols);
         freematrixdouble(MELTsum,1,nrows,1,ncols);
         freematrixdouble(ABLAsum,1,nrows,1,ncols);
-        freematrix(SNOWsum,1,nrows,1,ncols);
+        freematrixdouble(deltaWATERsum,1,nrows,1,ncols);
+        freematrixdouble(deltaREFREEZEsum,1,nrows,1,ncols);
         freematrix(SNOWinit,1,nrows,1,ncols);
         freematrix(MASSBALcumstake,1,nrows,1,ncols);
         freematrix(SUMMERBALST,1,nrows,1,ncols);
@@ -227,7 +233,7 @@ void closeall()
 
         freematrix(accyear,1,nrows,1,ncols);
 
-		freematrix(graddirect,1,nrows,1,ncols);
+		freematrixdouble(graddirect,1,nrows,1,ncols);
 		freematrix(DIRECTsum,1,nrows,1,ncols);
     	if (methodglobal == 2) {
 			freematrix(DIRECT2sum,1,nrows,1,ncols);
@@ -241,6 +247,9 @@ void closeall()
 		freematrix(LATENTsum,1,nrows,1,ncols);
 		freematrix(ICEHEATsum,1,nrows,1,ncols);
 		freematrix(rainenergysum,1,nrows,1,ncols);
+
+        freematrixdouble(SUBLIMATION,1,nrows,1,ncols);
+        freematrixdouble(SUBLIMATIONsum,1,nrows,1,ncols);
 
         if(runoffyes == 1) {
             freematrixdouble(meanrunoffday,1,nrows,1,ncols);

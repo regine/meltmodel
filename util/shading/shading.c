@@ -233,8 +233,8 @@ void input_read()
     strcpy(filenamein,"shading.par");    /* $$$$$$ NAME NAMELIST-FILE $$$$$ */
 
     if ((in = fopen (filenamein,"rt")) == NULL) {             /*OPEN FILE*/
-        printf("\n Input-File 'input.dat' not found \n\n");
-        printf("       File input.c ");
+        printf("\n Input-File 'shading.par' not found \n\n");
+        printf("       File shading.c ");
         exit(1);
     }
     readrestofline(&in);

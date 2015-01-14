@@ -1935,7 +1935,8 @@ void stationoutput()
     float  notexist=-99;     /*to produce missing value in file for shading,exkor and solhor etc*/
     /*all variables that are not computed in specific run*/
     float  dirhor,dirslope;
-    float  lwincoming,lwoutgoing,snowcover;
+//    float  lwincoming,lwoutgoing,snowcover;
+    float  lwoutgoing,snowcover;
 
     for (ii=1; ii<=outgridnumber; ii++) { /*for each station or location*/
         r = stnrow[ii];
@@ -2025,6 +2026,7 @@ void stationoutput()
             fprintf(outgrid[ii],"%11.4f",rainenergy[r][c]);
             fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
             fprintf(outgrid[ii],"%11.4f",meltenergy[r][c]);
+            fprintf(outgrid[ii],"%11.5f",RAIN[r][c]);
             fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
             fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
             fprintf(outgrid[ii],"%11.3f",MASSBALgrid[r][c]);       /*NEW 10/2013*/
@@ -2081,9 +2083,13 @@ void stationoutput()
 
             /*only if snow model is run*/
             if (methodsurftempglac == 4) {
+                fprintf(outgrid[ii],"%11.5f",sumSNOWprec[r][c]);       /*mm we*/
+                fprintf(outgrid[ii],"%11.5f",SUBLIMATION[r][c]);       /*mm we*/
                 fprintf(outgrid[ii],"%10.5f",RUNOFF[r][c]);  /*in mm we*/
-                fprintf(outgrid[ii],"%10.5f",superice[r][c]/densice); /* in m thickness*/
                 fprintf(outgrid[ii],"%10.5f",watercontent[r][c]); /* in mm we */
+                fprintf(outgrid[ii],"%15.5f",deltaWATER[r][c]); /* in mm we */
+                fprintf(outgrid[ii],"%10.5f",deltaREFREEZE[r][c]); /* in mm we */
+                fprintf(outgrid[ii],"%10.5f",superice[r][c]/densice); /* in m thickness*/
                 fprintf(outgrid[ii],"%10.5f",slushthickness[r][c]); /*slush layer thickness in m snow */
                 fprintf(outgrid[ii],"%10.5f",surfacewater[r][c]); /* in mm we */
                 fprintf(outgrid[ii],"%12.3f",coldcontentsnow[r][c]);
