@@ -5,7 +5,7 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
-15 January 2015: (NEW, C. Reijmer)
+#### 15 January 2015: (NEW, C. Reijmer)
 * v2.1.0
   - changes in subsurface model: renmaing variables and writing more variables to output so that the water and energy balance can be tracked better.
   
