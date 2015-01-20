@@ -3,8 +3,7 @@ Overview
 - Distributed Energy Balance Model (DEBaM)
 - Distributed Enhanced Temperature Index Model (DETIM)
 
-### v2.0.1
-
+### v2.1.0
 
 The models compute glacier surface mass balance (ablation and accumulation) and
 discharge, with hourly to daily resolution. 
