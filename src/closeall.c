@@ -1,23 +1,23 @@
 /**********************************************************************
  * Copyright 1995-2012 Regine Hock, Carleen Tijm-Reijmer
- * 
+ *
  * This file is part of DeBAM and DETiM.
- * 
+ *
  * This is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with This software.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************/
 /* last update 13 June 2013*/
- 
+
 /*******************************************************************/
 /*  FILE   closeall.c                                              */
 /*                                                                 */
@@ -347,7 +347,7 @@ void closeall()
         freematrix(MASSBALcum,1,nrows,1,ncols);
         freematrix(MASSBALcum_all,1,nrows,1,ncols);
         freematrix(MASSBALgrid,1,nrows,1,ncols);
-        
+
     free(namedgm);
     free(namedgmdrain);
     free(namedgmglac);
@@ -380,7 +380,6 @@ void closeall()
             freematrixdouble(r2ln,1,anzahlopt1,1,anzahlopt2);
             freematrixdouble(f02ln,1,anzahlopt1,1,anzahlopt2);
 
-            fclose(qmeasfile);
         }
 
         if ((disyesopt == 1) || (ddfoptyes == 1)) { /*only optimization run*/
@@ -398,4 +397,3 @@ void closeall()
     return;
 
 }
-

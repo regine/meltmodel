@@ -5,10 +5,14 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
+#### 21 January 2015: (ERROR, L. Gillispie)
+* v2.1.1
+  - fixes an un-allocated pointer error which caused segmentation faults in certain circumstances
+
 #### 15 January 2015: (NEW, C. Reijmer)
 * v2.1.0
   - changes in subsurface model: renmaing variables and writing more variables to output so that the water and energy balance can be tracked better.
-  
+
 #### 6 November 2013: (NEW, R. Hock)
 * v2.0.2
  - change in output file "modelperformance.txt", discharge volume discharge is set to -9999 if discharge measurements contain missing values during simulation period (if nstepsdis < nsteps)
@@ -26,8 +30,8 @@ The term in brackets is used to mark each change.
 - ERROR FIXED: cumulative mass balances for stakes (cummassbal.txt) was reset to 0 at end of mass balance year. Fixed so that it is continuous.
 - ERROR FIXED: precipitation correction factor was not applied when precipitation was read from file for energy balance model.
 - TECHNICAL: filenames of default output files changes:
-     melting.txt        → cumablation.txt, 
-     specificmassbal.txt → seasonalmassbal.txt, 
+     melting.txt        → cumablation.txt,
+     specificmassbal.txt → seasonalmassbal.txt,
      res.out  	        → modellog.txt
 - TECHNICAL: NEW: Longwave incoming radiation grid array is used even if LWin is spatially constant
 
@@ -45,7 +49,7 @@ to the text file "model_performance.txt"
 * v1.0.1
    Bug fixed in the skin layer formulation responsible for the lack of closure of the surface energy balance as found in the output.
 - Added MBsum in order to have mass balance output consistent with other mass balance parameters output.
-- Made changes (together with Torbjorn Ostby) to functions meltlayermice and resetgridwinter to remove 
+- Made changes (together with Torbjorn Ostby) to functions meltlayermice and resetgridwinter to remove
 some bugs related to the sr50 output. Correspondence between mass balance output and sr50 has improved.
 - Made changes to functions subsurf and surftempskin to correct a bug resulting in wrong surface temperature to be used to calculate the sensible and latent heat flux. As a result energy balance was not 0 for T<0. This is fixed now.
 
@@ -101,12 +105,12 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 * Github hosting!
 
 * Executable rename:
-    - ```degree``` is now known as the Distributed Enhanced Temperature Index 
+    - ```degree``` is now known as the Distributed Enhanced Temperature Index
     Model (DeTIM), and has executable ```detim```
 
     - ```meltmod``` is now know as the Distributed Energy Balance Model (DEBaM),
     and has executable ```debam```
- 
+
 
 * Build system in place! MeltMod now uses cmake to configure its builds.
     - Adds portability, cmake generates makefiles with the current environment
@@ -128,7 +132,7 @@ some bugs related to the sr50 output. Correspondence between mass balance output
 * Bug fixes: closed the following issues
     - issue #10 : ``readprecipindexmap`` was reading the wrong file, this is fixed
     - issue #11 : ``shayes`` is turned off when executing the temperature index model
-    - issue #12 : ``methodsurftemp`` is immediately set to ``1`` when running the 
+    - issue #12 : ``methodsurftemp`` is immediately set to ``1`` when running the
         temperature index model, this was happening later, and screwing up some
         initialization parameters
     - issue #13 : fixed typo in snow-cover initialization
@@ -140,13 +144,13 @@ Which brings us to...
 * Project Reorganization:
     - All model source files are now located in the ```src/``` folder in the
         project root
-    - Utility programs related to the project are located in the ```util/``` folder 
+    - Utility programs related to the project are located in the ```util/``` folder
     - Tests and their related file are located in the ```test/``` folder
 
 * Code reorganization
     - All functions relating to matrix and tensor manipulation have been moved into
         it's own file: grid.c/h and included where necessary. Before, these were
         spread through a few different files, having them in one place makes sense.
-    - issue #9: Redundant long ints ```nrl,nrh,ncl,nch,ndl``` and ```ndh``` used for 
+    - issue #9: Redundant long ints ```nrl,nrh,ncl,nch,ndl``` and ```ndh``` used for
         matrix/tensor sizing were removed, matrix
         allocation and deallocation now take integers as arguments.
