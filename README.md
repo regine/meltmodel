@@ -3,10 +3,10 @@ Overview
 - Distributed Energy Balance Model (DEBaM)
 - Distributed Enhanced Temperature Index Model (DETIM)
 
-### v2.1.0
+### v2.1.1
 
 The models compute glacier surface mass balance (ablation and accumulation) and
-discharge, with hourly to daily resolution. 
+discharge, with hourly to daily resolution.
 The mass balance model is fully distributed, i.e. calculations are performed for each grid cell of a
 digital elevation model. Discharge is calculated from the water provided by melt plus liquid precipitation by three
 linear reservoirs corresponding to the different storage properties of firn,
@@ -26,7 +26,7 @@ by Carleen Tijm-Reijmer, Utrecht University.
 
 - __DEBaM__ computes surface melt by an energy balance approach.
 
-- __DETIM__ offers various temperature index methods approaches. 
+- __DETIM__ offers various temperature index methods approaches.
 
 
 Download
@@ -38,7 +38,7 @@ running:
 
 from a terminal. If you plan to modify the source, or contribute to the
 project, this is the preferred method. More information about git can be
-found at [git-scm](http://git-scm.com/) or at 
+found at [git-scm](http://git-scm.com/) or at
 [Github](http://help.github.com/articles/).
 
 Installation
@@ -46,7 +46,7 @@ Installation
 
 Prerequisites:
 
-* A working C compiler 
+* A working C compiler
 
 To build DeBAM and DETIM, do
 
@@ -54,14 +54,14 @@ To build DeBAM and DETIM, do
     $ make all
 
 The model executables will now be located in ```meltmodel/bin```
- 
+
 A more complete installation guide is available in install.md.
 
 Additional Information
 ----------------------
 
 For further information contact [Regine Hock](http://gi.alaska.edu/~regine/),
-(University of Alaska, Fairbanks) or Carleen Tijm-Reijmer 
+(University of Alaska, Fairbanks) or Carleen Tijm-Reijmer
 (University Utrecht). Note that the model may
 contain errors and the model manual may not be complete or outdated. User
 support and further code improvements are available in direct collaboration
