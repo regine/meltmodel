@@ -1,17 +1,17 @@
 /***********************************************************************
  * Copyright 1996-2012 Regine Hock
  * This file is part of DeBAM and DETiM.
- * 
+ *
  * This is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with This software.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************/
@@ -412,7 +412,6 @@ extern float  **RAIN;        /*grid of liquid precipitation*/
 
 extern FILE   *firnfile;
 extern FILE   *qcalcfile;       /*Output file of calculated discharge*/
-extern FILE   *qmeasfile;       /*Input file of measured discharge*/
 extern float   **FIRN;
 extern double  **qfirnopt,**qsnowopt,**qiceopt,**qrockopt;  /*for optimization*/
 extern double  **f2,**sumf0x,**sumf0x2;
@@ -588,7 +587,7 @@ extern float  **GLOBALsum;		/* 2-D-Arrays for radiation */
 extern float  **SENSIBLEsum,**LATENTsum;        /* 2-D-Array for turbulent fluxes */
 extern float  **rainenergysum;
 extern float  **ICEHEATsum;
-extern double **SUBLIMATIONsum;  /*sum of mass condensated or sublimated*/ 
+extern double **SUBLIMATIONsum;  /*sum of mass condensated or sublimated*/
 extern double **SUBLIMATION;		/*mass sublimated or condensated*/
 extern float  **REFLECTsum;		/*Reflected solar radiation, used for averaging over subtime step*/
 extern float  **superice;          /*layer thickness superimposed ice in m ice*/
