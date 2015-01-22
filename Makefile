@@ -6,7 +6,18 @@ df = $(MODEL_BUILD_TMP)/$(*F)
 
 # Compiler Flags
 CC=gcc
-CFLAGS = -Wall -O0 -m32
+CFLAGS = -Wall -Wextra -O0
+# Forces 32-bit compilation on 32-bit kernels
+# prevents segfaults caused by gcc defaulting to x86_64 when a 32-bit kernel is
+# running on an x_86_64 processor (OS X 10.7, for instance)
+ifneq ($(OS),Windows_NT)
+	UNAME_M := $(shell uname -m)
+	ifneq ($(filter %86,$(UNAME_M)),)
+		CFLAGS += -m32
+	endif
+endif
+
+
 LDFLAGS = -lm
 MAKEDEPEND = gcc -MM -MT '$(MODEL_BUILD_TMP)/$*.o' $(CPPFLAGS) -o $(MODEL_BUILD_TMP)/$*.d $<
 
