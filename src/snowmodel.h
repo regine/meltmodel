@@ -24,11 +24,6 @@
 #ifndef MELT_MOD_SNOWMODEL_H_
 #define MELT_MOD_SNOWMODEL_H_
 
-/*=======================================================================*/
-/**** CALCULATION OF STATISTICS FOR SECOND 6 ROWS IN OUTPUTFILE       ****/
-/*=======================================================================*/
-void statistdouble(double **matrix,float *x);
-
 /****************************************************************************/
 /* FUNCTION  meandaysnownull
 	     INITIALISATION OF ARRAYS FOR DAILY MEANS OF SNOW MODEL */

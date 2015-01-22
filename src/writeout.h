@@ -74,6 +74,9 @@ void startwriteall();
 /*=======================================================================*/
 void statist(float **matrix,float *x);
 
+
+void statistdouble(double **matrix,float *x);
+
 /**************************************************************************/
 /* FUNCTION  writegridoutput()                                            */
 /*           WRITE GRID DATA TO OUTPUT-FILE hourly, daily, period means   */

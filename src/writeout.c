@@ -31,7 +31,6 @@
 #include "initial.h"
 #include "grid.h"
 #include "snowinput.h"
-#include "snowmodel.h"
 #include "turbul.h"
 
 #include "variabex.h"      /* all global VARIABLES */
@@ -809,6 +808,37 @@ void startwriteall()
 /*=======================================================================*/
 
 void statist(float **matrix,float *x)
+
+{
+
+    x[10]= 0.0;     /*sum of values in grid*/
+    x[7] = 0.0;          /*number of grids*/
+    x[8] = 10000.0;      /*minimum, must be initialized high*/
+    x[9] = -1000.0;      /*maximum*/
+
+    for (i=1; i<=nrows; i++) {       /*ueber alle Reihen*/
+        for (j=1; j<=ncols; j++) {    /*ueber alle Reihen*/
+            if (matrix[i][j] != nodata) {   /*only area to be calcualated*/
+                x[7] += 1.0;        /*number of grids*/
+
+                if (matrix[i][j] > x[9])   x[9] = matrix[i][j];   /*maximum*/
+                if (matrix[i][j] < x[8])   x[8] = matrix[i][j];   /*minimum*/
+                x[10] += matrix[i][j];   /*sum*/
+            }  /*endif*/
+
+        }  /*for col*/
+    }   /*for row*/
+
+    if (x[7]!=0.0)     /*no division by zero*/
+        x[11] = x[10]/x[7];      /*mean=sum/number*/
+    else
+        x[11] = nodata;
+
+    x[12] = nodata;     /*standard deviation not calculated*/
+    return;
+}
+
+void statistdouble(double **matrix,float *x)
 
 {
 
