@@ -996,7 +996,7 @@ void writegridoutput()
         fwrite(&(x[1]),sizeof(float),12,outsuper);
     }
     if(wateryes == 1) {
-        statist(watercontent,x);
+        statistdouble(watercontent,x);
         fwrite(&(x[1]),sizeof(float),12,outwater);
     }
     if(surfwateryes == 1) {
