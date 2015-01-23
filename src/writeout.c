@@ -2055,7 +2055,9 @@ void stationoutput()
             fprintf(outgrid[ii],"%11.4f",ICEHEAT[r][c]);
             fprintf(outgrid[ii],"%11.4f",rainenergy[r][c]);
             fprintf(outgrid[ii],"%11.4f",ENBAL[r][c]);
-            fprintf(outgrid[ii],"%11.4f",meltenergy[r][c]);
+            if (methodsurftempglac == 4) {
+              fprintf(outgrid[ii],"%11.4f",meltenergy[r][c]);
+            }
             fprintf(outgrid[ii],"%11.5f",RAIN[r][c]);
             fprintf(outgrid[ii],"%11.5f",MELT[r][c]);
             fprintf(outgrid[ii],"%11.5f",ABLA[r][c]);       /*column 24*/
