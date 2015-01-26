@@ -30,8 +30,8 @@
     <h2>Git and Github</h2>
 
 <p>We use <a href="git-scm.com">git</a> to keep track of changes we make to
-the model. Git is a revision control system, similar in purpose 
-to SVN or CVS, but different in execution. 
+the model. Git is a revision control system, similar in purpose
+to SVN or CVS, but different in execution.
 If you&#39;re new to git, Github has some good documentation on
 <a href="https://help.github.com/articles/set-up-git">setting up git</a>,
 and <a href="http://gitref.org/">gitref</a> is a good quick-reference page and has an
@@ -82,7 +82,7 @@ Github. At the shell we would type:</p>
 
 <p>Git&#39;s a flexible tool, which allows for a wide variety of
 work flows.  Here&#39;s one which serves well for working with DEBaM
-and DETIM, i.e. if you want to contribute to the model by adding a feature, fixing a bug, 
+and DETIM, i.e. if you want to contribute to the model by adding a feature, fixing a bug,
 editing documentation etc.</p>
 
 <h3>Workflow:</h3>
@@ -103,7 +103,7 @@ own fork on Github are located at <a href="https://help.github.com/articles/fork
   to date with changes to the model, but you shouldn&#39;t need to re-fork the
   model.</p>
 
-<p>How to create a fork: 
+<p>How to create a fork:
    - Go to the <a href="https://github.com/regine/meltmodel">model github page</a>
    - Click on &#39;Fork&#39;. This makes your own fork and at the same time copies the entire github model repository
    (including all branches) to your fork on github.</p>
@@ -170,21 +170,21 @@ is made.</li>
 
 <p>At the command line, you can view the status of your files
   via the command</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git status 
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git status
 </code></pre></div>
 <p>Editing a tracked, but unmodified, file will change its status
   to modified, but these changes will not be tracked by Git until we
-  commit them to the repository. </p>
+  commit them to the repository.</p>
 
 <ol>
 <li><strong>Commit Your Changes</strong>:
 Once you&#39;re happy with your changes, it&#39;s time to assemble
-and commit your changes which means that it will allow you to browse 
+and commit your changes which means that it will allow you to browse
 the history of changes in the code
-because by committing the changes they become part of the version control. 
+because by committing the changes they become part of the version control.
 Because Git doesn&#39;t
 force us to save all of the changes we&#39;ve made at the same time,
-we can separate our edits into several commits. If we think 
+we can separate our edits into several commits. If we think
 of a single commit as a snapshot of the project at a particular
 point in time, it&#39;s a good idea to ensure that every commit
 we make represents a single change to the project, be it a
@@ -205,13 +205,13 @@ has changed. You may want to compile the model before committing your changes
   we need to assemble a commit, by <em>staging</em> changes. Git requires
   you to explicitly add every change that you want included. Suppose
   we&#39;ve only changed the source file <code>radiat.c</code> and
-  the corresponding header file <code>radiat.h</code>. 
+  the corresponding header file <code>radiat.h</code>.
   * <em>Stage</em> These files are currently untracked by Git. We add them
     by staging them using the <code>git add</code> command.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">        $ git add radiat.c radiat.h
 </code></pre></div>
 <ul>
-<li>If we added a new source file, e.g. <code>longwave.c</code> we add that file including the header file,<br></li>
+<li>If we added a new source file, e.g. <code>longwave.c</code> we add that file including the header file,</li>
 <li>From here we can use <code>git status</code> to see the status of
 the local repository, if we decide we&#39;d like to undo some changes
 or add more changes we still can before we make our commit,
@@ -238,8 +238,8 @@ as modified.</p></li>
 We can now happily edit away, making more changes at will. Repeat
 steps 4 and 5 as needed, making new commits as you go.</p></li>
 <li><p><strong>Push Branch to Github</strong>:
-At some point you&#39;ll want to push the entire branch that contains your the changes on 
-local computer 
+At some point you&#39;ll want to push the entire branch that contains your the changes on
+local computer
 to your own github repository.  This will allow you to access the content from any other
 computer and also makes your changes visible to others. If you
 have pulled the source from your own fork on Github (see step 2 above) this is
@@ -248,8 +248,8 @@ as easy as</p>
 </code></pre></div>
 <p>where &quot;longwave&quot; is our example of the name of the branch and needs to be replaced
 by the name of the branch you are using.
-This tells git to push the changes you&#39;ve made on the branch 
-&quot;longwave&quot; to the remote server named &quot;origin&quot; which is, by default, the server you 
+This tells git to push the changes you&#39;ve made on the branch
+&quot;longwave&quot; to the remote server named &quot;origin&quot; which is, by default, the server you
 cloned the model from.</p></li>
 </ol>
 
@@ -271,13 +271,13 @@ on Pull Requests is a good place to learn more about Pull Requests.</li>
 </ol>
 
 <p>How to make a pull request:
-    Go to your fork on github and change into the branch that you want to merge with the 
+    Go to your fork on github and change into the branch that you want to merge with the
     &#39;official&#39; master version.
     click on &#39;submit pull request&#39;.</p>
 
 <p>This will notify the model administrators and create a page where people can discuss
    the proposed model changes. Note that it is up to the administrator to merge your changes
-   into the &#39;official&#39; master version. You don&#39;t have permission to do so and need to 
+   into the &#39;official&#39; master version. You don&#39;t have permission to do so and need to
    contact <a href="mailto:regine@gi.alaska.edu">R. Hock</a>.</p>
 
 <h3>Other useful operations</h3>
@@ -286,13 +286,13 @@ on Pull Requests is a good place to learn more about Pull Requests.</li>
 <li><p><strong>Deleting a Branch</strong>:
 Git&#39;s branches are easy to make, and easy to delete. If we decide that
 the changes we&#39;ve made on the branch aren&#39;t to your likeing, and
-want to get rid of them entirely, we can delete the entire branch. 
+want to get rid of them entirely, we can delete the entire branch.
 Here we&#39;re going to delete the <code>longwave</code> branch.</p>
 
 <ol>
 <li><p><strong>Deleting a Branch Locally</strong>:
 We should first make sure that we&#39;re on a different branch from the one
-we&#39;re deleting. Also you have to commit all your changes or stash them 
+we&#39;re deleting. Also you have to commit all your changes or stash them
 before you can switch branches:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
 </code></pre></div>
@@ -300,7 +300,7 @@ before you can switch branches:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ git branch -D longwave
 </code></pre></div></li>
 <li><p><strong>Deleting a Branch on your fork on Github</strong>:
-The above only deletes the local version of the branch on your computer. If this branch has 
+The above only deletes the local version of the branch on your computer. If this branch has
 been pushed to your fork on Github, we can delete it there too. This should be done
 with caution.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ git push origin :longwave
@@ -309,7 +309,7 @@ with caution.</p>
 <li><p><strong>Merging Branches on your own fork</strong>:
 We&#39;ve gone over making branches to isolate changes, and deleting branches when
 those changes don&#39;t work out, so it remains to combine branches when changes
-do work out. It is recommended to merge branches locally and then push the merged 
+do work out. It is recommended to merge branches locally and then push the merged
 branch to github.
 When there are no conflicts, merging with git is simple. Suppose
 we&#39;ve finished making changes on our <code>longwave</code> branch, are pleased with
@@ -320,7 +320,7 @@ Assuming we&#39;re on the <code>longwave</code> branch we first checkout the <co
 <p>And then merge the <code>longwave</code> branch into it:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ git merge longwave
 </code></pre></div>
-<p>Assuming no conflicts were found, your master branch will now have 
+<p>Assuming no conflicts were found, your master branch will now have
 new commits in it which incorporate the changes made on the <code>longwave</code> branch.
 It&#39;s a good idea to look over the new code to make sure that the merge resulted
 in the code you expected, and that nothing surprising broke.</p></li>
@@ -344,13 +344,460 @@ Two ways to do so:</p>
 <li>Using the Pull Request Merge Button: Github provides an automated
 way to pull in changes via the Pull Request. If Git detects conflicts
 in the merge, you will be presented with instructions on manually proceeding
-with the merge. </li>
+with the merge.</li>
 <li><p>Manually merging via the commandline:
 Following the example we have been working with, to merge
 the changes we&#39;ve made on the <code>longwave</code>
 branch into the <code>master</code> branch we would do the following
 from the command line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master 
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
+$ git merge longwave
+</code></pre></div></li>
+</ol>
+
+<p><strong>Push to Github</strong>:
+Finally, to push the changes we&#39;ve made up to Github, we would do the following
+from the command line.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git push origin master
+</code></pre></div></li>
+<li><p><strong>Remote Repositories</strong>:
+Becasue Git is a distributed system, it gives us the abolity to interact with
+multiple &quot;central&quot; repositories. That is, my local clone of the repository
+can simultaneously retrieve and send commits to/from my fork on github,
+the official fork on github, someone else&#39;s fork, or remote repositories
+located elsewhere. On our local machines, we use the <code>git remote</code>
+subcommand to manage how our local copy of the code interacts with remote
+copies on servers or elsewhere.</p></li>
+</ol>
+
+<ul>
+<li><strong>Pulling Down Changes From the Official Repository</strong></li>
+</ul>
+
+<ol>
+<li><p><em>Adding the Official Repo to your Local Repo</em>:
+Assuming that you have cloned you local copy of the code from your own fork
+on Github, we&#39;d like to be able to pull code from the official reposotory,
+say when bug fixes occur. In the commandline, change directories into your
+local copy of your repository. At the commandline enter:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  $ git remote add regine https://github.com/regine/meltmodel.git
+</code></pre></div>
+<p>You can double check that the remote has been added correctly using</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  $ git remote -v
+</code></pre></div>
+<p>which will list the remote repositories availibe to your local repo.</p>
+
+<p>Remotes are useful for working with other collaberators as well, the
+general syntax for adding remotes is:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  $ git remote add &lt;remote_name&gt; &lt;remote_clone_url&gt;
+</code></pre></div></li>
+<li><p><em>Pulling Changes From a Remote</em>:
+When we want to bring our local branch up-to-date with a remote branch
+(say bring  <code>master</code> up to date with the official <code>master</code> branch)
+we use the <code>git pull</code> command.</p>
+
+<ul>
+<li><p>First, checkout the branch we will pull onto</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
+</code></pre></div></li>
+<li><p>Then pull changes from the remote <code>regine</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git pull regine
+</code></pre></div></li>
+</ul></li>
+<li><p><em>Pushing Changes To a Remote</em>:
+The other obvious operation we&#39;d like from remotes is the ability
+to push changes up to them. We do this via the <code>git push</code> command.
+The only difference between pushing to your fork, on remote <code>origin</code>
+and pushing to any other remote is that we specify the remote&#39;s name</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git push &lt;remote_name&gt;
+</code></pre></div>
+<p>This assumes that you have write access to the remote repository
+you are pushing to.</p></li>
+</ol>
+
+<p><strong>An Example</strong>:
+  Suppose we&#39;ve cloned the official repository, made some changes, and
+  decided to fork the project on Github and push our chages to it.
+  We can start by renaming the official remote</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git remote rename origin regine
+</code></pre></div>
+<p>Then add our remote, giving it the name <code>origin</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git remote add origin https://github.com/&lt;user_name&gt;/meltmodel.git
+</code></pre></div>
+<p>Now we can push the changes we&#39;ve made on our branch to our fork:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git push origin --set-upstream &lt;branch_name&gt;
+</code></pre></div>
+<p>by specifying <code>--set-upstream</code>, we&#39;re telling git that your local branch
+  specified by <branch_name> corresponds to the same branch located on our remote, <code>origin</code>.</p>
+
+<p><strong>Caveat</strong>
+  Git versions prior to v1.8.x may have issues using HTTP(S) addresses.
+  To deal with the you will either need to update your version of git,
+  or use ssh remotes. Github has decumentation to setting up ssh remotes
+  <a href="https://help.github.com/categories/56/articles">here</a>.</p>
+
+<p>Further information about the remote tool can be found at <a href="http://gitref.org/remotes/#remote">Git Ref</a>.</p>
+
+<h3>A Concise version of the above</h3>
+
+<p><strong>Making Model Changes</strong>:</p>
+
+<ol>
+<li><p>Create a new branch:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git branch &lt;branch_name&gt;
+</code></pre></div></li>
+<li><p>Check out a branch:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout &lt;branch_name&gt;
+</code></pre></div></li>
+<li><p>Make Changes/ Add files</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git add &lt;new/changed_filename&gt;
+</code></pre></div></li>
+<li><p>Check on what&#39;s added/changed/staged</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git status
+</code></pre></div></li>
+<li><p>Commit changes</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git commit
+</code></pre></div></li>
+<li><p>Push to Github</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git push origin
+</code></pre></div></li>
+<li><p>Delete a local branch</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git branch -d &lt;branch_name&gt;
+</code></pre></div></li>
+<li><p>Merge one branch (source) into another (target)</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout &lt;target_branch_name&gt;
+$ git merge &lt;source_branch_name&gt;---
+</code></pre></div>
+<p>layout: front_page
+title: DEBaM and DETIM</p>
+
+<h2>subtitle: Contributing</h2></li>
+</ol>
+
+<h2>Git and Github</h2>
+
+<p>We use <a href="git-scm.com">git</a> to keep track of changes we make to
+the model. Git is a revision control system, similar in purpose
+to SVN or CVS, but different in execution.
+If you&#39;re new to git, Github has some good documentation on
+<a href="https://help.github.com/articles/set-up-git">setting up git</a>,
+and <a href="http://gitref.org/">gitref</a> is a good quick-reference page and has an
+excellent git tutorial as well,
+the git project&#39;s <a href="http://git-scm.com/documentation">documentation</a>
+is a good resource for more in-depth details on git&#39;s workings,
+and Jan Krüger has a great
+<a href="http://jan-krueger.net/development/git-cheat-sheet-take-two">git cheat sheet</a>
+if one needs a quick reference.</p>
+
+<p>The model repository is hosted by <a href="http://github.com">Github</a>,
+a webpage that offers project hosting, as well as a bevy of tools
+for collaborating using git. Signing up, as well as hosting
+open source projects, is free, and we strongly recommend that collaborators
+sign up and use Github to assist in collaboration.</p>
+
+<h2>Versioning</h2>
+
+<p>As of version 1.0.0 (Sep 2013), we&#39;ve begun using <a href="http://semver.org/">Semantic Versioning</a>
+to dictate model version numbers. Roughly speaking, version numbers consist of
+MAJOR.MINOR.PATCH, which are incremented when</p>
+
+<ol>
+<li><p>MAJOR: when backwards incompatible changes are made</p></li>
+<li><p>MINOR: when backwards-compatible functionality is added</p></li>
+<li><p>PATCH: when backwards-compatible bug fixes are made.</p></li>
+</ol>
+
+<p>The upshot of which is that your parameter files for model version
+ <code>1.0.3</code> will not work with version <code>3.6.4</code> but will work
+with <code>1.2.0</code> and <code>1.0.4</code>.  If you are contributing, we
+highly recommend you read the <a href="http://semver.org">full SemVer specification</a>.</p>
+
+<p>The various versions of the model are marked in git with <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tags</a>
+and can be <a href="https://github.com/regine/meltmodel/releases">reviewed on Github</a>.
+Creating a new tag using git is straightforward, as is pushng the tag to a server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git tag &lt;tag-name&gt;
+<span class="nv">$ </span>git push &lt;remote&gt; &lt;tag-name&gt;
+</code></pre></div>
+<p>For example, supose we wanted to tag version 1.2.5, and push this tag to
+Github. At the shell we would type:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git tag v1.2.5
+<span class="nv">$ </span>git push origin v1.2.5
+</code></pre></div>
+<p>which create the new tag, and sends it to the server.</p>
+
+<h2>Using Git to contribute to model development</h2>
+
+<p>Git&#39;s a flexible tool, which allows for a wide variety of
+work flows.  Here&#39;s one which serves well for working with DEBaM
+and DETIM, i.e. if you want to contribute to the model by adding a feature, fixing a bug,
+editing documentation etc.</p>
+
+<h3>Workflow:</h3>
+
+<ol>
+<li><strong>Fork</strong>:
+Github allows you to create your own fork of the model code,
+and host it on Github as well. Think of your fork as your own version of
+the model, which you can modify, upload and share these modifications. Github also
+offers tools for combining changes from forks into the main project, as well
+as tools to discussing changes before they are merged. These tools make forking
+the project a great way to get started contributing, instructions for making your
+own fork on Github are located at <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
+</ol>
+
+<p>This only needs to be done the first time you start working with the
+  model code; your fork will need to be updated occasionally to keep up
+  to date with changes to the model, but you shouldn&#39;t need to re-fork the
+  model.</p>
+
+<p>How to create a fork:
+   - Go to the <a href="https://github.com/regine/meltmodel">model github page</a>
+   - Click on &#39;Fork&#39;. This makes your own fork and at the same time copies the entire github model repository
+   (including all branches) to your fork on github.</p>
+
+<ol>
+<li><strong>Download a copy of your fork to your local computer</strong></li>
+</ol>
+
+<p>open terminal</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">     $ git clone https://github.com/USERNAME/meltmodel.git
+</code></pre></div>
+<p>(Replace &#39;USERNAME&#39; with your user name)
+   Now you a local copy of your Github fork on your computer.</p>
+
+<ol>
+<li><strong>Branch</strong>:
+Make a new branch off of
+the <strong>master</strong> branch of your local copy, and give it a descriptive name.
+Branches let you make changes and develop them separate
+from the main line of development. This way if your changes take
+a while or you need to work on a different part of the project
+you can commit the changes you&#39;ve made so far, and switch
+back to your master branch for model application. Or if your changes don&#39;t
+work out, you can delete the changes you made by simply deleting the
+branch instead of having to track down every change made.</li>
+</ol>
+
+<p>Say we want to add a new parameterization to compute longwave radiation,
+  at the terminal (in folder meltmodel) make a new branch by typing:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git branch longwave
+    $ git checkout longwave
+</code></pre></div>
+<p>or, we can use the equivalent one-liner:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git checkout -b longwave
+</code></pre></div>
+<p>this will create a new branch, entitled <code>longwave</code>
+  and make that the active branch. Now, any changes which we commit to
+  the repository will be made to the new branch only.</p>
+
+<p>The title of the branch <code>longwave</code> is just an example, we could have
+  named the new branch anything, but we should give the branches
+ descriptive names.</p>
+
+<ol>
+<li><strong>Make Changes to the Source Code</strong>:
+Now that we&#39;re in a new branch on our local computer, we can make changes at will, by
+editing, adding or removing files.
+Git will recognize files in the directory as being in one of
+four statuses:
+
+<ul>
+<li><em>Untracked:</em> Git is not tracking this file, and it is not
+included in the repository.</li>
+<li><em>Unmodified:</em> Git is tracking this file, and it has not
+changed since the most recent commit.</li>
+<li><em>Modified:</em> This file is being tracked, and has changed
+since the last commit, but Git has not been told to
+include these changes.</li>
+<li><em>Staged:</em> Some changes made to this file have been staged,
+and these changes will be included the next time a commit
+is made.</li>
+</ul></li>
+</ol>
+
+<p>At the command line, you can view the status of your files
+  via the command</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git status
+</code></pre></div>
+<p>Editing a tracked, but unmodified, file will change its status
+  to modified, but these changes will not be tracked by Git until we
+  commit them to the repository.</p>
+
+<ol>
+<li><strong>Commit Your Changes</strong>:
+Once you&#39;re happy with your changes, it&#39;s time to assemble
+and commit your changes which means that it will allow you to browse
+the history of changes in the code
+because by committing the changes they become part of the version control.
+Because Git doesn&#39;t
+force us to save all of the changes we&#39;ve made at the same time,
+we can separate our edits into several commits. If we think
+of a single commit as a snapshot of the project at a particular
+point in time, it&#39;s a good idea to ensure that every commit
+we make represents a single change to the project, be it a
+bugfix, a new feature or one rearrangement. One benefit
+of making frequent, atomic commits, is that when bugs are found,
+and you need to back-track to find its source, it is much easier
+to back track through a series of small changes to root out the
+offending changes than it is to pick apart a large commit, where
+several desperate things have been changed. It&#39;s not a bad idea
+to make commits at semi-regular intervals while you&#39;re working
+on the code; once you&#39;ve finished a small task, make a commit.
+This way your commit history presents a history of how the code
+has changed. You may want to compile the model before committing your changes
+(go to the meltmodel folder and type &#39;make models&#39;)</li>
+</ol>
+
+<p>So how do we make a commit? Assuming we&#39;ve made some changes,
+  we need to assemble a commit, by <em>staging</em> changes. Git requires
+  you to explicitly add every change that you want included. Suppose
+  we&#39;ve only changed the source file <code>radiat.c</code> and
+  the corresponding header file <code>radiat.h</code>.
+  * <em>Stage</em> These files are currently untracked by Git. We add them
+    by staging them using the <code>git add</code> command.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">        $ git add radiat.c radiat.h
+</code></pre></div>
+<ul>
+<li>If we added a new source file, e.g. <code>longwave.c</code> we add that file including the header file,</li>
+<li>From here we can use <code>git status</code> to see the status of
+the local repository, if we decide we&#39;d like to undo some changes
+or add more changes we still can before we make our commit,
+but we will need to stage these changes too, with another
+<code>git add</code> command.</li>
+<li><p><em>Commit</em> Once we&#39;ve staged a collection of changes,
+we need to save these changes to the repository.
+Simply type</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git commit
+</code></pre></div>
+<p>a text editor will open, and you should enter a descriptive message
+describing the changes made by this commit.
+If your message is sufficiently terse, you can enter it at the
+command line, with the <code>-m</code> option:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    $ git commit -m &quot;Added new longwave radiation parameterization.&quot;
+</code></pre></div>
+<p>Now, if we check the status of the local repository using <code>git status</code>
+we will see that the changes we committed are no longer marked
+as modified.</p></li>
+</ul>
+
+<ol>
+<li><p><strong>Make More Changes and Make More Commits</strong>:
+We can now happily edit away, making more changes at will. Repeat
+steps 4 and 5 as needed, making new commits as you go.</p></li>
+<li><p><strong>Push Branch to Github</strong>:
+At some point you&#39;ll want to push the entire branch that contains your the changes on
+local computer
+to your own github repository.  This will allow you to access the content from any other
+computer and also makes your changes visible to others. If you
+have pulled the source from your own fork on Github (see step 2 above) this is
+as easy as</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git push origin longwave
+</code></pre></div>
+<p>where &quot;longwave&quot; is our example of the name of the branch and needs to be replaced
+by the name of the branch you are using.
+This tells git to push the changes you&#39;ve made on the branch
+&quot;longwave&quot; to the remote server named &quot;origin&quot; which is, by default, the server you
+cloned the model from.</p></li>
+</ol>
+
+<p>Until you are sure that you want to include the changes you&#39;ve made
+  in the master branch of your fork, it&#39;s wise to keep your edits isolated
+  in the branch you&#39;ve made. Continue this by repeating steps
+  2 - 5. When your code is ready to be included in the model&#39;s
+  &quot;official&quot; code (master version), proceed to 8.</p>
+
+<ol>
+<li><strong>Submit a Pull Request</strong>:
+A good way to let people know that you&#39;ve been working on the model,
+and that your changes may be ready to be merged into the master version on github, is to
+submit a Pull Request through Github. Once you&#39;ve submitted a Pull
+request, people can review the changes, discuss modifications, and
+submit follow-up commits if need be.  Github&#39;s
+<a href="https://help.github.com/articles/using-pull-requests">help page</a>
+on Pull Requests is a good place to learn more about Pull Requests.</li>
+</ol>
+
+<p>How to make a pull request:
+    Go to your fork on github and change into the branch that you want to merge with the
+    &#39;official&#39; master version.
+    click on &#39;submit pull request&#39;.</p>
+
+<p>This will notify the model administrators and create a page where people can discuss
+   the proposed model changes. Note that it is up to the administrator to merge your changes
+   into the &#39;official&#39; master version. You don&#39;t have permission to do so and need to
+   contact <a href="mailto:regine@gi.alaska.edu">R. Hock</a>.</p>
+
+<h3>Other useful operations</h3>
+
+<ol>
+<li><p><strong>Deleting a Branch</strong>:
+Git&#39;s branches are easy to make, and easy to delete. If we decide that
+the changes we&#39;ve made on the branch aren&#39;t to your likeing, and
+want to get rid of them entirely, we can delete the entire branch.
+Here we&#39;re going to delete the <code>longwave</code> branch.</p>
+
+<ol>
+<li><p><strong>Deleting a Branch Locally</strong>:
+We should first make sure that we&#39;re on a different branch from the one
+we&#39;re deleting. Also you have to commit all your changes or stash them
+before you can switch branches:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
+</code></pre></div>
+<p>we can then delete the branch in our working copy</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git branch -D longwave
+</code></pre></div></li>
+<li><p><strong>Deleting a Branch on your fork on Github</strong>:
+The above only deletes the local version of the branch on your computer. If this branch has
+been pushed to your fork on Github, we can delete it there too. This should be done
+with caution.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git push origin :longwave
+</code></pre></div></li>
+</ol></li>
+<li><p><strong>Merging Branches on your own fork</strong>:
+We&#39;ve gone over making branches to isolate changes, and deleting branches when
+those changes don&#39;t work out, so it remains to combine branches when changes
+do work out. It is recommended to merge branches locally and then push the merged
+branch to github.
+When there are no conflicts, merging with git is simple. Suppose
+we&#39;ve finished making changes on our <code>longwave</code> branch, are pleased with
+the results, and want to include the code in the <code>master</code> branch of the code.
+Assuming we&#39;re on the <code>longwave</code> branch we first checkout the <code>master</code> branch</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
+</code></pre></div>
+<p>And then merge the <code>longwave</code> branch into it:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git merge longwave
+</code></pre></div>
+<p>Assuming no conflicts were found, your master branch will now have
+new commits in it which incorporate the changes made on the <code>longwave</code> branch.
+It&#39;s a good idea to look over the new code to make sure that the merge resulted
+in the code you expected, and that nothing surprising broke.</p></li>
+</ol>
+
+<p>If you are merging two branches and both have had commits made on them since the branch,
+  it&#39;s possible that git will have some trouble resolving the changes made, and you will
+  need to fix the offending lines by hand. Git&#39;s good about telling you this though
+  and about parking up your files to help you find points of contention.</p>
+
+<h4>Repository Administration</h4>
+
+<ol>
+<li><p><strong>Merge Pull Requests</strong>:
+In case you receive a pull request for any of your branches of your
+fork on Github you can decide to merge them into your code repository (master or any
+other branch you may have).
+Two ways to do so:</p>
+
+<ol>
+<li>Using the Pull Request Merge Button: Github provides an automated
+way to pull in changes via the Pull Request. If Git detects conflicts
+in the merge, you will be presented with instructions on manually proceeding
+with the merge.</li>
+<li><p>Manually merging via the commandline:
+Following the example we have been working with, to merge
+the changes we&#39;ve made on the <code>longwave</code>
+branch into the <code>master</code> branch we would do the following
+from the command line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
 $ git merge longwave
 </code></pre></div></li>
 </ol>
