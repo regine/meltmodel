@@ -1,5 +1,4 @@
-safe:       true 
-baseurl:    /
+safe:       true
 
 source:      ./
 destination: ./_site
