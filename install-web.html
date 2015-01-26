@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>DEBaM and DETIM: Installation Guide (Version 1.0.0)</title>
+    <!-- Homepage CSS -->
+    <link rel="stylesheet" href="./css/screen.css" type="text/css" media="screen, projection" />
+
+ </head>
+
+<body>
+<a href=http://github.com/regine/meltmodel><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="outerContainer">
+  <div class="header">
+    <span class="pageTitle">
+        <a href="index.html">DEBaM and DETIM</a>
+    </span><br>
+    <span class="small">
+        Installation Guide (Version 1.0.0)
+    </span>
+  </div>
+  <div id="container">
+    <div class="description">
+    </div>
+
+    <h2>Prerequisites</h2>
+
+<p>Because the models are distributed only as source, there are a few
+prerequisites needed before you can build and use the model. Namely:</p>
+
+<ul>
+<li>A working C compiler: Since the models is written in C, you&#39;ll need
+something to compile it.</li>
+<li>Gnu Make</li>
+</ul>
+
+<p>If you already have these on your machine, skip down to the section 
+<a href="#compiling">Compiling</a></p>
+
+<h2>Setting up Mac OS X</h2>
+
+<ol>
+<li>To get a C compiler and Make for OS X, you will need to obtain 
+Apple&#39;s software development tool <a href="https://developer.apple.com/xcode/">Xcode</a>.
+Included with Xcode are the compilers needed to build DEBaM and DETIM.
+
+<ul>
+<li>The easiest way to obtain Xcode is via the App Store. It&#39;s pretty big,
+so do this somewhere with a fast internet connection. </li>
+<li>Once it&#39;s downloaded, open Xcode from your Applications folder.
+Follow the instructions asked by the dialog boxes.</li>
+<li>After Xcode has finished installing, one further step is needed to install
+the command-line tools:
+
+<ul>
+<li>Open the menu Xcode &gt; Preferences</li>
+<li>Open the Downloads tab in the Preferences</li>
+<li>In the Downloads list, select Command Line Tools, and push the
+install button</li>
+</ul></li>
+</ul></li>
+<li>You&#39;re done!</li>
+</ol>
+
+<h2>Setting up Linux</h2>
+
+<p>This is perhaps the easiest situation in which you could find yourself,
+not least because you probably already have everything you need.</p>
+
+<p>Many distros come packaged with a C compiler and Make, but a notable few
+don&#39;t. If you have the following, run the commands below at the command line</p>
+
+<ul>
+<li><p><strong>Ubuntu/Debian</strong>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ apt-get install build-essential
+</code></pre></div></li>
+<li><p><strong>Fedora</strong>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ yum install make automake gcc gcc-c++ 
+</code></pre></div></li>
+<li><p><strong>Arch</strong>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ pacman -S base-devel
+</code></pre></div></li>
+</ul>
+
+<h2>Setting up Windows</h2>
+
+<p>On Windows, we have had success getting DEBaM and DETIM running using 
+<a href="http://www.cygwin.com/">Cygwin</a>, a Linux-like system for Windows.</p>
+
+<p>Each of the following instructions roughly corresponds to a single dialog
+window of Cygwin&#39;s installer.</p>
+
+<ol>
+<li>Download and run Cygwin&#39;s <code>setup.exe</code> installer; this will
+install Cygwin, as well as the compiler gcc an Make.</li>
+<li>Click &quot;Next&quot; at the first prompt.</li>
+<li>When prompted to &quot;Choose A Download Source&quot; select &quot;Install from Internet&quot;</li>
+<li>Choose your Root Install Directory: unless you are really sure,
+leave this set to the default.</li>
+<li>Ditto for &quot;Select Local Package Repository&quot;</li>
+<li>Under &quot;Select Connection Type&quot;, let Cygwin know how to connect to
+the internet (usually &quot;Direct Connection&quot;).</li>
+<li>Under &quot;Select a Mirror&quot; it&#39;s fine to do nothing here. If your
+download speeds really crawl, you can cancel the installation
+and change this. </li>
+<li>Under &quot;Select Packages&quot; expand the &quot;Devel&quot; section by clicking
+on the &quot;+&quot; sign in the box.
+
+<ul>
+<li>Select <code>gcc</code>, and <code>make</code>.</li>
+</ul></li>
+<li><p>Click &quot;Next&quot; and follow the remaining installation instructions.</p></li>
+<li><p>Open Cygwin by either clicking the icon on your desktop, or
+via the Start Menu. Cygwin will present itself as command prompt
+window.</p></li>
+<li><p>Proceed as below in the <a href="#compiling">Compiling</a> section.</p></li>
+</ol>
+
+<p><a id="compiling"></a></p>
+
+<h2>Compiling</h2>
+
+<h4>Getting The Source</h4>
+
+<p>Now you&#39;ll need to get a copy of the source code (We suggest you download the version master). 
+The models are hosted from our <a href="http://github.com/regine/meltmodel">github repository</a>.
+You can download the source as zip or tar files via:</p>
+
+<ul>
+<li> <a href="http://github.com/regine/meltmodel/zipball/master">meltmodel-master.zip</a></li>
+<li> <a href="http://github.com/regine/meltmodel/tarball/master">meltmodel-master.tar.gz</a></li>
+</ul>
+
+<p>Alternately, you can also clone the project with <a href="http://git-scm.com">Git</a> by
+running:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git clone https://github.com/regine/meltmodel.git
+</code></pre></div>
+<p>from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). 
+If you plan to contribute to the
+project and change or add to the source code, you should use git, and spend some time getting
+familiar with it. More information about git can be
+found at <a href="http://git-scm.com/">git-scm</a> or at 
+<a href="http://help.github.com/articles/">Github</a>.</p>
+
+<p>Note, that the <strong>master version</strong> will always be the most up-to-date model version. Earlier
+version are called &#39;release_XXX&#39; with XXX denoting the release number. 
+Older versions of the model are marked in git with <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tags</a>
+and can be <a href="https://github.com/regine/meltmodel/releases">reviewed on Github</a> under &#39;Branch&#39;.</p>
+
+<h4>Compiling</h4>
+
+<p>Open up a command-line window and navigate to the folder containing the 
+model source files.</p>
+
+<p>At the command prompt, do</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd meltmodel
+$ make models
+</code></pre></div>
+<p>The model executables and required input parameter files will now be located in <code>meltmodel/bin</code>. 
+The model source files are under <code>meltmodel/src</code>.
+A detailed description of the folders and files after installation which are under the folder <code>meltmodel</code> 
+is given <a href="http://github.com/regine/meltmodel/tree/master/organization.md">here</a>.
+.</p>
+
+<p>The Makefile provides several different build targets, for those who
+only wish to build parts of the project. These targets are built by
+running <code>make &lt;target_name&gt;</code> at the command line, where <code>&lt;target_name&gt;</code>
+is one of the following:</p>
+
+<ul>
+<li><strong>debam</strong> or <strong>detim</strong>: Either of these builds <em>only</em> the model</li>
+<li><strong>models</strong>: builds both models</li>
+<li><strong>ascigrid</strong> or <strong>gridasci</strong> or <strong>gridtools</strong>: ascigrid and gridasci build the individual executables, grid tools builds both</li>
+<li><strong>shading</strong>: builds the shading tool</li>
+<li><strong>utils</strong>: builds both shading and the grid tools</li>
+<li><strong>all</strong>: builds everything</li>
+<li><strong>clean</strong>: deletes all built executables and intermediate build products. </li>
+</ul>
+
+<p>For information regarding running the model, please consult
+the model manual, located at <a href="http://gi.alaska.edu/%7Eregine/meltmodel">Regine Hock&#39;s page</a>.</p>
+
+<h4>Additional Model Tools</h4>
+
+<p>Additional tools have been developed to help with certain tasks related to the model, for example,
+making model calibration more efficient. They are described and can be downloaded at the <a href="tools.html">External Tools page</a>.</p>
+
+
+  </div></div>
+</body>
+</html>

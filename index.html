@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>DEBaM and DETIM: Two Distributed Glacier Surface Mass-Balance and Discharge Models</title>
+    <!-- Homepage CSS -->
+    <link rel="stylesheet" href="./css/screen.css" type="text/css" media="screen, projection" />
+
+ </head>
+
+<body>
+<a href=http://github.com/regine/meltmodel><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="outerContainer">
+  <div class="header">
+    <span class="pageTitle">
+        <a href="index.html">DEBaM and DETIM</a>
+    </span><br>
+    <span class="small">
+        Two Distributed Glacier Surface Mass-Balance and Discharge Models
+    </span>
+  </div>
+  <div id="container">
+    <div class="description">
+    </div>
+
+    <h2>Overview</h2>
+
+<p>Welcome to the homepage of two open source glacier surface mass-balance and discharge
+models (Version 2.0.2):</p>
+
+<ul>
+<li><strong>D</strong>istributed <strong>E</strong>nergy <strong>Ba</strong>lance <strong>M</strong>odel (DEBaM)</li>
+<li><strong>D</strong>istributed <strong>E</strong>nhanced <strong>T</strong>emperature <strong>I</strong>ndex <strong>M</strong>odel (DETIM)</li>
+</ul>
+
+<p>The models compute <strong>glacier surface mass balance</strong> (ablation and accumulation) and
+discharge, with hourly to daily resolution.
+The mass balance model is fully distributed, i.e. calculations are performed for each grid cell of a
+digital elevation model. Discharge is calculated by three
+linear reservoirs corresponding to the different storage properties of firn,
+snow and glacier ice. <strong>Discharge</strong> simulations are optional, i.e. the mass balance
+model can be run independently of the discharge model. Glacier <strong>retreat</strong> may also
+be modeled using a simple volume-area scaling.
+In addition, DEBaM can compute subsurface temperatures, water content and percolation
+via a 1-D <strong>multi-layer snow model</strong> that is forced by the surface energy balance.</p>
+
+<p><strong>Minimum data requirements</strong> are a digital elevation model and hourly or daily air
+temperature and precipitation data (DETIM) and temperature, precipitation, wind speed, relative humidity
+and shortwave incoming radiation (DEBaM).</p>
+
+<p>The models were initially developed by Regine Hock in the mid 1990s, and have
+since been continuously expanded. In 2006, Carleen Tijm-Reijmer contributed
+the subsurface snow model used by DEBaM. The models are portable to different platforms (Mac, Linux, Windows ...).
+The models were made open source in August 2012
+with help of Lyman Gillispie.</p>
+
+<ul>
+<li><strong>DEBaM</strong> computes surface melt by an energy balance approach</li>
+<li><strong>DETIM</strong> computes surface melt by various temperature index approaches.</li>
+</ul>
+
+<h2>Download</h2>
+
+<p>The models are hosted from our <a href="http://github.com/regine/meltmodel">github repository</a>.
+You can download the source as zip or tar files via:</p>
+
+<ul>
+<li> <a href="http://github.com/regine/meltmodel/zipball/master">meltmodel-master.zip</a></li>
+<li> <a href="http://github.com/regine/meltmodel/tarball/master">meltmodel-master.tar.gz</a></li>
+</ul>
+
+<p>Alternately, you can also clone the project with <a href="http://git-scm.com">Git</a> by
+running:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git clone https://github.com/regine/meltmodel.git
+</code></pre></div>
+<p>from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line).
+If you plan to modify the model source code, or contribute to the
+project, this is the preferred method. More information about git can be
+found at <a href="http://git-scm.com/">git-scm</a> or at
+<a href="http://help.github.com/articles/">Github</a>.</p>
+
+<p>The download will always include both DETIM and DEBaM. Most files are needed for both models.
+Note that the <strong><em>master version</em></strong> is always the most up-to-date model version.</p>
+
+<h2>Installation</h2>
+
+<p>Prerequisites:</p>
+
+<ul>
+<li>GNU Make</li>
+<li>A working C compiler</li>
+</ul>
+
+<p>To build DeBAM and DETIM, do</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd meltmodel
+$ make models
+</code></pre></div>
+<p>The model executables (detim and debam) will now be located in <code>meltmodel/bin</code></p>
+
+<p>A <strong>complete installation guide</strong> is available <a href="install-web.html">here</a>.</p>
+
+<h2>Documentation/Manual</h2>
+
+<p>The most recent revision of the manual is available <a href="http://gi.alaska.edu/%7Eregine/meltmodel.html">here</a>.</p>
+
+<h2>Additional Model Tools</h2>
+
+<p>Additional tools have been developed to help with certain tasks related to the model, for example,
+making model calibration more efficient; a partial list of these may be found at the <a href="tools.html">External Tools page</a>.</p>
+
+<h2>Literature And Previous Applications</h2>
+
+<p>The models are described in detail in the following papers:</p>
+
+<ul>
+<li><p>DETIM :</p>
+
+<ol>
+<li>Hock, R. (1999),
+A distributed temperature index ice and snow melt
+model including potential direct solar radiation,
+<em>Journal of Glaciology</em>, <em>45</em>(149), 101-111.</li>
+</ol></li>
+<li><p>DEBaM :</p>
+
+<ol>
+<li>Hock, R., and B. Holmgren (2005),
+A distributed energy balance model for complex
+topography and its application to Storglaciären, Sweden,
+<em>Journal of Glaciology</em>, <em>51</em>(172), 25-36.</li>
+<li>Reijmer, C. H., and R. Hock (2008),
+A distributed energy balance model including
+a multi-layer sub-surface snow model,
+<em>Journal of Glaciology</em>, <em>54</em>(184), 61-72.</li>
+</ol></li>
+</ul>
+
+<p>List of references which are based on application of the source code is available <a href="references.html">here</a></p>
+
+<h2>Versioning</h2>
+
+<p>As of version 1.0.0 (September 2013), we&#39;ve begun using <a href="http://semver.org/">Semantic Versioning</a>
+to dictate model version numbers. Roughly speaking, version numbers consist of
+MAJOR.MINOR.PATCH, which are incremented when</p>
+
+<ol>
+<li>MAJOR: when backwards incompatible changes are made</li>
+<li>MINOR: when backwards-compatible functionality is added</li>
+<li>PATCH: when backwards-compatible bug fixes are made.</li>
+</ol>
+
+<p>For example, your parameter file (input.txt) of model version
+<code>1.0.3</code> will not work with version <code>3.6.4</code> but will work
+with <code>1.2.0</code> and <code>1.0.4</code>.</p>
+
+<p>The various versions of the model are marked in git with <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tags</a>
+and can be <a href="https://github.com/regine/meltmodel/releases">reviewed on Github</a>.</p>
+
+<h2>Additional Information</h2>
+
+<p>For further information contact <a href="http://gi.alaska.edu/%7Eregine/">Regine Hock</a>,
+(University of Alaska, Fairbanks) or <a href="http://www.staff.science.uu.nl/%7Ereijm101/">Carleen Tijm-Reijmer</a>
+(University Utrecht). Note that the model may
+contain errors and the model manual may not be complete or outdated. User
+support and further code improvements are available in direct collaboration
+with us.</p>
+
+<p>If you find errors or have suggestions how the manual (or model) can be improved,
+please feel free to let up know via the Github Issues page for the models or via email.</p>
+
+<h2>Model updates and changes</h2>
+
+<p>The model constantly evolves. All significant model changes and updates since 2012 are logged <a href="http://github.com/regine/meltmodel/tree/master/changes.md">here</a>.
+If you are interested in contributing to the model directly, for example, by adding new features, check our <a href="contributing.html">contributing page</a>. We use <a href="http://git-scm.com/">git</a>
+and <a href="github.com">Github</a> to manage our code.</p>
+
+
+  </div></div>
+</body>
+</html>

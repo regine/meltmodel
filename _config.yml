@@ -1,7 +1,0 @@
-safe:       true
-
-source:      ./
-destination: ./_site
-
-
-markdown: redcarpet
