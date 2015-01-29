@@ -5,6 +5,18 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
+#### 29 January 2015: (ERROR, TECHNICAL L. Gillispie)
+* v2.1.2
+  - The makefile now detects whether or not the underlying kernel is 32-bit, and compiles
+  accoringly.
+  - Moved the function ```statistdouble``` from ```snowmodel.c:52``` to ```writerout.c:841```,
+  An existing, and older function ```statist``` with the same purpose has exitsed in writeout,
+  having both in the same file makes morelogical sense.
+  - Fixed a type-mistatch bug related to ```statist``` being called when ```statistdouble```
+  should have been.
+  - Fixed a bug wherin the energy model was attempting to wrtieout unallocated grids, and was causing
+    the enegry model to segfault.
+
 #### 21 January 2015: (ERROR, L. Gillispie)
 * v2.1.1
   - fixes an un-allocated pointer error which caused segmentation faults in certain circumstances
