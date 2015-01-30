@@ -20,7 +20,7 @@
         <a href="index.html">DEBaM and DETIM</a>
     </span><br>
     <span class="small">
-        Installation Guide (Version 1.0.0)
+        Installation Guide (Version 2.1.2)
     </span>
   </div>
   <div id="container">
@@ -38,13 +38,13 @@ something to compile it.</li>
 <li>Gnu Make</li>
 </ul>
 
-<p>If you already have these on your machine, skip down to the section 
+<p>If you already have these on your machine, skip down to the section
 <a href="#compiling">Compiling</a></p>
 
 <h2>Setting up Mac OS X</h2>
 
 <ol>
-<li>To get a C compiler and Make for OS X, you will need to obtain 
+<li>To get a C compiler and Make for OS X, you will need to obtain
 Apple&#39;s software development tool <a href="https://developer.apple.com/xcode/">Xcode</a>.
 Included with Xcode are the compilers needed to build DEBaM and DETIM.
 
@@ -79,7 +79,7 @@ don&#39;t. If you have the following, run the commands below at the command line
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ apt-get install build-essential
 </code></pre></div></li>
 <li><p><strong>Fedora</strong>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ yum install make automake gcc gcc-c++ 
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ yum install make automake gcc gcc-c++
 </code></pre></div></li>
 <li><p><strong>Arch</strong>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ pacman -S base-devel
@@ -88,7 +88,7 @@ don&#39;t. If you have the following, run the commands below at the command line
 
 <h2>Setting up Windows</h2>
 
-<p>On Windows, we have had success getting DEBaM and DETIM running using 
+<p>On Windows, we have had success getting DEBaM and DETIM running using
 <a href="http://www.cygwin.com/">Cygwin</a>, a Linux-like system for Windows.</p>
 
 <p>Each of the following instructions roughly corresponds to a single dialog
@@ -126,7 +126,7 @@ window.</p></li>
 
 <h4>Getting The Source</h4>
 
-<p>Now you&#39;ll need to get a copy of the source code (We suggest you download the version master). 
+<p>Now you&#39;ll need to get a copy of the source code (We suggest you download the version master).
 The models are hosted from our <a href="http://github.com/regine/meltmodel">github repository</a>.
 You can download the source as zip or tar files via:</p>
 
@@ -139,30 +139,30 @@ You can download the source as zip or tar files via:</p>
 running:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ git clone https://github.com/regine/meltmodel.git
 </code></pre></div>
-<p>from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line). 
+<p>from a terminal (i.e. open a terminal and copy the line above (git ....) into the command line).
 If you plan to contribute to the
 project and change or add to the source code, you should use git, and spend some time getting
 familiar with it. More information about git can be
-found at <a href="http://git-scm.com/">git-scm</a> or at 
+found at <a href="http://git-scm.com/">git-scm</a> or at
 <a href="http://help.github.com/articles/">Github</a>.</p>
 
 <p>Note, that the <strong>master version</strong> will always be the most up-to-date model version. Earlier
-version are called &#39;release_XXX&#39; with XXX denoting the release number. 
+version are called &#39;release_XXX&#39; with XXX denoting the release number.
 Older versions of the model are marked in git with <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tags</a>
 and can be <a href="https://github.com/regine/meltmodel/releases">reviewed on Github</a> under &#39;Branch&#39;.</p>
 
 <h4>Compiling</h4>
 
-<p>Open up a command-line window and navigate to the folder containing the 
+<p>Open up a command-line window and navigate to the folder containing the
 model source files.</p>
 
 <p>At the command prompt, do</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ cd meltmodel
 $ make models
 </code></pre></div>
-<p>The model executables and required input parameter files will now be located in <code>meltmodel/bin</code>. 
+<p>The model executables and required input parameter files will now be located in <code>meltmodel/bin</code>.
 The model source files are under <code>meltmodel/src</code>.
-A detailed description of the folders and files after installation which are under the folder <code>meltmodel</code> 
+A detailed description of the folders and files after installation which are under the folder <code>meltmodel</code>
 is given <a href="http://github.com/regine/meltmodel/tree/master/organization.md">here</a>.
 .</p>
 
