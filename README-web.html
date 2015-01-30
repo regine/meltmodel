@@ -27,14 +27,14 @@
     <div class="description">
     </div>
 
-    <h2>The Basics:</h2>
+    <h2>The Basics</h2>
 
 <p>Beginning in January 2015, we&#39;ve migrated this page from markdown-based format
 centered around Jekyll and Gihthub Pages to a more vanilla, html-based format.
 We still host the page on Github, but now all editing happens in raw html
 files, which no longer require any generation for previewing.</p>
 
-<h2>Editing the Site</h2>
+<h2>Editing the Webpage</h2>
 
 <h3>Download a Copy of the Webpage</h3>
 
@@ -71,41 +71,44 @@ release branch, checkout out <code>gh-pages</code> and the release in different 
 i.e. download 2 different copies.
 More info about git can be found at the <a href="http://git-scm.com">git project</a>.</p>
 
-<p>It&#39;s common that details
-regarding the compilation or use of the model change, and they need
-to be documented somewhere. A good idea is to first document these
-in the text and .md files included with the model source code;
-this helps ensure that when someone download your code, they&#39;ve also
-recieved instructions on how to get it up and running. This is especially
-important for users who may be using older code, with instructions
-differing from those posted to the webpage. Doing this makes it easier
-to update the webpage as well, since many of the pages here correspond
-to files inculded with the model source code. Below is a list
-of files which roughly corrsepond</p>
-
+<p>On the gh-pages branch you will find 6 html-files:
 <table>
   <thead>
     <tr>
-      <th>gh-pages</th>
-      <th>Model Source</th>
+      <th>File name</th>
+      <th>Content</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>index.html</td>
-      <td>README.md</td>
+      <td>contributing.html</td>
+      <td>Web-page describing how to contribute to the model code</td>
     </tr>
     <tr>
-      <td>install-web.html</td>
-      <td>INSTALL.md</td>
+      <td>index.html</td>
+      <td>Main model page</td>
     </tr>
+     <tr>
+      <td>instal-web.html</td>
+      <td>Instalation guide</td>
+    </tr>
+     <tr>
+      <td>README-web.html</td>
+      <td>This page describing how to change the webpage</td>
+    </tr>
+     <tr>
+      <td>references.html</td>
+      <td>Page with references using the model</td>
+    </tr>
+      <tr>
+      <td>tools.html</td>
+      <td>Page about MultiRun, Glazer</td>
+    </tr>
+    
   </tbody>
 </table>
 
-<p>The contents of the above file should be more or less the same
-for the currently released version of the model.</p>
-
-<h3>Making Edits</h3>
+<h3>Making Edits to these files</h3>
 
 <p>This webpage is written in HTML, and styled with a CSS file.
 These files may be modified in any text editior suitable for editing source code.</p>
@@ -113,7 +116,7 @@ These files may be modified in any text editior suitable for editing source code
 <h3>Previewing the Site</h3>
 
 <p>Once we have made edits, it&#39;s wise choice is to preview them in a web-browser
-to verify that they look correct. Simply open the .html file you&#39;ve been editin
+to verify that they look correct. Simply open the .html file you&#39;ve been editing
 using your favorite browser.</p>
 
 <h3>Uploading the Site to GitHub Pages</h3>
@@ -129,8 +132,8 @@ commit to the <code>gh-pages</code> branch using git.</p>
 </ul>
 
 <p>git will open an editor, and you should enter a brief
-  message describing the changes you have made.
-  If the message is sufficiently short, you can bypass the
+  message describing the changes you have made. If this does not work
+  or if the message is sufficiently short, you can bypass the
   editor, and enter you message on the commandline using the <code>-m</code>
   command-line option</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">    $ git commit -a -m &quot;&lt;commit-message&gt;&quot;
@@ -144,6 +147,47 @@ Github&#39;s <a href="http://status.github.com">status page</a> to see if there&
 <li><p>The full documentation for Github Pages can be viewed <a href="http://help.github.com/pages/">here</a></p></li>
 </ul>
 
+<h3>Editing the .md-files on the model branch</h3>
+<p>When downloading DETIM/DEBAM, 3 .md files will appear in the meltmodel
+folder corresponding to the following .html-files:</p>
+
+<table>
+  <thead>
+    <tr>
+     <th>Model Source</th>
+     <th>gh-pages</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>README.md</td>
+      <td>index.html</td>
+    </tr>
+    <tr>
+      <td>INSTALL.md</td>
+      <td>install-web.html</td>
+    </tr>
+        <tr>
+      <td>changes.md</td>
+      <td><i>no corresponding html-file</i></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+This helps ensure that when someone downloads the code, they&#39;ve also
+recieved instructions on how to get it up and running in case they
+don't have access to the internet. NOTE, if the .html files are
+updated and pushed to github, the .md-files remain
+unchanged. Therefore it is necessary to update them as well to make
+sure the corresponding .md and .html-files are the same and always updated.</p>
+
+<h3>Editing changes.md</h3>
+The webpage points at the copy of <b><i>changes.md</i></b> located in the main
+source on github, and does not have an html version.
+The 'changes'-webpage is modified by editing changes.md locally, and
+pushing the edited version up with git, or by applying changes
+directly at the github page.
 
   </div></div>
 </body>
