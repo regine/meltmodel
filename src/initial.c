@@ -6,7 +6,6 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -33,6 +32,7 @@
 #include<string.h>
 #include<math.h>
 
+/*include all .h files that have functions that are called in this file*/
 #include "closeall.h"
 #include "globcor.h"
 #include "grid.h"
@@ -358,7 +358,7 @@ void startinputdata()
     /*------------------------------------------------------------*/
 
     /**** OPEN DIGITAL TERRAIN MODEL *******************/
-    strcpy(dummy,inpath);    /*Path, wo file steht zum Namen kopieren*/
+    strcpy(dummy,inpath);    /*copy inptah into dummy, then add namedgm*/
     strcat(dummy,namedgm);
     if ((indgm = fopen (dummy,"rb")) == NULL)  {
         printf("\n\n ERROR : Digital terrain model file '%s' not found !!!\n\n",
@@ -371,7 +371,7 @@ void startinputdata()
     strcpy(dummy,inpath);
     strcat(dummy,namedgmdrain);
     if ((indgmdrain = fopen (dummy,"rb")) == NULL)  {
-        printf("\n ERROR : DTM drainage basin file not found !!!\n\n");
+        printf("\n ERROR : DTM drainage basin file not found  !!!\n %s \n\n",dummy);
         exit(2);
         fclose(outcontrol);
     }  /*ENDIF*/
@@ -380,7 +380,7 @@ void startinputdata()
     strcpy(dummy,inpath);
     strcat(dummy,namedgmglac);
     if ((indgmglac = fopen (dummy,"rb")) == NULL)  {
-        printf("\n ERROR : DTM glacier file not found !!!\n\n");
+        printf("\n ERROR : DTM glacier file not found  !!!\n %s \n\n",dummy);
         exit(3);
         fclose(outcontrol);
     }  /*ENDIF*/
@@ -393,7 +393,7 @@ void startinputdata()
     strcpy(dummy,inpath);
     strcat(dummy,namedgmslope);
     if ((indgmslope = fopen (dummy,"rb")) == NULL)  {
-        printf("\n ERROR : DTM slope file not found !!!\n\n");
+        printf("\n ERROR : DTM slope file not found  !!!\n %s \n\n",dummy);
         exit(3);
         fclose(outcontrol);
     }  /*ENDIF*/
@@ -404,7 +404,7 @@ void startinputdata()
     strcat(dummy,namedgmaspect);
 
     if ((indgmaspect = fopen (dummy,"rb")) == NULL)  {
-        printf("\n ERROR : DTM aspect file not found !!!\n\n");
+        printf("\n ERROR : DTM aspect file not found  !!!\n %s \n\n",dummy);
         exit(3);
         fclose(outcontrol);
     }  /*ENDIF*/
@@ -416,11 +416,10 @@ void startinputdata()
         strcat(dummy,namedgmskyview);
 
         if ((indgmskyview = fopen (dummy,"rb")) == NULL)  {
-            printf("\n ERROR : DTM skyviewfactor file not found !!!\n\n");
+            printf("\n ERROR : DTM skyviewfactor file not found  !!!\n %s \n\n",dummy);
             exit(3);
         }  /*ENDIF*/
     } /*endif methodglobal*/
-
 
     /**** OPEN DTM initial snow cover FILE ************************/
     if(methodinisnow == 2) {  /*start with initial snow cover (energy or temp index)*/
@@ -428,11 +427,23 @@ void startinputdata()
         strcat(dummy,nameinitialsnow);
 
         if ((ininitialsnow = fopen (dummy,"rb")) == NULL)  {
-            printf("\n ERROR : DTM initial snow file not found !!!\n\n");
+            printf("\n ERROR : DTM initial snow file not found !!!\n %s \n\n",dummy);
             exit(3);
             fclose(outcontrol);
         }  /*ENDIF*/
     }  /*method*/
+
+    /**** OPEN DTM ice thickness FILE (added 2/2015 RH) ************************/
+    if(retreatyes >= 1) {  /*only if retreat is computed with methods that need it*/
+        strcpy(dummy,inpath);
+        strcat(dummy,namedgmthickness);
+
+        if ((indgmthickness = fopen (dummy,"rb")) == NULL)  {
+            printf("\n ERROR : DTM ice thickness not found !!!\n %s \n\n",dummy);
+            exit(3);
+            fclose(outcontrol);
+        }  /*ENDIF*/
+    }  /*if retreatyes*/
 
     /****************** CLIMATE *********************************/
     /*** OPEN CLIMATE DATA FILE ****/
@@ -617,6 +628,24 @@ void startinputdata()
     }  /*endif*/
 
 
+    /******** READ DTM ICE THICKNESS (added Feb 2015 RH)***********************/
+      if(retreatyes >1)  {    /*thickness grid not needed for V-A scaling*/
+        THICK=matrixreserv(1,nrows,1,ncols);    
+
+        if ( (fread(&(x[1]),sizeof(float),12,indgmthickness)) !=12 )  {
+            printf("\n ERROR in file %s \n (File initial.c)\n",namedgmthickness);
+            exit(11);
+        }
+
+        if ((fread(&(THICK[1][1]),sizeof(float),ncols*nrows,indgmthickness)) != ncols*nrows)  {
+            printf("\n ERROR in reading grid data %s \n",namedgmthickness);
+            exit(12);
+        }
+
+        closefile(&indgmthickness,namedgmthickness);
+      } /*endif retreatyes*/
+
+
     /******** READ DTM INITIAL SNOW COVER **************************************/
     if(methodinisnow == 2)
         /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
@@ -661,7 +690,7 @@ void startinputdata()
                 }
             }
 
-    }  /*endif method*/
+       }  /*endif method*/
 
     printf("  All gridfiles opened and read !\n");
     printf("  Grid cell of climate station: elevation= %.2f  slope= %.2f  aspect= %.2f\n",griddgm[rowclim][colclim],SLOPE[rowclim][colclim],ASP[rowclim][colclim]);
@@ -937,8 +966,8 @@ void startoutascii()
 
             /* TEMPERATURE INDEX METHODS*/
             if(degreedaymethod ==1) {
-                fprintf(outgrid[i]," year JD    time shade exkorr solhor dirclearsky melt");
-                fprintf(outgrid[i]," tempinterpol tempstation DDFcalc massbal(cm) massbalcum(cm)\n ");
+                fprintf(outgrid[i]," year JD    time shade exkorr solhor dirclearsky melt(mm)");
+                fprintf(outgrid[i]," tempinterpol tempstation DDFcalc(mm/d/K) massbal(cm) massbalcum(cm)\n ");
             }  /*endif degreedaymethod*/
 
             /*WRITE SECOND ROW FOR BOTH ENERGY OR DEGREE DAY FILES*/
@@ -1037,7 +1066,7 @@ void startmeltstakes()
       OPEN FILE FOR ASCI-OUTPUT OF SPECIFIC MASS BALANCE FOR EACH YEAR
       ONLY IF summer and winter mass balance COMPUTED AND ONLY USEFUL FOR
       MULTIYEAR RUNS;  CALLED FROM MAIN ONCE
-      NEW: 3/2004  */
+      NEW: 3/2004; updated 2/2015  */
 /*******************************************************************************/
 
 void startspecificmassbalance()
@@ -1058,9 +1087,14 @@ void startspecificmassbalance()
         }  /*ENDIF*/
 
         fprintf(outspecificmassbal,"Year1 Year2       bw(m)   bs      bn  cumbw(m)   cumbs    cumbn  winterjdbeg summerjdbeg summerjdend");
-        if(scalingyes == 1)
-            fprintf(outspecificmassbal," glacareaYear1(km2) glacareaYear2 areachange numbercells areachange2\n");
-        else
+       
+	if(retreatyes >= 1)    /*retreat parameterization, add more columns to file*/
+	  {  if(retreatyes == 1)  /*V-A scaling*/
+	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange numbercells areachange2\n");
+	    else                  /*emergence velocity*/
+	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange\n");
+          }
+        else   /*constant area*/
             fprintf(outspecificmassbal,"\n");
     }
     return;

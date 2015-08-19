@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * DeTIM is distributed in the hope that it will be useful,
+ * DETIM is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -20,7 +20,7 @@
 /* PROGRAM  detim.c, formerly degree.c                               */
 /*  DISTRIBUTED SNOW/ICE MELT MODEL BASED ON TEMPERATURE INDEX       */
 /*  METHODS ENERGY BALANCE INCLUDING OPTIONAL DISCHARGE CALCULATIONS */
-/*   5.3.1998, last update 30 October 2013, renamed from degree.c August 2012 */
+/*   5.3.1998, last update 4 Feb 2015, renamed from degree.c August 2012 */
 /*********************************************************************/
 
 
@@ -38,13 +38,15 @@
 #include "initial.h"
 #include "input.h"
 #include "radiat.h"
-#include "scaling.h"
+#include "retreat.h"
 #include "tindex.h"
 #include "turbul.h"
 /* all function heads, first line */
 #include "writeout.h"
 
 #include "variab.h"      /* all global VARIABLES */
+
+int n_retreatyears=0;  /*count number of years retreat is computed*/
 
 /************* MAIN ************************************************/
 
@@ -269,12 +271,30 @@ int main()
         /*write winter/summer/mass balance grids at end of winter/summer*/
         if((winterbalyes == 1) || (summerbalyes == 1))
             if(zeit == 24)
-                writemassbalgrid();
+                writemassbalgrid();    /*balance grids are in arrays WINTERBAL, SUMMERBAL*/
 
-        /********** V-A scaling **********************************/
-        if((jd == summerjdend) && (scalingyes == 1))
-            if( (datesfromfileyes == 0) || ( (datesfromfileyes == 1) && (year == nextyear)))
-                scaling();
+        /********** Glacier geometry changes updated only once a year at end of summer **********************************/
+        if((jd == summerjdend) && (retreatyes >= 1) && (zeit == 24) )
+	 { if( (datesfromfileyes == 0) || ( (datesfromfileyes == 1) && (year == nextyear))) 
+	    { switch(retreatyes)	      
+	      { case 1:     /*V-A scaling*/
+		      scaling();
+		      break;
+	        case 2:     /*emergence velocity*/
+		      retreat_emergence();
+		      break;
+	        case 3:     /*Huss 2010, to be implemenred*/
+		      break;
+	        case 4:     /*Truessel et al. 2015, JGlac*/
+		      break;
+	        default:
+		  printf("\n no retreat method defined (retreatyes=%d)\n  (Message send from detim.c\n",retreatyes);
+                    exit(20);
+	      }  /*end switch*/
+	     } /*if*/
+	    n_retreatyears += 1;  /*count number of years retreat is computed*/
+	 } /*if retreat calculation*/
+
 
         /**********/
         /*set snow array to zero at end of melt season for next mass balance year*/

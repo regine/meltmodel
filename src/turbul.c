@@ -1,7 +1,7 @@
 /***********************************************************************
  * Copyright 1997-2010, 2012 Regine Hock
  *
- * This file is part of DeBAM and DETiM.
+ * This file is part of DEBAM and DETIM.
  * 
  * This is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 /*         SPATIAL INTERPOLATION OF METEOROLOGICAL INPUT FACTORS TO GRID    */
 /*          temperature, air pressure, vapour pressure, precipitation       */
 /*         CALCULATION TURBULENT HEAT FLUXES                                */
-/*  29.9.1997, last update 17 Nov 2013*/
+/*  29.9.1997, last update Feb 2015*/
 /****************************************************************************/
 
 
@@ -32,6 +32,7 @@
 #include<string.h>
 #include<math.h>
 
+/*include all .h files that have functions that are called in this file*/
 #include "initial.h"
 #include "grid.h"
 #include "radiat.h"
@@ -1062,7 +1063,7 @@ void snowcover()
 void massbalance()
 
 {
-    float massbal;
+    float massbal;   /*mass balance of 1 grid cell, will be overriden for each cell*/
 
     /*in case of subdaily timesteps winter/summer starts one time step too
       early, (midnight value)-> not corrected because considered negligible*/
@@ -1126,14 +1127,14 @@ void massbalance()
 	 	if(methodsurftempglac == 4)
  	 		MASSBALgrid[i][j] = MBsum[i][j]/10;     /*convert mm to cm*/
  		else
- 	 		MASSBALgrid[i][j] = massbal;     /*in cm*/
+ 	 		MASSBALgrid[i][j] = massbal;     /*in cm, mass balance for this time step*/
 
     if((itswinter == 1) && (winterbalyes == 1))
-        WINTERBAL[i][j] +=  massbal;
+        WINTERBAL[i][j] +=  massbal;     /*cumulative MB over winter*/
 
     if((itssummer == 1) && (summerbalyes == 1)) 
     {
-        SUMMERBAL[i][j] +=  massbal;
+        SUMMERBAL[i][j] +=  massbal;     /*cumulative MB over summer*/
 
         if (methodsurftempglac == 4) {
             if ((SNOW[i][j] >= 0.)  && (SNOWswitch[i][j] == 0.))

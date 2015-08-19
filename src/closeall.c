@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with This software.  If not, see <http://www.gnu.org/licenses/>.
  **********************************************************************/
-/* last update 13 June 2013*/
+/* last update 4 Feb 2015*/
 
 /*******************************************************************/
 /*  FILE   closeall.c                                              */
@@ -91,6 +91,9 @@ void closeall()
     freematrix(ALBEDO,1,nrows,1,ncols);
     freematrix(surface,1,nrows,1,ncols);
     freematrix(tempint,1,nrows,1,ncols);          /*AIR TEMPERATURE*/
+
+    if(retreatyes > 1)   /*only if retreat is computed with methods that need it*/
+        freematrix(THICK,1,nrows,1,ncols);          /*ICE THICKNESS*/
 
     if(methodprecipinterpol == 2)  /*precipitation index map*/
         freematrix(precipindexmap,1,nrows,1,ncols);
@@ -355,6 +358,7 @@ void closeall()
     free(namedgmaspect);
     free(namedgmskyview);
     free(nameinitialsnow);
+    free(namedgmthickness);
     free(nameklima);
     free(namedatesmassbal);
 

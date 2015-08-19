@@ -39,6 +39,7 @@
 #include "initial.h"
 #include "input.h"
 #include "radiat.h"
+#include "retreat.h"
 #include "snowinput.h"
 #include "snowmodel.h"
 #include "skintemperature.h"

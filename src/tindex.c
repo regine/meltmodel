@@ -122,6 +122,7 @@ void degreedaymelt()
         MELT[i][j] = DDFsnow/24*timestep * tempint[i][j];
         break;
     case 2 :   /*slush surface*/
+    /*(surface 2 can have 2 meanings: slush or firn. It is firn if albedo is generated internally (energy balance model), but case 2 here is only called if 2 means slush (see Hock+Noetzli, 1997)*/
         MELT[i][j] = DDFsnow/24*timestep * tempint[i][j];
         break;
     case 3 :   /*ice surface*/

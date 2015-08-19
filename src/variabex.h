@@ -18,7 +18,7 @@
 
 /*************************************************************/
 /*  variabex.h                                               */
-/*    Last update 30 October 2013 */
+/*    Last update  4 Feb 2015 */
 /*************************************************************/
 
 #ifndef MELT_MOD_VARIAB_H_
@@ -37,7 +37,7 @@ extern  float  surftempminimum;  /*surftemp cannot be lower than this*/
 extern  int    dat_or_txt;   /*extension for areamean, grid asciifiles*/
 
 extern  int    setmelt2zero;  /*melt is set to 0 if surftemp < 0*/
-extern  int    surftempminmelt;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
+extern  float    surftempminmelt;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 extern  float z2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 extern  float  emissivitysurf;   /*surface emissivity for calc of longwave out from surf temp and vice versa*/
 extern  int  snetfromobsyes;  /*0=Snet from albedo model*/
@@ -131,14 +131,15 @@ extern  int    degreedaymethod;   /*set to 1 in degree.c*/
 extern  int    notcalc;
 extern  int    stoploop;   /*end condition for time loop*/
 
-extern int    scalingyes;
+extern int    retreatyes;
 extern float  gammaVA;    /*exponent in V-A scaling relationship*/
 extern float  c_coefficient;    /*coefficient in V-A scaling relationship*/
+extern float  specificglacwidebalance;    /*used for retreat parameterization*/
 
 /**** FILE NAMES ********/
-extern  char   *namedgm,*namedgmdrain,*namedgmglac;  /* Filenames */
+extern  char   *namedgm,*namedgmdrain,*namedgmglac;
 extern  char   *namedgmslope,*namedgmaspect,*nameklima;
-extern  char   *namedgmskyview,*nameinitialsnow;
+extern  char   *namedgmskyview,*nameinitialsnow,*namedgmthickness;
 extern  char   *namedatesmassbal;
 extern  char   inpath[FNAME_LEN],outpath[FNAME_LEN];    /*Path for Input/Output-files*/
 //extern  char   inpath[101],outpath[101];    /*Path for Input/Output-files*/
@@ -161,7 +162,7 @@ extern char   nametempgrid[FNAME_LEN];
 extern  FILE  *indgm,*indgmdrain,*indgmglac;       /* input files */
 extern  FILE   *indgmslope,*indgmaspect,*inklima;
 extern  FILE   *inalbedo;
-extern  FILE   *indgmskyview,*ininitialsnow;
+extern  FILE   *indgmskyview,*ininitialsnow,*indgmthickness;
 extern  FILE   *indatesmassbal;
 extern  FILE   *outshade,*outexkorr,*outdirect;     /*OUTPUT-FILES*/
 extern  FILE   *outsolhor,*outglobal,*outswbal,*outnetrad;
@@ -188,6 +189,7 @@ extern  float  **DIRECT,**DIRECT2;      /*clear-sky, direct separated from globa
 extern  float  **DIFFUS,**ALBEDO,**LONGIN,**LONGOUT;
 extern  float  **surface;                  /*is grid firn,snow,ice? */
 extern  float  **SKYVIEW;    /* **SNOW  converted to double below 2/2005*/;
+extern  float  **THICK;    /*ice thickness; added 2/2015 RH*/
 extern  float  **GLOBAL,**SWBAL,**NETRAD;  /* 2-D-Arrays for radiation */
 extern  float  **SENSIBLE,**LATENT;        /* 2-D-Array for turbulent fluxes */
 

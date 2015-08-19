@@ -1,7 +1,7 @@
 /***********************************************************************
  * Copyright 1996-2012 Regine Hock
  *
- * This file is part of DeBAM and DETiM.
+ * This file is part of DEBAM and DETIM.
  *
  * This is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 /*************************************************************/
 /*  variab.h                                                 */
-/*    Last update 30 October 2013 */
+/*    Last update 4 Feb 2015 */
 /*************************************************************/
 #ifndef MELT_MOD_VARIAB_H_  /*guard variable: prevents overwriting of variab.h with h-file with same name is imported*/
 #define MELT_MOD_VARIAB_H_
@@ -42,7 +42,7 @@ float  surftempminimum = -30.;  /*surftemp cannot be lower than this*/
 int    dat_or_txt = 2;   /*1=dat, 2=txt, extension for areamean, grid asciifiles*/
 int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1, no=0;  April 2010*/
 /*only if methodsurtempglac=3 */
-int    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
+float    surftempminmelt = -0.5;  /*if setmelt2zero=1 melt is set to 0 if surftemp below this value*/
 float  z2=2;     /*height of the temp/wind/humidity measurements for bulk aerodynamic method*/
 float  emissivitysurf=1;   /*surface emissivity for calc of longwave out from surf temp and for computing longwave outgoing (radiat.c)*/
 int    snetfromobsyes = 1;     /*0=Shorwavenet from albedo, 1 = Snet from obs Sin Srefl only possible if calcgridyes=2 and obs available; set to 0 in input.c, if calcgridyes == 1*/
@@ -149,14 +149,15 @@ int    degreedaymethod=0;   /*set to 1 in degree.c*/
 int    notcalc;
 int    stoploop = 0;   /*end condition for time loop*/
 
-int    scalingyes;     /*V-A scaling*/
+int    retreatyes;     /*V-A scaling*/
 float  gammaVA;    /*exponent in V-A scaling relationship*/
 float  c_coefficient;    /*coefficient in V-A scaling relationship*/
+float  specificglacwidebalance=0;    /*used for retreat parameterization*/
 
 /**** FILE NAMES ********/
-char   *namedgm=NULL,*namedgmdrain=NULL,*namedgmglac=NULL;  /* Filenames */
+char   *namedgm=NULL,*namedgmdrain=NULL,*namedgmglac=NULL;
 char   *namedgmslope=NULL,*namedgmaspect=NULL,*nameklima=NULL;
-char   *namedgmskyview=NULL,*nameinitialsnow=NULL;
+char   *namedgmskyview=NULL,*nameinitialsnow=NULL,*namedgmthickness=NULL;
 char   *namedatesmassbal=NULL;
 // RH char   inpath[81]="",outpath[81]="";    /*Path for Input/Output-files*/
 char   inpath[PNAME_LEN]="",outpath[PNAME_LEN]="";    /*Path for Input/Output-files*/
@@ -179,7 +180,7 @@ char   nametempgrid[FNAME_LEN];
 FILE   *indgm=NULL,*indgmdrain=NULL,*indgmglac=NULL;       /* input files */
 FILE   *indgmslope=NULL,*indgmaspect=NULL,*inklima=NULL;
 FILE   *inalbedo=NULL;
-FILE   *indgmskyview=NULL,*ininitialsnow=NULL;
+FILE   *indgmskyview=NULL,*ininitialsnow=NULL,*indgmthickness=NULL;
 FILE   *indatesmassbal=NULL;
 FILE   *outshade=NULL,*outexkorr=NULL,*outdirect=NULL;     /*OUTPUT-FILES*/
 FILE   *outsolhor=NULL,*outglobal=NULL,*outswbal=NULL,*outnetrad=NULL;
@@ -206,6 +207,8 @@ float  **DIRECT,**DIRECT2;      /*clear-sky, direct separated from global rad*/
 float  **DIFFUS,**ALBEDO,**LONGIN,**LONGOUT;
 float  **surface;                  /*is grid firn,snow,ice? */
 float  **SKYVIEW;    /* **SNOW  converted to double below 2/2005*/;
+float  **THICK;    /*ice thickness; added 2/2015 RH*/
+
 float  **GLOBAL,**SWBAL,**NETRAD;  /* 2-D-Arrays for radiation */
 float  **SENSIBLE,**LATENT;        /* 2-D-Array for turbulent fluxes */
 

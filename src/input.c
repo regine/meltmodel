@@ -20,7 +20,7 @@
 /*   FUNCTION      input_read                     ********/
 /*   READ INPUT FROM CONTROLING INPUT FILE : 'input.txt' */
 /*   FILE NAMES, GRIDSIZE ETC.                      ******/
-/***  31.3.1997, Last update 31 October 2013  */
+/***  31.3.1997, Last update 25 Feb 2015  */
 /*********************************************************/
 
 
@@ -42,7 +42,6 @@ void input_read()
 
     FILE  *in=NULL;
     char  filenamein[FNAME_LEN];       /*name of Steuerfile*/
-//RH    char  outcontrolname[61];
     char  outcontrolname[PFNAME_LEN];
     int   c;    /*to read file character by character and write to res.txt*/
     int methodsurftemglac_change = 0;
@@ -55,6 +54,7 @@ void input_read()
     namedgmaspect = (char*)calloc(FNAME_LEN,sizeof(char));
     namedgmskyview  = (char*)calloc(FNAME_LEN,sizeof(char));
     nameinitialsnow = (char*)calloc(FNAME_LEN,sizeof(char));
+    namedgmthickness = (char*)calloc(FNAME_LEN,sizeof(char));
     namedatesmassbal= (char*)calloc(FNAME_LEN,sizeof(char));
 
     strcpy(filenamein,"input.txt");    /* $$$$$$ NAME NAMELIST-FILE $$$$$ */
@@ -68,7 +68,7 @@ void input_read()
     printf("\n\n\n\n\n\n ***********INPUTFILE : input.txt *****************\n");
 
     readrestofline(&in);
-    readrestofline(&in);  /*UEBERLESEN 2 ZEILEN*/
+    readrestofline(&in);  /*read first 2 comment rows*/
     fscanf(in,"%f",&daysscreenoutput);
     readrestofline(&in);
     if (daysscreenoutput < 1) {
@@ -236,14 +236,20 @@ void input_read()
     }  /*endif*/
 
     readrestofline(&in);
-    fscanf(in,"%d",&winterbalyes);
-    readrestofline(&in);
-    fscanf(in,"%f%f",&winterjdbeg,&winterjdend);
+    fscanf(in,"%d",&winterbalyes);    /*compute winter balance, yes or no*/
     readrestofline(&in);
     fscanf(in,"%d",&summerbalyes);
     readrestofline(&in);
-    fscanf(in,"%f%f",&summerjdbeg,&summerjdend);
+    fscanf(in,"%f",&winterjdbeg);
     readrestofline(&in);
+    fscanf(in,"%f",&winterjdend);
+    readrestofline(&in);
+    
+    summerjdbeg = winterjdend+1;   /*summer balance starts day after winter balance*/
+    summerjdend = winterjdbeg-1;   /*summer balance ends 1 day before winter balance starts*/
+    if(winterjdbeg == 1)    {summerjdend   = 365;}   /*account for different year*/
+	if(winterjdend == 365)  {summerjdbeg = 1;}
+
     if ((winterbalyes != 0) && (winterbalyes != 1)) {
         printf("\n\n ERROR in input.txt:  winterbalyes must be 0 or 1 !!! \n\n");
         exit(2);
@@ -563,14 +569,14 @@ void input_read()
 
     /******* SCALING ***********************************/
     readrestofline(&in);
-    fscanf(in,"%d",&scalingyes);
+    fscanf(in,"%d",&retreatyes);
     readrestofline(&in);
     fscanf(in,"%f",&gammaVA);
     readrestofline(&in);
     fscanf(in,"%f",&c_coefficient);
     readrestofline(&in);
 
-    switch(scalingyes) {
+    switch(retreatyes) {
     case 1:
         printf("\n VOLUME - AREA SCALING APPLIED\n");
         winterbalyes=1;
@@ -579,11 +585,11 @@ void input_read()
           areachanges are written to mass balance file specificmassbal.txt*/
         fprintf(outcontrol," winterbalyes=1 summerbalyes=1  \n");
         break;
-    case 0:
-        printf("\n NO VOLUME - AREA SCALING\n");
+    case 2:
+        printf("\n EMERGENCE VELOCITY\n");
         break;
     default :
-        printf("\n\n ERROR in input.txt: variable scalingyes must be 0 or 1\n\n");
+      printf("\n\n ERROR in input.txt: variable scalingyes=%d must be 0, 1 or 2\n\n",retreatyes);
         exit(10);
         fclose(outcontrol);
     }
@@ -605,6 +611,8 @@ void input_read()
     fscanf(in,"%s",namedgmfirn);
     readrestofline(&in);
     fscanf(in,"%s",nameinitialsnow);
+    readrestofline(&in);
+    fscanf(in,"%s",namedgmthickness);
     readrestofline(&in);
     fscanf(in,"%s",nameklima);
     readrestofline(&in);
@@ -1343,7 +1351,7 @@ void input_read()
     fprintf(outcontrol,"surftempminimum = %.2f\n",surftempminimum);
     fprintf(outcontrol,"calcgridyes (1= whole grid, 2=only AWS) = %d\n",calcgridyes);
     fprintf(outcontrol,"setmelt2zero (0=no, 1=yes, set to 0 if surftemp<0) = %d\n",setmelt2zero);
-    fprintf(outcontrol,"surftempminmelt (if setmelt2zero=1 melt is set to 0 if surftemp below this value) = %d\n",surftempminmelt);
+    fprintf(outcontrol,"surftempminmelt (if setmelt2zero=1 melt is set to 0 if surftemp below this value) = %f\n",surftempminmelt);
 
 
     fprintf(outcontrol,"z2 (instrument height (T, RH, wind) = %.2f\n",z2);

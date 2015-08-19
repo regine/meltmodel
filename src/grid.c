@@ -2,7 +2,7 @@
  * Copyright 2012 Regine Hock,  Carleen Tijm-Reijmer, Lyman Gillispie
  * 
  * 
- * This file is part of DeBAM and DETiM.
+ * This file is part of DEBAM and DETIM.
  * 
  * This is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,7 @@
  **********************************************************************/
 
 /************************************************
- * grid.c
- * This File is a part of the Hock Melt Model
- *
+ * grid.c *
  *  Created on: Jul 3, 2012
  *  Author: Regine Hock, Carleen Tijm-Reijmer, Lyman Gillispie
  ************************************************/

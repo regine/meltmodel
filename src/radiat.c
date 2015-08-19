@@ -789,17 +789,17 @@ void whichsurface()
     for (i=firstrow; i<=lastrow; i++)
         for (j=firstcol[i]; j<=lastcol[i]; j++) {
             if(griddgmdrain[i][j] != nodata) {  /*WITHIN AREA TO BE CALCULATED*/
-                if(SNOW[i][j] > 0)
+                if(SNOW[i][j] > 0)     /*no matter if firn area or bare ice area*/
                     surface[i][j] = 1;        /*SNOW SURFACE ALSO IN FIRN AREA AND OUTSIDE GLACIER*/
                 else {    /*NO SNOW COVER LEFT*/
                     if(griddgmglac[i][j] == nodata)   /*WITHIN AREA TO BE CALCULATED BUT OUTSIDE GLACER*/
                         surface[i][j] = 4;     /*ROCK, OUTSIDE GLACIER*/
-                    else {  /* GLACIER AREA */
-                        if(FIRN[i][j] == 0)
+                    else {  /* grid cell is on glacier*/
+                        if(FIRN[i][j] == 0)        /*firn=0 means grid cell is outside firn area, --> bare ice area*/
                             surface[i][j] = 3;     /*ICE AREA, NO DEBRIS --> ICE BELOW SNOW*/
-                        else {
+                        else {       /*grid cell is inside firn area (if>0), or bare-ice area if -1)*/
                             if(FIRN [i][j] == -1)   /*ICE AREA DEBRIS COVER*/
-                                surface[i][j] = 5;
+                                surface[i][j] = 5;  /*5=debris-covered ice (only possible outside firn area)*/
                             else    /*any other value than 0 or 5*/
                                 surface[i][j] = 2;   /*FIRN SURFACE: FIRN AREA NO WINTER/NEW SNOW*/
                         }

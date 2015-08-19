@@ -63,7 +63,7 @@ DETIM_SOURCES = closeall.c \
 								turbul.c\
 							 	userfile.c \
 								writeout.c \
-								scaling.c \
+								retreat.c \
 								detim.c
 
 -include $(addprefix $(MODEL_BUILD_TMP)/, $(DETIM_SOURCES:.c=.P))
@@ -93,6 +93,7 @@ DEBAM_SOURCES = closeall.c \
 								skintemperature.c \
 								turbul.c \
 								userfile.c \
+								retreat.c \
 								writeout.c \
 								debam.c
 
