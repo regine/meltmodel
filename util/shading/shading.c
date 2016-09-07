@@ -238,30 +238,23 @@ void input_read()
         exit(1);
     }
     readrestofline(&in);
-    fscanf(in,"%s",inpath);
-    readrestofline(&in);
-    fscanf(in,"%s",outpath);
-    readrestofline(&in);
+    fscanf(in,"%s",inpath);   readrestofline(&in);
+    fscanf(in,"%s",outpath);  readrestofline(&in);
     printf("Input-Path  : %s\nOutput-Path : %s\n",inpath,outpath);
 
-    fscanf(in,"%s",namedgm);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmslope);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmaspect);
-    readrestofline(&in);
+    fscanf(in,"%s",namedgm);        readrestofline(&in);
+    fscanf(in,"%s",namedgmslope);   readrestofline(&in);
+    fscanf(in,"%s",namedgmaspect);  readrestofline(&in);
     readrestofline(&in);
 
-    fscanf(in,"%f",&jdbeg);
-    readrestofline(&in);
-    fscanf(in,"%f",&jdend);
-    readrestofline(&in);
+    fscanf(in,"%f",&jdbeg);  readrestofline(&in);
+    fscanf(in,"%f",&jdend);  readrestofline(&in);
     readrestofline(&in);
     if ((jdbeg > 366) || (jdbeg < 1))     inputok = 0;
     if ((jdend > 366) || (jdend < 1))     inputok = 0;
     if (jdbeg > jdend)     inputok = 0;
     if (inputok==0)
-        printf("\n wrong input: starting or ending julian day \n\n");
+        printf("\n wrong input: starting (%.1f) or ending (%.1f) day \n\n",jdbeg,jdend);
 
     fscanf(in,"%lf",&laenge);
     readrestofline(&in);
@@ -271,15 +264,15 @@ void input_read()
     readrestofline(&in);
 
     if ((laenge < -180) || (laenge > 180)) {
-        printf("\n\n ERROR in input.dat: longitude n\n");
+        printf("\n\n ERROR in input.dat: longitude = %.4f\n",laenge);
         exit(2);
     }
     if ((breite < -90) || (breite > 90)) {
-        printf("\n\n ERROR in input.dat: latitude n\n");
+        printf("\n\n ERROR in input.dat: latitude = %.4f\n",breite);
         exit(2);
     }
     if ((reflongitude < -180) || (reflongitude > 180)) {
-        printf("\n\n input.dat: reference longitude n\n");
+        printf("\n\n input.dat: reference longitude = %.3f\n",reflongitude);
         exit(2);
     }
 
@@ -327,13 +320,13 @@ void input_read()
     readrestofline(&in);
     if ((wholegridyes != 0) && (wholegridyes != 1)) {
         printf("\n ERROR in input file:\n");
-        printf("   variable wholegridyes must be 0 or 1\n\n");
+        printf("   variable wholegridyes (=%d) must be 0 or 1\n\n",wholegridyes);
         exit(2);
     }
     if (wholegridyes == 0)
         if ((startrow > endrow) || (startrow > endcol)) {
             printf("\n ERROR in input file:\n");
-            printf("   variable startrow/endrow/startcol/endcol\n\n");
+            printf("   variable startrow (%d) > endrow (%d) or startcol > endcol\n\n",startrow,endrow);
             exit(2);
         }
 
@@ -345,7 +338,7 @@ void input_read()
     fscanf(in,"%f",&add2jd);
     readrestofline(&in);
     if(add2jd < 0)   /*period mean, computations every day*/
-        printf("\n ERROR in input file: variable add2jd must be >=0\n\n");
+        printf("\n ERROR in input file: variable add2jd (%d) must be >=0\n\n",add2jd);
 
     fscanf(in,"%i",&stationhorizyes);
     readrestofline(&in);
@@ -681,7 +674,7 @@ void opengridoutput()
         strcat(dummy,nameshade);
 
         if ((outshade = fopen(dummy,"wb")) == NULL) {
-            printf("\n ERROR in opening shade file");
+            printf("\n ERROR in opening shade file (check if output path exists)");
             printf("\n   FUNCTION opengridoutput.c\n\n");
             exit(10);
         }
@@ -697,7 +690,7 @@ void opengridoutput()
         strcat(dummy,nameexkorr);
 
         if ((outexkorr = fopen(dummy,"wb")) == NULL) {
-            printf("\n ERROR in opening correction factor file");
+            printf("\n ERROR in opening correction factor file (check if output path exists)");
             printf("\n   FUNCTION opengridoutput.c\n\n");
             exit(10);
         }
@@ -713,7 +706,7 @@ void opengridoutput()
         strcat(dummy,namedirect);
 
         if ((outdirect = fopen(dummy,"wb")) == NULL) {
-            printf("\n ERROR in opening direct radiation file");
+            printf("\n ERROR in opening direct radiation file (check if output path exists)");
             printf("\n   FUNCTION opengridoutput.c\n\n");
             exit(10);
         }
