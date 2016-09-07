@@ -19,7 +19,7 @@
 
 /*************************************************************/
 /*  variab.h                                                 */
-/*    Last update 4 Feb 2015 */
+/*    Last update 20 Aug 2015 */
 /*************************************************************/
 #ifndef MELT_MOD_VARIAB_H_  /*guard variable: prevents overwriting of variab.h with h-file with same name is imported*/
 #define MELT_MOD_VARIAB_H_
@@ -139,7 +139,7 @@ int    readsnowalbedo=0;   /*1=snow albedo read from another climate station fil
 /*================don't change anything below =======================================*/
 
 
-float  daysscreenoutput = 1;   /*output to screen every X day*/
+int  daysscreenoutput = 1;   /*output to screen every X day*/
 int  resoutlines=0;  /*number of times unrealistic values are generated*/
 int  calcgridyes;   /*compute whole grid (=1) or only climate station cell (=2), set in input.dat*/
 int  ncolskurz;   /*for king george island, to cut columns in output grids*/
@@ -230,6 +230,7 @@ float  **WINTERBAL,**SUMMERBAL;  /*winter, summer mass balance*/
 float  **MASSBALcum;   /*(cumulative) mass balance over one year*/
 float  **MASSBALcum_all;   /*(cumulative) mass balance over whole calculation period*/
 float  **MASSBALgrid;   /*grid with mass balance for each time step*/
+float  **DH;    /*grid for retreat parameterization, glacier surface elevation change (in m)*/
 float  plusminus;
 
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/

@@ -23,7 +23,7 @@
        OPEN AND READ GRID FILES, RESERVE STORAGE OF ALL 2D-ARRAYS
        OPEN FILE WITH CLIMATE DATA and READ UNTIL START
        OPEN OUTPUT-FILES                                           */
-/*  1.12.1997, last update 4 November 2013*/
+/*  1.12.1997, last update 20 Aug 2015*/
 /*******************************************************************/
 
 #include "initial.h"
@@ -434,7 +434,7 @@ void startinputdata()
     }  /*method*/
 
     /**** OPEN DTM ice thickness FILE (added 2/2015 RH) ************************/
-    if(retreatyes >= 1) {  /*only if retreat is computed with methods that need it*/
+    if(retreatyes > 1) {  /*only if retreat is computed with methods that need it*/
         strcpy(dummy,inpath);
         strcat(dummy,namedgmthickness);
 
@@ -444,6 +444,7 @@ void startinputdata()
             fclose(outcontrol);
         }  /*ENDIF*/
     }  /*if retreatyes*/
+
 
     /****************** CLIMATE *********************************/
     /*** OPEN CLIMATE DATA FILE ****/
@@ -595,7 +596,7 @@ void startinputdata()
 
 
     /**************************************************************************/
-    /*    OPEN AND READ FILE WITH FIRN AREA ONLY                              */
+    /*    OPEN AND READ FILE IDENTIFYING THE FIRN AREA                        */
     /*    needed 1. to determine if recession constant of firn is to be used  */
     /*      called once from startdischarg (below) and startddfopt (tindex.c) */
     /*    2. to determine if there is firn below snow (calculation of albedo) */
@@ -603,8 +604,8 @@ void startinputdata()
     /**************************************************************************/
 
     if((methodinisnow == 2) || (disyes >= 1) || (methodsurftempglac == 4))
-        /*READ FILE DELIMITING THE FIRN AREA*/     strcpy(dummy,inpath);
-    {
+         
+    {   strcpy(dummy,inpath);
         strcat(dummy,namedgmfirn);    /* copies name of outputfile to path */
 
         if ((firnfile = fopen(dummy,"rb")) == NULL) {   /*OPEN FIRNFILE*/
@@ -629,7 +630,7 @@ void startinputdata()
 
 
     /******** READ DTM ICE THICKNESS (added Feb 2015 RH)***********************/
-      if(retreatyes >1)  {    /*thickness grid not needed for V-A scaling*/
+      if(retreatyes >1)  {    /*thickness grid not needed for V-A scaling, but other parameterizations*/
         THICK=matrixreserv(1,nrows,1,ncols);    
 
         if ( (fread(&(x[1]),sizeof(float),12,indgmthickness)) !=12 )  {
@@ -693,7 +694,7 @@ void startinputdata()
        }  /*endif method*/
 
     printf("  All gridfiles opened and read !\n");
-    printf("  Grid cell of climate station: elevation= %.2f  slope= %.2f  aspect= %.2f\n",griddgm[rowclim][colclim],SLOPE[rowclim][colclim],ASP[rowclim][colclim]);
+    printf("  Grid cell of climate station (rowclim, colclim): elevation= %.2f  slope= %.2f  aspect= %.2f\n",griddgm[rowclim][colclim],SLOPE[rowclim][colclim],ASP[rowclim][colclim]);
 
 
     /*------------------------------------------------------------*/
@@ -1080,23 +1081,30 @@ void startspecificmassbalance()
     strcpy(dummy,outpath);
     strcat(dummy,outspecificmassbalname);
 
-    if ((winterbalyes == 1) && (summerbalyes == 1)) {
-        if ((outspecificmassbal = fopen (dummy,"wt")) == NULL)  {
-            printf("\n Error in opening mass balance output file \n (File initial.c)\n\n");
-            exit(4);
-        }  /*ENDIF*/
+    if ((winterbalyes == 1) && (summerbalyes == 1)) 
+    {
+      if ((outspecificmassbal = fopen (dummy,"wt")) == NULL)  {
+        printf("\n Error in opening mass balance output file \n (File initial.c)\n\n");
+        exit(4);
+      }  /*ENDIF*/
 
         fprintf(outspecificmassbal,"Year1 Year2       bw(m)   bs      bn  cumbw(m)   cumbs    cumbn  winterjdbeg summerjdbeg summerjdend");
        
-	if(retreatyes >= 1)    /*retreat parameterization, add more columns to file*/
-	  {  if(retreatyes == 1)  /*V-A scaling*/
-	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange numbercells areachange2\n");
-	    else                  /*emergence velocity*/
-	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange\n");
-          }
-        else   /*constant area*/
-            fprintf(outspecificmassbal,"\n");
-    }
+	 switch(retreatyes)   /*retreat parameterization, add more columns to file*/
+	  { case 0:    /*constant area*/
+	  	  fprintf(outspecificmassbal,"\n");
+	 	  break;
+	    case 1:    /*V-A scaling*/
+	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange(km2) delta_numbercells areachange2\n");
+	      break;
+	    case 2:    /*Huss parameterization*/
+	      fprintf(outspecificmassbal," glacareastart(km2) glacarea_endofMByear areachange(km2) delta_numbercells\n");  
+        default:
+          printf("\nERROR: no retreat parameterization defined; retreatyes (=%d) must be 0,1 or 2\n",retreatyes);
+          printf("       printed from startspecificmassbalance() in intial.c)\n");
+          exit(20);
+       }  /*end switch*/
+     }  /**/
     return;
 }
 
@@ -1106,7 +1114,8 @@ void startspecificmassbalance()
 /*      OPEN FILE FOR TIME SERIES OF HOW MANY PIXELS ARE SNOW FREE EVERY DAY   */
 /*******************************************************************************/
 
-void opensnowfree() {
+void opensnowfree() 
+{
     if(dat_or_txt == 1)
         strcpy(namesnowfree,"snowfree.dat");
     else      /*for GMT visualization, Carleen*/
@@ -1114,7 +1123,7 @@ void opensnowfree() {
 
     openoutfile(&outsnowfree,outpath,namesnowfree);
 
-    fprintf(outsnowfree," Year JD  time   allgridcells   snowfree ");
+    fprintf(outsnowfree," Year  JD   time    allgridcells  snowfree_cells ");
     fprintf(outsnowfree," percentsnowfree   percentsnowcovered \n");
 
     return;
@@ -1236,7 +1245,6 @@ void startarrayreserve()
         DDFCALC = matrixreserv(1,nrows,1,ncols);
     }
 
-
     /*INITIALISIEREN AUF MISSING VALUE*/
     /*nicht Null, da Berechnungen nur fuer einen Teil gemacht werden, aber
       das Outputfile ueber die ganze Grosse des DGM. Bei Initialisierung auf Null
@@ -1337,6 +1345,13 @@ void startarrayreserve()
         meandaynull();
         meanallnull();
     } /*switch*/
+
+
+/* normalized surface elevation change grid for glacier retreat (Huss parameterization)*/
+   if (retreatyes > 1) 
+    { DH=matrixreserv(1,nrows,1,ncols);      /*storage reservation*/
+      initializeglacier2zero_nodata(nrows, ncols, DH);   /*delta h elevation (m) grid for each year; in grid.c*/
+    }
 
     return;
 }           /*end arrayreserve*/
@@ -1685,7 +1700,9 @@ void  readdatesmassbal() {
 /********************************************************************/
 /*  FUNCTION  areaelevationbelts                                    */
 /*       counts the number of grid cells for each elevation band    */
+/*       (into variable areabelt[ ])                                */              
 /*       called from main once,  May 2006                           */
+/*       also once each year from scaling() and retreatHuss() in retreat.c */
 /********************************************************************/
 
 void areaelevationbelts()
@@ -1703,7 +1720,7 @@ void areaelevationbelts()
     /*DETERMINE BELT BOUNDARIES FROM MINIMUM AND MAXIMUM ELEVATION AND BAND WIDTH*/
     /* elevations refer to lower boundary of the band*/
     statist(griddgmglac,x);   /*compute statistics of grid to get min/max elevation*/
-    elevbeltmin = (int)(x[8]/beltwidth)*beltwidth;
+    elevbeltmin = (int)(x[8]/beltwidth)*beltwidth;    /*round to lower XX m boundary*/
     elevbeltmax = (int)(x[9]+beltwidth)/beltwidth*beltwidth;
     numberbelt = (elevbeltmax-elevbeltmin)/beltwidth;
     printf("  elevbeltmin= %.1f elevbeltmax %.1f numberbelt %d  max z %.1f min z %.1f\n",elevbeltmin,elevbeltmax,numberbelt,x[9],x[8]);
@@ -1730,8 +1747,8 @@ void areaelevationbelts()
                         jj += 1;
                     }
 
-                    if(numberloop >= 2000) {
-                        printf("\n\n exit function computemassbalprofile: check input.txt if defined elevation belts exit\n\n");
+                    if(numberloop >= 3000) {
+                        printf("\n\n exit function computemassbalprofile: check input.txt if defined number of elevation belts exit\n\n");
                         exit(2);
                     }
                 }  /*endwhile, elevation belt for grid cell elevation found*/

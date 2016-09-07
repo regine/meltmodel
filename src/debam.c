@@ -22,7 +22,9 @@
 /* PROGRAM  debam.c, formerly meltmod.c                          */
 /*   DISTRIBUTED SNOW/ICE MELT MODEL BASED ON ENERGY BALANCE */
 /*   CALCULATIONS INCLUDING OPTIONAL DISCHARGE CALCULATIONS  */
-/*   5.3.1998, update 29 October 2013, renamed from meltmod.c August, 2012 */
+/*   5.3.1998, renamed from meltmod.c August, 2012 */
+/*   Latest update 21 August 2015 */
+
 /*************************************************************/
 
 
@@ -695,7 +697,7 @@ int main()
     }
 
     /********** WRITE MEAN MASS BALANCE PROFILE TO FILE********************************/
-    if(((winterbalyes == 1) || (summerbalyes == 1)) && (yearend > yearbeg))
+    if(((winterbalyes == 1) || (summerbalyes == 1)) && (yearend > yearbeg) && (retreatyes = 0))
         meanmassbalprofile();
 
     /******************************************************************/

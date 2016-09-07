@@ -18,7 +18,7 @@
 /**************************************************************************/
 /*  FILE  writeout.c                                                      */
 /*        WRITE OUTPUT TO OUTPUT-FILES                                    */
-/*  Last update 5 Feb 2015 */
+/*  Last update 20 August 2015 */
 /**************************************************************************/
 
 #include "writeout.h"
@@ -809,14 +809,13 @@ void startwriteall()
 void statist(float **matrix,float *x)
 
 {
-
     x[10]= 0.0;     /*sum of values in grid*/
     x[7] = 0.0;          /*number of grids*/
     x[8] = 10000.0;      /*minimum, must be initialized high*/
     x[9] = -1000.0;      /*maximum*/
 
-    for (i=1; i<=nrows; i++) {       /*ueber alle Reihen*/
-        for (j=1; j<=ncols; j++) {    /*ueber alle Reihen*/
+    for (i=1; i<=nrows; i++) {       
+        for (j=1; j<=ncols; j++) {    
             if (matrix[i][j] != nodata) {   /*only area to be calcualated*/
                 x[7] += 1.0;        /*number of grids*/
 
@@ -1388,9 +1387,9 @@ void writesnowcover()
 /*============= MASS BALANCE OUTPUT ==========================================*/
 /*****************************************************************/
 /* FUNCTION  writemassbalgrid                                    */
-/*     write summer/winter and massbalance to grid file          */
-/*     and also annual mass balances to ascii-file               */
-/*     and mass balance profiles for each year                   */
+/*     write to file: 1.) summer/winter and massbalance grids    */
+/*     2.) winter, summer annual mass balances to txt-file       */
+/*     3.) winter, summer, annual balance profiles for each year (computed here)   */
 /*  called every day at midnight (if zeit=24, in time step loop) */
 /*     modified May 2006                                         */
 /*****************************************************************/
@@ -1405,12 +1404,13 @@ void writemassbalgrid()
     float factorcm=100;    /*mass balance is in cm and then divided by this factor, 100=in meters*/
     /* printf("\n    %.0f %.0f winter=%d summer=%d ",year,jd,itswinter,itssummer); */
 
- /*** =========== WINTER MASS BALANCE ===================== ***/
+ /*** =========== WINTER MASS BALANCE ============================ ***/
     if(winterbalyes == 1)
         if(jd == winterjdend) {   /*only once a year at end of winter*/
             for(i=1; i<=numberbelt; i++)
                 winterbalprofile[i] = 0;   /*array with balance for each elevation band*/
-
+ 
+ /* ------- 1.) WINTER MASS BALANCE GRIDS ------ */
             sprintf(namewinterbal,"winbal%04d_%03d.bin",(int)year,(int)winterjdend);
             openoutfile(&outwinterbal,outpath,namewinterbal);
             statist(WINTERBAL,x);
@@ -1421,16 +1421,19 @@ void writemassbalgrid()
             if(outwinterbal)
                 closefile(&outwinterbal,namewinterbal);
             outwinterbal = NULL;
-
-      /*winter mass balance profiles;  must be computed before array is set to zero*/
+            
+ /* ------- 2.) COMPUTE WINTER MASS BALANCE PROFILES -------------------------- */
+      /*must be computed before array is set to zero*/
             computemassbalprofile(WINTERBAL,winterbalprofile);
             winterprofile_yes = 1;     /*if 1 then it will be written to file below*/
 
             initializeglacier2zero_nodata(nrows, ncols, WINTERBAL);
 
-      /*** WRITE AREA-AVERAGED WINTER MASS BALANCE TO FILE only if winter and summer is computed, seasonalmassbal.txt ***/
-            if(summerbalyes == 1) {      /*x[11] is output from statist(), = mean value*/
-                cumwinterbal += x[11]/factorcm;
+ /* ------- 3.) AREA-AVERAGED WINTER MASS BALANCE, seasonalmassbal.txt ------ */
+      /*write to file only if winter and summer is computed*/
+         /* changed 7/2016; it was: ) if(summerbalyes == 1) {      /*x[11] is output from statist(), = mean value*/
+            if(winterbalyes == 1) {      /*x[11] is output from statist(), = mean value*/
+                cumwinterbal += x[11]/factorcm;  /*add each years value*/
                 fprintf(outspecificmassbal,"%5.0f %4.0f %8.3f",year-1,year,x[11]/factorcm);
             }
             printf("\n Winter mass balance %5.0f %4.0f = %8.3f cm\n",year-1,year,x[11]);
@@ -1450,6 +1453,7 @@ void writemassbalgrid()
                 for(i=1; i<=numberbelt; i++)
                     summerbalprofile[i] = 0;
 
+ /* ------- 1.) SUMMER MASS BALANCE GRIDS ----------------- */
                 if (methodsurftempglac == 4) {
                     sprintf(namesummerbalst,"sumbalst%04d_%03d.bin",(int)year,(int)summerbaljd);
                     openoutfile(&outsummerbalst,outpath,namesummerbalst);
@@ -1477,25 +1481,27 @@ void writemassbalgrid()
                 if(outsummerbal)
                     closefile(&outsummerbal,namesummerbal);
                 outsummerbal = NULL;
-
+                
+ /* ------- 2.) COMPUTE SUMMER MASS BALANCE PROFILES ------------------------- */
                 /*mass balance profiles;  must be computed before array is set to zero*/
                 computemassbalprofile(SUMMERBAL,summerbalprofile);
                 summerprofile_yes = 1;     /*if 1 then it will be written to file below*/
 
                 if(bs_eachday_yes != 1)    /*do not set to 0 in case every day is written to file*/
                     initializeglacier2zero_nodata(nrows, ncols, SUMMERBAL);   /*set to 0 for next year's balance*/
-
-    /*** WRITE AREA-AVERAGED WINTER MASS BALANCE TO FILE only if winter and summer is computed, seasonalmassbal.txt ***/
+   
+ /* ------- 3.) AREA-AVERAGED SUMMER MASS BALANCE, seasonalmassbal.txt ------ */
+    /*** only if winter and summer is computed, seasonalmassbal.txt ***/
                 if(winterbalyes == 1) {    /*summerbalyes is alreday 1*/
                     cumsummerbal += x[11]/factorcm;     /*/x[11] is mean over glacier grid*/
-                          /*cumulative annual area-averaged summer mass balances*/
+                  /*add balance to same row, Years are written already with winter balance*/
                     fprintf(outspecificmassbal," %8.3f",x[11]/factorcm);
                 }
                 printf("\n Summer mass balance (ablation method) %5.0f = %8.3f cm\n",year,x[11]);
                 fprintf(outcontrol,"\n Summer mass balance %5.0f = %8.3f cm\n",year,x[11]);
             }
 
- /*** =========== ANNUAL NET MASS BALANCE ===================== ***/
+ /*** =========== ANNUAL NET MASS BALANCE  ===================== ***/
     if((winterbalyes == 1) && (summerbalyes == 1))
         if(jd == summerjdend)
             if( (datesfromfileyes == 0) || ((datesfromfileyes == 1) && (year == nextyear)))
@@ -1504,12 +1510,14 @@ void writemassbalgrid()
                 for(i=1; i<=numberbelt; i++)
                     massbalprofile[i] = 0;
 
+ /* ------- 1.) ANNUAL MASS BALANCE GRIDS ----------------------- */
                 sprintf(namemassbal,"massbal%04d_%03d.bin",(int)year,(int)summerjdend);
                 openoutfile(&outmassbal,outpath,namemassbal);
                 statist(MASSBALcum,x);   /*here the glacier-wide specific balance x[11] is computed*/
+					/*cumulated mass balance since start of mass balance year in cm w.e.*/
 
 		if(retreatyes > 1)  /*mean balance needed for retreat parameterization, x[11] may be overridden*/
-		   specificglacwidebalance = x[11];
+		   specificglacwidebalance = x[11];  /*glacier-wide annual mass balance*/
 
                 fwrite(&(x[1]),sizeof(float),12,outmassbal);     /*FIRST 12 ROWS*/
                 for (i=1; i<=nrows; i++)      /* for all rows (and columns in fwrite command) */
@@ -1518,22 +1526,25 @@ void writemassbalgrid()
                     closefile(&outmassbal,namemassbal);
                 outmassbal = NULL;
 
-                /*mass balance profiles;  must be computed before array is set to zero*/
-                computemassbalprofile(MASSBALcum,massbalprofile);
+ /* ------- 2.) COMPUTE ANNUAL MASS BALANCE PROFILES -------------- */
+     /* must be computed before array is set to zero */
+                computemassbalprofile(MASSBALcum,massbalprofile);      /*function below, mass bal here in cm*/
                 massbalprofile_yes = 1;
 
-                if (retreatyes <= 1)     /*massbal array needed for retreat parameterization, set to 0 later*/    
+       /*set MASSBALcum to zero to start cumulated mass balance grid for next year*/
+                if (retreatyes <= 1)   /*massbal array needed for retreat parameterization, set to 0 later in retreat.c*/    
                   initializeglacier2zero_nodata(nrows, ncols, MASSBALcum);   /*cum annual net balance grid*/
 
-            /*********** WRITE AREA-AVERAGED NET MASS BALANCE TO FILE EACH YEAR****************/
+ /* ------- 3.) AREA-AVERAGED ANNUAL NET MASS BALANCE, seasonalmassbal.txt ------ */
                 printf(" Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 fprintf(outcontrol," Mass balance %5.0f/%4.0f = %8.3f cm\n",year-1,year,x[11]);
                 cumnetbal += x[11]/factorcm;    /*x[11] is mean, output from statist*/
                 fprintf(outspecificmassbal," %8.3f %8.3f %8.3f %8.3f %5.0f %5.0f %5.0f",
                         x[11]/factorcm,cumwinterbal,cumsummerbal,cumnetbal,winterjdbeg,summerjdbeg,summerjdend);
 
-                if(retreatyes == 0)  /*if area changes are not computed and therefore no area columns written into that file*/
-                    fprintf(outspecificmassbal," \n");
+                if(retreatyes == 0)    /*glacier area assumed constant, no retreat parameterization*/
+                    fprintf(outspecificmassbal," \n");   /*linebreak in file with seasonal balances*/
+				  /*else no linebreak because more columns added about retreat*/
 
                 readdatesmassbalyes = 1;
                 /*to allow allocating dates for next massbalance year in function massbalance*/
@@ -1542,7 +1553,6 @@ void writemassbalgrid()
 
 
     /*====== WRITE MASS BALANCE PROFILES TO FILE - ONE FILE FOR EACH YEAR ======***/
-
     if((winterprofile_yes == 1) || (summerprofile_yes == 1) || (massbalprofile_yes == 1)) {
         if(dat_or_txt == 1)
             sprintf(namemassbalprofile,"massbalprofile%04d.dat",(int)year);
@@ -1559,7 +1569,7 @@ void writemassbalgrid()
             fprintf(outmassbalprofile,"%d %8.0f %.0f  %0.2f    ",i,elevbelt+(beltwidth/2),areabelt[i],areabelt[i]*gridsize*gridsize);
             fprintf(outmassbalprofile,"%12.3f %12.3f %12.3f\n",winterbalprofile[i]/factorcm,summerbalprofile[i]/factorcm,massbalprofile[i]/factorcm);
             elevbelt += beltwidth;
-        }
+        }        /*convert from cm to m with factorcm=100*/
         closefile(&outmassbalprofile,namemassbalprofile);
 
         if(outwinterbal)
@@ -1579,6 +1589,7 @@ void writemassbalgrid()
 /*****************************************************************/
 
 void computemassbalprofile(float **matrixprofile,float *massbalbands)
+   /*matrixprofile is either Winter, summer or annual balance grid*/
 {
     int jj=1, elevationfound = 0;
     int numberloop = 0;   /*to avoid endless loop in elevation belt loop*/
@@ -1592,7 +1603,7 @@ void computemassbalprofile(float **matrixprofile,float *massbalbands)
             if (griddgmglac[i][j] != nodata) {
                 elevationfound = 0;
                 numberloop = 0;
-                elevbelt = elevbeltmin;   /*start loop with lowest elevation, defined input.dat*/
+                elevbelt = elevbeltmin;   /*start loop with lowest elevation*/
                 jj = 1;     /*index for each elevation belt profile data*/
                 /*check for each grid cell elevation if it falls into lowest band, the next etc*/
                 /*going through all bands upwards and each belt has its specific indice*/
@@ -1604,11 +1615,11 @@ void computemassbalprofile(float **matrixprofile,float *massbalbands)
                         /*printf(" elevbelt arraymassbal %d %f %f\n",jj, elevbelt, matrixprofile[i][j]);*/
                         elevationfound = 1;
                     } else {
-                        elevbelt += beltwidth;  /*check next elevation belt*/
+                        elevbelt += beltwidth;  /*next elevation belt*/
                         jj += 1;
                     }
-                    if(numberloop >= 2000) {
-                        printf("\n\n exit function computemassbalprofile: check input.txt if defined elevation belts exit\n\n");
+                    if(numberloop >= 3000) {
+                        printf("\n\n exit function computemassbalprofile: check input.txt how many elevation belts exit; max 3000 allowed; writeout.c\n\n");
                         exit(2);
                     }
                 }  /*endwhile*/
@@ -1627,9 +1638,14 @@ void computemassbalprofile(float **matrixprofile,float *massbalbands)
 /*     compute the mean mass balance profile of all years        */
 /*  years can be defined that are to be excluded from the mean   */
 /*  adjust 2 variables below and give the years                  */
-/*  called from main after all time steps have been calculation  */
+/*  called from main after all time steps have been calculated   */
 /*    new May 2006                                               */
 /*****************************************************************/
+
+/*function opens and reads all profile files (that contain profiles for just one year)
+and then computes the mean of each mass balance variable (all in m w.e.);
+only called if glacier area does not change, because otherwise complicated with
+each profile file having different number of rows (elevation belts)*/
 
 void meanmassbalprofile()
 
@@ -1649,17 +1665,17 @@ void meanmassbalprofile()
 
     nyears = (int)yearend-(int)yearbeg;
 
-    for(i=0; i<=200; i++) { /*up to 200 elevation bands, initialize balances for each band to zero*/
-        col1[i] = 0.0;
-        col2[i] = 0.0;
-        col3[i]= 0.0;
-        col4[i] = 0.0;
-        colbw[i] = 0.0;
+    for(i=0; i<=3000; i++) { /*up to 3000 elevation bands, initialize balances for each band to zero*/
+        col1[i] = 0.0;    /*row number 1:number of bands*/
+        col2[i] = 0.0;    /*elevation m asl*/
+        col3[i]= 0.0;     /*number of pixels in elevation band*/
+        col4[i] = 0.0;    /*area of elevation belt in m2*/
+        colbw[i] = 0.0;   /*mean winter balance over elevation band in m w.e.*/
         colbs[i]= 0.0;
         colbn[i]=0.0;
     }
 
-    for(i=(int)yearbeg+1; i<=(int)yearend; i++) { /*for each file (year)*/
+    for(i=(int)yearbeg+1; i<=(int)yearend; i++) { /*for each mass balance profile file (1 year)*/
         if(numberexcludeyears > 0) {     /*compute number of years to be excluded from taking the mean*/
             for(ii=0; ii<=numberexcludeyears; ii++) {
                 if(i == excludeyears[ii]) {
@@ -1693,7 +1709,7 @@ void meanmassbalprofile()
             readrestofline(&meanprofile);  /*READ ONE LINE*/
 
             for(jj=1; jj<=numberbelt; jj++) { /*for each elevation belt, i.e. for each row*/
-                for (icol=1; icol<=7; icol++)     /*read one full row (all columns)*/
+                for (icol=1; icol<=7; icol++)     /*read one full row (all 7 columns)*/
                     fscanf(meanprofile,"%f",rowprofile+icol);
 
                 /*   printf("year=%d jj=%d ",i,jj);
@@ -2167,7 +2183,7 @@ void stationoutput()
 void writemeltstakes()
 
 {
-    /* indexing is being handled be global variables, i'm assuming these were there before*/
+    /* indexing is being handled by global variables, i'm assuming these were there before*/
     //int rowout,colout;    /*row and col to be written to file*/  /
 
     /*MASSBALANCE (SNOW PRECIP - ABLATION) OUTPUT IN CM*/

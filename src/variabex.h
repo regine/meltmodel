@@ -18,7 +18,7 @@
 
 /*************************************************************/
 /*  variabex.h                                               */
-/*    Last update  4 Feb 2015 */
+/*    Last update  20 Aug 2015 */
 /*************************************************************/
 
 #ifndef MELT_MOD_VARIAB_H_
@@ -121,7 +121,7 @@ extern  float pKonzel;    /* value in Konzelmann et al.  p=4 */
 extern int    readsnowalbedo;         /*1=snow albedo read from climate station file*/
 /*========== END OF HIDDEN OPTIONS ==================================================*/
 
-extern  float  daysscreenoutput;   /*output to screen every X day*/
+extern int  daysscreenoutput;   /*output to screen every X day*/
 extern int  resoutlines; /*number of times unrealistic values are generated*/
 extern int  calcgridyes;   /*compute whole grid or only climate station cell*/
 extern int  ncolskurz;   /*for king george island, to cut columns in output grids*/
@@ -212,8 +212,10 @@ extern float  **MASSBALcum;   /*(cumulative) mass balance over one year*/
 extern float  **MASSBALcum_all;   /*(cumulative) mass balance over whole calculation period*/
 extern float  **MASSBALgrid;   /*grid with mass balance for each time step*/
 
-extern  float  **WINTERBAL,**SUMMERBAL,**MASSBALcum;   /*mass balance*/
+extern float  **WINTERBAL,**SUMMERBAL,**MASSBALcum;   /*mass balance*/
 extern float  **MASSBALgrid;   /*grid with mass balance for each time step*/
+extern float  **DH;    /*grid for retreat parameterization, glacier surface elevation change*/
+
 extern  float  plusminus;
 
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/

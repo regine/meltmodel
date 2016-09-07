@@ -20,7 +20,7 @@
 /*   FUNCTION      input_read                     ********/
 /*   READ INPUT FROM CONTROLING INPUT FILE : 'input.txt' */
 /*   FILE NAMES, GRIDSIZE ETC.                      ******/
-/***  31.3.1997, Last update 25 Feb 2015  */
+/***  31.3.1997, Last update 2 Sep 2015  */
 /*********************************************************/
 
 
@@ -69,19 +69,17 @@ void input_read()
 
     readrestofline(&in);
     readrestofline(&in);  /*read first 2 comment rows*/
-    fscanf(in,"%f",&daysscreenoutput);
+    fscanf(in,"%d",&daysscreenoutput);
     readrestofline(&in);
     if (daysscreenoutput < 1) {
-        printf("\n\n  daysscreenoutput wrong in input.txt, must be >= 1\n\n");
+        printf("\n\ndaysscreenoutput=%d wrong in input.txt, must be >= 1\n\n",daysscreenoutput);
         exit(1);
     }
 
     /*output path must be read before file modellog.txt is opened */
-    fscanf(in,"%s",inpath);
-    readrestofline(&in);
-    fscanf(in,"%s",outpath);
-    readrestofline(&in);
-    printf("Input-Path  : %s\nOutput-Path : %s\n",inpath,outpath);
+    fscanf(in,"%s",inpath);		readrestofline(&in);
+    fscanf(in,"%s",outpath);	readrestofline(&in);
+    printf("inpath = %s\noutpath = %s\n",inpath,outpath);
 
     /* --------------------------------------------------------------*/
     /* OPEN CONTROL OUTPUT-FILE:   modellog.txt
@@ -91,7 +89,7 @@ void input_read()
     strcpy(outcontrolname,outpath);
     strcpy(dummy,"modellog.txt");
     strcat(outcontrolname,dummy);
-    printf("%s\n",outcontrolname);
+    printf("Name of model log file = %s\n",outcontrolname);
 
     if ((outcontrol = fopen(outcontrolname,"wt")) == NULL) {
         printf("\n\n ERROR opening controlling output-file: %s\n",outcontrolname);
@@ -106,35 +104,30 @@ void input_read()
     fprintf(outcontrol,"---- LIST OF SUCH CHANGES DONE BY THE PROGRAM: \n\n");
 
     /****** READ JULIANS DAYS TO BE CALCULATED ************/
-    fscanf(in,"%f%f",&jdbeg,&yearbeg);
-    readrestofline(&in);
-    fscanf(in,"%f%f",&jdend,&yearend);
-    readrestofline(&in);
+    fscanf(in,"%f%f",&jdbeg,&yearbeg);		readrestofline(&in);
+    fscanf(in,"%f%f",&jdend,&yearend);		readrestofline(&in);
 
     if (yearend < yearbeg) {
         printf("\n\n start or last year (yearbeg or yearend) wrong in input.txt\n\n");
         exit(1);
     }
-
-    printf("  starting day year = %4.0f %5.0f \t last day year = %4.0f %5.0f\n",jdbeg,yearbeg,jdend,yearend);
+    printf(" jdbeg=%4.0f yearbeg=%5.0f \t jdend=%4.0f yearend=%5.0f\n",jdbeg,yearbeg,jdend,yearend);
 
     /**** IF DISCHARGE TO BE CALCULATED *****************************/
-    fscanf(in,"%d",&disyes);
-    readrestofline(&in);
+    fscanf(in,"%d",&disyes);   readrestofline(&in);
     if ((disyes != 1) && (disyes != 0) && (disyes != 2)) {
-        printf("\n\n ERROR in input.txt: disyes (%d) must be 0, 1 or 2\n\n",disyes);
+        printf("\n\n  ERROR in input.txt: disyes=%d; must be 0, 1 or 2\n\n",disyes);
         exit(3);
     }
-
     if (disyes >= 1)
-        printf("DISCHARGE CALCULATION : YES");
+        printf("disyes=1:  DISCHARGE CALCULATION YES");
     else
-        printf("DISCHARGE CALCULATION : NO");
+        printf("disyes=0:  DISCHARGE CALCULATION NO");
 
     fscanf(in,"%d",&calcgridyes);
     readrestofline(&in);
     if ((calcgridyes != 1) && (calcgridyes != 2) ) {
-        printf("\n\n ERROR in input.txt: calcgridyes must be 1 or 2 \n\n");
+        printf("\n\n ERROR in input.txt: calcgridyes=%3d must be 1 or 2 \n\n",calcgridyes);
         exit(3);
     }
     if (calcgridyes == 1) { /*compute whole grid*/
@@ -142,62 +135,53 @@ void input_read()
         fprintf(outcontrol,"  snetfromobsyes set to 0\n");
     }
 
-
     /******************* MODEL OUTPUT PARAMETERS ************************************/
-
     readrestofline(&in);
-    fscanf(in,"%d",&maxmeltstakes);
-    readrestofline(&in);
-
-    fscanf(in,"%f",&plusminus);
-    readrestofline(&in);
+    fscanf(in,"%d",&maxmeltstakes);	 readrestofline(&in);
+      printf("\n maxmeltstakes=%d\n",maxmeltstakes);
+    fscanf(in,"%f",&plusminus);	  readrestofline(&in);
     if((plusminus != 1) && (plusminus != -1)) {
         printf("\n\n ERROR in inputdat variable: plusminus=%f) \n\n",plusminus);
         exit(3);
     }
 
-    fscanf(in,"%d",&do_out);
-    readrestofline(&in);
-
+    fscanf(in,"%d",&do_out);   readrestofline(&in);
     if((do_out != 0) && (do_out != 1) && (do_out != 2) && (do_out != 3)
             && (do_out !=4)) {
         printf("\n\n ERROR in %s (do_out=%d) \n\n",filenamein,do_out);
         exit(3);
     }
 
-    switch(do_out) {   /*OUTPUT JE NACH WERT VON do_out*/
+    switch(do_out) {   /*TEMPORAL AVERAGING OF GRID OUTPUT*/
     case 0 :
-        printf("\noutput (whole grids) to files     : NO\n");
+        printf("\ndo_out=%d:  output (whole grids) to files : NO\n",do_out);
         break;
     case 1 :
-        printf("\noutput (whole grid) to file : every time step\n");
+        printf("\ndo_out=%d:output (whole grid) to file : every time step\n",do_out);
         break;
     case 2 :
-        printf("\noutput (whole grid) to file : daily means\n");
+        printf("\ndo_out=%d:output (whole grid) to file : daily means\n",do_out);
         break;
     case 3 :
-        printf("\noutput (whole grid) to file only for whole period step\n");
+        printf("\ndo_out=%d:output (whole grid) to file only for whole period\n",do_out);
     }
 
     /*WHICH GRIDS TO FILE*/
-    readrestofline(&in);
+    readrestofline(&in);    /*read header line*/
     fscanf(in,"%d %d %d %d %d %d %d %d %d %d %d",&shayes,&exkyes,&solyes,&diryes,
            &dir2yes,&difyes,&gloyes,&albyes,&swbyes,&linyes,&loutyes);
     readrestofline(&in);
-
-    readrestofline(&in);
+    readrestofline(&in);    /*read header line*/
     fscanf(in,"%d %d %d %d %d %d %d %d %d %d",&netyes,&senyes,&latyes,&rainyes,
            &balyes,&melyes,&ablyes,&surftempyes,&posyes,&ddfyes);
     readrestofline(&in);
 
-    if(do_out > 0) {
-        printf("shayes exkyes solyes diryes dir2yes difyes gloyes albyes\n");
-        printf("%5d %5d %5d %6d %6d %6d %6d %6d\n",
-               shayes,exkyes,solyes,diryes,dir2yes,difyes,gloyes,albyes);
-        printf("swbyes linyes netyes senyes latyes balyes melyes ablyes\n");
-        printf("%5d %5d %5d %6d %6d %6d %6d %6d\n",
-               swbyes,linyes,netyes,senyes,latyes,balyes,melyes,ablyes);
-    }
+    printf("shayes exkyes solyes diryes dir2yes difyes gloyes albyes swbyes linyes loutyes\n");
+    printf("%5d %5d %5d %6d %6d %6d %6d %6d %6d %6d %6d\n",
+               shayes,exkyes,solyes,diryes,dir2yes,difyes,gloyes,albyes,swbyes,linyes,loutyes);
+    printf("netyes senyes latyes rainyes balyes melyes ablyes surftempyes posyes ddfyes\n");
+    printf("%5d %5d %5d %6d %6d %6d %7d %7d %9d %8d\n",
+               netyes,senyes,latyes,rainyes,balyes,melyes,ablyes,surftempyes,posyes,ddfyes);
 
     if(ddfyes == 1) {  /*ddf can only be caclulated if postemp and melt array are produced*/
         posyes = 1;
@@ -206,23 +190,19 @@ void input_read()
         fprintf(outcontrol," posyes and melyes set to 1\n");
     }
 
-    fscanf(in,"%d",&surfyes);
-    readrestofline(&in);
-    fscanf(in,"%d",&snowyes);
-    readrestofline(&in);
-    fscanf(in,"%f",&daysnow);
-    readrestofline(&in);
-    fscanf(in,"%d",&numbersnowdaysout);
-    readrestofline(&in);
-    printf(" numbersnowdaysout = %5d\n",numbersnowdaysout);
-
-    if((surfyes > 2) || (snowyes > 2)) {
+    fscanf(in,"%d",&surfyes);	readrestofline(&in);
+    fscanf(in,"%d",&snowyes);	readrestofline(&in);
+        if((surfyes > 2) || (snowyes > 2)) {
         printf("\n\n ERROR in input.txt: surfyes and snowyes must be 0, 1 or 2 !!! \n\n");
         exit(2);
     }
+    
+    fscanf(in,"%f",&daysnow);	          readrestofline(&in);
+    fscanf(in,"%d",&numbersnowdaysout);	  readrestofline(&in);
+    printf(" numbersnowdaysout = %5d\n",numbersnowdaysout);
 
     if(numbersnowdaysout == 0)
-        readrestofline(&in);
+        readrestofline(&in);    /*read comment line "2.) MASS BALANCE OUTPUT"*/
     else { /*read the jd to be written to output for surface type and snow cover*/
         for(i=1; i<=numbersnowdaysout; i++) {
             fscanf(in,"%f",&jdsurface[i]);
@@ -235,15 +215,10 @@ void input_read()
         readrestofline(&in);
     }  /*endif*/
 
-    readrestofline(&in);
-    fscanf(in,"%d",&winterbalyes);    /*compute winter balance, yes or no*/
-    readrestofline(&in);
-    fscanf(in,"%d",&summerbalyes);
-    readrestofline(&in);
-    fscanf(in,"%f",&winterjdbeg);
-    readrestofline(&in);
-    fscanf(in,"%f",&winterjdend);
-    readrestofline(&in);
+    fscanf(in,"%d",&winterbalyes);  readrestofline(&in);  /*compute winter balance, yes or no*/
+    fscanf(in,"%d",&summerbalyes);  readrestofline(&in);
+    fscanf(in,"%f",&winterjdbeg);   readrestofline(&in);
+    fscanf(in,"%f",&winterjdend);   readrestofline(&in);
     
     summerjdbeg = winterjdend+1;   /*summer balance starts day after winter balance*/
     summerjdend = winterjdbeg-1;   /*summer balance ends 1 day before winter balance starts*/
@@ -251,52 +226,44 @@ void input_read()
 	if(winterjdend == 365)  {summerjdbeg = 1;}
 
     if ((winterbalyes != 0) && (winterbalyes != 1)) {
-        printf("\n\n ERROR in input.txt:  winterbalyes must be 0 or 1 !!! \n\n");
+        printf("\n\n ERROR in input.txt: winterbalyes (=%d) must be 0 or 1 !!! \n\n",winterbalyes);
         exit(2);
     }
     if ((summerbalyes != 0) && (summerbalyes != 1)) {
-        printf("\n\n ERROR in input.txt:  summerbalyes (=%d) must be 0 or 1 !!! \n\n",summerbalyes);
+        printf("\n\n ERROR in input.txt: summerbalyes (=%d) must be 0 or 1 !!! \n\n",summerbalyes);
         exit(2);
     }
-    printf(" winterbalyes = %5d\n",winterbalyes);
-    printf(" summerbalyes = %5d\n",summerbalyes);
+    printf("    winterbalyes = %3d\n",winterbalyes);
+    printf("    summerbalyes = %3d\n",summerbalyes);
 
-    fscanf(in,"%d",&datesfromfileyes);
-    readrestofline(&in);
+    fscanf(in,"%d",&datesfromfileyes);  readrestofline(&in);
     if ((datesfromfileyes != 0) && (datesfromfileyes != 1)) {
         printf("\n\n ERROR in input.txt:  datesfromfileyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
         exit(2);
     }
-    fscanf(in,"%s",namedatesmassbal);
-    readrestofline(&in);
+    fscanf(in,"%s",namedatesmassbal);  readrestofline(&in);
     printf("\t\t%s\n",namedatesmassbal);
 
-    fscanf(in,"%f",&beltwidth);
-    readrestofline(&in);
+    fscanf(in,"%f",&beltwidth);   readrestofline(&in);
     printf(" beltwidth  = %.2f\n",beltwidth);
 
-    fscanf(in,"%d",&snow2zeroeachyearyes);
-    readrestofline(&in);
+    fscanf(in,"%d",&snow2zeroeachyearyes);   readrestofline(&in);
     printf(" snowfrsnow2zeroeachyearyes = %5d\n",snow2zeroeachyearyes);
     if ((snow2zeroeachyearyes != 0) && (snow2zeroeachyearyes != 1)) {
         printf("\n\n ERROR in input.txt:  snow2zeroeachyearyes (=%d) must be 0 or 1 !!! \n\n",datesfromfileyes);
         exit(2);
     }
 
-    fscanf(in,"%d",&snowfreeyes);
-    readrestofline(&in);
+    fscanf(in,"%d",&snowfreeyes);   readrestofline(&in);
     printf(" snowfreeyes  = %5d\n",snowfreeyes);
 
     readrestofline(&in);   /*comment line*/
-    fscanf(in,"%d",&cumumeltyes);
-    readrestofline(&in);
-    fscanf(in,"%f",&cm_or_m);
-    readrestofline(&in);
+    fscanf(in,"%d",&cumumeltyes);   readrestofline(&in);
+    fscanf(in,"%f",&cm_or_m);       readrestofline(&in);
     if ((cm_or_m != 10) && (cm_or_m != 1000)) {
         printf("\n\n ERROR in input.txt:  variable cm_or_m (=%.0f)!!! \n\n",cm_or_m);
         exit(2);
     }
-
 
     /*** TIME SERIES OF GLACIER MEAN ***/
     fscanf(in,"%d",&do_out_area);
@@ -567,55 +534,46 @@ void input_read()
         /*     surftempyes  = 0;   */
     }
 
-    /******* SCALING ***********************************/
+    /******* GLACIER GEOMETRY CHANGES **********************************/
     readrestofline(&in);
-    fscanf(in,"%d",&retreatyes);
-    readrestofline(&in);
-    fscanf(in,"%f",&gammaVA);
-    readrestofline(&in);
-    fscanf(in,"%f",&c_coefficient);
-    readrestofline(&in);
+    fscanf(in,"%d",&retreatyes);  	readrestofline(&in);
+    fscanf(in,"%f",&gammaVA);     	readrestofline(&in);
+    fscanf(in,"%f",&c_coefficient);	readrestofline(&in);
 
     switch(retreatyes) {
+    case 0:
+        printf("\nretreatyes=0 (CONSTANT AREA)\n");
+        break;
     case 1:
-        printf("\n VOLUME - AREA SCALING APPLIED\n");
-        winterbalyes=1;
-        summerbalyes=1;
-        /*mass balance must be computed to have the volume change and
+        printf("\nretreatyes=1 (VOLUME - AREA SCALING)\n");
+        winterbalyes=1;   summerbalyes=1;
+        /*mass balance must be computed to have the volume change, and
           areachanges are written to mass balance file specificmassbal.txt*/
-        fprintf(outcontrol," winterbalyes=1 summerbalyes=1  \n");
+        fprintf(outcontrol," input.c in switch retreatyes: set winterbalyes=1 summerbalyes=1  \n");
         break;
     case 2:
-        printf("\n EMERGENCE VELOCITY\n");
+        printf("\nretreatyes=2: GLACIER RETREAT USING HUSS PARAMETERIZATION\n");
+        winterbalyes=1;   summerbalyes=1;
+        fprintf(outcontrol," input.c in switch retreatyes: set winterbalyes=1 summerbalyes=1  \n");
         break;
     default :
-      printf("\n\n ERROR in input.txt: variable scalingyes=%d must be 0, 1 or 2\n\n",retreatyes);
+      printf("\n\nERROR in input.txt: variable retreatyes=%d must be 0, 1 or 2\n\n",retreatyes);
         exit(10);
         fclose(outcontrol);
     }
 
     /******* READ FILE NAMES ***********************************/
     readrestofline(&in);
-    fscanf(in,"%s",namedgm);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmdrain);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmglac);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmslope);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmaspect);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmskyview);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmfirn);
-    readrestofline(&in);
-    fscanf(in,"%s",nameinitialsnow);
-    readrestofline(&in);
-    fscanf(in,"%s",namedgmthickness);
-    readrestofline(&in);
-    fscanf(in,"%s",nameklima);
-    readrestofline(&in);
+    fscanf(in,"%s",namedgm);		readrestofline(&in);
+    fscanf(in,"%s",namedgmdrain);	readrestofline(&in);
+    fscanf(in,"%s",namedgmglac);	readrestofline(&in);
+    fscanf(in,"%s",namedgmslope);	readrestofline(&in);
+    fscanf(in,"%s",namedgmaspect);	readrestofline(&in);
+    fscanf(in,"%s",namedgmskyview);	readrestofline(&in);
+    fscanf(in,"%s",namedgmfirn);	readrestofline(&in);
+    fscanf(in,"%s",nameinitialsnow); 	readrestofline(&in);
+    fscanf(in,"%s",namedgmthickness);	readrestofline(&in);
+    fscanf(in,"%s",nameklima);			readrestofline(&in);
 
     printf("FILE NAMES:\t%s  \t%s \t%s \n",namedgm,namedgmdrain,namedgmglac);
     printf("\t\t%s \t%s \t%s \n",namedgmslope,namedgmaspect,nameklima);
@@ -631,12 +589,9 @@ void input_read()
     /*-------------------------------------------------*/
 
     readrestofline(&in);               /*READ COMMENT LINE*/
-    fscanf(in,"%lf",&laenge);
-    readrestofline(&in);
-    fscanf(in,"%lf",&breite);
-    readrestofline(&in);
-    fscanf(in,"%lf",&reflongitude);
-    readrestofline(&in);
+    fscanf(in,"%lf",&laenge);	readrestofline(&in);
+    fscanf(in,"%lf",&breite);	readrestofline(&in);
+    fscanf(in,"%lf",&reflongitude);  readrestofline(&in);
 
     if ((laenge < -180) || (laenge > 180)) {
         printf("\n\n ERROR in input.txt: longitude (=%.3f) \n\n",laenge);
@@ -701,36 +656,23 @@ void input_read()
         exit(2);
     }
 
-    fscanf(in,"%d",&maxcol);
-    readrestofline(&in);
-    fscanf(in,"%d",&coltemp);
-    readrestofline(&in);   /*columns climate data*/
-    fscanf(in,"%d",&colhum);
-    readrestofline(&in);
-    fscanf(in,"%d",&colwind);
-    readrestofline(&in);
-    fscanf(in,"%d",&colglob);
-    readrestofline(&in);
-    fscanf(in,"%d",&colref);
-    readrestofline(&in);
-    fscanf(in,"%d",&colnet);
-    readrestofline(&in);
-    fscanf(in,"%d",&collongin);
-    readrestofline(&in);
-    fscanf(in,"%d",&collongout);
-    readrestofline(&in);
-    fscanf(in,"%d",&colprec);
-    readrestofline(&in);
-    fscanf(in,"%d",&colcloud);
-    readrestofline(&in);
-    fscanf(in,"%d",&coltempgradvarying);
-    readrestofline(&in);
-    fscanf(in,"%d",&coldis);
-    readrestofline(&in);
+    fscanf(in,"%d",&maxcol);    readrestofline(&in);
+    fscanf(in,"%d",&coltemp);   readrestofline(&in);   /*columns climate data*/
+    fscanf(in,"%d",&colhum);    readrestofline(&in);
+    fscanf(in,"%d",&colwind);   readrestofline(&in);
+    fscanf(in,"%d",&colglob);   readrestofline(&in);
+    fscanf(in,"%d",&colref);    readrestofline(&in);
+    fscanf(in,"%d",&colnet);    readrestofline(&in);
+    fscanf(in,"%d",&collongin);    readrestofline(&in);
+    fscanf(in,"%d",&collongout);   readrestofline(&in);
+    fscanf(in,"%d",&colprec);   readrestofline(&in);
+    fscanf(in,"%d",&colcloud);  readrestofline(&in);
+    fscanf(in,"%d",&coltempgradvarying);   readrestofline(&in);
+    fscanf(in,"%d",&coldis);    readrestofline(&in);
 
     readrestofline(&in);
     if(coltemp < 4) {
-        printf("\n column with temperature must be 4 or more\n\n");
+        printf("\n column with temperature (=%d) must be 4 or more; check 'coltemp' in input.txt\n\n",coltemp);
         exit(2);
     }
     printf(" number of columns in climate input file= %d\n",maxcol);
@@ -746,18 +688,15 @@ void input_read()
     fscanf(in,"%d",&methodtempinterpol);
     readrestofline(&in);
     if ((methodtempinterpol == 3) && (timestep >1)) { /*temp data read from grid files*/
-        printf("\n\n temp data can not be read from file if time step is not hourly \n\n");
+        printf("\n\n temp data can not be read from file if time step is not hourly\n check 'methodtempinterpol' \n\n");
         exit(2);
     }
 
     printf(" methodtempinterpol= %d\n",methodtempinterpol);
 
-    fscanf(in,"%f",&tempgrad);
-    readrestofline(&in);
-    fscanf(in,"%f",&tempscenario);
-    readrestofline(&in);
-    fscanf(in,"%f",&precscenario);
-    readrestofline(&in);
+    fscanf(in,"%f",&tempgrad);       readrestofline(&in);
+    fscanf(in,"%f",&tempscenario);   readrestofline(&in);
+    fscanf(in,"%f",&precscenario);   readrestofline(&in);
     readrestofline(&in);
 
     fscanf(in,"%d",&monthtempgradyes);
@@ -777,10 +716,11 @@ void input_read()
         printf("\n air temperatures read from gridded files\n");
         break;
     default :
-        printf("\n\n ERROR in input.txt: variable methodtempinterpol, must be 1,2 or 3\n\n");
+        printf("\n\n ERROR in input.txt: variable methodtempinterpol, must be 1,2 or 3 (printed from input.c)\n\n");
         exit(10);
     }
 
+  /*--- read 12 values one for each month ---*/
     for (i=1; i<=12; i++)
         fscanf(in, "%f", monthtempgrad+i);
     readrestofline(&in);
@@ -844,22 +784,14 @@ void input_read()
 
     fscanf(in,"%f",&albsnow);
     readrestofline(&in);   /*ALBEDO-VALUES*/
-    fscanf(in,"%f",&albslush);
-    readrestofline(&in);
-    fscanf(in,"%f",&albice);
-    readrestofline(&in);
-    fscanf(in,"%f",&albfirn);
-    readrestofline(&in);
-    fscanf(in,"%f",&albrock);
-    readrestofline(&in);
-    fscanf(in,"%f",&albmin);
-    readrestofline(&in);
-    fscanf(in,"%f",&snowalbincrease);
-    readrestofline(&in);
-    fscanf(in,"%f",&albiceproz);
-    readrestofline(&in);
-    fscanf(in,"%f",&ndstart);
-    readrestofline(&in);
+    fscanf(in,"%f",&albslush);   readrestofline(&in);
+    fscanf(in,"%f",&albice);     readrestofline(&in);
+    fscanf(in,"%f",&albfirn);    readrestofline(&in);
+    fscanf(in,"%f",&albrock);    readrestofline(&in);
+    fscanf(in,"%f",&albmin);     readrestofline(&in);
+    fscanf(in,"%f",&snowalbincrease);    readrestofline(&in);
+    fscanf(in,"%f",&albiceproz);    readrestofline(&in);
+    fscanf(in,"%f",&ndstart);       readrestofline(&in);
 
     if((albsnow > 1) || (albice > 1) || (albfirn > 1)) {
         printf("\n\n ERROR in input.txt: variable albsnow %.2f or albice %.2f or albfirn %.2f wrong (> 1)\n\n",
@@ -1209,30 +1141,23 @@ void input_read()
     readrestofline(&in);
     readrestofline(&in);
     readrestofline(&in);
-    fscanf(in,"%d",&ddmethod);
-    readrestofline(&in);
+    fscanf(in,"%d",&ddmethod);    readrestofline(&in);
+	printf("ddmethod = %d\n",ddmethod);
     if((ddmethod < 1) || (ddmethod > 3)) {
         printf(" \n variable ddmethod wrong in input.txt = %d\n",ddmethod);
-        printf("    must be 1 - 3  (function input.c)\n\n");
+        printf("    must be 1, 2 or 3  (function input.c)\n\n");
         exit(4);
     }
-    fscanf(in,"%f",&DDFice);
-    readrestofline(&in);
-    fscanf(in,"%f",&DDFsnow);
-    readrestofline(&in);
+    fscanf(in,"%f",&DDFice);    readrestofline(&in);
+    fscanf(in,"%f",&DDFsnow);   readrestofline(&in);
 
     readrestofline(&in);
-    fscanf(in,"%f",&meltfactor);
-    readrestofline(&in);
-    fscanf(in,"%f",&radfactorice);
-    readrestofline(&in);
-    fscanf(in,"%f",&radfactorsnow);
-    readrestofline(&in);
-    fscanf(in,"%f",&debrisfactor);
-    readrestofline(&in);
-
-
+    fscanf(in,"%f",&meltfactor);      readrestofline(&in);
+    fscanf(in,"%f",&radfactorice);    readrestofline(&in);
+    fscanf(in,"%f",&radfactorsnow);   readrestofline(&in);
+    fscanf(in,"%f",&debrisfactor);    readrestofline(&in);
     readrestofline(&in);     /* COMMENT STAKES */
+
     fscanf(in,"%d",&coordinatesyes);
     if((coordinatesyes < 1) || (coordinatesyes > 3)) {
         printf(" \nERROR in input.txt: coordinatesyes (=%d) must be 1, 2 or 3  (input.c)\n\n",coordinatesyes);
@@ -1249,6 +1174,9 @@ void input_read()
         }	 /*endfor*/
     }  /*endif*/
 
+
+/*==================================================================================*/
+/*=== CHANGE PARAMETERS IF INCONSISTENT WITH OTHER PARAMETERS CHOSEN ABOVE =========*/
 
     if(maxmeltstakes > 0) {
         if((melyes == 0) || (ablyes == 0)) {
@@ -1336,10 +1264,11 @@ void input_read()
         fprintf(outcontrol,"snowmodel can not be run when degree day method-> therefore methodsurftempglac set to 1: \n");
     }
 
+
     fprintf(outcontrol,"---- END OF LIST OF SUCH CHANGES ---- \n");
     fprintf(outcontrol,"--------------------------------------------------- \n\n");
 
-    /*write entire input.txt as it is to control output file modellog.txt*/
+/*========== WRITE entire input.txt as it is TO control output file modellog.txt ===================*/
     rewind(in);    /*go back to beginning of input.txt file*/
     while((c=getc(in)) != EOF)
         putc(c,outcontrol);
@@ -1347,12 +1276,13 @@ void input_read()
     fprintf(outcontrol,"\n---- END OF INPUT-FILE ----------------------\n\n");
     printf("\n ************END OF INPUT-FILE **********************\n\n");
 
+/*========== WRITE HIDDEN OPTIONS as defined in variab.h, write to modellog.txt  ===================*/
+
     fprintf(outcontrol,"======= HIDDEN OPTIONS, defined in variab.h =========\n");
     fprintf(outcontrol,"surftempminimum = %.2f\n",surftempminimum);
     fprintf(outcontrol,"calcgridyes (1= whole grid, 2=only AWS) = %d\n",calcgridyes);
     fprintf(outcontrol,"setmelt2zero (0=no, 1=yes, set to 0 if surftemp<0) = %d\n",setmelt2zero);
     fprintf(outcontrol,"surftempminmelt (if setmelt2zero=1 melt is set to 0 if surftemp below this value) = %f\n",surftempminmelt);
-
 
     fprintf(outcontrol,"z2 (instrument height (T, RH, wind) = %.2f\n",z2);
     fprintf(outcontrol,"emissivitysurf (surface emissivity) = %.3f\n",emissivitysurf);
@@ -1379,6 +1309,10 @@ void input_read()
 
     fclose(in);
     in = NULL;
+    
+printf(" XXXXXXXXX input.c:  winterbalyes=%d summerbalyes=%d retreatyes=%d \n",winterbalyes,summerbalyes,retreatyes);
+
+    
     return;
 
 }

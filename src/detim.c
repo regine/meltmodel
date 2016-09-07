@@ -20,7 +20,8 @@
 /* PROGRAM  detim.c, formerly degree.c                               */
 /*  DISTRIBUTED SNOW/ICE MELT MODEL BASED ON TEMPERATURE INDEX       */
 /*  METHODS ENERGY BALANCE INCLUDING OPTIONAL DISCHARGE CALCULATIONS */
-/*   5.3.1998, last update 4 Feb 2015, renamed from degree.c August 2012 */
+/*   5.3.1998, renamed from degree.c August 2012                     */
+/*   last update 21 August 2015                                      */
 /*********************************************************************/
 
 
@@ -60,12 +61,12 @@ int main()
     /*** READ DATA FROM CONTROLING INPUT FILE / INITIALISATION     ****/
     /*----------------------------------------------------------------*/
 
-    input_read();      /*** READ INPUT DATA ***/
+    input_read();      /*** READ INPUT DATA ***/    
     degreestart();
     startinputdata();  /***OPEN AND READ GRID FILES AND CLIMATE DATA until start***/
     checkgridinputdata_ok(); /*check if grid input data ok*/
     startoutascii();   /***OPEN ASCII-OUTPUT FILES AND WRITE HEADS***/
-    startspecificmassbalance(); /*OPEN FILE FOR SPECIFIC MASS BAL, MULTI-YEAR RUNS*/
+    startspecificmassbalance(); /*OPEN FILE FOR GLACIER-WIDE SEASONAL MASS BAL, MULTI-YEAR RUNS*/
     startarrayreserve();   /*RESERVE STORAGE FOR GRID-ARRAYS*/
     glacierrowcol();  /*FIND FIRST, LAST ROW AND COLUMN WHICH IS GLACIERIZED IN DTM*/
     readclim();       /*** READ CLIMATE INPUT FIRST ROW = ONE TIME STEP ****/
@@ -88,6 +89,7 @@ int main()
     if (disyes >= 1)        /*DISCHARGE SIMULATION REQUESTED, 1=discharge data, 2=no data*/
         startdischarg();     /*INITIALIZE DISCHARGE SIMULATION*/
 
+/*printf("==============ddmethod in detim.c = %d ===================\n",ddmethod);*/
 
     /*=============FOR EVERY TIME STEP ===============================================*/
 
@@ -96,9 +98,9 @@ int main()
         nsteps += 1;         /*number of time steps of period calculated*/
 
         /******* ADJUST BY USER, HOW OFTEN OUTPUT JD-TIME TO SCREEN *******/
-
-        if((zeit==24) && ((int)jd/daysscreenoutput == floor((int)jd/daysscreenoutput)))
+        if((zeit==24) && (jd/daysscreenoutput == floor((int)jd/daysscreenoutput)))
             printf("\n  yr= %4.0f  jd = %4.2f   time =%3.0f  number of time steps=%d",year,jd,zeit,nsteps);
+
 
         /******* TEMPERATURE INTERPOLATION ******/
         tempinterpol(); /*** ELEVATION-DEPENDENT AIR TEMP INTERPOLATION ***/
@@ -142,11 +144,9 @@ int main()
                     airpress();     /*** CALCULATION AIR PRESSURE AT GRID POINT         ***/
                     vappress();     /*** CALCULATION VAPOUR PRESSURE FROM REL. HUMIDITY ***/
 
-
                     /*==================================================================*/
 
                     switch(ddmethod)
-
                     {
                     case 1:
                         degreedaymelt();    /*CALCULATING MELT WITH DEGREE DAY*/
@@ -159,7 +159,8 @@ int main()
                         break;
 
                     default:
-                        printf("\n no index method defined \n  degree.c\n");
+                        printf("\n ERROR: No temperature index method (ddmethod) defined\n");
+                        printf("       ddmethod should be 1, 2 or 3 (printed from detim.c)\n");
                         exit(20);
                     }
 
@@ -274,18 +275,16 @@ int main()
                 writemassbalgrid();    /*balance grids are in arrays WINTERBAL, SUMMERBAL*/
 
         /********** Glacier geometry changes updated only once a year at end of summer **********************************/
-        if((jd == summerjdend) && (retreatyes >= 1) && (zeit == 24) )
+    if((jd == summerjdend) && (retreatyes >= 1) && (zeit == 24) )
 	 { if( (datesfromfileyes == 0) || ( (datesfromfileyes == 1) && (year == nextyear))) 
 	    { switch(retreatyes)	      
 	      { case 1:     /*V-A scaling*/
 		      scaling();
 		      break;
-	        case 2:     /*emergence velocity*/
-		      retreat_emergence();
+	        case 2:     /*Huss et al. 2010, NEW Aug 2015*/
+		      retreat_Huss();
 		      break;
-	        case 3:     /*Huss 2010, to be implemenred*/
-		      break;
-	        case 4:     /*Truessel et al. 2015, JGlac*/
+	        case 3:     /*Truessel et al. 2015, JGlac, not implemented yet*/
 		      break;
 	        default:
 		  printf("\n no retreat method defined (retreatyes=%d)\n  (Message send from detim.c\n",retreatyes);
@@ -323,7 +322,8 @@ int main()
     }
 
     /********** WRITE MEAN MASS BALANCE PROFILE TO FILE********************************/
-    if((winterbalyes == 1) || (summerbalyes == 1))
+        /* only if glacier area is constant*/
+    if(((winterbalyes == 1) || (summerbalyes == 1)) && (retreatyes = 0))
         meanmassbalprofile();     /*mean over all years*/
 
     /******************************************************************/

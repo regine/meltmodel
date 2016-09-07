@@ -93,8 +93,9 @@ void closeall()
     freematrix(tempint,1,nrows,1,ncols);          /*AIR TEMPERATURE*/
 
     if(retreatyes > 1)   /*only if retreat is computed with methods that need it*/
-        freematrix(THICK,1,nrows,1,ncols);          /*ICE THICKNESS*/
-
+     {  freematrix(THICK,1,nrows,1,ncols);          /*ICE THICKNESS*/
+        freematrix(DH,1,nrows,1,ncols);          /*SURFACE ELEVATION CHANGE NORMALIZED*/
+     }
     if(methodprecipinterpol == 2)  /*precipitation index map*/
         freematrix(precipindexmap,1,nrows,1,ncols);
     if(methodprecipinterpol == 3)  /*precipitation read from files for each time step*/
