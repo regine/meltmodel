@@ -5,7 +5,7 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
-#### 8 September 2015: (NEW, R. Hock)
+#### 8 September 2016: (NEW, R. Hock)
 * v3.0
   - Added new retreat parameteriation (V-A scaling, Huss-parameterization)
   - small non-significant changes in many files
