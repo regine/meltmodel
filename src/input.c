@@ -201,9 +201,9 @@ void input_read()
     fscanf(in,"%d",&numbersnowdaysout);	  readrestofline(&in);
     printf(" numbersnowdaysout = %5d\n",numbersnowdaysout);
 
-    if(numbersnowdaysout == 0)
-        readrestofline(&in);    /*read comment line "2.) MASS BALANCE OUTPUT"*/
-    else { /*read the jd to be written to output for surface type and snow cover*/
+/*read the jd to be written to output for surface type and snow cover*/
+    if(numbersnowdaysout > 0)
+	{ 
         for(i=1; i<=numbersnowdaysout; i++) {
             fscanf(in,"%f",&jdsurface[i]);
             printf(" jdsurface[%d] = %.0f\n",i,jdsurface[i]);
@@ -215,16 +215,15 @@ void input_read()
         readrestofline(&in);
     }  /*endif*/
 
+    readrestofline(&in);    /*read comment line "2.) MASS BALANCE OUTPUT"*/
+
     fscanf(in,"%d",&winterbalyes);  readrestofline(&in);  /*compute winter balance, yes or no*/
     fscanf(in,"%d",&summerbalyes);  readrestofline(&in);
     fscanf(in,"%f",&winterjdbeg);   readrestofline(&in);
     fscanf(in,"%f",&winterjdend);   readrestofline(&in);
     
-    summerjdbeg = winterjdend+1;   /*summer balance starts day after winter balance*/
-    summerjdend = winterjdbeg-1;   /*summer balance ends 1 day before winter balance starts*/
-    if(winterjdbeg == 1)    {summerjdend   = 365;}   /*account for different year*/
-	if(winterjdend == 365)  {summerjdbeg = 1;}
-
+    printf("    winterbalyes = %3d\n",winterbalyes);
+    printf("    summerbalyes = %3d\n",summerbalyes);
     if ((winterbalyes != 0) && (winterbalyes != 1)) {
         printf("\n\n ERROR in input.txt: winterbalyes (=%d) must be 0 or 1 !!! \n\n",winterbalyes);
         exit(2);
@@ -233,8 +232,11 @@ void input_read()
         printf("\n\n ERROR in input.txt: summerbalyes (=%d) must be 0 or 1 !!! \n\n",summerbalyes);
         exit(2);
     }
-    printf("    winterbalyes = %3d\n",winterbalyes);
-    printf("    summerbalyes = %3d\n",summerbalyes);
+    
+    summerjdbeg = winterjdend+1;   /*summer balance starts day after winter balance*/
+    summerjdend = winterjdbeg-1;   /*summer balance ends 1 day before winter balance starts*/
+    if(winterjdbeg == 1)    {summerjdend   = 365;}   /*account for different year*/
+	if(winterjdend == 365)  {summerjdbeg = 1;}
 
     fscanf(in,"%d",&datesfromfileyes);  readrestofline(&in);
     if ((datesfromfileyes != 0) && (datesfromfileyes != 1)) {

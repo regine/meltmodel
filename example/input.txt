@@ -1,31 +1,30 @@
-%Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE EXAMPLE SHOULD WORK !!!
+%PIC_DETIM_v4: NOTE: YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER
 %************************************************************************************
-1    %output to screen every X day.  daysscreenoutput.
-/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
-/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
-129  1999  %first julian day to be calculated.  jdbeg  yearbeg
-166  1999   %last julian day to be calculated.  jdend  yearend
-1    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
+100   %output to screen every X day.  daysscreenoutput.
+/reginefolder/MODEL/studies/NicoleSchaefer2016/indata/
+/reginefolder/MODEL/studies/NicoleSchaefer2016/output/
+260  2008  %first julian day to be calculated.  jdbeg  yearbeg
+259  2010   %last julian day to be calculated.  jdend  yearend
+0    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
 1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS: DEFINE WHAT IS WRITTEN TO FILE ***************
-5    %number of stakes for melt output.  maxmeltstakes
+2    %number of stakes for melt output.  maxmeltstakes
 1    %cum massbal multiplied by this factor in melting.dat.  plusminus
 3    %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
 %shayes exkyes solyes diryes dir2yes difyes gloyes albyes  swbyes linyes loutyes
-   0     0      0      0      0       0      0       0       0      0      0
-%netyes senyes latyes raiyes enbyes melyes  ablyes surftempyes  posyes ddfyes
-   0     0       0      0      0      1      0       0            1      1
-2    %surface conditions to grid file (2=for specified JDs).  surfyes
+          0       0        0          0          0          0         0         0          0            0      0
+%netyes senyes latyes rainyes enbyes melyes  ablyes surftempyes  posyes ddfyes
+          0       0        0          0          0          0         0             1                 1      1
+0    %surface conditions to grid file (2=for specified JDs).  surfyes
 0    %snow cover to grid file at midnight.  snowyes
 1    %snow or surface written to file if jd dividable by this value.  daysnow
-2    %number of jd for output of surface type/snow cover.  numbersnowdaysout
-190 210
+0    %number of jd for output of surface type/snow cover.  numbersnowdaysout
 %******************************** 2.) MASS BALANCE OUTPUT ********************************
-1    %gridout winter mass balance yes=1, no=0.  winterbalyes
-244  135    %julian day winter starts and ends.  winterjdbeg  winterjdend
-1    %gridout summer mass balance yes=1, no=0.  summerbalyes
-136  243    %julian day summer starts and ends.  summerjdbeg  summerjdend
-0    %1=dates for MB meas read from file, 0=fixed dates.  datesfromfileyes
+1       %output grid of winter mass balance     yes=1, no=0.  winterbalyes
+1       %output grid of summer mass balance, yes=1, no=0.  summerbalyes
+260     %day of year when winter starts. Summer ends day before. winterjdbeg 
+118     %day of year when winter ends. Summer starts next day.   winterjdend
+0       %0=fixed dates above, 1=dates for each year read from file.  datesfromfileyes
 dummydates.dat    %file containing the dates of massbal meas.  namedatesmassbal
 20    % vertical extent of elevation bands (m) for mass balance profiles.  beltwidth
 1    %set snow cover to 0 at start of each massbal year.  snow2zeroeachyearyes
@@ -37,7 +36,7 @@ dummydates.dat    %file containing the dates of massbal meas.  namedatesmassbal
 1    %number of individual grid points for which model result output.  outgridnumber
 %***====read if number > 0============================***
 %***Outputfilename ** row/x-coord **colu/y-coord ** glob and net data included from input data
-pointoutput.txt        100            100           0    %outgridname[][], stn_xcoordinate[i], stn_ycoordinate[i], &outglobnet[i]
+pointoutputAWS.txt 717  1267  0    %outgridname[][], stn_xcoordinate[i], stn_ycoordinate[i], &outglobnet[i]
 %******** 3.) METHODS ENERGY BALANCE COMPONENTS ********************************
 2    %1=surface maps 2=start with initial snow cover.  methodinisnow
 1    %1=constant for surface types, >2=alb generated.  methodsnowalbedo, 6=zongo
@@ -52,52 +51,53 @@ pointoutput.txt        100            100           0    %outgridname[][], stn_x
 1    %1=neglected 2=neg energy balance stored to retard melt.  methodnegbal
 %********* SCALING ************************************************
 0    %V-A scaling yes=1, no=0.  scalingyes
-1.375    %gamma in V-A scaling.  gamma
+1.25    %gamma in V-A scaling.  gamma
 0.6    %coefficient in V-A scaling.  c_coefficient
 %********* 4.) NAMES OF INPUT FILES *********************************************
-dav_dem.bin    %name of Digital Terrain Model.  namedgm
-dav_watershed.bin    %name of DTM with drainage basin.  namedgmdrain
-dav_glacier.bin    %name of DTM glacier.  namedgmglac
-dav_slope.bin    %name of DTM slope.  namedgmslope
-dav_aspect.bin    %name of DTM aspect.  namedgmaspec
-dummy.bin    %name of DTM sky view factor.  namedgmskyview
-dav_firn.bin    %name of DTM firnarea.  namedgmfirn
-dav_snow0.bin   %name of DTM initial snow cover.  nameinitialsnow 
-dav_climate_data.txt    %name of climate data file.  nameklima
+026_dem_utm_cut.bin    %name of Digital Terrain Model.  namedgm
+026dm2014v22_watershed_cut.bin    %name of DTM with drainage basin.  namedgmdrain
+026dm2014v22_cut.bin    %name of DTM glacier.  namedgmglac
+026_dem_slope_cut.bin    %name of DTM slope.  namedgmslope
+026_dem_aspect_cut.bin    %name of DTM aspect.  namedgmaspec
+026_sky_dummy.bin    %name of DTM sky view factor.  namedgmskyview
+026dem1646v22_firn_cut.bin    %name of DTM firnarea.  namedgmfirn
+026dm2014v22_SWE_cut.bin   %name of DTM initial snow cover.  nameinitialsnow 
+026_thickness_dummy.bin  %name of DTM ice thickness.  namedgmthickness 
+RACMO2_climate_m0714.txt    %name of climate data file.  nameklima
 %********* 5.) GRID INFORMATION**************************************************
--134.50479    %geographical longitude [degree].  laenge
-58.51169    %latitude.  breite
--120.0    %longitude time refers to.  reflongitude
-100    %row in DTM where climate station is located.   rowclim
-100    %column of climate station.  colclim
-1  7    %take this elevation for AWS yes/no.  climoutsideyes  heightclim
-100    %gridsize in m.  gridsize
-1    %time step in hours.  timestep
+-65.855    %geographical longitude [degree].  laenge
+67.254    %latitude.  breite
+-60    %longitude time refers to.  reflongitude
+717    %row in DTM where climate station is located.   rowclim  ...this is the grid cell for the AWS
+1267    %column of climate station.  colclim...this is the grid cell for the AWS
+0  1817    %take this elevation for AWS yes/no.  climoutsideyes  heightclim
+60.90279    %gridsize in m.  gridsize
+24    %time step in hours.  timestep
 %********* 6.) CLIMATE DATA *****************************************************
-1    %1=midnight time is 0, 2=time is 24, 3=24 but previous day.  formatclimdata
-14    %number of columns in climate file.  maxcol
+2    %1=midnight time is 0, 2=time is 24, 3=24 but previous day.  formatclimdata
+5    %number of columns in climate file.  maxcol
 4    %columns in climate input file: temperature.  coltemp
-5    %column containing relative humidity.  colhum
-6    %column wind speed [m/s].  colwind
-8    %global radiation.  colglob
-9    %reflected shortwave radiation.  colref
-10    %net radiation.  colnet
-11    %longwave incoming radiation.  collongin
-12    %longwave outgoing radiation.  collongout
-13    %precipitation.  colprec
+30    %column containing relative humidity.  colhum
+30    %column wind speed [m/s].  colwind
+30    %global radiation.  colglob
+30  %reflected shortwave radiation.  colref
+30   %net radiation.  colnet
+30    %longwave incoming radiation.  collongin
+30    %longwave outgoing radiation.  collongout
+5    %precipitation.  colprec
 30    %cloud cover (number of eigths).  colcloud
 30    %time variant lapse rate (neg=decrease).  coltempgradvarying
-14    %column of discharge data.  coldis
+30    %column of discharge data.  coldis
 %********** (BIAS) CORRECTIONS TO INPUT DATA (TEMP, WIND) ********************************
 0    %add this to air temp (e.g., to get to elevationstation).  ERAtempshift
 0    %add this to wind speed (e.g., to get to elevationstation).  ERAwindshift
 %********** 7.) LAPSE RATE / SCENARIOS ********************************
 1    %1=const lapse rate 2=variable 2AWS 3=grid.  methodtempinterpol
--0.6    %temperature change with elevation [degree/100m].  tempgrad
+-0.447    %temperature change with elevation [degree/100m].  tempgrad
 0    %climate perturbation: temp + this amount.  tempscenario
 0    %climate perturbation: precip + this amount in percent.  precscenario
 %on/off Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-0      0.0    0.0  0.0   0.0 -0.432 -0.308 -0.388 -0.322 -0.362 -0.362 0.0 0.0    %monthtempgrad(yes)
+1      -0.394    -0.399  -0.343   -0.452 -0.514 -0.423 -0.381 -0.426 -0.568 -0.491 -0.51 -0.468    %monthtempgrad(yes)
 0      0.5    1.0  1.0   1.0  1.0     1.0   1.0   1.0   1.0   1.0  1.0   1.0    %monthtempscen(yes)
 0     10.0   10.0  10.0  10.0 10.0   10.0   10.0  10.0  10.0  10.0 10.0 10.0    %monthprecipscen(yes)
 %******** 8.) SURFACE TYPE / ALBEDO ***********************************
@@ -108,7 +108,7 @@ dav_climate_data.txt    %name of climate data file.  nameklima
 0.6    %albedo for firn (method 2).  albfirn
 0.1    %albedo for rock outside glacier.  albrock
 0.5    %minimum albedo for snow if generated.  albmin
-8.0    %increase snowalb/100m elevation for 1. time. snowalbincrease
+0.0    %increase snowalb/100m elevation for 1. time. snowalbincrease
 0.0    %decrease of ice albedo with elevation.  albiceproz
 0    %number of days since snow fall at start.  ndstart
 %******** 9.) RADIATION *******************************************
@@ -118,9 +118,9 @@ dav_climate_data.txt    %name of climate data file.  nameklima
 1.0    %first ratio of global radiation and direct rad.  ratio
 0.95    %first ratio of direct and clear-sky direct rad.  ratiodir2dir
 -0.5    %decrease in surftemp with height if longout meas.  surftemplapserate
-0    %direct radiation read from file = 1.  directfromfile
-/Users/luser/Documents/example_data/direct/    %Path for direct files.  pathdirectfile
-0    %files only exist every number of days defined here.  daysdirect
+1    %direct radiation read from file = 1.  directfromfile
+/cygdrive/c/meltmodel/Ipot_cut3/    %Path for direct files.  pathdirectfile
+1    %files only exist every number of days defined here.  daysdirect
 1.0    %0=slope at climate station is set to 0.  slopestation
 %******** 10.) TURBULENCE ***********************************************
 0.25    %step for surface temp lowering for iteration.  iterstep
@@ -132,14 +132,14 @@ dav_climate_data.txt    %name of climate data file.  nameklima
 0.02    %max z0w ice.  icez0max
 %********** 11.) PRECIPITATION *******************************************
 1    %1=lapse rate 2=scale AWS precip with index map 3=read grids.  methodprecipinterpol
-10.0    %precipitation change with elevation [%/100m].  precgrad
+3.6   %precipitation change with elevation [%/100m].  precgrad
 0.0 1900    %precipitation change with elevation beyond certain elevation.  precgradhigh precgradelev
-50.0    %35 precipitation correction, caused by losses.  preccorr
+0    %35 precipitation correction, caused by losses.  preccorr
 1.0    %snow precip is multiplied by this factor.  snowmultiplierglacier
 1.0    %snow precip is multiplied by this factor.  snowmultiplierrock
-1.5    %threshold temperature rain/snow precipitation.  threshtemp
-0    %0=if massbal calculations for whole drainage basin, 1=only glacier.  onlyglacieryes
-50.0    %percentage of glacierization.  glacierpart
+1.0    %threshold temperature rain/snow precipitation.  threshtemp
+1    %0=if massbal calculations for whole drainage basin, 1=only glacier.  onlyglacieryes
+100   %percentage of glacierization.  glacierpart
 %************* 13.) DISCHARGE STARTING VALUES**********************
 discharge.txt     %name of discharge output file.  nameqcalc
 -9999    %nodata value of discharge file.  nodis
@@ -186,8 +186,5 @@ discharge.txt     %name of discharge output file.  nameqcalc
 1    %factor to reduce melt over debris.  debrisfactor
 %******* 18.) OUTPUT STAKES **************************************
 3    %1=stake locations given in local coordinates (x,y), 2=as 1 but center, 3=row/col.  coordinatesyes
-100  100
-102  103
-102  99
-102  104
-103  105
+678  1269
+724  1249
