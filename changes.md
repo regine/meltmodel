@@ -5,6 +5,12 @@ NOTE: Changes in the code can be due to
 
 The term in brackets is used to mark each change.
 
+#### 8 September 2015: (NEW, R. Hock)
+* v3.0
+  - Added new retreat parameteriation (V-A scaling, Huss-parameterization)
+  - small non-significant changes in many files
+  - adjusted input.txt (simplified dates of winter/summer balance; added name of thickhness file)
+
 #### 29 January 2015: (ERROR, TECHNICAL L. Gillispie)
 * v2.1.2
   - The makefile now detects whether or not the underlying kernel is 32-bit, and compiles
