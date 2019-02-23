@@ -58,7 +58,7 @@ void readrestofline(FILE **infile) {
         }
     }
 
-    /*	; empty command, just read, don´t do anything with variable c*/
+    /*	; empty command, just read, donï¿½t do anything with variable c*/
     return;
 }
 
@@ -457,6 +457,20 @@ void startinputdata()
         fclose(outcontrol);
     }  /*ENDIF*/
 
+    /****************** SNOW MODEL INITIALIZATION *********************************/
+    /*** OPEN SNOW MODEL PROFILE DATA FILE: works only if snow model is run only at the AWS point ***/
+
+    if((methodinitialverticalgrid == 2) && (calcgridyes == 2) && (methodsurftempglac == 4))  {
+
+		strcpy(dummy,inpath);
+		strcat(dummy,'snowmodel_init.txt');
+		if ((insnowprofile = fopen (dummy,"rt")) == NULL)  {
+			printf("\n ERROR : Snow model initialization file not found !!!\n %s \n\n",dummy);
+			exit(4);
+			fclose(outcontrol);
+		}  /*ENDIF*/
+    }  /*ENDIF*/
+
     /*---------------------------------------------------------------------------*/
     /* READ WHOLE DTM - GRID FILES                                               */
     /*---------------------------------------------------------------------------*/
@@ -760,6 +774,20 @@ void startinputdata()
     printf("\n STARTING DAY FOUND : year=%5.0f  day=%5.2f  time=%5.2f\n",year,jd,zeit);
     if(timestep == 24)     /*daily timestep*/
         printf(" NEXT ROW = JULIAN DAY %3.0f is first day to be computed\n",jd+1);
+
+    /*** READ SNOW MODEL PROFILE INITIALIZATION FILE ***/
+
+    if((methodinitialverticalgrid == 2) && (calcgridyes == 2) && (methodsurftempglac == 4))  {
+    	readrestofline(&insnowprofile);
+    	readrestofline(&insnowprofile);             /*READ TWO FIRST COMMENT LINES*/
+    	ndepthsinit=0;
+    	while (fscanf(insnowprofile,"%f",&layerdepthinit) != EOF) {
+    		fscanf(insnowprofile,"%f %f %f %f",&layerthicknessinit,&layerdensityinit,&layeridinit,&layertemperatureinit);
+    		ndepthsinit+=1;
+    	}
+    	ndepths=ndepthsinit;  /*set the ndepths read from file*/
+    	fprintf(outcontrol,"Redefine ndepths = %d in function startinputdata() in intial.c (snow model)\n",ndepths);
+    }  /*ENDIF*/
 
     /****** CONVERT COORDINATES FOR STAKE AND STATION OUTPUT LOCATIONS INTO ROW AND COLUMN
       CANNOT BE DONE EARLIER BECAUSE GRID HEADER MUST HAVE BEEN READ FIRST*/

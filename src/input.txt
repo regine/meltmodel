@@ -170,6 +170,7 @@ matriz.dat    %name of r2-outputfile.  namematrix
 1    %0=no slush, 1=meltwater accumulation in snowlayer.  slushformationyes
 1    %0=no densification, 1=densific. of dry snow due to aging.  densificationyes
 0    %0=dry start, 1=wet start.  wetstartyes
+1    %1=gradient method, 2=read snow model initialization profiles from file.  methodinitialverticalgrid
 30    %maximum number of vertical layers.  ndepths
 8    %number of subtimesteps for interpolation per main timestep 8.  factinter
 %----------------------------

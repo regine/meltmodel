@@ -179,6 +179,7 @@ char   nametempgrid[FNAME_LEN];
 /********* FILES **********/
 FILE   *indgm=NULL,*indgmdrain=NULL,*indgmglac=NULL;       /* input files */
 FILE   *indgmslope=NULL,*indgmaspect=NULL,*inklima=NULL;
+FILE   *insnowprofile=NULL;          /* snow model profiles initialization file */
 FILE   *inalbedo=NULL;
 FILE   *indgmskyview=NULL,*ininitialsnow=NULL,*indgmthickness=NULL;
 FILE   *indatesmassbal=NULL;
@@ -574,16 +575,21 @@ float jdphoto;  /*for VERNAGTFERNER application*/
 /*============================================================*/
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
 double ***layerdepth;       /*3d matrix with layer depth*/
+double *layerdepthinit;     /*1D array with layer depth initialization at AWS  (added by F. Covi 2/2019)*/
 double ***layerthickness;   /*3d matrix with layer thicknesses*/
+double *layerthicknessinit; /*1D array with layer thickness initialization at AWS*/
 double ***layerdensity;     /*3D matrix density of the snow layer*/
+double *layerdensityinit;   /*1D array with layer density initialization at AWS*/
 double ***layermass;        /*3D matrix mass (density*thickness) of the snow layer*/
 double ***layertemperature; /*3D matrix temperature of the snow layer*/
+double *layertemperatureinit;   /*1D array with layer temperature initialization at AWS*/
 double ***layerrhocp;       /*3D matrix dens*cp of the snow layer*/
 double ***layerwatercont;   /*3D matrix watercontent layer*/
 double ***layerdeltawatercont;   /*3D matrix change in watercontent layer per time step*/
 double ***layerrefreeze;    /*3D matrix total refrozen mass per layer since start mb year*/
 double ***layerdeltarefreeze;    /*3D matrix per time step refrozen mass per layer*/
 float  ***layerid;          /*3D matrix defines snow layer=1, firnlayer=2 icelayer=3*/
+float *layeridinit;         /*1D array with layer id initialization at AWS*/
 float  **layeramount;       /*number of layers*/
 float  **layeramountcold;   /*number of layers used to calculate the cold content*/
 double **snowlayersum;      /*new snow depth in mm we not yet thick enough for new layer*/
@@ -630,6 +636,7 @@ double *conduc;             /*layer conductivity*/
 double *conducdtdz;         /*layer conductivitytimes temperature lapserate*/
 double *layerenergy;    /*layer available energy to refreeze*/
 int    ndepths;             /*maximum number of vertical layers*/
+int    ndepthsinit;         /*number of vertical layers read from snow model initialization file*/
 int    factinter;           /*factor for interpolation between two time steps*/
 int    factsubsurfout;      /*factor for subsurf output to file 1 = every hour, 24 = ones per day at midnight */
 int    offsetsubsurfout=0;  /*offfsetfactor for subsurf output to make print at noon possible */
@@ -652,6 +659,7 @@ int  percolationyes;        /*logical meaning 0 = dry 1 = meltwater percolation 
 int  slushformationyes;     /*logical meaning 0 = not 1 = meltwater accumulation in layer*/
 int  densificationyes;      /*logical meaning 0 = not 1 = densification of dry snow due to aging*/
 int  wetstartyes;           /*logical meaning 0 = dry start, 1 = wet start*/
+int  methodinitialverticalgrid;  /*method to determine initialization of vertical profiles of the snow model*/
 int  runoffyes,superyes,wateryes,surfwateryes,slushyes,coldsnowyes,coldtotyes;   /*for grid output*/
 int  precipyes=1;				/*logical meaning 0 = no, 1 = yes sum precip output */
 int  intaccumyes=1;				/*logical meaning 0 = no, 1 = yes internal accumulation output */

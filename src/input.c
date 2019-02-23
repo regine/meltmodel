@@ -1047,6 +1047,13 @@ void input_read()
         printf("    must be 0 or 1 (function input.c)\n\n");
         exit(4);
     }
+    fscanf(in,"%d",&methodinitialverticalgrid);
+    readrestofline(&in);
+    if((wetstartyes != 1) && (wetstartyes != 2)) {
+        printf(" \n variable methodinitialverticalgrid wrong in input.txt = %d\n",wetstartyes);
+        printf("    must be 1 or 2 (function input.c)\n\n");
+        exit(4);
+    }
     fscanf(in,"%d",&ndepths);
     readrestofline(&in);
     fscanf(in,"%d",&factinter);
