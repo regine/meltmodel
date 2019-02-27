@@ -1,27 +1,27 @@
 %Example input.txt: NOTE, YOU NEED TO ADJUST THE INPUT AND OUTPUT FOLDER (2. AND 3. ROW BELOW), AND MAKE AN OUTPUT FOLDER, THEN THE MODEL SHOULD WORK !!!
 %***********************************************************
 1    %output to screen every X day.  daysscreenoutput.
-/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_data/    %Path for Inputfiles.  inpath
-/reginefolder/MODEL/SOURCE/github/source/meltmodel/example/example_output/    %Path for Outputfiles.  outpath
-129  1999    %first julian day to be calculated.  jdbeg  yearbeg
-130  1999   %last julian day to be calculated.  jdend  yearend
-1    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
-1    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
+/home/fcovi/meltmodel_MODTEST/SiteJ_io/input/     %Path for Inputfiles.   inpath
+/home/fcovi/meltmodel_MODTEST/SiteJ_io/output/    %Path for Outputfiles.  outpath
+125  2017   %first julian day to be calculated.  jdbeg  yearbeg
+9    2018   %last julian day to be calculated.   jdend  yearend
+0    %discharge to be calculated: 1=yes,0=no,2=yes, but no discharge data.  disyes
+2    %1=whole grid computed,  2=only grid cell of weather station.  calcgridyes
 %********* 1.) MODEL OUTPUT PARAMETERS: DEFINE WHAT IS WRITTEN TO FILE ***************
-5    %number of stakes for melt output.  maxmeltstakes
+1    %number of stakes for melt output.  maxmeltstakes
 1    %cum massbal multiplied by this factor in melting.dat.  plusminus
 3    %0=no output 1=every step, 2=daily, 3=whole period 4=2and3.  do_out
 %shayes exkyes solyes diryes dir2yes difyes gloyes albyes  swbyes linyes loutyes
    0     0      0      0      0       0      0       0       0      0      0
-%netyes senyes latyes raiyes enbyes melyes  ablyes surftempyes  posyes ddfyes
-   0     0       0      0      0      1      0       0            1      1
-2    %surface conditions to grid file (2=for specified JDs).  surfyes
-0    %snow cover to grid file at midnight.  snowyes
+%netyes senyes latyes rainyes enbyes melyes  ablyes surftempyes  posyes ddfyes
+0       0      0      1       1      1       1      1            1      1
+1    %surface conditions to grid file (2=for specified JDs).  surfyes
+1    %snow cover to grid file at midnight.  snowyes
 1    %snow or surface written to file if jd dividable by this value.  daysnow
-2    %number of jd for output of surface type/snow cover.  numbersnowdaysout
+0    %number of jd for output of surface type/snow cover.  numbersnowdaysout
 190 210
 %******************************** 2.) MASS BALANCE OUTPUT ********************************
-1    %gridout winter mass balance yes=1, no=0.  winterbalyes
+0    %gridout winter mass balance yes=1, no=0.   winterbalyes
 244  135    %julian day winter starts and ends.  winterjdbeg  winterjdend
 1    %gridout summer mass balance yes=1, no=0.  summerbalyes
 136  243    %julian day summer starts and ends.  summerjdbeg  summerjdend

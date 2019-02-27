@@ -464,87 +464,127 @@ void initgrid() {
                     kk = k;
                     ik = k;
 
-                    /* initialise subsurface grid */
-                    if (lowerpart == 0) coeff = coeffupper;
-                    if (lowerpart != 0) coeff = coefflower;
+                    /* initialize subsurface grid, density profile, and layer ID*/
+                    switch(methodinitialverticalgrid) {
 
-                    if (k == 1) {
-                        depth = 0;
-                        depthl = thicknessfirst + coeff*depth;
-                        layerthickness[i][j][1] = thicknessfirst;   /*thickness first layer (top)*/
-                        layerdepth[i][j][1] = 0.5*thicknessfirst;   /*depth of layer = half way of the layer*/
-                        depth = depth + depthl;
-                    } else {
-                        if ((depthl > snowlayer[i][j] ) && (lowerpart == 0)) {
-                            depthl = snowlayer[i][j];
-                            layerthickness[i][j][k] = depthl - depth;
-                            layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
-                            if (FIRN[i][j] > 0) lowerpart = 1;
-                            if (FIRN[i][j] <= 0) lowerpart = 2;
-                        } else {
-                            if ((depthl > FIRN[i][j]+snowlayer[i][j] ) && (lowerpart == 1)) {
-                                depthl = FIRN[i][j]+snowlayer[i][j];
-                                layerthickness[i][j][k] = depthl - depth;
-                                layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
-                                lowerpart = 2;
-                            } else {
-                                depthl = (1 + coeff) * depth + thicknessfirst;
-                                layerthickness[i][j][k] = depthl - depth;
-                                if (layerthickness[i][j][k] > thicknessdeep) {
-                                    layerthickness[i][j][k] = thicknessdeep;
-                                    depthl = depth + layerthickness[i][j][k];
-                                }
-                                if (lowerpart == 0) {
-                                    depthdist = snowlayer[i][j] - depthl;
-                                    if (depthdist < 0.75*layerthickness[i][j][k]) {
-                                        depthl = snowlayer[i][j];
-                                        if (FIRN[i][j] > 0) lowerpart = 1;
-                                        if (FIRN[i][j] <= 0) lowerpart = 2;
-                                    }
-                                } else if (lowerpart == 1) {
-                                    depthdist = FIRN[i][j]+snowlayer[i][j] - depthl;
-                                    if (depthdist < 0.75*layerthickness[i][j][k]) {
-                                        depthl = FIRN[i][j]+snowlayer[i][j];
-                                        lowerpart = 2;
-                                    }
-                                }
-                                layerthickness[i][j][k] = depthl - depth;
-                                layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
-                            }
-                            depth = depthl;
-                            if (depthl > depthdeep)
-                                ik = ndepths;
-                        }
-                    }
+                    case 1:
+                    	/* initialise subsurface grid */
+						if (lowerpart == 0) coeff = coeffupper;
+						if (lowerpart != 0) coeff = coefflower;
 
-                    /*Initialise temperature and density profiles */
-                    if (layerdepth[i][j][k] <= snowlayer[i][j]) {
-                        /*density and id*/
-                        choice_snowlayerdensity(i, j, k);
-                        layerid[i][j][k] = 1;
-                        if (layerdensity[i][j][k] > densice-diffdensice)
-                            layerdensity[i][j][k] = densice;
-                    } else {
-                        if (FIRN[i][j] > 0.) { /*firn area*/
-                            choice_firnlayerdensity(i, j, k);
-                            layerid[i][j][k] = 2;
-                            /*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */
-                            if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
-                                layerdensity[i][j][k] = densice;
-                                layerid[i][j][k] = 3;
-                            }
-                            if (layerdensity[i][j][k] > densice-diffdensice) {
-                                layerdensity[i][j][k] = densice;
-                                layerid[i][j][k] = 3;
-                            }
-                            if (layerdensity[i][j][k] < denssnow) {
-                                layerdensity[i][j][k] = denssnow;
-                            }
-                        }
-                        if (FIRN[i][j] == 0.) {
-                            layerdensity[i][j][k] = densice;
-                            layerid[i][j][k] = 3;
-                        }
+						if (k == 1) {
+							depth = 0;
+							depthl = thicknessfirst + coeff*depth;
+							layerthickness[i][j][1] = thicknessfirst;   /*thickness first layer (top)*/
+							layerdepth[i][j][1] = 0.5*thicknessfirst;   /*depth of layer = half way of the layer*/
+							depth = depth + depthl;
+						} else {
+							if ((depthl > snowlayer[i][j] ) && (lowerpart == 0)) {
+								depthl = snowlayer[i][j];
+								layerthickness[i][j][k] = depthl - depth;
+								layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
+								if (FIRN[i][j] > 0) lowerpart = 1;
+								if (FIRN[i][j] <= 0) lowerpart = 2;
+							} else {
+								if ((depthl > FIRN[i][j]+snowlayer[i][j] ) && (lowerpart == 1)) {
+									depthl = FIRN[i][j]+snowlayer[i][j];
+									layerthickness[i][j][k] = depthl - depth;
+									layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
+									lowerpart = 2;
+								} else {
+									depthl = (1 + coeff) * depth + thicknessfirst;
+									layerthickness[i][j][k] = depthl - depth;
+									if (layerthickness[i][j][k] > thicknessdeep) {
+										layerthickness[i][j][k] = thicknessdeep;
+										depthl = depth + layerthickness[i][j][k];
+									}
+									if (lowerpart == 0) {
+										depthdist = snowlayer[i][j] - depthl;
+										if (depthdist < 0.75*layerthickness[i][j][k]) {
+											depthl = snowlayer[i][j];
+											if (FIRN[i][j] > 0) lowerpart = 1;
+											if (FIRN[i][j] <= 0) lowerpart = 2;
+										}
+									} else if (lowerpart == 1) {
+										depthdist = FIRN[i][j]+snowlayer[i][j] - depthl;
+										if (depthdist < 0.75*layerthickness[i][j][k]) {
+											depthl = FIRN[i][j]+snowlayer[i][j];
+											lowerpart = 2;
+										}
+									}
+									layerthickness[i][j][k] = depthl - depth;
+									layerdepth[i][j][k] = depth + 0.5*layerthickness[i][j][k];
+								}
+								depth = depthl;
+								if (depthl > depthdeep)
+									ik = ndepths;
+							}
+						}
+						/*Initialize and density profile and layer ID */
+						if (layerdepth[i][j][k] <= snowlayer[i][j]) {
+							choice_snowlayerdensity(i, j, k);
+							layerid[i][j][k] = 1;
+							if (layerdensity[i][j][k] > densice-diffdensice)
+								layerdensity[i][j][k] = densice;
+						} else {
+							if (FIRN[i][j] > 0.) { /*firn area*/
+								choice_firnlayerdensity(i, j, k);
+								layerid[i][j][k] = 2;
+								/*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */
+								if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
+									layerdensity[i][j][k] = densice;
+									layerid[i][j][k] = 3;
+								}
+								if (layerdensity[i][j][k] > densice-diffdensice) {
+									layerdensity[i][j][k] = densice;
+									layerid[i][j][k] = 3;
+								}
+								if (layerdensity[i][j][k] < denssnow) {
+									layerdensity[i][j][k] = denssnow;
+								}
+							}
+							if (FIRN[i][j] == 0.) {
+								layerdensity[i][j][k] = densice;
+								layerid[i][j][k] = 3;
+							}
+						}
+						break;
+
+                    case 2:  /* Assign snow model initial profiles read from file */
+                    	/* initialize subsurface grid, density profile, and layer ID*/
+                    	/* printf(" INITIALISE SUBSURFACE GRID %d \n",newday); */
+                    	printf(" test = %d \n",k);
+                    	printf(" test = %f \n",layerdepthinit[k]);
+                    	layerdepth[i][j][k] = layerdepthinit[k];
+						layerthickness[i][j][k] = layerthicknessinit[k];
+						layerdensity[i][j][k] = layerdensityinit[k];
+						/*layerid[i][j][k] = layeridinit[k];*/
+						if (layerdepth[i][j][k] <= snowlayer[i][j]) {
+							layerid[i][j][k] = 1;
+							if (layerdensity[i][j][k] > densice-diffdensice)
+								layerdensity[i][j][k] = densice;
+						} else {
+							if (FIRN[i][j] > 0.) { /*firn area*/
+								layerid[i][j][k] = 2;
+								/*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */
+								if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
+									layerdensity[i][j][k] = densice;
+									layerid[i][j][k] = 3;
+								}
+								if (layerdensity[i][j][k] > densice-diffdensice) {
+									layerdensity[i][j][k] = densice;
+									layerid[i][j][k] = 3;
+								}
+								if (layerdensity[i][j][k] < denssnow) {
+									layerdensity[i][j][k] = denssnow;
+								}
+							}
+							if (FIRN[i][j] == 0.) {
+								layerdensity[i][j][k] = densice;
+								layerid[i][j][k] = 3;
+							}
+						}
+						break;
                     }
                     /*mass*/
                     layermass[i][j][k] = layerdensity[i][j][k] * layerthickness[i][j][k];
@@ -561,7 +601,6 @@ void initgrid() {
                     } else {
                         layerwatercont[i][j][k] = 0.;
                     }
-
                     /*check snow layer mass*/
                     if (layerid[i][j][k] == 1)
                         sum = sum + layermass[i][j][k] + layerwatercont[i][j][k];
@@ -578,8 +617,17 @@ void initgrid() {
                         layermass[i][j][k-1] = layermass[i][j][k-1] + diff;
                         layerdensity[i][j][k-1] = layermass[i][j][k-1]/layerthickness[i][j][k-1];
                     }
-                    /*temperature*/
-                    choice_layertemperature(i, j, k);
+                    /* initialize temperature profile */
+                    switch(methodinitialverticalgrid) {
+
+                    case 1:
+                	    choice_layertemperature(i, j, k);
+                	    break;
+
+                    case 2:
+                	    layertemperature[i][j][k] = layertemperatureinit[k];
+                	    break;
+                    }
                     /*heat capacity*/
                     layerrhocp[i][j][k] = rhocpice * layerdensity[i][j][k] / densice;
 

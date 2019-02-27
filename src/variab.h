@@ -38,7 +38,7 @@
 /* if you adjust any of the variable values below, you need to recompile the code !========*/
 /* ========================================================================================*/
 
-float  surftempminimum = -30.;  /*surftemp cannot be lower than this*/
+float  surftempminimum = -50.;  /*surftemp cannot be lower than this*/
 int    dat_or_txt = 2;   /*1=dat, 2=txt, extension for areamean, grid asciifiles*/
 int    setmelt2zero = 0;  /*melt is set to 0 if surftemp < surtempminmelt; yes=1, no=0;  April 2010*/
 /*only if methodsurtempglac=3 */
@@ -575,21 +575,21 @@ float jdphoto;  /*for VERNAGTFERNER application*/
 /*============================================================*/
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
 double ***layerdepth;       /*3d matrix with layer depth*/
-double *layerdepthinit;     /*1D array with layer depth initialization at AWS  (added by F. Covi 2/2019)*/
+float  *layerdepthinit;     /*1D array with layer depth initialization at AWS  (added by F. Covi 2/2019)*/
 double ***layerthickness;   /*3d matrix with layer thicknesses*/
-double *layerthicknessinit; /*1D array with layer thickness initialization at AWS*/
+float  *layerthicknessinit; /*1D array with layer thickness initialization at AWS (added by F. Covi 2/2019)*/
 double ***layerdensity;     /*3D matrix density of the snow layer*/
-double *layerdensityinit;   /*1D array with layer density initialization at AWS*/
+float  *layerdensityinit;   /*1D array with layer density initialization at AWS (added by F. Covi 2/2019)*/
 double ***layermass;        /*3D matrix mass (density*thickness) of the snow layer*/
 double ***layertemperature; /*3D matrix temperature of the snow layer*/
-double *layertemperatureinit;   /*1D array with layer temperature initialization at AWS*/
+float  *layertemperatureinit;   /*1D array with layer temperature initialization at AWS (added by F. Covi 2/2019)*/
 double ***layerrhocp;       /*3D matrix dens*cp of the snow layer*/
 double ***layerwatercont;   /*3D matrix watercontent layer*/
 double ***layerdeltawatercont;   /*3D matrix change in watercontent layer per time step*/
 double ***layerrefreeze;    /*3D matrix total refrozen mass per layer since start mb year*/
 double ***layerdeltarefreeze;    /*3D matrix per time step refrozen mass per layer*/
 float  ***layerid;          /*3D matrix defines snow layer=1, firnlayer=2 icelayer=3*/
-float *layeridinit;         /*1D array with layer id initialization at AWS*/
+float *layeridinit;         /*1D array with layer id initialization at AWS (added by F. Covi 2/2019)*/
 float  **layeramount;       /*number of layers*/
 float  **layeramountcold;   /*number of layers used to calculate the cold content*/
 double **snowlayersum;      /*new snow depth in mm we not yet thick enough for new layer*/

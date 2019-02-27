@@ -1049,8 +1049,8 @@ void input_read()
     }
     fscanf(in,"%d",&methodinitialverticalgrid);
     readrestofline(&in);
-    if((wetstartyes != 1) && (wetstartyes != 2)) {
-        printf(" \n variable methodinitialverticalgrid wrong in input.txt = %d\n",wetstartyes);
+    if((methodinitialverticalgrid != 1) && (methodinitialverticalgrid != 2)) {
+        printf(" \n variable methodinitialverticalgrid wrong in input.txt = %d\n",methodinitialverticalgrid);
         printf("    must be 1 or 2 (function input.c)\n\n");
         exit(4);
     }

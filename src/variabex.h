@@ -555,17 +555,17 @@ extern float jdphoto;  /*for VERNAGTFERNER application*/
 /*============================================================*/
 /*======= for SNOWMODEL by Carleen Tijm-Reijmer, 2/2005=======*/
 extern double ***layerdepth;       /*3d matrix with layer depth (m)*/
-extern double *layerdepthinit;     /*1D array with layer depth initialization at AWS  (added by F. Covi 2/2019)*/
+extern float  *layerdepthinit;     /*1D array with layer depth initialization at AWS  (added by F. Covi 2/2019)*/
 extern double ***layerthickness;   /*3d matrix with layer thicknesses (m)*/
-extern double *layerthicknessinit; /*1D array with layer thickness initialization at AWS*/
+extern float  *layerthicknessinit; /*1D array with layer thickness initialization at AWS*/
 extern double ***layerdensity;     /*3D matrix density of the snow layer (kg/m3 = g/kg)*/
-extern double *layerdensityinit;   /*1D array with layer density initialization at AWS*/
+extern float  *layerdensityinit;   /*1D array with layer density initialization at AWS*/
 extern double ***layermass;        /*3D matrix mass (density*thickness) of the snow layer (mm)*/
 extern double ***layertemperature; /*3D matrix temperature of the snow layer (C)*/
-extern double *layertemperatureinit;   /*1D array with layer temperature initialization at AWS*/
+extern float  *layertemperatureinit;   /*1D array with layer temperature initialization at AWS*/
 extern double ***layerrhocp;       /*3D matrix dens*cp of the snow layer*/
 extern float  ***layerid;          /*3D matrix defines snow layer=1, firnlayer=2 icelayer=3*/
-extern float *layeridinit;         /*1D array with layer id initialization at AWS*/
+extern float  *layeridinit;         /*1D array with layer id initialization at AWS*/
 extern double ***layerwatercont;   /*3D matrix watercontent layer*/
 extern double ***layerdeltawatercont;   /*3D matrix change in watercontent layer per time step*/
 extern double ***layerrefreeze;    /*3D matrix total refrozen mass layer*/
