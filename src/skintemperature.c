@@ -264,7 +264,9 @@ void tsurfenergybalance(double tskin) {
 
     if (skin_or_inter == 1) factG = 0.;
 
-   balancetsurf = factS + factL + factH + factLE + factG +factRain;
+    balancetsurf = factS + factL + factH + factLE + factG +factRain;
+
+    ICEHEAT[i][j] = -factG;     /* added by F.Covi 7/12/19, ground heat flux UPDATE*/
 
     return;
 }

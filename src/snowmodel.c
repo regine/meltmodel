@@ -553,20 +553,21 @@ void initgrid() {
                     case 2:  /* Assign snow model initial profiles read from file */
                     	/* initialize subsurface grid, density profile, and layer ID*/
                     	/* printf(" INITIALISE SUBSURFACE GRID %d \n",newday); */
-                    	printf(" test = %d \n",k);
-                    	printf(" test = %f \n",layerdepthinit[k]);
+                    	/*printf(" test = %d \n",k);
+                    	printf(" test = %f \n",layerdepthinit[k]); */
                     	layerdepth[i][j][k] = layerdepthinit[k];
 						layerthickness[i][j][k] = layerthicknessinit[k];
 						layerdensity[i][j][k] = layerdensityinit[k];
-						/*layerid[i][j][k] = layeridinit[k];*/
+						layerid[i][j][k] = layeridinit[k];
+						/*
 						if (layerdepth[i][j][k] <= snowlayer[i][j]) {
 							layerid[i][j][k] = 1;
 							if (layerdensity[i][j][k] > densice-diffdensice)
 								layerdensity[i][j][k] = densice;
 						} else {
-							if (FIRN[i][j] > 0.) { /*firn area*/
+							if (FIRN[i][j] > 0.) { /*firn area*/  /*
 								layerid[i][j][k] = 2;
-								/*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */
+								/*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */  /*
 								if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
 									layerdensity[i][j][k] = densice;
 									layerid[i][j][k] = 3;
@@ -583,7 +584,7 @@ void initgrid() {
 								layerdensity[i][j][k] = densice;
 								layerid[i][j][k] = 3;
 							}
-						}
+						} */
 						break;
                     }
                     /*mass*/
@@ -601,6 +602,7 @@ void initgrid() {
                     } else {
                         layerwatercont[i][j][k] = 0.;
                     }
+                    printf("what is SNOW = %f", SNOW[i][j]);
                     /*check snow layer mass*/
                     if (layerid[i][j][k] == 1)
                         sum = sum + layermass[i][j][k] + layerwatercont[i][j][k];
@@ -2371,14 +2373,20 @@ void subsurf() {
     /* MELT = water leaving the snow pack due to melt not rain -- change into actual amount of melt taken place*/
     /* RAIN = water in the snow pack that was original rain -- change into actual amount of water entering column*/
 
-    if (skin_or_inter == 0) {
-        ICEHEAT[i][j] = -factG ;
-        energybalance();
-        }
-    else {
+    /* modified by F.Covi 7/12/19, ground heat flux UPDATE*/
+//    if (skin_or_inter == 0) {
+//        ICEHEAT[i][j] = -factG ;
+//        energybalance();
+//        }
+//    else {
+//        ICEHEAT[i][j] = ENBAL[i][j] - meltenergy[i][j];//source - MELT[i][j]*Lf/deltat;
+//        energybalance();
+//    }
+    if (skin_or_inter == 1) {
         ICEHEAT[i][j] = ENBAL[i][j] - meltenergy[i][j];//source - MELT[i][j]*Lf/deltat;
         energybalance();
     }
+
 
 
     /* Check stability of the solution with criterium: D*dt/dx2 < 0.25 */
