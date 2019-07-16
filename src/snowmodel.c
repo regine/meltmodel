@@ -467,6 +467,7 @@ void initgrid() {
                     /* initialize subsurface grid, density profile, and layer ID*/
                     switch(methodinitialverticalgrid) {
 
+                    /* with Carleen initialization */
                     case 1:
                     	/* initialise subsurface grid */
 						if (lowerpart == 0) coeff = coeffupper;
@@ -550,43 +551,16 @@ void initgrid() {
 						}
 						break;
 
-                    case 2:  /* Assign snow model initial profiles read from file */
-                    	/* initialize subsurface grid, density profile, and layer ID*/
-                    	/* printf(" INITIALISE SUBSURFACE GRID %d \n",newday); */
-                    	/*printf(" test = %d \n",k);
-                    	printf(" test = %f \n",layerdepthinit[k]); */
+					/* F.Covi 2/27/19, SNOW INIT UPDATE */
+                    /* initialize subsurface grid, density profile, and layer ID from file*/
+                    case 2:
                     	layerdepth[i][j][k] = layerdepthinit[k];
 						layerthickness[i][j][k] = layerthicknessinit[k];
 						layerdensity[i][j][k] = layerdensityinit[k];
 						layerid[i][j][k] = layeridinit[k];
-						/*
-						if (layerdepth[i][j][k] <= snowlayer[i][j]) {
-							layerid[i][j][k] = 1;
-							if (layerdensity[i][j][k] > densice-diffdensice)
-								layerdensity[i][j][k] = densice;
-						} else {
-							if (FIRN[i][j] > 0.) { /*firn area*/  /*
-								layerid[i][j][k] = 2;
-								/*  if ((layerdepth[i][j][k]-0.5*layerthickness[i][j][k]) > FIRN[i][j]) */  /*
-								if ((layerdepth[i][j][k]) > FIRN[i][j]+snowlayer[i][j]) {
-									layerdensity[i][j][k] = densice;
-									layerid[i][j][k] = 3;
-								}
-								if (layerdensity[i][j][k] > densice-diffdensice) {
-									layerdensity[i][j][k] = densice;
-									layerid[i][j][k] = 3;
-								}
-								if (layerdensity[i][j][k] < denssnow) {
-									layerdensity[i][j][k] = denssnow;
-								}
-							}
-							if (FIRN[i][j] == 0.) {
-								layerdensity[i][j][k] = densice;
-								layerid[i][j][k] = 3;
-							}
-						} */
 						break;
                     }
+
                     /*mass*/
                     layermass[i][j][k] = layerdensity[i][j][k] * layerthickness[i][j][k];
                     /*redefine mass density and watercontent in case start is wet*/
@@ -602,12 +576,24 @@ void initgrid() {
                     } else {
                         layerwatercont[i][j][k] = 0.;
                     }
-                    printf("what is SNOW = %f", SNOW[i][j]);
+
                     /*check snow layer mass*/
                     if (layerid[i][j][k] == 1)
                         sum = sum + layermass[i][j][k] + layerwatercont[i][j][k];
                     if ((k > 1) && (layerid[i][j][k-1] == 1) && (layerid[i][j][k] != 1)) {
-                        diff = SNOW[i][j]*10. - sum;
+                        switch(methodinitialverticalgrid) {
+                            /* with Carleen initialization */
+                            case 1:
+                                diff = SNOW[i][j]*10. - sum;
+                                break;
+                            /* F.Covi 7/16/19, SNOW INIT UPDATE */
+                            /* with initialization from file redefine SNOW from read snow layers and densities */
+                            case 2:
+                                SNOW[i][j] = sum/10.;
+                                diff = SNOW[i][j]*10. - sum;
+                                break;
+                        }
+
                         if (fabs(diff) > 0.000001) {
                             fprintf(outcontrol," i %d j %d k %d Diff %f snow %f sum %f mass %f water %f thick %f dens %f id %f \n",
                                     i,j,k-1,diff,SNOW[i][j]*10.,sum,layermass[i][j][k-1],layerwatercont[i][j][k-1],
