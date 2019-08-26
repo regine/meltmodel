@@ -805,6 +805,15 @@ void startinputdata()
             fscanf(insnowprofile,"%f %f %f %f %f",&layerdepthinit[asi],&layerthicknessinit[asi],&layerdensityinit[asi],&layeridinit[asi],&layertemperatureinit[asi]);
             printf("%f %f %f %f %f \n",layerdepthinit[asi],layerthicknessinit[asi],layerdensityinit[asi],layeridinit[asi],layertemperatureinit[asi]);
         }
+        thicknessfirst = layerthicknessinit[1];
+        thicknessdeep = layerthicknessinit[ndepths];
+        depthdeep = layerdepthinit[ndepths] + 0.5*layerthicknessinit[ndepths];
+        printf("Redefine thicknessfirst = %f in function startinputdata() in intial.c (snow model)\n",thicknessfirst);
+        fprintf(outcontrol,"Redefine thicknessfirst = %f in function startinputdata() in intial.c (snow model)\n",thicknessfirst);
+        printf("Redefine thicknessdeep = %f in function startinputdata() in intial.c (snow model)\n",thicknessdeep);
+        fprintf(outcontrol,"Redefine thicknessdeep = %f in function startinputdata() in intial.c (snow model)\n",thicknessdeep);
+        printf("Redefine depthdeep = %f in function startinputdata() in intial.c (snow model)\n",depthdeep);
+        fprintf(outcontrol,"Redefine depthdeep = %f in function startinputdata() in intial.c (snow model)\n",depthdeep);
     }  /*ENDIF*/
 
     /****** CONVERT COORDINATES FOR STAKE AND STATION OUTPUT LOCATIONS INTO ROW AND COLUMN

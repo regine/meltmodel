@@ -58,52 +58,52 @@ float snowscenario = 0;  /*default should be 0; this amount is added to each gri
 /*----- choose default options for initialization of vertical profiles of temp and density*/
 int init_layertemperature=1;	/*1=default 3 gradients, (2=does not exist), 3=storglaciaren*/
 int init_snowlayerdensity=2;	/*1=default constant density, 2=default 3 gradients, 3=storglaciaren*/
-int init_firnlayerdensity=1;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
+int init_firnlayerdensity=2;		/*1=default constant density, 2=default 1 linear gradient,  3=storglaciaren*/
 /*int init_snowlayermsnow=1;*/		/*1=default constant density, 2= default 3 linear gradients,  3=storglaciaren*/
 int init_outputlines=1;		/*1=default,3=storglaciaren*/
 
-/*============= INITIALIZATION OF SNOW TEMPERATURE PROFEILS - in case init_layertemperature = 2  ======================== */
+/*============= INITIALIZATION OF SNOW TEMPERATURE PROFILES - in case init_layertemperature = 2  ======================== */
 /*temperatures at the turning points, 3 gradients are defined by 4 temperatures at 4 depths
  first temp is at surface, 4th at the depth where the ice is temperate*/
 /*------ define temperatures at turning point depths between gradients are derived from linear interpolation*/
-float  tempsurfaceAWS=-4.6;     /*estimated start surface temperature*/
-float  tempturnpoint1AWS=-8.4;    /*temp at first turning point below surface*/
-float  tempturnpoint2AWS=-8.75;    /*temp at second turning point below surface*/
+float  tempsurfaceAWS=-10.0;     /* -10.0 estimated start surface temperature*/
+float  tempturnpoint1AWS=-10.0;    /* -18.2 temp at first turning point below surface*/
+float  tempturnpoint2AWS=-10.0;    /* -12.7 temp at second turning point below surface*/
 
-float  depthtempturnpoint1 = 1.2;		/* depth of first turning point (where temp=tempgrad2)  */
-float  depthtempturnpoint2 = 3.0;		/* depth of second turning point (where temp=tempgrad3) */
-float  depthtemperate = 30.;		/* depth where ice is temperate (where temp=tempgrad3b  */
+float  depthtempturnpoint1 = 2.0;		/* depth of first turning point (where temp=tempgrad2)  */
+float  depthtempturnpoint2 = 10.0;		/* depth of second turning point (where temp=tempgrad3) */
+float  depthtemperate = 100000.0;		/* depth where ice is temperate (where temp=tempgrad3b  */
 
 float  templapserate1 = -0.0;  /* lapse rate for spatial extrapolation of surface temp, degrees/100 m */
 /*negative values mean decrease in temperature with increasing elevation*/
 float  templapserate2 = -0.0;  /* lapse rate for spatial extrapolation of temp of 1. turning point */
 /*next turning point is assumed spatially constant*/
 
-int  skin_or_inter = 0;	    /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
+int  skin_or_inter = 0;	      /*0=skin temperature formulation, 1=linear interpolation upper 2 snow levels*/
 int  tsurfextrapolation = 2;  /*extrapolation to surface temp: 1=upper layer and surf, 2=upper 2 layers and surf*/
-int  subsurf_print_surf = 1;	/*surface properties if available yes (1) or not (1) printed in outputsubsurf*/
+int  subsurf_print_surf = 1;  /*surface properties if available yes (1) or not (1) printed in outputsubsurf*/
 
 /*============= INITIALIZATION OF SNOW DENSITY PROFEILS - in case init_snowlayerdensity = 2   =============*/
 /*compute 3 density gradients between surface and depth of lowest firn layer*/
-float  denssurface=150;     /*density at surface,  kg/m3 */
-float  densturnpoint1=450;    /*density at first turning point below surface*/
-float  densturnpoint2=460;    /*density at second turning point below surface*/
+float  denssurface=350;       /*density at surface,  kg/m3 */
+float  densturnpoint1=350;    /*density at first turning point below surface*/
+float  densturnpoint2=350;    /*density at second turning point below surface*/
 
-float  depthdensturnpoint1 = 0.3;		/* depth (m) of first turning point (where dens=densgrad2)  */
-float  depthdensturnpoint2 = 1;		/* depth of second turning point (where dens=densgrad3) */
-float  depthdensbottom = 1.4;		/* depth of snowpack  */
-float  densfirn=900;   /*maximum density allowed, density at depthbottom*/
+float  depthdensturnpoint1 = 0.3;	/* depth (m) of first turning point (where dens=densgrad2)  */
+float  depthdensturnpoint2 = 0.6;	/* depth of second turning point (where dens=densgrad3) */
+float  depthdensbottom = 0.95;		/* depth of snowpack  */
+float  densfirn=900;                /*maximum density allowed, density at depthbottom*/
 
 /*============= INITIALIZATION OF FIRN DENSITY PROFEILS - in case init_firnlayerdensity = 2   =============*/
 /* calculate firnlayer density by a linear gradient*/
 float firndensitytop = 600;     /*firn density at firn-snow interface,  kg/m3*/
 float firndensitybottom = 800;  /*firn density at firndepthbottom*/
-float firndepthbottom = 20;     /*depth at which firndensitybottom is reached, in m*/
+float firndepthbottom = 25;     /*depth at which firndensitybottom is reached, in m*/
 /*deepest depth at which firnlayerdensity is needed*/
 /*----- END OF VARIABLE THAT NEED TO BE ADJUSTED FOR INITIALIZATION OF SUBSURFACE PROFILES ---------------*/
 
-int  supericegrid=0;     /* 0 = all grids at normal vertical resolution, 1 = chosen grids at larger vertical resolution 2 = all grids at larger resolution*/
-int  typealbedo=1;   /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
+int  supericegrid=0;    /* 0 = all grids at normal vertical resolution, 1 = chosen grids at larger vertical resolution 2 = all grids at larger resolution*/
+int  typealbedo=1;      /*snow albedo equation: 0=Oerlemans, 1=Oerlemans/Zuo, 2=douville */
 int  typeconduc=2;      /*5 functions to compute ice conductivity*/
 int  typedens=3;		/*3 functions to compute densification of the dry snowpack*/
 
