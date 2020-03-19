@@ -58,7 +58,7 @@ void readrestofline(FILE **infile) {
         }
     }
 
-    /*	; empty command, just read, don´t do anything with variable c*/
+    /*	; empty command, just read, donï¿½t do anything with variable c*/
     return;
 }
 
@@ -352,6 +352,8 @@ void startinputdata()
     float **TMP;
     float  xcoorddummy, ycoorddummy;    /*for conversion coordinates into rows and columns*/
     int timeok=0;    /*needed to find start row in climate input file, 9/2009*/
+    char readlinessnowinputfile[1000];  /*used to read number of snow model initialization layers from file*/
+    int asi;                 /*loop intiger used when reading the snow model initialization file*/
 
     /*------------------------------------------------------------*/
     /***  OPEN INPUT-FILES                                      ***/
@@ -455,6 +457,20 @@ void startinputdata()
         printf("\n ERROR : Climate data file not found !!!\n %s \n\n",dummy);
         exit(4);
         fclose(outcontrol);
+    }  /*ENDIF*/
+
+    /****************** SNOW MODEL INITIALIZATION *********************************/
+    /*** OPEN SNOW MODEL PROFILE DATA FILE: works only if snow model is run only at the AWS point ***/
+
+    if((methodinitialverticalgrid == 2) && (calcgridyes == 2) && (methodsurftempglac == 4))  {
+
+		strcpy(dummy,inpath);
+		strcat(dummy,"snowmodel_init.txt");
+		if ((insnowprofile = fopen (dummy,"rt")) == NULL)  {
+			printf("\n ERROR : Snow model initialization file not found !!!\n %s \n\n",dummy);
+			exit(4);
+			fclose(outcontrol);
+		}  /*ENDIF*/
     }  /*ENDIF*/
 
     /*---------------------------------------------------------------------------*/
@@ -760,6 +776,45 @@ void startinputdata()
     printf("\n STARTING DAY FOUND : year=%5.0f  day=%5.2f  time=%5.2f\n",year,jd,zeit);
     if(timestep == 24)     /*daily timestep*/
         printf(" NEXT ROW = JULIAN DAY %3.0f is first day to be computed\n",jd+1);
+
+    /*** READ SNOW MODEL PROFILE INITIALIZATION FILE (added by F. Covi 2/26/2019)***/
+    if((methodinitialverticalgrid == 2) && (calcgridyes == 2) && (methodsurftempglac == 4))  {
+      	readrestofline(&insnowprofile);
+       	readrestofline(&insnowprofile);             /*READ TWO FIRST COMMENT LINES*/
+       	ndepthsinit=0;
+        while((fgets(readlinessnowinputfile, 1000, insnowprofile)) != NULL) {
+            ndepthsinit++;
+        }
+        ndepths = ndepthsinit;
+        printf("Redefine ndepths = %d in function startinputdata() in intial.c (snow model)\n",ndepths);
+        fprintf(outcontrol,"Redefine ndepths = %d in function startinputdata() in intial.c (snow model)\n",ndepths);
+
+        /* RESERVE SPACE FOR INIT ARRAYS */
+        layerdepthinit=arrayreserv(1,ndepths);
+        layerthicknessinit=arrayreserv(1,ndepths);
+        layerdensityinit=arrayreserv(1,ndepths);
+        layeridinit=arrayreserv(1,ndepths);
+        layertemperatureinit=arrayreserv(1,ndepths);
+
+        rewind(insnowprofile);                      /*rewind the file*/
+        readrestofline(&insnowprofile);
+        readrestofline(&insnowprofile);             /*READ TWO FIRST COMMENT LINES*/
+
+        /* READ FILE */
+        for( asi = 1; asi <= ndepths; asi = asi + 1 ){
+            fscanf(insnowprofile,"%f %f %f %f %f",&layerdepthinit[asi],&layerthicknessinit[asi],&layerdensityinit[asi],&layeridinit[asi],&layertemperatureinit[asi]);
+            printf("%f %f %f %f %f \n",layerdepthinit[asi],layerthicknessinit[asi],layerdensityinit[asi],layeridinit[asi],layertemperatureinit[asi]);
+        }
+        thicknessfirst = layerthicknessinit[1];
+        thicknessdeep = layerthicknessinit[ndepths];
+        depthdeep = layerdepthinit[ndepths] + 0.5*layerthicknessinit[ndepths];
+        printf("Redefine thicknessfirst = %f in function startinputdata() in intial.c (snow model)\n",thicknessfirst);
+        fprintf(outcontrol,"Redefine thicknessfirst = %f in function startinputdata() in intial.c (snow model)\n",thicknessfirst);
+        printf("Redefine thicknessdeep = %f in function startinputdata() in intial.c (snow model)\n",thicknessdeep);
+        fprintf(outcontrol,"Redefine thicknessdeep = %f in function startinputdata() in intial.c (snow model)\n",thicknessdeep);
+        printf("Redefine depthdeep = %f in function startinputdata() in intial.c (snow model)\n",depthdeep);
+        fprintf(outcontrol,"Redefine depthdeep = %f in function startinputdata() in intial.c (snow model)\n",depthdeep);
+    }  /*ENDIF*/
 
     /****** CONVERT COORDINATES FOR STAKE AND STATION OUTPUT LOCATIONS INTO ROW AND COLUMN
       CANNOT BE DONE EARLIER BECAUSE GRID HEADER MUST HAVE BEEN READ FIRST*/
