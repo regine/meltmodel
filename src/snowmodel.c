@@ -2591,6 +2591,8 @@ void subtimestepsummation() {
    	  } else {
    		 GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
    		 ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
+   		 /* Carleen fix to run model distributed (comment and change by F. Covi - 05/2020) */
+   		 if (GLOBALsum[i][j] > 0.) { ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j]; }
    		 SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
    	  }
    	  LONGIN[i][j] = LONGINsum[i][j]/factinter;
