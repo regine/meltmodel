@@ -2590,8 +2590,8 @@ void subtimestepsummation() {
    		 SWBAL[i][j] = glob - ref ;  
    	  } else {
    		 GLOBAL[i][j] = GLOBALsum[i][j]/factinter;
-   		 ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j];
    		 /* Carleen fix to run model distributed (comment and change by F. Covi - 05/2020) */
+   		 /* ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j]; */
    		 if (GLOBALsum[i][j] > 0.) { ALBEDO[i][j] = REFLECTsum[i][j]/GLOBALsum[i][j]; }
    		 SWBAL[i][j] = GLOBAL[i][j]*(1-ALBEDO[i][j]);
    	  }
